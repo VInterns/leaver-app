@@ -7,8 +7,10 @@
   "license": "MIT",
   "private": true,
   "scripts": {
+    "dev": "yarn dev:server",
+    "dev:server": "nodemon ./server/server.js",
     "start": "yarn start:server",
-    "start:server": "nodemon ./server/server.js"
+    "start:server": "node ./server/server.js"
   },
   "dependencies": {
     "bcrypt": "^3.0.7",
@@ -27,6 +29,7 @@
     "request": "^2.88.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.2",
+    "yarn": "^1.21.1"
   }
 }
