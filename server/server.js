@@ -1,9 +1,10 @@
+require('dotenv').config()
 const connectMongo = require("connect-mongo");
 const debug = require("debug")("server");
 const http = require("http");
 
-const { getDatabaseUrl } = require("./utilities");
-const port = normalizePort(process.env.PORT || "3000");
+const { getDatabaseUrl, getPort } = require("./utilities");
+const port = getPort();
 
 const dbModule = require("./db");
 const appFactory = require("./app");
@@ -24,30 +25,12 @@ dbModule.connect(
         app.set("port", port);
 
         server = http.createServer(app);
-        server.listen(port);
         server.on("listening", onListening);
+        server.listen(port);
     }
 );
 
-/**
- * Normalize a port into a number, string, or false.
- */
 
-function normalizePort(val) {
-    const port = parseInt(val, 10);
-
-    if (isNaN(port)) {
-        // named pipe
-        return val;
-    }
-
-    if (port >= 0) {
-        // port number
-        return port;
-    }
-
-    return false;
-}
 
 /**
  * Event listener for HTTP server "listening" event.

@@ -4,7 +4,7 @@ const session = require("express-session");
 const morgan = require("morgan");
 const path = require("path");
 
-const { configureAuth } = require("./auth");
+const { configureAuth } = require("./middlewares/authentication");
 
 const infoRouter = require("./routes/info");
 const loginRouterFactory = require("./routes/login");
