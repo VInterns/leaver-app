@@ -2,6 +2,7 @@ require('dotenv').config()
 const connectMongo = require("connect-mongo");
 const debug = require("debug")("server");
 const http = require("http");
+const socketIO = require('socket.io');
 
 const { getDatabaseUrl, getPort } = require("./utilities");
 const port = getPort();
@@ -26,6 +27,21 @@ dbModule.connect(
 
         server = http.createServer(app);
         server.on("listening", onListening);
+        /* create the websocket */
+const io = socketIO(server)
+
+io.on('connection', socket => {
+  console.log('New client connected');
+  
+  /* send the messages to other users */ 
+  socket.on('message', (data) => {
+    socket.broadcast.emit('commingMsg', data);
+  })
+
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  })
+})
         server.listen(port);
     }
 );
