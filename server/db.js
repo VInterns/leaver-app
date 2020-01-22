@@ -6,7 +6,7 @@ const state = {
     client: null
 };
 
-exports.connect = function (url, callback = () => { }) {
+const connect = function (url, callback = () => { }) {
     if (state.db) {
         callback(null, state.db, state.client);
         return Promise.resolve(state.db);
@@ -35,7 +35,7 @@ exports.connect = function (url, callback = () => { }) {
         });
 };
 
-exports.close = function (callback = () => { }) {
+const close = function (callback = () => { }) {
     if (!state.connection) {
         return Promise.resolve();
     }
@@ -45,3 +45,10 @@ exports.close = function (callback = () => { }) {
         callback(err);
     });
 };
+
+const getDB = ()=>{
+    return state.db;
+}
+
+
+module.exports = {getDB, connect, close};
