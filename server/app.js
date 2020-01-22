@@ -5,6 +5,7 @@ const morgan = require("morgan");
 const path = require("path");
 var multer = require("multer");
 var cors = require("cors");
+const xlsxToMongo = require('xlsx-to-mongo')
 
 const { configureAuth } = require("./middlewares/authentication");
 
@@ -70,8 +71,19 @@ const appFactory = (db, sessionStoreProvider) => {
             cb(null, "public");
         },
         filename: function (req, file, cb) {
-            //unique name for each file uploaded
-            cb(null, Date.now() + "-" + file.originalname);
+            cb(null, file.originalname);
+            var xlsx = './public/' + file.originalname;
+            console.log(xlsx);
+            const options = {
+                user: '',
+                password: '',
+                host: '127.0.0.1',
+                port: '27017',
+                db: 'leaver-app',
+                collection: 'users',
+                dir: xlsx
+            }
+            xlsxToMongo(options)
         }
     });
     //upload array of files
