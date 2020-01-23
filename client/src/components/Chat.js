@@ -25,13 +25,7 @@ class App extends Component {
     if(myMsgInput.length > 0){
       var name = this.userName;
       var message = {'msg':myMsgInput,'name':name, 'time': getMsgTime()};
-      axios.post('http://localhost:4000/api/chat', message, function(err, msg){
-          if (err){
-              throw err
-          }else{
-              console.log('Message Stored', msg)
-          }
-      })
+
       socket.emit('message', message);
       /* add my new message to the chat box */
       addMyMsg(myMsgInput);

@@ -3,6 +3,7 @@ const connectMongo = require("connect-mongo");
 const debug = require("debug")("server");
 const http = require("http");
 const socketIO = require('socket.io');
+const axios = require('axios');
 
 const { getDatabaseUrl, getPort } = require("./utilities");
 const port = getPort();
@@ -27,6 +28,7 @@ dbModule.connect(
 
         server = http.createServer(app);
         server.on("listening", onListening);
+
         /* create the websocket */
 const io = socketIO(server)
 
@@ -35,6 +37,13 @@ io.on('connection', socket => {
   
   /* send the messages to other users */ 
   socket.on('message', (data) => {
+      axios.post('http://localhost:4000/api/chat', data, function(err, msg){
+          if (err){
+              throw err
+          }else{
+              console.log('Message Stored', msg)
+          }
+      })
     socket.broadcast.emit('commingMsg', data);
   })
 
