@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
  
 import Chat from './components/Chat';
-import LandingPage from './components/LandingPag';
+import LandingPage from './components/LandingPage';
 import './App.css';
  
 class App extends Component {

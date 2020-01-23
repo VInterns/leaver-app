@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import './Chat.css';
 import '../w3Schools.css';
+import axios from 'axios'
+import {StoreMessage} from '../api/Api'
 import socketIOClient from "socket.io-client";
 const socket = socketIOClient('http://localhost:4000');
 class App extends Component {
@@ -22,7 +24,14 @@ class App extends Component {
     var myMsgInput = document.getElementById("msgInp").value;
     if(myMsgInput.length > 0){
       var name = this.userName;
-      var message = {'msg':myMsgInput,'name':name};
+      var message = {'msg':myMsgInput,'name':name, 'time': getMsgTime()};
+      axios.post('http://localhost:4000/api/chat', message, function(err, msg){
+          if (err){
+              throw err
+          }else{
+              console.log('Message Stored', msg)
+          }
+      })
       socket.emit('message', message);
       /* add my new message to the chat box */
       addMyMsg(myMsgInput);
