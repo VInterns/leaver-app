@@ -4,10 +4,14 @@ const session = require("express-session");
 const morgan = require("morgan");
 const path = require("path");
 
+var multer = require("multer");
+var cors = require("cors");
+const xlsxToMongo = require('xlsx-to-mongo')
+
 const { configureAuth } = require("./middlewares/authentication");
 
 const infoRouter = require("./routes/info");
-const chatRouter = require("./routes/chat");
+// const chatRouter = require("./routes/chat");
 const loginRouterFactory = require("./routes/login");
 
 
@@ -50,7 +54,7 @@ const appFactory = (db, sessionStoreProvider) => {
     }
 
     app.use(`${API_ROOT_PATH}/info`, infoRouter);
-    app.use(`${API_ROOT_PATH}/chat`, chatRouter);
+    // app.use(`${API_ROOT_PATH}/chat`, chatRouter);
 
     app.use(session(sessionSettings));
 
@@ -66,6 +70,49 @@ const appFactory = (db, sessionStoreProvider) => {
         }
         res.sendFile(path.join(__dirname, "static/index.html"));
     });
+    app.use(cors());
+    var storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null, "public");
+        },
+        filename: function (req, file, cb) {
+            cb(null, file.originalname);
+            var xlsx = './public/' + file.originalname;
+            console.log(xlsx);
+            const options = {
+                user: '',
+                password: '',
+                host: '127.0.0.1',
+                port: '27017',
+                db: 'leaver-app',
+                collection: 'users',
+                dir: xlsx
+            }
+            xlsxToMongo(options)
+        }
+    });
+    //upload array of files
+    var upload = multer({ storage: storage }).array("file");
+
+    // app.get('/',function(req,res){
+    //     return res.send('Hello Server')
+    // })
+    app.post("/upload", function (req, res) {
+        console.log("lol");
+        upload(req, res, function (err) {
+            if (err instanceof multer.MulterError) {
+                return res.status(500).json(err);
+                // A Multer error occurred when uploading.
+            } else if (err) {
+                return res.status(500).json(err);
+                // An unknown error occurred when uploading.
+            }
+
+            return res.status(200).send(req.file);
+            // Everything went fine.
+        });
+    });
+
 
     return app;
 };

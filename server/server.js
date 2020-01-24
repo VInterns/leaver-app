@@ -20,7 +20,6 @@ dbModule.connect(
             return process.exit(1);
         }
         let app = appFactory(db, session => {
-
             const MongoStore = connectMongo(session);
             return new MongoStore({ client: client, dbName: "leaver-app" });
         });
@@ -28,7 +27,6 @@ dbModule.connect(
 
         server = http.createServer(app);
         server.on("listening", onListening);
-
         /* create the websocket */
 const io = socketIO(server)
 
