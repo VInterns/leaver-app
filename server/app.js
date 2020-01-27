@@ -11,9 +11,9 @@ var mongoXlsx = require('mongo-xlsx');
 const { configureAuth } = require("./middlewares/authentication");
 
 const infoRouter = require("./routes/info");
-const chatRouter = require("./routes/chat");
+// const chatRouter = require("./routes/chat");
 const loginRouterFactory = require("./routes/login");
-
+const usersRouterFactory = require('./routes/users');
 
 const appFactory = (db, sessionStoreProvider) => {
     const app = express();
@@ -54,13 +54,14 @@ const appFactory = (db, sessionStoreProvider) => {
     }
 
     app.use(`${API_ROOT_PATH}/info`, infoRouter);
-    app.use(`${API_ROOT_PATH}/chat`, chatRouter);
 
     app.use(session(sessionSettings));
 
     configureAuth(app, db);
 
     app.use(`${API_ROOT_PATH}/login`, loginRouterFactory());
+
+    app.use(`${API_ROOT_PATH}/users`, usersRouterFactory(db));
 
     app.use(express.static(path.join(__dirname, "static")));
 
