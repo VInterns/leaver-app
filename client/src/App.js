@@ -1,29 +1,32 @@
 import React, { Component } from 'react';
-// import Chat from './components/Chat';
-import Login from './components/Login';
-import UploadExcel from './components/UploadExcel';
-import './App.css';
 import {
   BrowserRouter as Router,
   Route,
   Switch
 } from "react-router-dom";
-import Landing from './components/Landing';
- 
 
+import { Header } from './components';
+
+import {
+  LoginScreen,
+  UploadExcelScreen,
+} from './screens';
+
+import './App.css';
 class App extends Component {
   render() {
     return (
-      <Router>
-        <Switch>
-          <Route path="/" exact component={Login} />
-          {/* <Route path="/chat" component={Chat} /> */}
-          <Route path="/landing" component={Landing} />
-          <Route path="/UploadExcel" component={UploadExcel} />
-        </Switch>
-      </Router>
+      <>
+        <Header />
+        <Router>
+          <Switch>
+            <Route path="/" exact component={LoginScreen} />
+            <Route path="/upload" component={UploadExcelScreen} />
+          </Switch>
+        </Router>
+      </>
     );
   }
 }
- 
+
 export default App;

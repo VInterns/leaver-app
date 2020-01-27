@@ -3,7 +3,8 @@ import axios from "axios";
 import { Progress } from "reactstrap";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-class UploadExcel extends Component {
+
+export class UploadExcelScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -140,4 +141,3 @@ class UploadExcel extends Component {
   }
 }
 
-export default UploadExcel;
