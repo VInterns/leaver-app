@@ -56,11 +56,11 @@ const appFactory = (db, sessionStoreProvider) => {
     app.use(`${API_ROOT_PATH}/info`, infoRouter);
     app.use(`${API_ROOT_PATH}/chat`, chatRouter);
 
-    // app.use(session(sessionSettings));
+    app.use(session(sessionSettings));
 
-    // configureAuth(app, db);
+    configureAuth(app, db);
 
-    // app.use(`${API_ROOT_PATH}/login`, loginRouterFactory(db));
+    app.use(`${API_ROOT_PATH}/login`, loginRouterFactory());
 
     app.use(express.static(path.join(__dirname, "static")));
 
@@ -71,44 +71,6 @@ const appFactory = (db, sessionStoreProvider) => {
         res.sendFile(path.join(__dirname, "static/index.html"));
     });
     app.use(cors());
-    var storage = multer.diskStorage({
-        destination: function (req, file, cb) {
-            cb(null, "public");
-        },
-        filename: function (req, file, cb) {
-            cb(null, file.originalname);
-            var xlsx = './public/' + file.originalname;
-            var model = null;
-            mongoXlsx.xlsx2MongoData(xlsx, model, function (err, data) {
-                console.log(data);
-
-                const collection = db.collection('users');
-                // Insert some documents
-                collection.insertMany(data, function (err, result) {
-                });
-
-            });
-        }
-    });
-    //upload array of files
-    var upload = multer({ storage: storage }).array("file");
-
-    app.post("/upload", function (req, res) {
-        console.log("lol");
-        upload(req, res, function (err) {
-            if (err instanceof multer.MulterError) {
-                return res.status(500).json(err);
-                // A Multer error occurred when uploading.
-            } else if (err) {
-                return res.status(500).json(err);
-                // An unknown error occurred when uploading.
-            }
-
-            return res.status(200).send(req.file);
-            // Everything went fine.
-        });
-    });
-
 
     return app;
 };
