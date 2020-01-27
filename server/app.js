@@ -10,7 +10,7 @@ var mongoXlsx = require('mongo-xlsx');
 
 const { configureAuth } = require("./middlewares/authentication");
 
-const infoRouter = require("./routes/info");
+const infoRouterFactory = require("./routes/info");
 const loginRouterFactory = require("./routes/login");
 
 
@@ -52,12 +52,11 @@ const appFactory = (db, sessionStoreProvider) => {
         app.use("*", httpsOnly);
     }
 
-    app.use(`${API_ROOT_PATH}/info`, infoRouter);
-
     app.use(session(sessionSettings));
 
     configureAuth(app, db);
 
+    app.use(`${API_ROOT_PATH}/info`, infoRouterFactory(db));
     app.use(`${API_ROOT_PATH}/login`, loginRouterFactory());
 
     app.use(express.static(path.join(__dirname, "static")));
