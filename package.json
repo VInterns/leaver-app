@@ -1,48 +1,38 @@
 {
-  "name": "leaver-app",
-  "version": "1.0.0",
-  "description": "Leaver checklist Application",
-  "main": "index.js",
-  "author": "islam-gad2 <islam.gad2@vodafone.com>",
-  "license": "MIT",
+  "name": "hrview",
+  "version": "0.1.0",
   "private": true,
-  "scripts": {
-    "dev": "concurrently \"yarn dev:server\" \"npm run client\"",
-    "client": "npm start --prefix client",
-    "dev:server": "nodemon ./server/server.js",
-    "start": "yarn start:server",
-    "start:server": "node ./server/server.js",
-    "install:client": "cd client && yarn",
-    "install:all": "yarn install:client && yarn"
-  },
   "dependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.4.0",
+    "@testing-library/user-event": "^7.2.1",
+    "ag-grid-community": "^22.1.1",
+    "ag-grid-react": "^22.1.1",
     "axios": "^0.19.2",
-    "bcrypt": "^3.0.7",
-    "body-parser": "^1.19.0",
-    "bootstrap": "^4.4.1",
-    "connect-mongo": "^3.2.0",
-    "cors": "^2.8.5",
-    "debug": "^4.1.1",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "express-session": "^1.17.0",
-    "mongo-xlsx": "^1.0.12",
-    "mongodb": "^3.5.1",
-    "mongodb-migrations": "^0.8.5",
-    "morgan": "^1.9.1",
-    "multer": "^1.4.2",
-    "passport": "^0.4.1",
-    "passport-local": "^1.0.0",
-    "react-bootstrap": "^1.0.0-beta.16",
-    "react-router-dom": "^5.1.2",
-    "react-toastify": "^5.5.0",
-    "request": "^2.88.0",
-    "socket.io": "^2.3.0",
-    "xlsx-to-mongo": "^1.0.3"
+    "mongodb": "^2.2.33",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-scripts": "3.3.0"
   },
-  "devDependencies": {
-    "concurrently": "^5.0.2",
-    "nodemon": "^2.0.2",
-    "yarn": "^1.21.1"
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
