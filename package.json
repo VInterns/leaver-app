@@ -26,6 +26,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
+    "migrate-mongo": "^7.0.1",
     "mongo-xlsx": "^1.0.12",
     "mongodb": "^3.5.1",
     "mongodb-migrations": "^0.8.5",
