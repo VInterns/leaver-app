@@ -88,8 +88,15 @@ export class UploadExcelScreen extends Component {
     for (var x = 0; x < this.state.selectedFile.length; x++) {
       data.append("file", this.state.selectedFile[x]);
     }
+    // Data here is empty object you can check it in the console of front end.
+    console.log(data);
+    // this is an array which carry the uplooaded file
+    console.log(this.state.selectedFile);
+
+    //TODO: check this file what he do and the library he uses and keep me updated.
+    // https://github.com/VInterns/onboarding-app-web/blob/master/src/app/upload/upload.component.ts
     axios
-      .post("http://localhost:8080/api/users/bulkregister", data, {
+      .post("http://localhost:8080/api/users/bulkregister", this.state.selectedFile[0], {
         onUploadProgress: ProgressEvent => {
           this.setState({
             loaded: (ProgressEvent.loaded / ProgressEvent.total) * 100
