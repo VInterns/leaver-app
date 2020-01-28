@@ -12,6 +12,7 @@ const { configureAuth } = require("./middlewares/authentication");
 
 const infoRouterFactory = require("./routes/info");
 const loginRouterFactory = require("./routes/login");
+const uploadExcelRouterFactory = require("./routes/uploadExcel");
 
 
 const appFactory = (db, sessionStoreProvider) => {
@@ -58,7 +59,7 @@ const appFactory = (db, sessionStoreProvider) => {
 
     app.use(`${API_ROOT_PATH}/info`, infoRouterFactory(db));
     app.use(`${API_ROOT_PATH}/login`, loginRouterFactory());
-
+    app.use(`${API_ROOT_PATH}/upload`, uploadExcelRouterFactory(db));
     app.use(express.static(path.join(__dirname, "static")));
 
     app.get("*", (req, res, next) => {
@@ -68,6 +69,7 @@ const appFactory = (db, sessionStoreProvider) => {
         res.sendFile(path.join(__dirname, "static/index.html"));
     });
     app.use(cors());
+
 
     return app;
 };
