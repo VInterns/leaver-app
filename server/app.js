@@ -3,7 +3,6 @@ const express = require("express");
 const session = require("express-session");
 const morgan = require("morgan");
 const path = require("path");
-
 var multer = require("multer");
 var cors = require("cors");
 var mongoXlsx = require('mongo-xlsx');
@@ -12,6 +11,7 @@ const { configureAuth } = require("./middlewares/authentication");
 
 const infoRouterFactory = require("./routes/info");
 const loginRouterFactory = require("./routes/login");
+const consumerActivationRouterFactory = require("./routes/consumeractivation");
 
 
 const appFactory = (db, sessionStoreProvider) => {
@@ -58,7 +58,7 @@ const appFactory = (db, sessionStoreProvider) => {
 
     app.use(`${API_ROOT_PATH}/info`, infoRouterFactory(db));
     app.use(`${API_ROOT_PATH}/login`, loginRouterFactory());
-
+    app.use(`${API_ROOT_PATH}/consumer-activation`, consumerActivationRouterFactory(db));
     app.use(express.static(path.join(__dirname, "static")));
 
     app.get("*", (req, res, next) => {
@@ -68,6 +68,7 @@ const appFactory = (db, sessionStoreProvider) => {
         res.sendFile(path.join(__dirname, "static/index.html"));
     });
     app.use(cors());
+
 
     return app;
 };
