@@ -1,25 +1,21 @@
 const express = require("express");
-var mongoxlsx = require('mongo-xlsx');
+var mongoxlsx = require("mongo-xlsx");
+var XLSX = require("xlsx");
 
-//TODO: Got the data from file.body and upload it to DB
-//How to check the data?
-module.exports = (db) => {
-    const router = new express.Router();
-    router.post('/bulkregister', (req, res) => {
-        // console.log(req.file);
-        // console.log(req.body);
-        console.log('From Server, file recieved')
-        db.collection('users').insertMany(req.body, function (err1, result) { //Not functioning correctly
-            console.log(req)
-            // if (err1) {
-            //     // console.log(err1, "error1");
-            //     res.status(500).send();
-            // } else {
+//TODO: Check the existing database, add only new? remove all the existing and add the new sheet?
 
-            //     res.send({});
-            // }
-        });
-        res.json({Dummy: 1});
+module.exports = db => {
+  const router = new express.Router();
+  router.post("/bulkregister", (req, res) => {
+    db.collection("users").insertMany(req.body, function(err1, result) {
+      //Not functioning correctly
+      if (err1) {
+        res.status(500).send();
+        res.end();
+      } else {
+        res.status(200).end();
+      }
     });
-    return router;
+  });
+  return router;
 };

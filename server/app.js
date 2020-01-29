@@ -6,87 +6,83 @@ const path = require("path");
 
 var multer = require("multer");
 var cors = require("cors");
-var mongoXlsx = require('mongo-xlsx');
+var mongoXlsx = require("mongo-xlsx");
 
 const { configureAuth } = require("./middlewares/authentication");
-
 const infoRouter = require("./routes/info");
-// const chatRouter = require("./routes/chat");
 const loginRouterFactory = require("./routes/login");
-const usersRouterFactory = require('./routes/users');
+const usersRouterFactory = require("./routes/users");
 
 const appFactory = (db, sessionStoreProvider) => {
-    const app = express();
-    const API_ROOT_PATH = "/api";
-    app.use(
-        express.json({
-            limit: "50mb"
-        })
+  const app = express();
+  const API_ROOT_PATH = "/api";
+  app.use(
+    express.json({
+      limit: "50mb"
+    })
+  );
+  app.use(morgan("dev"));
+
+  app.use(
+    bodyParser.urlencoded({
+      limit: "50mb",
+      parameterLimit: 1000 * 1000 * 50,
+      extended: true
+    })
+  );
+
+  app.use(bodyParser.json({ limit: "50mb" }));
+  app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept"
     );
-    app.use(morgan("dev"));
+    next();
+  });
+  const sessionSettings = {
+    cookie: {},
+    resave: false,
+    saveUninitialized: true,
+    secret: "randomsecret" || process.env.SESSION_SECRET,
+    store: sessionStoreProvider(session)
+  };
 
-    app.use(
-        bodyParser.urlencoded({
-            limit: "50mb",
-            parameterLimit: 1000 * 1000 * 50,
-            extended: true
-        })
-    );
+  if (app.get("env") === "production") {
+    app.enable("trust proxy");
+    sessionSettings.cookie.secure = true;
+    app.use("*", httpsOnly);
+  }
 
-    app.use(bodyParser.json({ limit: "50mb" }));
-    app.use(function (req, res, next) {
-        res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-        next();
-    });
-    const sessionSettings = {
-        cookie: {},
-        resave: false,
-        saveUninitialized: true,
-        secret: "randomsecret" || process.env.SESSION_SECRET,
-        store: sessionStoreProvider(session)
-    };
+  app.use(`${API_ROOT_PATH}/info`, infoRouter);
 
-    if (app.get("env") === "production") {
-        app.enable("trust proxy");
-        sessionSettings.cookie.secure = true;
-        app.use("*", httpsOnly);
+  app.use(session(sessionSettings));
+
+  configureAuth(app, db);
+
+  app.use(`${API_ROOT_PATH}/login`, loginRouterFactory());
+
+  // app.use(bodyParser.json())
+  app.use(`${API_ROOT_PATH}/users`, usersRouterFactory(db));
+
+  app.use(express.static(path.join(__dirname, "static")));
+
+  app.get("*", (req, res, next) => {
+    if (req.url.startsWith(API_ROOT_PATH)) {
+      return next();
     }
+    res.sendFile(path.join(__dirname, "static/index.html"));
+  });
+  app.use(cors());
 
-    app.use(`${API_ROOT_PATH}/info`, infoRouter);
-
-    app.use(session(sessionSettings));
-
-    configureAuth(app, db);
-
-    app.use(`${API_ROOT_PATH}/login`, loginRouterFactory());
-
-    app.use(cors({origin: true}));
-    // parse application/x-www-form-urlencoded
-    app.use(bodyParser.urlencoded({ extended: false })) 
-    app.use(bodyParser.json())
-
-
-    app.use(`${API_ROOT_PATH}/users`, usersRouterFactory(db));
-
-    app.use(express.static(path.join(__dirname, "static")));
-
-    app.get("*", (req, res, next) => {
-        if (req.url.startsWith(API_ROOT_PATH)) {
-            return next();
-        }
-        res.sendFile(path.join(__dirname, "static/index.html"));
-    });
-    app.use(cors());
-
-    return app;
+  return app;
 };
 
 const httpsOnly = (req, res, next) => {
-    if (!req.secure) {
-        return res.redirect(301, `https://${req.headers.host}${req.originalUrl}`);
-    }
-    next();
+  if (!req.secure) {
+    return res.redirect(301, `https://${req.headers.host}${req.originalUrl}`);
+  }
+  next();
 };
 
 module.exports = appFactory;

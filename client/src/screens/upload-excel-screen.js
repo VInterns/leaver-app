@@ -3,34 +3,37 @@ import axios from "axios";
 import { Progress } from "reactstrap";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+var XLSX = require("xlsx");
 
+//TODO: Refactor old validation, remove unnedded functionalities
 
 export class UploadExcelScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
       selectedFile: null,
-      loaded: 0
+      loaded: 0,
+      jsonData: null,
+      readyUpload: false
     };
   }
   checkMimeType = event => {
-    //getting file object
+    //Getting files object // No need
     let files = event.target.files;
-    //define message container
+    //Gefine message container // No need
     let err = [];
     // allowed file types [excel files]
     const types = [
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     ];
-    // loop access array
     for (let x = 0; x < files.length; x++) {
-      // compare file type find doesn't matach
+      // Check each file's type
       if (types.every(type => files[x].type !== type)) {
-        // create error message and assign to container
         err[x] = files[x].type + " is not a supported format\n";
       }
     }
     for (var z = 0; z < err.length; z++) {
+      //??
       // if message not same old that mean has error
       // discard selected file
       toast.error(err[z]);
@@ -38,18 +41,8 @@ export class UploadExcelScreen extends Component {
     }
     return true;
   };
-  //max 3 files at a time
-  maxSelectFile = event => {
-    let files = event.target.files;
-    if (files.length > 3) {
-      const msg = "Only 3 Excel files can be uploaded at a time";
-      event.target.value = null;
-      toast.warn(msg);
-      return false;
-    }
-    return true;
-  };
-  //max file size
+
+  //Setting file size limit
   checkFileSize = event => {
     let files = event.target.files;
     let size = 2000000;
@@ -67,57 +60,66 @@ export class UploadExcelScreen extends Component {
     }
     return true;
   };
-  //on click on choose file
+  checkLength = even => {
+    if (even.target.files.length !== 1) {
+      toast.error("Must select one excel sheet");
+      return false;
+    }
+    return true;
+  };
+  //On click choose file
   onChangeHandler = event => {
-    var files = event.target.files;
     if (
-      this.maxSelectFile(event) &&
       this.checkMimeType(event) &&
-      this.checkFileSize(event)
+      this.checkFileSize(event) &&
+      this.checkLength(event)
     ) {
-      // if return true allow to setState
+      // If return true, convert the data to JSON to be ready to be sent to backend
       this.setState({
-        selectedFile: files,
-        loaded: 0
+        readyUpload: true
       });
+      let workBook = null;
+      let jsonData = null;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        const data = reader.result;
+        workBook = XLSX.read(data, { type: "binary" });
+        jsonData = XLSX.utils.sheet_to_json(
+          workBook.Sheets[workBook.SheetNames[0]]
+        );
+        this.setState({
+          jsonData: jsonData
+        });
+      };
+      if (event.target.files.length === 1) {
+        reader.readAsBinaryString(event.target.files[0]);
+      }
     }
   };
 
-  //on click on upload
+  //On click upload
   onClickHandler = () => {
-    const data = new FormData();
-    if(this.state.selectedFile == null || this.state.selectedFile.length !== 1) { //Handle when no file selected or more than one file
-      toast.error("Please select only one excel file and try again");
+    if (this.state.readyUpload === false) {
+      toast.error("Please follow the instructions"); // Must wrtie the instructions down
       return;
     }
-      for (var x = 0; x < this.state.selectedFile.length; x++) { // Error when no file selected -> Handled
-        data.append("file", this.state.selectedFile[x]);
-      }
-    // Data here is empty object you can check it in the console of front end.
-    // console.log(this.state.selectedFile[0]); // Just use the first file to continue developing, must be refactored to read only one file
-    // this is an array which carry the uplooaded file
-    // console.log(this.state.selectedFile[0]);
-    console.log('From Client')
-    // const result = excelToJson({
-
-    console.log(this.state.selectedFile[0])
-    //TODO: check this file what he do and the library he uses and keep me updated.
-    // https://github.com/VInterns/onboarding-app-web/blob/master/src/app/upload/upload.component.ts
-    axios
-      .post("http://localhost:8080/api/users/bulkregister", this.state.selectedFile[0], {
-        onUploadProgress: ProgressEvent => {
-          this.setState({
-            loaded: (ProgressEvent.loaded / ProgressEvent.total) * 100
-          });
+    axios //Post request with a formatted JSON file
+      .post(
+        "http://localhost:8080/api/users/bulkregister",
+        this.state.jsonData,
+        {
+          onUploadProgress: ProgressEvent => {
+            this.setState({
+              loaded: (ProgressEvent.loaded / ProgressEvent.total) * 100
+            });
+          }
         }
-      })
+      )
       .then(res => {
-        // then print response status
-        toast.success("Upload success");
+        toast.success("Upload successed");
       })
       .catch(err => {
-        // then print response status
-        toast.error("Upload fail");
+        toast.error("Upload failed");
       });
   };
 
@@ -155,4 +157,3 @@ export class UploadExcelScreen extends Component {
     );
   }
 }
-
