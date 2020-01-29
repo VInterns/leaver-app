@@ -5,9 +5,9 @@ import {
 } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const API = 'http://localhost:8080/api/search';
-// const SEARCH = 'search'
-
+const API = 'http://localhost:8080/api/';
+const SEARCH = 'users/search'
+const SUBMIT = 'resignation/addresignation'
 // import '.resign-req-screen.css';
 export class ResignReqScreen extends Component {
 
@@ -16,61 +16,132 @@ export class ResignReqScreen extends Component {
     this.state = {
         staffId: '',
         returnedHeadset: false,
-        returnedkeys: false,
+        returnedKeys: false,
         returnedOhda: false,
         ohdaType:'',
         lastWorkDay:'',
         nationalId:'',
         nationalIdImg:null,
+        annualsGranted:'',
+        annualsTaken:'',
+        noShow:'',
+        lostHours:'',
+        daysToTake:'',
+
+        sapID:'',
+        employeeName:'',
+        managerName:'',
+        ntAccount:'',
+        department:'',
+        careCenter:'',
+        jobTitle:'',
+        hiringDate:'',
+        mobNumber:'',
+        iex:'',
     };
   }
   
   onSearch = (e) => {
     e.preventDefault();
-    // if (this.state.staffId !== '') {
-      fetch(API, {
+      fetch(API + SEARCH, {
         body: JSON.stringify({staffId:this.state.staffId}),
-        cache: 'no-cache',
-        credentials: 'same-origin',
         headers: {
           'content-type': 'application/json'
         },
         method: 'POST',
-        mode: 'cors',
-        redirect: 'follow',
-        referrer: 'no-referrer',
+        // mode: 'cors',
       })
-        .then(function (response) {
+        .then( (response) => {
           console.log('toot-client');
-          console.log(response);
-          if (response.status === 200) {
-            alert('recieved');
-          } else {
-            alert('Issues recieving');
-          }
-        });
-      // }
+          return(response.json());
+        })
+        .then( (data) => {
+            console.log(data.staffId);
+          this.setState({sapID:data.sapID});
+          this.setState({employeeName:data.employeeName});
+          this.setState({managerName:data.managerName});
+          this.setState({ntAccount:data.ntAccount});
+          this.setState({department:data.department});
+          this.setState({careCenter:data.careCenter});
+          this.setState({jobTitle:data.jobTitle});
+          this.setState({hiringDate:data.hiringDate});
+          this.setState({mobNumber:data.mobNumber});
+        })
   }
 
+  onSubmit = (e) => {
+    e.preventDefault();
+    fetch(API + SUBMIT, {
+      body: JSON.stringify({
+          staffId:this.state.staffId,
+          status: "new",
+          phase1: {
+            status: "done",
+            returnedHeadset: this.state.returnedHeadset,
+            returnedKeys: this.state.returnedKeys,
+            returnedOhda: this.state.returnedOhda,
+            ohdaType:this.state.ohdaType,
+            lastWorkDay:this.state.lastWorkDay,
+            nationalId:this.state.nationalId,
+            nationalIdImg:this.state.nationalIdImg,
+            annualsGranted:this.state.annualsGranted,
+            annualsTaken:this.state.annualsTaken,
+            noShow:this.state.noShow,
+            lostHours:this.state.lostHours,
+            daysToTake:this.state.daysToTake
+          },
+          phase2: {
+            status: "new",
+          },
+          phase3: {
+            status: "new",
+          },
+          phase4: {
+            status: "new",
+          },
+          phase5: {
+            status: "new",
+          },
+          phase6: {
+            status: "new",
+          },
+          phase7: {
+            status: "new",
+          }
+      }),
+      headers: {
+        'content-type': 'application/json'
+      },
+      method: 'POST',
+    })
+      .then( (response) => {
+        console.log('toot-client');
+        // console.log(response.json());
+      })
+  }
+
+  handleChange= e => {
+    // console.log({[e.target.name]: e.target.value});
+    this.setState({[e.target.name]: e.target.value});
+  }
 
   render() {
     return (
-      <Container>
+      <Container >
         <br/>
-        <h3 >Resignation Request</h3>
+        <h3>Resignation Request</h3>
         <br/>
-        <Form>
+        <Form >
         <Form.Group >
-              <Form.Group className="border border-primary">
+              <Form.Group className="p-2 border border-danger">
                 <Row >
                 <Col><Form.Label>Staff ID</Form.Label></Col>
                 <Col><Form.Control
-                    name="id"
+                    name="staffId"
                     id="id"
                     placeholder="12345"
-                    // size="sm"
                     className="form-control"
-                    onChange={e => this.setState({staffId: e.target.value})}
+                    onChange={this.handleChange}
                   /></Col>
                 <Col>
                   <Button type="button" variant="danger" onClick={this.onSearch}>Search</Button>
@@ -79,57 +150,56 @@ export class ResignReqScreen extends Component {
             </Form.Group>
             <Row>
               <Col><Form.Label className="col-form-label">SAP Staff ID</Form.Label></Col>
-              <Col ><Form.Control plaintext readOnly defaultValue="SAP Staff ID"/></Col>
+              <Col ><Form.Control plaintext readOnly value={this.state.sapID}/></Col>
               <Col></Col>
             </Row>
             <Row>
               <Col><Form.Label>Employee Name</Form.Label></Col>
-              <Col><Form.Control plaintext readOnly defaultValue="Employee Name"/></Col>
+              <Col><Form.Control plaintext readOnly value={this.state.employeeName}/></Col>
               <Col></Col>
             </Row>
             <Row>
               <Col><Form.Label>Manager Name</Form.Label></Col>
-              <Col><Form.Control plaintext readOnly defaultValue="Manager Name"/></Col>
+              <Col><Form.Control plaintext readOnly value={this.state.managerName}/></Col>
               <Col></Col>
             </Row>
             <Row>
               <Col><Form.Label>NT Account</Form.Label></Col>
-              <Col><Form.Control plaintext readOnly defaultValue="NT Account"/></Col>
+              <Col><Form.Control plaintext readOnly value={this.state.ntAccount}/></Col>
               <Col></Col>
             </Row>
             <Row>
               <Col><Form.Label>Department</Form.Label></Col>
-              <Col><Form.Control plaintext readOnly defaultValue="Department"/></Col>
+              <Col><Form.Control plaintext readOnly value={this.state.department}/></Col>
               <Col></Col>
             </Row>
             <Row>
               <Col><Form.Label>Care Center</Form.Label></Col>
-              <Col><Form.Control plaintext readOnly defaultValue="Care Center"/></Col>
+              <Col><Form.Control plaintext readOnly value={this.state.careCenter}/></Col>
               <Col></Col>
             </Row>
             <Row>
               <Col><Form.Label>Job Title</Form.Label></Col>
-              <Col><Form.Control plaintext readOnly defaultValue="Job Title"/></Col>
+              <Col><Form.Control plaintext readOnly value={this.state.jobTitle}/></Col>
               <Col></Col>
             </Row>
             <Row>
               <Col><Form.Label>Hiring Date</Form.Label></Col>
               {/* <Col><Form.Control plaintext readOnly defaultValue="Hiring Date"/></Col> */}
-              <Col> <input type="date" id="start" name="hiring-date"
-                min="2000-01-01" max="2025-12-31"></input></Col>
+              <Col><Form.Control plaintext readOnly value={this.state.hiringDate}/></Col>
               <Col></Col>
             </Row>
             <Row>
               <Col><Form.Label>Mobile Number</Form.Label></Col>
-              <Col><Form.Control plaintext readOnly defaultValue="Mobile Number"/></Col>
+              <Col><Form.Control plaintext readOnly value={this.state.mobNumber}/></Col>
               <Col></Col>
             </Row>
           </Form.Group>
-          <Form.Group>
+          <Form.Group className="p-2 border border-danger" >
             <Row>
               <Col><Form.Label>Returned Headset</Form.Label></Col>
               <Col>
-              <Form.Control as="select">
+              <Form.Control as="select" name="returnedHeadset" onChange={this.handleChange}>
                   <option>Yes</option>
                   <option>No</option>
               </Form.Control>
@@ -138,7 +208,7 @@ export class ResignReqScreen extends Component {
             <Row>
               <Col><Form.Label>Returned Keys</Form.Label></Col>
               <Col>
-                <Form.Control as="select">
+                <Form.Control as="select" name="returnedKeys" onChange={this.handleChange}>
                     <option>No</option>
                     <option>Yes</option>
                 </Form.Control>
@@ -147,7 +217,7 @@ export class ResignReqScreen extends Component {
             <Row>
               <Col><Form.Label>Returned 3ohda</Form.Label></Col>
               <Col>
-                <Form.Control as="select">
+                <Form.Control as="select" name="returnedOhda" onChange={this.handleChange} required>
                     <option>No</option>
                     <option>Yes</option>
                 </Form.Control>
@@ -155,29 +225,57 @@ export class ResignReqScreen extends Component {
             </Row>
             <Row>
               <Col><Form.Label>3ohda Type</Form.Label></Col>
-              <Col><Form.Control as="textarea" rows="1" required/></Col>
+              <Col><Form.Control as="textarea" rows="1" name="ohdaType" onChange={this.handleChange} required/></Col>
             </Row>
           </Form.Group>
-          <Form.Group>
+          <Form.Group className="p-2 border border-danger">
+            <Row>
+              <Col><Form.Label>Leave Balance</Form.Label></Col>
+              <Col></Col>
+              <Col><Form.Label>IEX</Form.Label></Col>
+              <Col><Form.Control plaintext readOnly value={this.state.iex}/></Col>
+            </Row>
+            <table className="table">
+              <thead className="thead-dark">
+                <tr>
+                  <th scope="col">Annuals Granted</th>
+                  <th scope="col">Annuals Taken</th>
+                  <th scope="col">No Show</th>
+                  <th scope="col">Lost Hours</th>
+                  <th scope="col">In Lieu days to take</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row"><Form.Control as="textarea" rows="1" name="annualsGranted" onChange={this.handleChange} required/></th>
+                  <td><Form.Control as="textarea" rows="1" name="annualsTaken" onChange={this.handleChange} required/></td>
+                  <td><Form.Control as="textarea" rows="1" name="noShow" onChange={this.handleChange} required/></td>
+                  <td><Form.Control as="textarea" rows="1" name="lostHours" onChange={this.handleChange} required/></td>
+                  <td><Form.Control as="textarea" rows="1" name="daysToTake" onChange={this.handleChange} required/></td>
+                </tr>
+              </tbody>
+            </table>
+          </Form.Group>
+          <Form.Group className="p-2 border border-danger">
           <Row>
               <Col><Form.Label>Last Working Day</Form.Label></Col>
               {/* <Col><Form.Control rows="1" required/></Col> */}
-              <Col> <input type="date" id="last" name="last-day"
-                min="2018-01-01" max="2026-12-31"></input></Col>
+              <Col> <input type="date" id="last" name="lastWorkDay"
+                min="2018-01-01" max="2026-12-31" onChange={this.handleChange}></input></Col>
             </Row>
             <Row>
               <Col><Form.Label>National ID Number</Form.Label></Col>
-              <Col><Form.Control as="textarea" rows="1" required/></Col>
+              <Col><Form.Control as="textarea" rows="1" name="nationalId" onChange={this.handleChange} required/></Col>
             </Row>
           </Form.Group>
-          <Form.Group>
+          <Form.Group className="p-2 border border-danger">
             <Row>
               <Col><Form.Label>Copy of National ID</Form.Label></Col>
-              <Col><Form.Control as="textarea" rows="1" required/></Col>
+              <Col><input type="file" className="form-control-file border" name="nationalIdImg" onChange={this.handleChange} required/></Col>
             </Row>
           </Form.Group>
           <br/>
-          <Button type="submit" variant="danger" size="lg" block>Submit</Button>
+          <Button type="submit" variant="danger" size="lg" onClick={this.onSubmit} block>Submit</Button>
         </Form>
       </Container>
     );
