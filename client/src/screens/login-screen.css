@@ -6,6 +6,12 @@ h1 {
     text-align: center;
 }
 
+h2 {
+    text-align: left;
+    color: rgb(235, 54, 54);
+    font-size: 20px;
+}
+
 .welcome {
     margin-top: 50px;
     color: rgb(22, 22, 22);

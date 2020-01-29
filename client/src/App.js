@@ -10,9 +10,12 @@ import { Header } from './components';
 import {
   LoginScreen,
   UploadExcelScreen,
+  Resignations,
+  FormRes
 } from './screens';
 
 import './App.css';
+//import { Form } from 'react-bootstrap/lib/Navbar';
 class App extends Component {
   render() {
     return (
@@ -22,6 +25,8 @@ class App extends Component {
           <Switch>
             <Route path="/" exact component={LoginScreen} />
             <Route path="/upload" component={UploadExcelScreen} />
+            <Route path="/resignations" component={Resignations} />
+            <Route path="/form-res" component={FormRes} />
           </Switch>
         </Router>
       </>
