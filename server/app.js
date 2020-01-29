@@ -61,6 +61,12 @@ const appFactory = (db, sessionStoreProvider) => {
 
     app.use(`${API_ROOT_PATH}/login`, loginRouterFactory());
 
+    app.use(cors({origin: true}));
+    // parse application/x-www-form-urlencoded
+    app.use(bodyParser.urlencoded({ extended: false })) 
+    app.use(bodyParser.json())
+
+
     app.use(`${API_ROOT_PATH}/users`, usersRouterFactory(db));
 
     app.use(express.static(path.join(__dirname, "static")));

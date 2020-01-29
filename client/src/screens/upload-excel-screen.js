@@ -4,6 +4,7 @@ import { Progress } from "reactstrap";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+
 export class UploadExcelScreen extends Component {
   constructor(props) {
     super(props);
@@ -85,14 +86,21 @@ export class UploadExcelScreen extends Component {
   //on click on upload
   onClickHandler = () => {
     const data = new FormData();
-    for (var x = 0; x < this.state.selectedFile.length; x++) {
-      data.append("file", this.state.selectedFile[x]);
+    if(this.state.selectedFile == null || this.state.selectedFile.length !== 1) { //Handle when no file selected or more than one file
+      toast.error("Please select only one excel file and try again");
+      return;
     }
+      for (var x = 0; x < this.state.selectedFile.length; x++) { // Error when no file selected -> Handled
+        data.append("file", this.state.selectedFile[x]);
+      }
     // Data here is empty object you can check it in the console of front end.
-    console.log(data);
+    // console.log(this.state.selectedFile[0]); // Just use the first file to continue developing, must be refactored to read only one file
     // this is an array which carry the uplooaded file
-    console.log(this.state.selectedFile);
+    // console.log(this.state.selectedFile[0]);
+    console.log('From Client')
+    // const result = excelToJson({
 
+    console.log(this.state.selectedFile[0])
     //TODO: check this file what he do and the library he uses and keep me updated.
     // https://github.com/VInterns/onboarding-app-web/blob/master/src/app/upload/upload.component.ts
     axios
@@ -105,11 +113,11 @@ export class UploadExcelScreen extends Component {
       })
       .then(res => {
         // then print response status
-        toast.success("upload success");
+        toast.success("Upload success");
       })
       .catch(err => {
         // then print response status
-        toast.error("upload fail");
+        toast.error("Upload fail");
       });
   };
 
