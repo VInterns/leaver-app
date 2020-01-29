@@ -14,6 +14,7 @@ const infoRouter = require("./routes/info");
 // const chatRouter = require("./routes/chat");
 const loginRouterFactory = require("./routes/login");
 const usersRouterFactory = require('./routes/users');
+const searchRouterFactory = require('./routes/get-employee');
 
 const appFactory = (db, sessionStoreProvider) => {
     const app = express();
@@ -62,6 +63,8 @@ const appFactory = (db, sessionStoreProvider) => {
     app.use(`${API_ROOT_PATH}/login`, loginRouterFactory());
 
     app.use(`${API_ROOT_PATH}/users`, usersRouterFactory(db));
+
+    app.use(`${API_ROOT_PATH}/search`, searchRouterFactory(db));
 
     app.use(express.static(path.join(__dirname, "static")));
 
