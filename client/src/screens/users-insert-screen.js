@@ -38,8 +38,9 @@ export class UploadExcelScreen extends Component {
   checkFileSize = event => {
     let file = event.target.files[0];
     let size = 1000 * 1000 * 20;
-    let err = [];
-
+    let err = '';
+    console.log(file.size)
+    console.log(size)
     if (file.size > size) {
       err = file.type + "is too large, please pick a smaller file\n";
     }

@@ -1,9 +1,14 @@
 const { Router } = require("express");
 
-const router = new Router();
+module.exports = (db) => {
 
-router.get("/", (req, res) => {
-    res.json({ environment: process.env.NODE_ENV });
-});
+    const router = new Router();
+    router.get("/", (req, res) => {
+        // Any Body can use the db here
+        // ex: db.collection('COLLECTION_NAME');
+        res.json({ environment: process.env.NODE_ENV });
+    });
 
-module.exports = router;
+    return router;
+};
+
