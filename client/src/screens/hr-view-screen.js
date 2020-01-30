@@ -11,7 +11,6 @@ export class HrViewScreen extends Component {
     componentWillMount() {
         fetch('http://localhost:8080/api/resignations').then((res) => {
             res.json().then((data) => {
-                console.log(data);
                 this.setState({ data: data });
             })
         })
