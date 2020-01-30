@@ -19,6 +19,7 @@ export class Header extends React.Component {
         <Nav className="mr-auto" >
           <Nav.Link href="/upload">Upload Excel</Nav.Link>
           <Nav.Link href="/resign">Resignation</Nav.Link>
+          <Nav.Link href="/hr-view">HR View</Nav.Link>
         </Nav>
       </Navbar>
     );
