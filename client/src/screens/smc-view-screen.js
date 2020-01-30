@@ -1,8 +1,11 @@
 import React from 'react';
 //import logo from './logo.svg';
 import 'bootstrap/dist/css/bootstrap.css';
+import './smc-view-screen.css';
 import { Input, Button } from 'reactstrap';
-
+const data = {
+    name: 'alaa'
+};
 
 export class SMCView extends React.Component {
     constructor(props) {
@@ -15,7 +18,19 @@ export class SMCView extends React.Component {
             ohdaType: 0,
             comment: 0,
         };
+
+        // axios
+        // .post(
+        //     '/api/smc',
+        //     data,
+        //     { headers: { 'Content-Type': 'application/json' } }
+        // )
+        // .then(function (result) {
+        //     console.log(result);
+        // });
+
     }
+
 
 
 
@@ -23,8 +38,6 @@ export class SMCView extends React.Component {
     handelHeadset = (e) => {
         this.setState({ headset: e.target.value });
     }
-
-
     handelKeys = (e) => {
         this.setState({ keys: e.target.value });
     }

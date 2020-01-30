@@ -12,6 +12,7 @@ const { configureAuth } = require("./middlewares/authentication");
 
 const infoRouterFactory = require("./routes/info");
 const loginRouterFactory = require("./routes/login");
+const resignationsRouterFactory = require("./routes/resignations");
 
 
 const appFactory = (db, sessionStoreProvider) => {
@@ -58,7 +59,7 @@ const appFactory = (db, sessionStoreProvider) => {
 
     app.use(`${API_ROOT_PATH}/info`, infoRouterFactory(db));
     app.use(`${API_ROOT_PATH}/login`, loginRouterFactory());
-
+    app.use(`${API_ROOT_PATH}/resignations`, resignationsRouterFactory(db));
     app.use(express.static(path.join(__dirname, "static")));
 
     app.get("*", (req, res, next) => {
