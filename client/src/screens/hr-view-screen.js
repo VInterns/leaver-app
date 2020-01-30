@@ -17,10 +17,10 @@ export class HrViewScreen extends Component {
         })
     }
     render() {
-        return (<Table className='container'>
+        return (<Table bordered striped hover className='container'>
             <thead>
                 <tr>
-                    <th>Staff Id</th>
+                    <th>Staff ID</th>
                     <th>Manager Name</th>
                     <th>Phase 1</th>
                     <th>Phase 2</th>
@@ -37,15 +37,15 @@ export class HrViewScreen extends Component {
                     this.state.data.map((value, index) => {
                         return (
                             <tr key={index}>
-                                <td>{value.id}</td>
+                                <td>{value.staffId}</td>
                                 <td>{value.managerName}</td>
-                                <td>{value.phase1}</td>
-                                <td>{value.phase2}</td>
-                                <td>{value.phase3}</td>
-                                <td>{value.phase4}</td>
-                                <td>{value.phase5}</td>
-                                <td>{value.phase6}</td>
-                                <td>{value.phase7}</td>
+                                <td>{value.phase1.status}</td>
+                                <td>{value.phase2.status}</td>
+                                <td>{value.phase3.status}</td>
+                                <td>{value.phase4.status}</td>
+                                <td>{value.phase5.status}</td>
+                                <td>{value.phase6.status}</td>
+                                <td>{value.phase7.status}</td>
 
                             </tr>
                         )
