@@ -20,10 +20,9 @@ export class consumerTable extends Component {
     }
     render() {
         const dataMongo = this.state.Data.map((item, index) => {
-            // var Array = ['Leaver Name: ', item.leavername, '/ Manager Name: ', item.manager, ''].join(' ');
             return <tr>
-                <td>Leaver Name:  {item.leavername}</td>
-                <td>Manager:  {item.manager}</td>
+                <td>{item.leavername}</td>
+                <td>{item.manager}</td>
                 <td>< button className="btn btn-primary" onClick={() => {
                     this.props.history.push('cc-consumer-activation?id=' + item.staffid)
                 }
@@ -36,8 +35,16 @@ export class consumerTable extends Component {
             <div className="container">
                 <center style={{ margin: '25px' }}>
                     <div>
-                        <Table>
+                        <Table bordered hover>
+                            <thead>
+                                <tr>
+                                    <th>Leaver Name</th>
+                                    <th>Manager Name</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
                             <tbody>
+
                                 {dataMongo}
                             </tbody >
                         </Table >

@@ -91,7 +91,7 @@ export class CCConsumerActivation extends Component {
                         <div>
                             {
                                 this.state.Data.map(post => (
-                                    <Table>
+                                    <Table bordered hover>
                                         <tbody>
                                             <tr>
                                                 <td>Staff ID:  {post.staffid}</td>
