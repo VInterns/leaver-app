@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import Zoom from 'react-reveal/Zoom';
+import { Table } from "reactstrap";
 
 
 
@@ -20,18 +20,27 @@ export class consumerTable extends Component {
     }
     render() {
         const dataMongo = this.state.Data.map((item, index) => {
-            var Array = ['Name: ', item.name, '/ email: ', item.email, ''].join(' ');
-            return <p key={index}>{Array}
-                <button className="btn btn-primary" onClick={() => {
-                    this.props.history.push('cc-consumer-activation?id=' + item.id)
-                }} >Fill Forum</button>
-            </p>;
+            // var Array = ['Leaver Name: ', item.leavername, '/ Manager Name: ', item.manager, ''].join(' ');
+            return <tr>
+                <td>Leaver Name:  {item.leavername}</td>
+                <td>Manager:  {item.manager}</td>
+                <td>< button className="btn btn-primary" onClick={() => {
+                    this.props.history.push('cc-consumer-activation?id=' + item.staffid)
+                }
+                } > Fill Forum</button ></td>
+            </tr>
+
+                ;
         })
         return (
             <div className="container">
                 <center style={{ margin: '25px' }}>
                     <div>
-                        {dataMongo}
+                        <Table>
+                            <tbody>
+                                {dataMongo}
+                            </tbody >
+                        </Table >
                     </div>
                 </center>
             </div>

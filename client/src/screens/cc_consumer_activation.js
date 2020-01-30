@@ -27,6 +27,7 @@ export class CCConsumerActivation extends Component {
     onChangeHandler = event => {
         var files = event.target.files;
         // if return true allow to setState
+        console.log(files);
         this.setState({
             selectedFile: files,
             loaded: 0
@@ -49,7 +50,8 @@ export class CCConsumerActivation extends Component {
         let params = queryString.parse(url);
 
         var url2 = 'http://localhost:8080/api/consumer-activation/data?id=' + params.id;
-
+        axios
+            .post("http://localhost:8080/api/consumer-activation/nationalid?id=" + params.id, this.state.selectedFile[0])
         fetch(url2, {
             method: 'POST',
 
@@ -61,7 +63,6 @@ export class CCConsumerActivation extends Component {
                 rateplan: this.inputrateplan.value,
                 comment: this.inputcomment.value,
                 phonebilledamount: phonebilledamount,
-                data: data
             })
         })
             .then(function (response) {
@@ -73,23 +74,8 @@ export class CCConsumerActivation extends Component {
         this.inputrateplan.value = '';
         this.inputcomment.value = '';
         phonebilledamount = 'yes';
-
         this.props.history.push('cc-consumer-activation-table')
 
-    };
-
-    clickGet() {
-
-        // let id = req.query.id;
-        // axios.get(url)
-        //     .then((retrieveData) => {
-        //         console.log(retrieveData.data);
-        //         this.setState({
-        //             Data: retrieveData.data,
-        //         })
-        // axios.get(url, async function (req, res) {
-
-        // });
     };
     getval(sel) {
         phonebilledamount = sel.target.value;
@@ -101,7 +87,6 @@ export class CCConsumerActivation extends Component {
 
                 <center style={{ margin: '25px' }}>
                     <h3>CC Consumer Activation</h3>
-
                     <div>
                         <div>
                             {
@@ -109,12 +94,24 @@ export class CCConsumerActivation extends Component {
                                     <Table>
                                         <tbody>
                                             <tr>
-                                                <td>NAME:  {post.name}</td>
-                                                <td>USERNAME:  {post.username}</td>
+                                                <td>Staff ID:  {post.staffid}</td>
+                                                <td>SAP Staff ID:  {post.sapstaffid}</td>
                                             </tr>
                                             <tr>
-                                                <td>ID:  {post.id}</td>
-                                                <td>EMAIL:  {post.email}</td>
+                                                <td>Leaver Name:  {post.leavername}</td>
+                                                <td>Manager:  {post.manager}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Department:  {post.department}</td>
+                                                <td>Cost Center:  {post.costcenter}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Job Title:  {post.jobtitle}</td>
+                                                <td>Hiring Date:  {post.hiringdate}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Mobile Number:  {post.mobilenumber}</td>
+                                                <td>LastWorkingDay:  {post.lastworkingday}</td>
                                             </tr>
                                         </tbody>
                                     </Table>
@@ -149,9 +146,6 @@ export class CCConsumerActivation extends Component {
                                 ref={incomment => this.inputcomment = incomment}
                                 placeholder="Input Comment here" />
                         </div>
-                        {/* <button className="btn btn-success" style={{ margin: '15px', width: '100px' }}
-                                onClick={{}}>Pending</button> */}
-
                         <button className="btn btn-primary" style={{ width: '100px' }}
                             onClick={() => {
                                 this.clickPost()

@@ -14,7 +14,7 @@ module.exports = (db) => {
         .get((req, res) => {
             var collection = db.collection('resignations');
 
-            collection.find({ "id": Number(req.query.id) }).toArray((x, results) => {
+            collection.find({ "staffid": Number(req.query.id) }).toArray((x, results) => {
                 res.status(200).send(results);
             })
 
@@ -27,13 +27,28 @@ module.exports = (db) => {
                 rateplan: req.body.rateplan,
                 phonebilledamount: req.body.phonebilledamount,
                 comment: req.body.comment,
-                nationalid: req.body.data,
                 status: "done"
             }
-            var myquery = { "id": Number(req.query.id) };
+            var myquery = { "staffid": Number(req.query.id) };
             var newvalues = { $set: { phase4 } };
             db.collection("resignations").updateOne(myquery, newvalues);
             res.status(200).send(true);
+
+
+        });
+    router.route('/nationalid')
+
+        .post((req, res) => {
+
+            var phase4 = {
+                nationalid: req.body
+            }
+            console.log(req.body)
+            var myquery = { "staffid": Number(req.query.id) };
+            var newvalues = { $set: { phase4 } };
+            db.collection("resignations").updateOne(myquery, newvalues);
+            res.status(200).send(true);
+
 
 
         });
