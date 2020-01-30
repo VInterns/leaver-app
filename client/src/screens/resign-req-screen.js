@@ -1,5 +1,5 @@
 // to do -> redirect after Submit
-import React, { Component, useReducer } from 'react';
+import React, { Component } from 'react';
 import {
   Container, Form, Row, Col,
   Button,
@@ -10,8 +10,8 @@ import "react-toastify/dist/ReactToastify.css";
 
 const API = 'http://localhost:8080/api/';
 const SEARCH = 'users/search'
-const SUBMIT = 'resignation/addresignation'
-// import '.resign-req-screen.css';
+const SUBMIT = 'resignations/'
+
 export class ResignReqScreen extends Component {
 
   constructor(props) {
@@ -52,7 +52,6 @@ export class ResignReqScreen extends Component {
         'content-type': 'application/json'
       },
       method: 'POST',
-      // mode: 'cors',
     })
       .then((response) => {
         if (response.status === 200) {
@@ -64,7 +63,6 @@ export class ResignReqScreen extends Component {
         }
       })
       .then((data) => {
-        console.log(data);
         if (data) {
           this.setState({ staffId: data.staffId });
           this.setState({ sapID: data.staffId });
@@ -85,7 +83,7 @@ export class ResignReqScreen extends Component {
     fetch(API + SUBMIT, {
       body: JSON.stringify({
         staffId: this.state.staffId,
-        managerName:this.state.managerName,
+        managerName: this.state.managerName,
         status: "new",
         phase1: {
           status: "done",
@@ -101,7 +99,7 @@ export class ResignReqScreen extends Component {
           noShow: this.state.noShow,
           lostHours: this.state.lostHours,
           daysToTake: this.state.daysToTake,
-          iex:this.state.iex
+          iex: this.state.iex
         },
         phase2: {
           status: "new",
@@ -132,7 +130,6 @@ export class ResignReqScreen extends Component {
           toast.success("Resignation Request Recieved");
         }
         else if (response.status === 503) {
-          // console.log(response.body)
           toast.error("Error in db");
         }
         else {
@@ -143,16 +140,15 @@ export class ResignReqScreen extends Component {
   }
 
   handleChange = e => {
-    if (e.target.type === 'select-one'){
-      if (e.target.value === 'yes'){
+    if (e.target.type === 'select-one') {
+      if (e.target.value === 'yes') {
         this.setState({ [e.target.name]: true });
       }
-      else{
+      else {
         this.setState({ [e.target.name]: false });
       }
     }
     else {
-      console.log(e.target.tagName);
       this.setState({ [e.target.name]: e.target.value });
     }
   }
@@ -218,7 +214,6 @@ export class ResignReqScreen extends Component {
             </Row>
             <Row>
               <Col><Form.Label>Hiring Date</Form.Label></Col>
-              {/* <Col><Form.Control plaintext readOnly defaultValue="Hiring Date"/></Col> */}
               <Col><Form.Control plaintext readOnly value={this.state.hiringDate} /></Col>
               <Col></Col>
             </Row>
@@ -232,7 +227,7 @@ export class ResignReqScreen extends Component {
             <Row>
               <Col><Form.Label>Returned Headset</Form.Label></Col>
               <Col>
-                <Form.Control as="select" name="returnedHeadset" onChange={this.handleChange} defaultValue={{ label: "Yes", value: true }}> 
+                <Form.Control as="select" name="returnedHeadset" onChange={this.handleChange} defaultValue={{ label: "Yes", value: true }}>
                   <option>Yes</option>
                   <option>No</option>
                 </Form.Control>
@@ -266,7 +261,7 @@ export class ResignReqScreen extends Component {
               <Col><Form.Label>Leave Balance</Form.Label></Col>
               <Col></Col>
               <Col><Form.Label>IEX</Form.Label></Col>
-              <Col><Form.Control as="textarea" rows="1" name="iex" onChange={this.handleChange} required/></Col>
+              <Col><Form.Control as="textarea" rows="1" name="iex" onChange={this.handleChange} required /></Col>
             </Row>
             <table className="table">
               <thead className="thead-dark">
@@ -298,7 +293,7 @@ export class ResignReqScreen extends Component {
             </Row>
             <Row>
               <Col><Form.Label>National ID Number</Form.Label></Col>
-              <Col><Form.Control required as="textarea" rows="1" name="nationalId" onChange={this.handleChange}/></Col>
+              <Col><Form.Control required as="textarea" rows="1" name="nationalId" onChange={this.handleChange} /></Col>
             </Row>
           </Form.Group>
           <Form.Group className="p-2 border border-danger">
@@ -314,5 +309,3 @@ export class ResignReqScreen extends Component {
     );
   }
 }
-
-// export default ResignReqScreen;
