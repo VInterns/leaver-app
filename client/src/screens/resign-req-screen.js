@@ -1,10 +1,12 @@
 // to do -> redirect after Submit
-import React, { Component } from 'react';
+import React, { Component, useReducer } from 'react';
 import {
   Container, Form, Row, Col,
   Button,
 } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const API = 'http://localhost:8080/api/';
 const SEARCH = 'users/search'
@@ -16,9 +18,9 @@ export class ResignReqScreen extends Component {
     super(props);
     this.state = {
       staffId: '',
-      returnedHeadset: false,
-      returnedKeys: false,
-      returnedOhda: false,
+      returnedHeadset: true,
+      returnedKeys: true,
+      returnedOhda: true,
       ohdaType: '',
       lastWorkDay: '',
       nationalId: '',
@@ -57,7 +59,7 @@ export class ResignReqScreen extends Component {
 
           return (response.json());
         } else {
-          alert('User Not found');
+          toast.error("User not found");
           return undefined;
         }
       })
@@ -65,6 +67,7 @@ export class ResignReqScreen extends Component {
         console.log(data);
         if (data) {
           this.setState({ staffId: data.staffId });
+          this.setState({ sapID: data.staffId });
           this.setState({ employeeName: data.employeeName });
           this.setState({ managerName: data.managerName });
           this.setState({ ntAccount: data.ntAccount });
@@ -82,6 +85,7 @@ export class ResignReqScreen extends Component {
     fetch(API + SUBMIT, {
       body: JSON.stringify({
         staffId: this.state.staffId,
+        managerName:this.state.managerName,
         status: "new",
         phase1: {
           status: "done",
@@ -96,7 +100,8 @@ export class ResignReqScreen extends Component {
           annualsTaken: this.state.annualsTaken,
           noShow: this.state.noShow,
           lostHours: this.state.lostHours,
-          daysToTake: this.state.daysToTake
+          daysToTake: this.state.daysToTake,
+          iex:this.state.iex
         },
         phase2: {
           status: "new",
@@ -123,14 +128,33 @@ export class ResignReqScreen extends Component {
       method: 'POST',
     })
       .then((response) => {
-        console.log('toot-client');
-        // console.log(response.json());
+        if (response.status === 200) {
+          toast.success("Resignation Request Recieved");
+        }
+        else if (response.status === 503) {
+          // console.log(response.body)
+          toast.error("Error in db");
+        }
+        else {
+          toast.error("Resigation already exists");
+          return undefined;
+        }
       })
   }
 
   handleChange = e => {
-    // console.log({[e.target.name]: e.target.value});
-    this.setState({ [e.target.name]: e.target.value });
+    if (e.target.type === 'select-one'){
+      if (e.target.value === 'yes'){
+        this.setState({ [e.target.name]: true });
+      }
+      else{
+        this.setState({ [e.target.name]: false });
+      }
+    }
+    else {
+      console.log(e.target.tagName);
+      this.setState({ [e.target.name]: e.target.value });
+    }
   }
 
   render() {
@@ -139,6 +163,7 @@ export class ResignReqScreen extends Component {
         <br />
         <h3>Resignation Request</h3>
         <br />
+        <ToastContainer />
         <Form >
           <Form.Group >
             <Form.Group className="p-2 border border-danger">
@@ -207,7 +232,7 @@ export class ResignReqScreen extends Component {
             <Row>
               <Col><Form.Label>Returned Headset</Form.Label></Col>
               <Col>
-                <Form.Control as="select" name="returnedHeadset" onChange={this.handleChange}>
+                <Form.Control as="select" name="returnedHeadset" onChange={this.handleChange} defaultValue={{ label: "Yes", value: true }}> 
                   <option>Yes</option>
                   <option>No</option>
                 </Form.Control>
@@ -217,8 +242,8 @@ export class ResignReqScreen extends Component {
               <Col><Form.Label>Returned Keys</Form.Label></Col>
               <Col>
                 <Form.Control as="select" name="returnedKeys" onChange={this.handleChange}>
-                  <option>No</option>
                   <option>Yes</option>
+                  <option>No</option>
                 </Form.Control>
               </Col>
             </Row>
@@ -226,8 +251,8 @@ export class ResignReqScreen extends Component {
               <Col><Form.Label>Returned 3ohda</Form.Label></Col>
               <Col>
                 <Form.Control as="select" name="returnedOhda" onChange={this.handleChange} required>
-                  <option>No</option>
                   <option>Yes</option>
+                  <option>No</option>
                 </Form.Control>
               </Col>
             </Row>
@@ -241,7 +266,7 @@ export class ResignReqScreen extends Component {
               <Col><Form.Label>Leave Balance</Form.Label></Col>
               <Col></Col>
               <Col><Form.Label>IEX</Form.Label></Col>
-              <Col><Form.Control plaintext readOnly value={this.state.iex} /></Col>
+              <Col><Form.Control as="textarea" rows="1" name="iex" onChange={this.handleChange} required/></Col>
             </Row>
             <table className="table">
               <thead className="thead-dark">
@@ -269,17 +294,17 @@ export class ResignReqScreen extends Component {
               <Col><Form.Label>Last Working Day</Form.Label></Col>
               {/* <Col><Form.Control rows="1" required/></Col> */}
               <Col> <input type="date" id="last" name="lastWorkDay"
-                min="2018-01-01" max="2026-12-31" onChange={this.handleChange}></input></Col>
+                min="2018-01-01" max="2026-12-31" onChange={this.handleChange} required></input></Col>
             </Row>
             <Row>
               <Col><Form.Label>National ID Number</Form.Label></Col>
-              <Col><Form.Control as="textarea" rows="1" name="nationalId" onChange={this.handleChange} required /></Col>
+              <Col><Form.Control required as="textarea" rows="1" name="nationalId" onChange={this.handleChange}/></Col>
             </Row>
           </Form.Group>
           <Form.Group className="p-2 border border-danger">
             <Row>
               <Col><Form.Label>Copy of National ID</Form.Label></Col>
-              <Col><input type="file" className="form-control-file border" name="nationalIdImg" onChange={this.handleChange} required /></Col>
+              <Col><input required type="file" className="form-control-file border" name="nationalIdImg" onChange={this.handleChange} /></Col>
             </Row>
           </Form.Group>
           <br />

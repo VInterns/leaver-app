@@ -20,7 +20,7 @@ module.exports = (db) => {
             .then(user => {
                 if (!user) {
                     console.log("ID Not found");
-                    res.status(404).send({});
+                    res.status(404).end();
                 } else {
                     res.json(user);
                 }
