@@ -2,9 +2,6 @@ const express = require("express");
 var mongoxlsx = require("mongo-xlsx");
 var XLSX = require("xlsx");
 
-//TODO: Check the existing database, add only new? remove all the existing and add the new sheet?
-// Could you please drop all old users and add what in the excel
-
 module.exports = db => {
   const router = new express.Router();
   router.post("/bulkregister", (req, res) => {
