@@ -36,5 +36,38 @@ module.exports = (db) => {
             });
     });
 
-    return router;
-};
+    router.get('/wf/fetchRequests', (req, res) => {
+        var collection = db.collection('staff');
+        collection.find({"status": "Pending"}).toArray((err, requests) => {
+            if(err) {
+                res.status(500).send();
+                throw err;
+            }
+            else{
+                res.send(requests);
+            }
+        })
+    })
+
+    router.post('/wf/insertBalance', (req, res) => {
+        var collection = db.collection('staff');
+        var leaverId = req.body.staffId;
+
+        console.log(req.body.phase3);
+
+        collection.updateOne({"staffId": leaverId}, {
+                    $set: {"phase3": req.body.phase3} }, (err, doc) => {
+                    if(err){
+                        
+                        res.status(500).send(doc);
+                        throw err;
+                    }
+                    else {
+
+                        res.send("Employee data updated!!")
+                    }
+        })
+    });
+
+return router;
+}

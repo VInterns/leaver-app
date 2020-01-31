@@ -11,7 +11,9 @@ import {
   LoginScreen,
   UploadExcelScreen,
   ResignReqScreen,
-  HrViewScreen
+  HrViewScreen,
+  WorkForceScreen,
+  WorkForceScreenDetail
 } from './screens';
 
 import './App.css';
@@ -22,10 +24,12 @@ class App extends Component {
         <Header />
         <Router>
           <Switch>
-            <Route path="/" exact component={LoginScreen} />
-            <Route path="/upload" component={UploadExcelScreen} />
-	          <Route path="/resign" component={ResignReqScreen} />
+            <Route path = "/" exact component={LoginScreen} />
+            <Route path = "/upload" component={UploadExcelScreen} />
+	          <Route path = "/resign" component={ResignReqScreen} />
             <Route path = "/hr-view" component={HrViewScreen}/>
+            <Route path = "/wf-view" component={WorkForceScreen}/>
+            <Route path = "/wf-view-detail" component = {WorkForceScreenDetail}/>
           </Switch>
         </Router>
       </>
