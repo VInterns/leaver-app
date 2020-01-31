@@ -37,7 +37,7 @@ module.exports = (db) => {
     });
 
     router.get('/wf/fetchRequests', (req, res) => {
-        var collection = db.collection('staff');
+        var collection = db.collection(collection);
         collection.find({"status": "Pending"}).toArray((err, requests) => {
             if(err) {
                 res.status(500).send();
@@ -50,7 +50,7 @@ module.exports = (db) => {
     })
 
     router.post('/wf/insertBalance', (req, res) => {
-        var collection = db.collection('staff');
+        var collection = db.collection(collection);
         var leaverId = req.body.staffId;
 
         console.log(req.body.phase3);
