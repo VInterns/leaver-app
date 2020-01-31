@@ -11,7 +11,9 @@ import {
   LoginScreen,
   UploadExcelScreen,
   CCConsumerActivation,
-  consumerTable
+  consumerTable,
+  ResignReqScreen,
+  HrViewScreen
 } from './screens';
 
 import './App.css';
@@ -26,6 +28,8 @@ class App extends Component {
             <Route path="/upload" component={UploadExcelScreen} />
             <Route path="/cc-consumer-activation-table" component={consumerTable} />
             <Route path="/cc-consumer-activation" component={CCConsumerActivation} />
+	          <Route path="/resign" component={ResignReqScreen} />
+            <Route path="/hr-view" component={HrViewScreen}/>
           </Switch>
         </Router>
       </>

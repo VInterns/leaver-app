@@ -3,17 +3,15 @@ const express = require("express");
 const session = require("express-session");
 const morgan = require("morgan");
 const path = require("path");
-var multer = require("multer");
+
 var cors = require("cors");
-var mongoXlsx = require('mongo-xlsx');
 
 const { configureAuth } = require("./middlewares/authentication");
 
 const infoRouterFactory = require("./routes/info");
 const loginRouterFactory = require("./routes/login");
-const resignationsRouterFactory = require("./routes/resignations");
-const usersRouterFactory = require("./routes/users");
-
+const usersRouterFactory = require('./routes/users');
+const resignationsRouterFactory = require('./routes/resignations');
 
 const appFactory = (db, sessionStoreProvider) => {
   const app = express();
@@ -36,7 +34,10 @@ const appFactory = (db, sessionStoreProvider) => {
   app.use(bodyParser.json({ limit: "50mb" }));
   app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept"
+    );
     next();
   });
   const sessionSettings = {
@@ -59,8 +60,8 @@ const appFactory = (db, sessionStoreProvider) => {
 
   app.use(`${API_ROOT_PATH}/info`, infoRouterFactory(db));
   app.use(`${API_ROOT_PATH}/login`, loginRouterFactory());
-  app.use(`${API_ROOT_PATH}/users`, usersRouterFactory(db));
   app.use(`${API_ROOT_PATH}/resignations`, resignationsRouterFactory(db));
+  app.use(`${API_ROOT_PATH}/users`, usersRouterFactory(db));
 
   app.use(express.static(path.join(__dirname, "static")));
 
@@ -71,7 +72,6 @@ const appFactory = (db, sessionStoreProvider) => {
     res.sendFile(path.join(__dirname, "static/index.html"));
   });
   app.use(cors());
-
 
   return app;
 };
