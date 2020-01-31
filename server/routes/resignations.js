@@ -14,6 +14,21 @@ module.exports = (db) => {
         })
     });
 
+    router.get("/:id", (req, res) => {
+        console.log(req.url.split('/')[1]);
+        var query = { staffId: req.url.split('/')[1] };
+        db.collection(collection).findOne(query, (err, data) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send();
+            } else {
+                console.log(data);
+                res.json(data);
+            }
+        })
+    });
+
+
     router.post('/', function (req, res) {
         // check if resignatin request exists in db
         db.collection(collection)

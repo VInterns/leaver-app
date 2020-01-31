@@ -3,8 +3,10 @@ const { Router } = require("express");
 module.exports = (db) => {
 
     const router = new Router();
-    router.get("/", (req, res) => {
-        db.collection('resignations').find().toArray((err, data) => {
+    router.get("/:id", (req, res) => {
+        console.log(req.url.split('/')[1]);
+        var query = { staffId: req.url.split('/')[1] };
+        db.collection('resignations').findOne(query, (err, data) => {
             if (err) {
                 console.log(err);
                 res.status(500).send();

@@ -6,6 +6,7 @@ export class HrViewScreen extends Component {
         super();
         this.state = {
             data: []
+
         };
     }
     componentWillMount() {
@@ -35,9 +36,12 @@ export class HrViewScreen extends Component {
                 {
                     this.state.data.map((value, index) => {
                         return (
-                            <tr key={index}>
+
+                            <tr onClick={() => {
+                                this.props.history.push(`/resignations-details?id=${value.staffId}`)
+                            }} key={index}>
                                 <td>{value.staffId} </td>
-                                <a href="/resignations-internal"> <td>{value.managerName}</td> </a>
+                                <td >{value.managerName}</td>
                                 <td>{value.phase1.status}</td>
                                 <td>{value.phase2.status}</td>
                                 <td>{value.phase3.status}</td>
@@ -45,8 +49,8 @@ export class HrViewScreen extends Component {
                                 <td>{value.phase5.status}</td>
                                 <td>{value.phase6.status}</td>
                                 <td>{value.phase7.status}</td>
-
                             </tr>
+
                         )
                     })
                 }
