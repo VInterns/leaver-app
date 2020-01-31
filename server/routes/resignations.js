@@ -15,9 +15,10 @@ module.exports = (db) => {
 
     router.post('/data', (req, res) => {
         let phase4 = {
-            rateplan: req.body.ratePlan,
-            phonebilledamount: req.body.phoneBilledAmount,
+            ratePlan: req.body.ratePlan,
+            phoneBilledAmount: req.body.phoneBilledAmount,
             comment: req.body.comment,
+            nationalId: req.body.nationalId,
             status: "done"
         }
         let myquery = { "staffId": Number(req.query.id) };
@@ -32,7 +33,7 @@ module.exports = (db) => {
 
     router.post('/national-id', (req, res) => {
         let phase4 = {
-            nationalid: req.body
+            nationalId: req.body
         }
         let myquery = { "staffId": Number(req.query.id) };
         let newvalues = { $set: { phase4 } };

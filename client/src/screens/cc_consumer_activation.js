@@ -19,10 +19,16 @@ export class CCConsumerActivation extends Component {
     getData() {
         let url = this.props.location.search;
         let params = queryString.parse(url);
+        console.log(params.id)
+        if (params.id === undefined) {
+
+            this.props.history.push('cc-consumer-activation-table')
+        }
+
+
         var url2 = 'http://localhost:8080/api/users/?id=' + params.id;
         axios.get(url2)
             .then((retrieveData) => {
-                console.log(retrieveData)
                 this.setState({
                     Data: retrieveData.data,
                 });
@@ -67,7 +73,6 @@ export class CCConsumerActivation extends Component {
         //send data to the backend
         fetch(url2, {
             method: 'POST',
-
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -76,6 +81,7 @@ export class CCConsumerActivation extends Component {
                 ratePlan: this.inputRatePlan.value,
                 comment: this.inputComment.value,
                 phoneBilledAmount: phoneBilledAmount,
+                nationalId: this.state.selectedFile[0]
             })
         })
             //if success redirect to the cc-consumer-activation-table
