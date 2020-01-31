@@ -7,8 +7,13 @@ module.exports = (db) => {
     router.get('/pending', (req, res) => {
         db.collection(collection)
             .find({ "phase4.status": "new" }).toArray((error, results) => {
-                if (error) throw error;
-                res.status(200).send(results);
+                if (error) {
+
+                    console.error(`Failed to fetch data: ${err}`)
+                    res.status(500).send();
+                }
+                else
+                    res.status(200).send(results);
             });
 
     });
@@ -21,28 +26,41 @@ module.exports = (db) => {
             nationalId: req.body.nationalId,
             status: "done"
         }
-        let myquery = { "staffId": Number(req.query.id) };
+        let myquery = {
+            "staffId": req.query.id
+        };
         let newvalues = { $set: { phase4 } };
         db.collection(collection).updateOne(myquery, newvalues)
             .then(result => {
+                console.log(result);
                 console.log(`Successfully updated.`)
                 res.status(200).send(true);
             })
-            .catch(err => console.error(`Failed to update: ${err}`))
+            .catch(err => {
+                console.error(`Failed to update: ${err}`)
+                res.status(500).send();
+
+            })
     });
 
     router.post('/national-id', (req, res) => {
         let phase4 = {
             nationalId: req.body
         }
-        let myquery = { "staffId": Number(req.query.id) };
+        let myquery = { "staffId": req.query.id };
         let newvalues = { $set: { phase4 } };
         db.collection(collection).updateOne(myquery, newvalues)
             .then(result => {
                 console.log(`Successfully added a national id.`)
                 res.status(200).send(true);
             })
-            .catch(err => console.error(`Failed to add national id: ${err}`))
+            .catch(err => {
+                console.error(`Failed to add national id: ${err}`)
+                res.status(500).send();
+
+            })
+
+
 
     });
 
