@@ -3,33 +3,51 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import './smc-view-screen.css';
 import { Input, Button } from 'reactstrap';
+import { ControlLabel } from 'react-bootstrap';
 const data = {
     name: 'alaa'
 };
 
 export class SMCView extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state =
-        {
-            headset: 0,
-            keys: 0,
-            ohda: 0,
-            ohdaType: 0,
-            comment: 0,
-        };
 
-        // axios
-        // .post(
-        //     '/api/smc',
-        //     data,
-        //     { headers: { 'Content-Type': 'application/json' } }
-        // )
-        // .then(function (result) {
-        //     console.log(result);
-        // });
+    startupConfig = (e) => {
+        this.setState({ ohdaType: 22222222 });
+        console.log(this.state.ohdaType);
 
     }
+
+    constructor(props) {
+        super(props);
+
+        if (!this.props.location.state) {
+            this.props.history.push('/');
+            return;
+        }
+        this.state =
+        {
+            data: [],
+            staffID: this.props.location.state.staffID,
+        };
+
+
+        fetch('http://localhost:8080/api/resignations/smcDetails', {
+            method: 'post',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                "staffID": this.state.staffID
+            })
+        }).then(function (response) {
+            return response;
+            console.log('2222');
+        }).then((myData) => () => {
+            // this.setState({ data: myData[0] });
+            console.log('as');
+            console.log('asdas');
+        });
+
+    }
+
+
 
 
 
@@ -62,7 +80,7 @@ export class SMCView extends React.Component {
             <div className="App">
                 <header className="App-header" >
                     Customare Care (SMC)
-    </header>
+                </header>
 
                 <br />
                 <hr />
@@ -76,8 +94,8 @@ export class SMCView extends React.Component {
                                 <label>Staff ID: </label>
                             </div>
                             <div className="right">
-                                112351
-                    </div>
+                                {this.state.staffID}
+                            </div>
 
                         </div>
                         <div className="records">

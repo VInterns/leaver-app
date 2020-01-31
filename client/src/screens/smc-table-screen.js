@@ -1,12 +1,7 @@
-import React from 'react';
-//import logo from './logo.svg';
-import 'bootstrap/dist/css/bootstrap.css';
+import React, { Suspense } from 'react';
 import { Input, Button, Table } from 'reactstrap';
-
-const user = {
-    name: 'alaa'
-};
-
+import 'bootstrap/dist/css/bootstrap.css';
+import ReactDOM from 'react-dom'
 
 
 
@@ -23,25 +18,38 @@ export class SMCTable extends React.Component {
                 return response.json();
             })
             .then((myJson) => {
-                console.log(myJson);
-                this.state.data = myJson;
+
+                // this.state.data = myJson;
+                this.setState({ data: myJson });
+                console.log(this.state.data);
             });
     }
 
 
 
 
+    btnView = (e) => {
+
+
+        console.log('test');
+        this.props.history.push('/smc', {
+            staffID: e.target.id
+        });
+
+    }
 
 
     render() {
+        const mystyle = {
+            padding: '3px',
+            width: '50%'
+        };
 
         return (
-
             <div className="App">
                 <header className="App-header" >
                     Customare Care (SMC)
                 </header>
-
                 <br />
                 <hr />
                 <div className="row">
@@ -54,39 +62,20 @@ export class SMCTable extends React.Component {
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tr>
-                            <th>{this.state.data.name}</th>
-                            <th>Employee Name</th>
-                            <th>Date of Requset</th>
-                            <th>Action</th>
-                        </tr>
                         <tbody>
 
-                            {
+                            {this.state.data.map((item, key) => {
 
-                                this.state.data.map((records, i) => {
-                                    return (
+                                return (
+                                    <tr key={key}>
+                                        <td>{key + 1}</td>
+                                        <td>{item.name}</td>
+                                        <td>{item.date}</td>
+                                        <td> <Button color="primary" id={item.staffID} onClick={this.btnView} className="px-0" style={mystyle}> View </Button></td>
+                                    </tr>
+                                )
 
-                                        <tr>
-                                            <li>{i}</li>
-                                            {records.map((record, i) => {
-
-                                                return (
-
-                                                    <li>{record.name}</li>
-                                                );
-
-                                            })}
-
-
-                                        </tr>
-
-                                    );
-
-
-                                })}
-
-
+                            })}
 
                         </tbody>
                     </Table>
@@ -94,6 +83,7 @@ export class SMCTable extends React.Component {
 
 
             </div>
+
         );
     }
 }
