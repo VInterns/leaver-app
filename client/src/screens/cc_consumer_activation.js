@@ -6,23 +6,28 @@ import "react-toastify/dist/ReactToastify.css";
 import queryString from 'query-string';
 
 var phonebilledamount = 'yes';
+//TODO Naming convensions
 export class CCConsumerActivation extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            //TODO Change Data initial value
             Data: []
         };
+        //TODO move to the correct location based on the component lifecycle
         let url = this.props.location.search;
         let params = queryString.parse(url);
-        var url2 = 'http://localhost:8080/api/consumer-activation/data?id=' + params.id;
+        var url2 = 'http://localhost:8080/api/users/?id=' + params.id;
         axios.get(url2)
             .then((retrieveData) => {
+                console.log(retrieveData)
                 this.setState({
                     Data: retrieveData.data,
-                })
-            })
+                });
+            });
     }
+
     //on click on choose file
     onChangeHandler = event => {
         var files = event.target.files;
@@ -33,6 +38,7 @@ export class CCConsumerActivation extends Component {
             loaded: 0
         });
     };
+
     clickPost() {
         const data = new FormData();
         if (this.state.selectedFile == null || this.state.selectedFile.length !== 1) { //Handle when no file selected or more than one file
@@ -49,9 +55,9 @@ export class CCConsumerActivation extends Component {
         let url = this.props.location.search;
         let params = queryString.parse(url);
 
-        var url2 = 'http://localhost:8080/api/consumer-activation/data?id=' + params.id;
+        var url2 = 'http://localhost:8080/api/resignations/data?id=' + params.id;
         axios
-            .post("http://localhost:8080/api/consumer-activation/nationalid?id=" + params.id, this.state.selectedFile[0])
+            .post("http://localhost:8080/api/resignations/national-id?id=" + params.id, this.state.selectedFile[0])
         fetch(url2, {
             method: 'POST',
 
@@ -89,34 +95,34 @@ export class CCConsumerActivation extends Component {
                     <h3>CC Consumer Activation</h3>
                     <div>
                         <div>
-                            {
-                                this.state.Data.map(post => (
-                                    <Table bordered hover>
-                                        <tbody>
-                                            <tr>
-                                                <td>Staff ID:  {post.staffid}</td>
-                                                <td>SAP Staff ID:  {post.sapstaffid}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Leaver Name:  {post.leavername}</td>
-                                                <td>Manager:  {post.manager}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Department:  {post.department}</td>
-                                                <td>Cost Center:  {post.costcenter}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Job Title:  {post.jobtitle}</td>
-                                                <td>Hiring Date:  {post.hiringdate}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Mobile Number:  {post.mobilenumber}</td>
-                                                <td>LastWorkingDay:  {post.lastworkingday}</td>
-                                            </tr>
-                                        </tbody>
-                                    </Table>
-                                ))
-                            }
+
+                            <Table bordered hover>
+                                <tbody>
+                                    <tr>
+                                        <td>Staff ID:  {this.state.Data.staffId}</td>
+                                        <td>SAP Staff ID:  {this.state.Data.sapId}</td>
+                                    </tr>
+
+
+                                    <tr>
+                                        <td>Leaver Name:  {this.state.Data.employeeName}</td>
+                                        <td>Manager:  {this.state.Data.managerName}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Department:  {this.state.Data.department}</td>
+                                        <td>Cost Center:  {this.state.Data.costCenter}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Job Title:  {this.state.Data.jobTitle}</td>
+                                        <td>Hiring Date:  {this.state.Data.hiringDate}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mobile Number:  {this.state.Data.mobNumber}</td>
+                                        <td>LastWorkingDay:  {this.state.Data.lastWorkingDay}</td>
+                                    </tr>
+                                </tbody>
+                            </Table>
+
                         </div>
                         <div className="form-group files">
                             <div>Upload Scanned copy of National ID </div>

@@ -10,7 +10,7 @@ export class consumerTable extends Component {
         this.state = {
             Data: [],
         };
-        var url = 'http://localhost:8080/api/consumer-activation/pending';
+        var url = 'http://localhost:8080/api/resignations/pending';
         axios.get(url)
             .then((retrieveData) => {
                 this.setState({
@@ -20,11 +20,11 @@ export class consumerTable extends Component {
     }
     render() {
         const dataMongo = this.state.Data.map((item, index) => {
-            return <tr>
-                <td>{item.leavername}</td>
-                <td>{item.manager}</td>
+            return <tr key={index}>
+                <td>{item.employeeName}</td>
+                <td>{item.managerName}</td>
                 <td>< button className="btn btn-primary" onClick={() => {
-                    this.props.history.push('cc-consumer-activation?id=' + item.staffid)
+                    this.props.history.push('cc-consumer-activation?id=' + item.staffId)
                 }
                 } > Fill Forum</button ></td>
             </tr>
