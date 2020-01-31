@@ -10,6 +10,11 @@ export class consumerTable extends Component {
         this.state = {
             Data: [],
         };
+        this.getData();
+    }
+
+    //fetch all pending resignations
+    getData() {
         var url = 'http://localhost:8080/api/resignations/pending';
         axios.get(url)
             .then((retrieveData) => {
@@ -18,19 +23,11 @@ export class consumerTable extends Component {
                 })
             })
     }
-    render() {
-        const dataMongo = this.state.Data.map((item, index) => {
-            return <tr key={index}>
-                <td>{item.employeeName}</td>
-                <td>{item.managerName}</td>
-                <td>< button className="btn btn-primary" onClick={() => {
-                    this.props.history.push('cc-consumer-activation?id=' + item.staffId)
-                }
-                } > Fill Forum</button ></td>
-            </tr>
+    componentDidMount() {
+        this.getData();
+    }
 
-                ;
-        })
+    render() {
         return (
             <div className="container">
                 <center style={{ margin: '25px' }}>
@@ -44,8 +41,16 @@ export class consumerTable extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-
-                                {dataMongo}
+                                {this.state.Data.map((item, index) => {
+                                    return <tr key={index}>
+                                        <td>{item.employeeName}</td>
+                                        <td>{item.managerName}</td>
+                                        <td>< button className="btn btn-primary" onClick={() => {
+                                            this.props.history.push('cc-consumer-activation?id=' + item.staffId)
+                                        }
+                                        } > Fill Forum</button ></td>
+                                    </tr>
+                                })}
                             </tbody >
                         </Table >
                     </div>

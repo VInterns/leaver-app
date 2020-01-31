@@ -7,25 +7,27 @@ module.exports = (db) => {
     router.get('/pending', (req, res) => {
         db.collection(collection)
             .find({ "phase4.status": "new" }).toArray((error, results) => {
-                //TODO Handle DB errors
+                if (error) throw error;
                 res.status(200).send(results);
             });
 
     });
 
     router.post('/data', (req, res) => {
-        //TODO Naming convensions
         let phase4 = {
-            rateplan: req.body.rateplan,
-            phonebilledamount: req.body.phonebilledamount,
+            rateplan: req.body.ratePlan,
+            phonebilledamount: req.body.phoneBilledAmount,
             comment: req.body.comment,
             status: "done"
         }
         let myquery = { "staffId": Number(req.query.id) };
         let newvalues = { $set: { phase4 } };
-        // Check if updated or not then send error
-        db.collection(collection).updateOne(myquery, newvalues);
-        res.status(200).send(true);
+        db.collection(collection).updateOne(myquery, newvalues)
+            .then(result => {
+                console.log(`Successfully updated.`)
+                res.status(200).send(true);
+            })
+            .catch(err => console.error(`Failed to update: ${err}`))
     });
 
     router.post('/national-id', (req, res) => {
@@ -34,9 +36,13 @@ module.exports = (db) => {
         }
         let myquery = { "staffId": Number(req.query.id) };
         let newvalues = { $set: { phase4 } };
-        // Check if updated or not then send error
-        db.collection(collection).updateOne(myquery, newvalues);
-        res.status(200).send(true);
+        db.collection(collection).updateOne(myquery, newvalues)
+            .then(result => {
+                console.log(`Successfully added a national id.`)
+                res.status(200).send(true);
+            })
+            .catch(err => console.error(`Failed to add national id: ${err}`))
+
     });
 
     return router;

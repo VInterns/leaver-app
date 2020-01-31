@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Table } from "reactstrap";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import queryString from 'query-string';
 
-var phonebilledamount = 'yes';
-//TODO Naming convensions
+var phoneBilledAmount = 'yes';
 export class CCConsumerActivation extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            //TODO Change Data initial value
             Data: []
         };
-        //TODO move to the correct location based on the component lifecycle
+        this.getData();
+    }
+    //fetch data for the employee resignation form
+    getData() {
         let url = this.props.location.search;
         let params = queryString.parse(url);
         var url2 = 'http://localhost:8080/api/users/?id=' + params.id;
@@ -28,36 +29,42 @@ export class CCConsumerActivation extends Component {
             });
     }
 
+    componentDidMount() {
+        this.getData();
+    }
+
     //on click on choose file
     onChangeHandler = event => {
         var files = event.target.files;
-        // if return true allow to setState
-        console.log(files);
         this.setState({
-            selectedFile: files,
-            loaded: 0
+            selectedFile: files
         });
     };
 
-    clickPost() {
-        const data = new FormData();
-        if (this.state.selectedFile == null || this.state.selectedFile.length !== 1) { //Handle when no file selected or more than one file
+    clickSubmit() {
+        //check if all data is given
+        if (this.state.selectedFile == null || this.state.selectedFile.length !== 1) {
             toast.error("Please select one file and try again");
+            this.inputRatePlan.value = '';
+            this.inputComment.value = '';
+            phoneBilledAmount = 'yes';
+
             return;
         }
-        else if (this.inputrateplan.value == "" || this.inputcomment.value == "") {
+        else if (this.inputRatePlan.value === "" || this.inputComment.value === "") {
             toast.error("Please fill all empty slots and try again");
+            this.inputRatePlan.value = '';
+            this.inputComment.value = '';
+            phoneBilledAmount = 'yes';
             return;
         }
-        for (var x = 0; x < this.state.selectedFile.length; x++) {
-            data.append("file", this.state.selectedFile[x]);
-        }
+
         let url = this.props.location.search;
         let params = queryString.parse(url);
-
         var url2 = 'http://localhost:8080/api/resignations/data?id=' + params.id;
-        axios
-            .post("http://localhost:8080/api/resignations/national-id?id=" + params.id, this.state.selectedFile[0])
+        axios.post("http://localhost:8080/api/resignations/national-id?id=" + params.id, this.state.selectedFile[0])
+
+        //send data to the backend
         fetch(url2, {
             method: 'POST',
 
@@ -66,25 +73,25 @@ export class CCConsumerActivation extends Component {
             },
 
             body: JSON.stringify({
-                rateplan: this.inputrateplan.value,
-                comment: this.inputcomment.value,
-                phonebilledamount: phonebilledamount,
+                ratePlan: this.inputRatePlan.value,
+                comment: this.inputComment.value,
+                phoneBilledAmount: phoneBilledAmount,
             })
         })
-            .then(function (response) {
-                toast.success("upload success");
+            //if success redirect to the cc-consumer-activation-table
+            .then((response) => {
+                this.props.history.push('cc-consumer-activation-table')
             })
             .catch(function (error) {
-                toast.error("upload fail");
+                toast.error("Upload Fail");
             });
-        this.inputrateplan.value = '';
-        this.inputcomment.value = '';
-        phonebilledamount = 'yes';
-        this.props.history.push('cc-consumer-activation-table')
+
 
     };
-    getval(sel) {
-        phonebilledamount = sel.target.value;
+
+    //DROP DOWN(phone Billed Amount) change value
+    getVal(sel) {
+        phoneBilledAmount = sel.target.value;
     }
     render() {
         return (
@@ -102,8 +109,6 @@ export class CCConsumerActivation extends Component {
                                         <td>Staff ID:  {this.state.Data.staffId}</td>
                                         <td>SAP Staff ID:  {this.state.Data.sapId}</td>
                                     </tr>
-
-
                                     <tr>
                                         <td>Leaver Name:  {this.state.Data.employeeName}</td>
                                         <td>Manager:  {this.state.Data.managerName}</td>
@@ -136,12 +141,12 @@ export class CCConsumerActivation extends Component {
                         <div className="form-group" style={{ margin: '15px' }}>
                             <div>Rate Plan</div>
                             <input className="form-control" type="text" id="rateplan"
-                                ref={inrateplan => this.inputrateplan = inrateplan}
+                                ref={inRatePlan => this.inputRatePlan = inRatePlan}
                                 placeholder="Enter Rate Plan" />
                         </div>
                         <div>
                             <div>Has Phone Billed Amount</div>
-                            <select onChange={this.getval}>
+                            <select onChange={this.getVal}>
                                 <option value="yes">yes</option>
                                 <option value="no">no</option>
                             </select>
@@ -149,16 +154,17 @@ export class CCConsumerActivation extends Component {
                         <div className="form-group" style={{ margin: '15px' }}>
                             <div>Comment</div>
                             <input className="form-control" type="textarea" id="comment"
-                                ref={incomment => this.inputcomment = incomment}
+                                ref={inComment => this.inputComment = inComment}
                                 placeholder="Input Comment here" />
                         </div>
                         <button className="btn btn-primary" style={{ width: '100px' }}
                             onClick={() => {
-                                this.clickPost()
+                                this.clickSubmit()
                             }}>Submit</button>
                     </div>
 
                 </center>
+                <ToastContainer />
             </div>
         );
     }
