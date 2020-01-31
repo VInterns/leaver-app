@@ -34,9 +34,9 @@ export class consumerTable extends Component {
                     <div>
                         <Table bordered hover>
                             <thead>
-                                <tr>
-                                    <th>Leaver Name</th>
-                                    <th>Manager Name</th>
+                                <tr style={{ backgroundColor: "#BE0002" }} >
+                                    <th style={{ color: "white" }} >Leaver Name</th>
+                                    <th style={{ color: "white" }}>Manager Name</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -45,7 +45,9 @@ export class consumerTable extends Component {
                                     return <tr key={index}>
                                         <td>{item.employeeName}</td>
                                         <td>{item.managerName}</td>
-                                        <td>< button className="btn btn-primary" onClick={() => {
+                                        <td>< button className="btn btn-primary" style={{
+                                            backgroundColor: "#BE0002"
+                                        }} onClick={() => {
                                             this.props.history.push('cc-consumer-activation?id=' + item.staffId)
                                         }
                                         } > Fill Forum</button ></td>
