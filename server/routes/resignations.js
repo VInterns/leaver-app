@@ -15,8 +15,9 @@ module.exports = (db) => {
     });
 
     router.get("/:id", (req, res) => {
-        console.log(req.url.split('/')[1]);
-        var query = { staffId: req.url.split('/')[1] };
+        let urlSections = req.url.split('/');
+        console.log(urlSections[urlSections.length - 1] + "url");
+        var query = { staffId: Number(urlSections[urlSections.length - 1]) };
         db.collection(collection).findOne(query, (err, data) => {
             if (err) {
                 console.log(err);

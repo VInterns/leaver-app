@@ -19,7 +19,7 @@ export class ResignationsScreen extends Component {
         let params = querString.parse(url);
         const id = params.id;
 
-        fetch(`http://localhost:8080/api/resignations-details/${id}`).then((res) => {
+        fetch(`http://localhost:8080/api/resignations/${id}`).then((res) => {
             res.json().then((data) => {
                 console.log(data);
                 this.setState({ data: data });

@@ -12,7 +12,7 @@ module.exports = (db) => {
     });
     router.post('/search', function (req, res) {
         db.collection(collection)
-            .findOne({ staffId: req.body.staffId })
+            .findOne({ staffId: Number(req.body.staffId) })
             .then(user => {
                 if (!user) {
                     res.status(404).end();
