@@ -20,7 +20,7 @@ export class ASTTableScreen extends React.Component {
 
         }
 
-        this.deleteRow = this.deleteRow.bind(this);
+        
         this.onRowClick = this.onRowClick.bind(this);
         this.fetchResignations = this.fetchResignations.bind(this)
     }
@@ -37,11 +37,6 @@ export class ASTTableScreen extends React.Component {
         })
     }    
 
-    deleteRow(elementId){
-        var row = document.getElementById(elementId);
-        console.log(row)
-        row.parentNode.removeChild(row);
-    }
 
     fetchResignations(){
         this.setState({...this.state});
