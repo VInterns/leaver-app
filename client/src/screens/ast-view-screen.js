@@ -115,10 +115,10 @@ export class ASTResignationDetailScreen extends React.Component {
                     <label className = "info-title">Leaver Details</label>
                     <div className = "info">
                         <div className = "info-line">
-                                <FormLabel className = "info-key">Staff ID</FormLabel>
-                                <FormLabel className = "info-value">{resignationDetails.staffId}</FormLabel>
-                                <FormLabel className = "info-key spaced">SAP Staff ID</FormLabel>
-                                <FormLabel className = "info-value">{resignationDetails.sapStaffId}</FormLabel>
+                            <FormLabel className = "info-key">Staff ID</FormLabel>
+                            <FormLabel className = "info-value">{resignationDetails.staffId}</FormLabel>
+                            <FormLabel className = "info-key spaced">SAP Staff ID</FormLabel>
+                            <FormLabel className = "info-value">{resignationDetails.sapStaffId}</FormLabel>
                         </div>
                         <div className = "info-line">
                             <FormLabel className = "info-key">Leaver Name</FormLabel>
