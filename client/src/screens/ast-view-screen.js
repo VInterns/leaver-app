@@ -151,7 +151,7 @@ export class ASTResignationDetailScreen extends React.Component {
                             <Form.Group as = {Row}>
                                 <Col sm = {2}>
                                     <Form.Label className = "info-key wide" >
-                                    Disabled Secure ID
+                                        Disabled Secure ID
                                     </Form.Label>
                                 </Col>
                                 <Col sm = {10}>
