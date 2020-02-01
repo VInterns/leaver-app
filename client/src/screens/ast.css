@@ -1,0 +1,56 @@
+.ast-page {
+    background: #f9f9f9;
+    font-family: sans-serif;
+    padding: 75px;
+}
+
+/******** header********/
+.ast-page .ast-header {
+    margin-top: 30px;
+    text-align: start;
+    font-weight: bolder;
+    font-size: 25px;
+}
+
+
+.ast-page .ast-data {
+    padding: 15px;
+}
+
+/******** Table Styles********/
+.ast-page  .ast{
+    background: white;
+    border-collapse: collapse;
+    border-radius: 10px;
+}
+
+.ast th {
+    color: black;
+    border-top: none;
+}
+
+.ast tr {
+    border-bottom: 1px solid #eee;
+    height: 40px;
+}
+
+
+.ast:hover tbody tr:hover {
+    background-color: #f8d5d5;
+}
+
+.ast thead tr:first-child {
+    height: 60px;
+}
+
+.ast thead {
+    border-bottom: 1px solid #eee;
+}
+
+.ast tr:last-child{
+    border-bottom: none;
+}
+
+.ast td:first-child, .ast th:first-child {
+    border-left: none;
+}

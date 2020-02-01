@@ -36,5 +36,7 @@ module.exports = (db) => {
             });
     });
 
+    router.get('/ast/fet')
+
     return router;
 };

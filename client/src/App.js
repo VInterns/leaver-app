@@ -11,7 +11,9 @@ import {
   LoginScreen,
   UploadExcelScreen,
   ResignReqScreen,
-  HrViewScreen
+  HrViewScreen,
+  ASTTableScreen,
+  ASTResignationDetailScreen
 } from './screens';
 
 import './App.css';
@@ -24,8 +26,10 @@ class App extends Component {
           <Switch>
             <Route path="/" exact component={LoginScreen} />
             <Route path="/upload" component={UploadExcelScreen} />
-	          <Route path="/resign" component={ResignReqScreen} />
+            <Route path="/resign" component={ResignReqScreen} />
             <Route path = "/hr-view" component={HrViewScreen}/>
+            <Route path = "/ast" component = {ASTTableScreen}/>
+            <Route path = "/ast-resignation" component = {ASTResignationDetailScreen}/>
           </Switch>
         </Router>
       </>
