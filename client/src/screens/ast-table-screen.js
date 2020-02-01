@@ -39,7 +39,6 @@ export class ASTTableScreen extends React.Component {
 
 
     fetchResignations(){
-        this.setState({...this.state});
         fetch(API + SEARCH)
             .then((res) => {
                 return res.json();
