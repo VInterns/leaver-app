@@ -66,14 +66,17 @@ export class ASTResignationDetailScreen extends React.Component {
 
         event.preventDefault();
 
+        var disabledSecureIdNormalized = this.normalizeVal(this.state.disabledSecureId);
+        var disabledRemedyAccountNormalized = this.normalizeVal(this.state.disabledRemedyAccount);
+        var disabledAccountsInProductionSystemsNormalized = this.normalizeVal(this.state.disabledAccountsInProductionSystems);
+
         let phase6 = {
-            disabledSecureId : this.normalizeVal(this.state.disabledSecureId),
-            disabledRemedyAccount: this.normalizeVal(this.state.disabledRemedyAccount),
-            disabledAccountsInProductionSystems: this.normalizeVal(this.state.disabledAccountsInProductionSystems),
+            disabledSecureId : disabledSecureIdNormalized,
+            disabledRemedyAccount: disabledRemedyAccountNormalized,
+            disabledAccountsInProductionSystems: disabledAccountsInProductionSystemsNormalized,
             comment: this.state.comment,
-            status: this.checkStatus(this.normalizeVal(this.state.disabledSecureId), 
-            this.normalizeVal(this.state.disabledRemedyAccount), 
-            this.normalizeVal(this.state.disabledAccountsInProductionSystems))
+            status: this.checkStatus(disabledSecureIdNormalized, disabledRemedyAccountNormalized, 
+                disabledAccountsInProductionSystemsNormalized)
         }
 
         fetch(API + ROUTE, {
