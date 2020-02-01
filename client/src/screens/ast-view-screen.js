@@ -184,10 +184,10 @@ export class ASTResignationDetailScreen extends React.Component {
                                     </Form.Control>
                                 </Col>
                             </Form.Group>
-                            <Form.Group as={Row}>
+                            <Form.Group as = {Row}>
                                 <Col sm = {2}>
                                     <Form.Label className = "info-key wide" >
-                                    Disabled Accounts In Production Systems
+                                        Disabled Accounts In Production Systems
                                     </Form.Label>
                                 </Col>
                                 <Col sm = {10}>
@@ -208,14 +208,14 @@ export class ASTResignationDetailScreen extends React.Component {
                                 </Form.Label>
                                 <Form.Control 
                                     id = "comment"
-                                    as="textarea" 
-                                    rows="5"
+                                    as = "textarea" 
+                                    rows = "5"
                                     onChange = {this.handleChange}/>
                             </Form.Group>
                             <div className = "submission">
                                 <Button 
-                                    variant="primary" 
-                                    type="submit" 
+                                    variant = "primary" 
+                                    type = "submit" 
                                     className = "submit-btn"
                                     onClick = {this.submitButton}>
                                     Submit
