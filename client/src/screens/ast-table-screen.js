@@ -20,6 +20,7 @@ export class ASTTableScreen extends React.Component {
 
         }
 
+        this.deleteRow = this.deleteRow.bind(this);
         this.onRowClick = this.onRowClick.bind(this);
         this.fetchResignations = this.fetchResignations.bind(this)
     }
@@ -32,10 +33,15 @@ export class ASTTableScreen extends React.Component {
     onRowClick(resignation){
         this.props.history.push({
             pathname: "/ast-resignation",
-            state: {resignationDetails: resignation}
+            state: {resDetails: resignation}
         })
     }    
 
+    deleteRow(elementId){
+        var row = document.getElementById(elementId);
+        console.log(row)
+        row.parentNode.removeChild(row);
+    }
 
     fetchResignations(){
         this.setState({...this.state});
@@ -63,10 +69,10 @@ export class ASTTableScreen extends React.Component {
                 </header>
                 <hr/>
                 <div className = "ast-data">
-                    <Table className = "ast" borderless hover>
+                    <Table className = "ast" borderless>
                         <thead>
                             <tr>
-                                <th>Staff Id</th>
+                                <th>Staff ID</th>
                                 <th>Employee Name</th>
                                 <th>Manager Name</th>
                                 <th>Status</th>
@@ -77,7 +83,8 @@ export class ASTTableScreen extends React.Component {
                                 <td>{request.staffId}</td>
                                 <td>{request.name}</td>
                                 <td>{request.managerName}</td>
-                                <td>{request.phase6.status}</td>
+                                {(request.phase6.status === "done") ? 
+                                <td id = "done">{request.phase6.status}</td>: <td id = "pending">{request.phase6.status}</td>}
                             </tr>)}
                         </tbody>
                     </Table>
