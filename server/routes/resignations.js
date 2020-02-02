@@ -14,10 +14,24 @@ module.exports = (db) => {
         })
     });
 
+    router.get('/pending', (req, res) => {
+        db.collection(collection)
+            .find({ "phase4.status": "new" }).toArray((error, results) => {
+                if (error) {
+                    console.error(`Failed to fetch data: ${err}`)
+                    res.status(500).send();
+                }
+                else {
+                    res.status(200).send(results);
+                }
+            });
+
+    });
+
     router.get("/:id", (req, res) => {
         let urlSections = req.url.split('/');
         console.log(urlSections[urlSections.length - 1] + "url");
-        var query = { staffId: urlSections[urlSections.length - 1] };
+        var query = { staffId: Number(urlSections[urlSections.length - 1]) };
         console.log(query)
         db.collection(collection).findOne(query, (err, data) => {
             if (err) {
@@ -28,20 +42,6 @@ module.exports = (db) => {
                 res.json(data);
             }
         })
-    });
-
-    router.get('/pending', (req, res) => {
-        db.collection(collection)
-            .find({ "phase4.status": "new" }).toArray((error, results) => {
-                if (error) {
-
-                    console.error(`Failed to fetch data: ${err}`)
-                    res.status(500).send();
-                }
-                else
-                    res.status(200).send(results);
-            });
-
     });
 
     router.post('/data', (req, res) => {
