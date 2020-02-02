@@ -4,7 +4,7 @@ module.exports = (db) => {
     const router = new Router();
     const collection = "resignations";
 
-  router.get("/", (req, res) => {
+    router.get("/", (req, res) => {
         db.collection(collection).find().toArray((err, data) => {
             if (err) {
                 res.status(500).send();
@@ -13,7 +13,7 @@ module.exports = (db) => {
             }
         })
     });
-  
+
     router.get('/pending', (req, res) => {
         db.collection(collection)
             .find({ "phase4.status": "new" }).toArray((error, results) => {
@@ -37,12 +37,12 @@ module.exports = (db) => {
             status: "done"
         }
         let myquery = {
-            "staffId": req.query.id
+            "staffId": Number(req.query.id)
         };
         let newvalues = { $set: { phase4 } };
         db.collection(collection).updateOne(myquery, newvalues)
             .then(result => {
-                console.log(result);
+                // console.log(result);
                 console.log(`Successfully updated.`)
                 res.status(200).send(true);
             })
@@ -59,19 +59,19 @@ module.exports = (db) => {
         }
         let myquery = { "staffId": req.query.id };
         let newvalues = { $set: { phase4 } };
-        db.collection(collection).updateOne(myquery, newvalues)
-            .then(result => {
-                console.log(`Successfully added a national id.`)
-                res.status(200).send(true);
-            })
-            .catch(err => {
-                console.error(`Failed to add national id: ${err}`)
-                res.status(500).send();
+        // db.collection(collection).updateOne(myquery, newvalues)
+        //     .then(result => {
+        //         console.log(`Successfully added a national id.`)
+        //         res.status(200).send(true);
+        //     })
+        //     .catch(err => {
+        //         console.error(`Failed to add national id: ${err}`)
+        //         res.status(500).send();
 
-            })
-
+        //     })
+        res.status(200).send({ msg: 'hi' });
     });
-  
+
     router.post('/', function (req, res) {
         // check if resignatin request exists in db
         db.collection(collection)
@@ -92,6 +92,7 @@ module.exports = (db) => {
                     res.status(404).send({ error: "Resignation Request already exists:(" });
                 }
             });
+    });
 
     return router;
 };
