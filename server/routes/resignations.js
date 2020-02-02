@@ -18,14 +18,30 @@ module.exports = (db) => {
         db.collection(collection)
             .find({ "phase4.status": "new" }).toArray((error, results) => {
                 if (error) {
-
                     console.error(`Failed to fetch data: ${err}`)
                     res.status(500).send();
                 }
-                else
+                else {
                     res.status(200).send(results);
+                }
             });
 
+    });
+
+    router.get("/:id", (req, res) => {
+        let urlSections = req.url.split('/');
+        console.log(urlSections[urlSections.length - 1] + "url");
+        var query = { staffId: Number(urlSections[urlSections.length - 1]) };
+        console.log(query)
+        db.collection(collection).findOne(query, (err, data) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send();
+            } else {
+                console.log(data);
+                res.json(data);
+            }
+        })
     });
 
     router.post('/data', (req, res) => {
