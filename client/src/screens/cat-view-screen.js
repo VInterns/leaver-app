@@ -107,7 +107,7 @@ export class CCConsumerActivation extends Component {
                     <div>
                         <div>
 
-                            <Table bordered hover>
+                            <Table bordered hover striped>
                                 <tbody>
                                     <tr>
                                         <td>Staff ID:  {this.state.Data.staffId}</td>

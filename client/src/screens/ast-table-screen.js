@@ -14,8 +14,8 @@ export class ASTTableScreen extends React.Component {
       requests: []
     };
 
-    this.checkStatus = this.checkStatus.bind(this);
     this.onRowClick = this.onRowClick.bind(this);
+    this.checkStatus = this.checkStatus.bind(this);
     this.fetchResignations = this.fetchResignations.bind(this);
   }
 
@@ -73,13 +73,13 @@ export class ASTTableScreen extends React.Component {
             </header>
           <hr/>
           <div className="ast-data">
-            <Table className="ast" bordered hover>
+            <Table className="ast" bordered hover striped>
               <thead>
                 <tr style = {{backgroundColor: "#BE0002"}}>
-                  <th style = {{color: "white"}}>Staff ID</th>
-                  <th style = {{color: "white"}}>Employee Name</th>
-                  <th style = {{color: "white"}}>Manager Name</th>
-                  <th style = {{color: "white"}}>Status</th>
+                  <th className = "text-white">Staff ID</th>
+                  <th className = "text-white">Employee Name</th>
+                  <th className = "text-white">Manager Name</th>
+                  <th className = "text-white">Status</th>
                 </tr>
               </thead>
               <tbody>

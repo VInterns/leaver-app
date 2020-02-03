@@ -164,7 +164,7 @@ export class ASTResignationDetailScreen extends React.Component {
               <select 
                 id = "disabledAccountsInProductionSystems"
                 onChange = {this.handleChange}
-                className = "p-2 form-control col-sm-1"
+                className = "p-2 form-control col-sm-1 text-center"
                 defaultValue = {this.state.disabledAccountsInProductionSystems}>
                 <option value = {true}>Yes</option>
                 <option value = {false}>No</option>
@@ -176,7 +176,6 @@ export class ASTResignationDetailScreen extends React.Component {
               <textarea
                 id = "comment"
                 rows = "5"
-                type = "textarea"
                 onChange = {this.handleChange}
                 className = "p-2 form-control"/>
             </div>
