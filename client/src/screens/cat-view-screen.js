@@ -102,8 +102,6 @@ export class CCConsumerActivation extends Component {
     render() {
         return (
             <div className="container">
-
-
                 <center style={{ margin: '25px' }}>
                     <h3>CC Consumer Activation</h3>
                     <div>

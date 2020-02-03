@@ -4,7 +4,7 @@ import { Table } from "reactstrap";
 
 
 
-export class consumerTable extends Component {
+export class ConsumerTable extends Component {
     constructor(props) {
         super(props);
         this.state = {

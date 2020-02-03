@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './resignations-screen.css'
 
 export class Resignations extends Component {
    constructor(props) {
@@ -10,23 +9,21 @@ export class Resignations extends Component {
    }
    view(id) {
       console.log(id);
-      this.props.history.push("./form-res/"+id);
+      this.props.history.push("./form-res/" + id);
    }
-   getdata()
-   {
+   getdata() {
       fetch(`http://localhost:8080/api/resignations/`)
-      .then(response => response.json())
-      .then(data =>
-         this.setState({
-           entries: data,
-         })
-      )
+         .then(response => response.json())
+         .then(data =>
+            this.setState({
+               entries: data,
+            })
+         )
    }
-   componentDidMount()
-   {
-    this.getdata()
-    }
-    renderTableData() {
+   componentDidMount() {
+      this.getdata()
+   }
+   renderTableData() {
       return this.state.entries.map((entry, index) => {
          const { id, name, email, status } = entry
          return (
