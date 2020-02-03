@@ -1,18 +1,15 @@
 import React from "react";
-import {
-    Table, Tab
-} from "react-bootstrap";
-import "./form-res-screen.css";
+import { Table } from "react-bootstrap";
 
 /////////////////////////////////////////////////////////////////////////
-const API = "http://localhost:8080/api/";
+const API = "/api/";
 const SEARCH = "resignations/";
 
 /////////////////////////////////////////////////////////////////////////
 
 export class ELTTableScreen extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
 
 
@@ -32,16 +29,16 @@ export class ELTTableScreen extends React.Component {
     }
 
 
-    onRowClick(searchId){
+    onRowClick(searchId) {
         this.props.history.push({
             pathname: "/form-res",
-            state: {resId: searchId}
+            state: { resId: searchId }
         })
-    }    
+    }
 
 
 
-    getResignations(){
+    getResignations() {
         fetch(API + SEARCH)
             .then((res) => {
                 return res.json();
@@ -58,15 +55,15 @@ export class ELTTableScreen extends React.Component {
     }
 
 
-    render(){
-        const {resRrequests} = this.state;
-        return(
-            <div className = "elt-page">
-                <header className = "elt-header">
+    render() {
+        const { resRrequests } = this.state;
+        return (
+            <div className="elt-page">
+                <header className="elt-header">
                     Enterprise Logistics Team
                 </header>
-                <hr/>
-                <div className = "elt-data">
+                <hr />
+                <div className="elt-data">
                     <Table bordered hover striped responsive>
                         <thead>
                             <tr>
@@ -77,12 +74,12 @@ export class ELTTableScreen extends React.Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {resRrequests.map(resignation => <tr onClick = {() => this.onRowClick(resignation.staffId)} key = {resignation.staffId}>
-                                    <td>{resignation.staffId}</td>
-                                    <td>{resignation.name}</td>
-                                    <td>{resignation.managerName}</td>
-                                    <td>{resignation.phase5.status}</td>
-                                </tr>)}
+                            {resRrequests.map(resignation => <tr onClick={() => this.onRowClick(resignation.staffId)} key={resignation.staffId}>
+                                <td>{resignation.staffId}</td>
+                                <td>{resignation.name}</td>
+                                <td>{resignation.managerName}</td>
+                                <td>{resignation.phase5.status}</td>
+                            </tr>)}
                         </tbody>
                     </Table>
                 </div>
