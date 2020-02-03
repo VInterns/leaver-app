@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const API = 'http://localhost:8080/api/';
+const API = '/api/';
 const SEARCH = 'users/search'
 const SUBMIT = 'resignations/'
 

@@ -97,7 +97,7 @@ export class UploadExcelScreen extends Component {
     }
     axios //Post request with a formatted JSON file
       .post(
-        "http://localhost:8080/api/users/bulkregister",
+        "/api/users/bulkregister",
         this.state.jsonData,
         {
           onUploadProgress: ProgressEvent => {

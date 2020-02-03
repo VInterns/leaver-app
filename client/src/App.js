@@ -4,37 +4,89 @@ import {
   Route,
   Switch
 } from "react-router-dom";
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import promiseMiddleware from 'redux-promise';
+import thunkMiddleware from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
+import { authenticationReducer } from './state';
+import { PersistGate } from 'redux-persist/integration/react';
 
-import { Header } from './components';
+import { ConnectedHeader, ConnectedPrivateRoute } from './components';
 
 import {
-  LoginScreen,
   UploadExcelScreen,
+  CCConsumerActivation,
+  consumerTable,
   ResignReqScreen,
   HrViewScreen,
   ASTTableScreen,
-  ASTResignationDetailScreen
+  ASTResignationDetailScreen,
+  ResignationsScreen,
+  AuthenticationScreen
+
 } from './screens';
 
-import './App.css';
+import 'semantic-ui-css/semantic.min.css';
+
+const persistConfig = {
+  key: 'leaver',
+  storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, authenticationReducer);
+
+let store = createStore(
+  persistedReducer,
+  composeWithDevTools(applyMiddleware(promiseMiddleware, thunkMiddleware)),
+);
+let persistor = persistStore(store);
+
+
 class App extends Component {
+  Props: {
+    isAuthenticated?: boolean,
+    account?: Account
+  };
   render() {
     return (
-      <>
-        <Header />
-        <Router>
-          <Switch>
-            <Route path="/" exact component={LoginScreen} />
-            <Route path="/upload" component={UploadExcelScreen} />
-            <Route path="/resign" component={ResignReqScreen} />
-            <Route path = "/hr-view" component={HrViewScreen}/>
-            <Route path = "/ast" component = {ASTTableScreen}/>
-            <Route path = "/ast-resignation" component = {ASTResignationDetailScreen}/>
-          </Switch>
-        </Router>
-      </>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <>
+            <ConnectedHeader />
+            <Router>
+              <Switch>
+                <Route path="/" exact component={props => <AuthenticationScreen {...props} headerText="Sign in to Leaver App"
+                  subheaderText="Please insert your login details below"
+                  loginText="Sign in"
+                  signupHref="/signup"
+                  signupText="Sign up"
+                  signupHeader="Welcome to Leaver App"
+                  signupSubheader="This is outsource Leaver-App System "
+                  usernamePlaceholder="Organization email"
+                  passwordPlaceholder="Your password"
+                  logo={null}
+                  loginWelcomeImg={null} />}
+                />
+
+                <ConnectedPrivateRoute path="/upload" exact allowed={["admin"]} component={UploadExcelScreen} />
+                <ConnectedPrivateRoute allowed={["admin"]} path="/hr-view" component={HrViewScreen} />
+                <ConnectedPrivateRoute allowed={["admin"]} path="/resignations-details" component={ResignationsScreen} />
+                <ConnectedPrivateRoute allowed={["admin"]} path="/cc-consumer-activation-table" component={consumerTable} />
+                <ConnectedPrivateRoute allowed={["admin"]} path="/cc-consumer-activation" component={CCConsumerActivation} />
+                <ConnectedPrivateRoute allowed={["admin"]} path="/resign" component={ResignReqScreen} />
+                <ConnectedPrivateRoute allowed={["admin"]} path = "/ast" component = {ASTTableScreen}/>
+                <ConnectedPrivateRoute allowed={["admin"]} path = "/ast-resignation" component = {ASTResignationDetailScreen}/>
+              </Switch>
+            </Router>
+          </>
+        </PersistGate>
+      </Provider>
     );
   }
 }
 
 export default App;
+

@@ -3,7 +3,7 @@ const getDatabaseUrl = () => {
 };
 
 const getPort = () => {
-    return normalizePort(process.env.PORT || "8080");
+    return normalizePort(process.env.PORT || "3000");
 }
 /**
  * Normalize a port into a number, string, or false.

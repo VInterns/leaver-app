@@ -7,8 +7,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"yarn dev:server\" \"npm run client\"",
-    "client": "npm start --prefix client",
+    "dev": "concurrently \"yarn dev:client\" \"yarn dev:server\"",
+    "dev:client": "cd client && PORT=4200 yarn start",
     "dev:server": "nodemon ./server/server.js",
     "start": "yarn start:server",
     "start:server": "node ./server/server.js",
