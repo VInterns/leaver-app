@@ -112,6 +112,38 @@ module.exports = db => {
       });
   });
 
+  router.get('/wf/fetchRequests', (req, res) => {
+    db.collection(collection).find({ "status": "new" }).toArray((err, requests) => {
+      if (err) {
+        res.status(500).send();
+        throw err;
+      }
+      else {
+        res.send(requests);
+      }
+    });
+  });
+
+  router.post('/wf/insertBalance', (req, res) => {
+    var leaverId = req.body.staffId;
+
+    console.log(req.body.phase3);
+
+    db.collection(collection).updateOne({ "staffId": leaverId }, {
+      $set: { "phase3": req.body.phase3 }
+    }, (err, doc) => {
+      if (err) {
+
+        res.status(500).send(doc);
+        throw err;
+      }
+      else {
+
+        res.send("Employee data updated!!");
+      }
+    });
+  });
+
   router.post("/update/phase6", function (req, res) {
     var leaverId = req.body.staffId;
     db.collection(collection).findOneAndUpdate(

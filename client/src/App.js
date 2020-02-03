@@ -22,13 +22,14 @@ import {
   consumerTable,
   ResignReqScreen,
   HrViewScreen,
+  WorkForceScreen,
+  WorkForceScreenDetail,
   ASTTableScreen,
   ASTResignationDetailScreen,
   ResignationsScreen,
   AuthenticationScreen,
   FormRes,
   ELTTableScreen
-
 } from './screens';
 
 import 'semantic-ui-css/semantic.min.css';
@@ -54,6 +55,7 @@ class App extends Component {
   };
   render() {
     return (
+
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <>
@@ -83,6 +85,8 @@ class App extends Component {
                 <ConnectedPrivateRoute allowed={["admin"]} path="/ast-resignation" component={ASTResignationDetailScreen} />
                 <ConnectedPrivateRoute allowed={["admin"]} path="/elt" component={ELTTableScreen} />
                 <ConnectedPrivateRoute allowed={["admin"]} path="/form-res" component={FormRes} />
+                <ConnectedPrivateRoute allowed={["admin"]} path="/wf-view" component={WorkForceScreen}/>
+                <ConnectedPrivateRoute allowed={["admin"]} path="/wf-view-detail" component={WorkForceScreenDetail}/>
               </Switch>
             </Router>
           </>
