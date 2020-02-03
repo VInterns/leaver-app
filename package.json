@@ -21,7 +21,6 @@
     "body-parser": "^1.19.0",
     "bootstrap": "^4.4.1",
     "connect-mongo": "^3.2.0",
-    "convert-excel-to-json": "^1.6.1",
     "cors": "^2.8.5",
     "debug": "^4.1.1",
     "dotenv": "^8.2.0",
@@ -29,7 +28,6 @@
     "express-session": "^1.17.0",
     "form-data": "^3.0.0",
     "migrate-mongo": "^7.0.1",
-    "mongo-xlsx": "^1.0.12",
     "mongodb": "^3.5.1",
     "mongodb-migrations": "^0.8.5",
     "morgan": "^1.9.1",
@@ -42,9 +40,7 @@
     "react-toastify": "^5.5.0",
     "request": "^2.88.0",
     "socket.io": "^2.3.0",
-    "styled-components": "^5.0.0",
     "xlsx": "^0.15.5",
-    "xlsx-to-mongo": "^1.0.3"
   },
   "devDependencies": {
     "concurrently": "^5.0.2",
