@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Nav, Navbar } from 'react-bootstrap';
-
+import { Nav, Navbar } from "react-bootstrap";
 
 export class Header extends React.Component {
   constructor() {
@@ -11,28 +10,28 @@ export class Header extends React.Component {
     };
   }
 
-
   render() {
     if (!this.props.isAuthenticated) {
-      return null
-    };
+      return null;
+    }
     return (
-      <Navbar style={{ backgroundColor: "#BE0002" }} variant="dark"  >
+      <Navbar style={{ backgroundColor: "#BE0002" }} variant="dark">
         <Navbar.Brand href="#">Leaver App</Navbar.Brand>
-        <Nav className="mr-auto" >
+        <Nav className="mr-auto">
           <Nav.Link href="/upload">Upload Excel</Nav.Link>
-          <Nav.Link href="/cc-consumer-activation-table">CC Consumer Activation</Nav.Link>
+          <Nav.Link href="/cc-consumer-activation-table">
+            CC Consumer Activation
+          </Nav.Link>
           <Nav.Link href="/resign">Resignation</Nav.Link>
           <Nav.Link href="/hr-view">HR View</Nav.Link>
           <Nav.Link href="/ast">AST View</Nav.Link>
         </Nav>
       </Navbar>
     );
-
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     isAuthenticated: state.isAuthenticated,
     account: state.account
@@ -40,4 +39,3 @@ const mapStateToProps = (state) => {
 };
 
 export const ConnectedHeader = connect(mapStateToProps)(Header);
-
