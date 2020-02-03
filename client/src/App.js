@@ -22,8 +22,11 @@ import {
   consumerTable,
   ResignReqScreen,
   HrViewScreen,
+  ASTTableScreen,
+  ASTResignationDetailScreen,
   ResignationsScreen,
   AuthenticationScreen
+
 } from './screens';
 
 import 'semantic-ui-css/semantic.min.css';
@@ -74,6 +77,8 @@ class App extends Component {
                 <ConnectedPrivateRoute allowed={["admin"]} path="/cc-consumer-activation-table" component={consumerTable} />
                 <ConnectedPrivateRoute allowed={["admin"]} path="/cc-consumer-activation" component={CCConsumerActivation} />
                 <ConnectedPrivateRoute allowed={["admin"]} path="/resign" component={ResignReqScreen} />
+                <ConnectedPrivateRoute allowed={["admin"]} path = "/ast" component = {ASTTableScreen}/>
+                <ConnectedPrivateRoute allowed={["admin"]} path = "/ast-resignation" component = {ASTResignationDetailScreen}/>
               </Switch>
             </Router>
           </>
