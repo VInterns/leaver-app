@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const API = 'http://localhost:8080/api/';
+const API = '/api/';
 const SEARCH = 'users/search'
 const SUBMIT = 'resignations/'
 
@@ -30,16 +30,15 @@ export class ResignReqScreen extends Component {
       noShow: '',
       lostHours: '',
       daysToTake: '',
-
-      sapID: '',
-      employeeName: '',
+      sapStaffId: '',
+      name: '',
       managerName: '',
       ntAccount: '',
       department: '',
-      careCenter: '',
+      costCenter: '',
       jobTitle: '',
       hiringDate: '',
-      mobNumber: '',
+      mobile: '',
       iex: '',
     };
   }
@@ -65,15 +64,15 @@ export class ResignReqScreen extends Component {
       .then((data) => {
         if (data) {
           this.setState({ staffId: data.staffId });
-          this.setState({ sapID: data.staffId });
-          this.setState({ employeeName: data.employeeName });
+          this.setState({ sapStaffId: data.staffId });
+          this.setState({ name: data.name });
           this.setState({ managerName: data.managerName });
           this.setState({ ntAccount: data.ntAccount });
           this.setState({ department: data.department });
-          this.setState({ careCenter: data.careCenter });
+          this.setState({ costCenter: data.costCenter });
           this.setState({ jobTitle: data.jobTitle });
           this.setState({ hiringDate: data.hiringDate });
-          this.setState({ mobNumber: data.mobNumber });
+          this.setState({ mobile: data.mobile });
         }
       })
   }
@@ -84,6 +83,7 @@ export class ResignReqScreen extends Component {
       body: JSON.stringify({
         staffId: this.state.staffId,
         managerName: this.state.managerName,
+        name: this.state.name,
         status: "new",
         phase1: {
           status: "done",
@@ -179,12 +179,12 @@ export class ResignReqScreen extends Component {
             </Form.Group>
             <Row>
               <Col><Form.Label className="col-form-label">SAP Staff ID</Form.Label></Col>
-              <Col ><Form.Control plaintext readOnly value={this.state.sapID} /></Col>
+              <Col ><Form.Control plaintext readOnly value={this.state.sapStaffId} /></Col>
               <Col></Col>
             </Row>
             <Row>
               <Col><Form.Label>Employee Name</Form.Label></Col>
-              <Col><Form.Control plaintext readOnly value={this.state.employeeName} /></Col>
+              <Col><Form.Control plaintext readOnly value={this.state.name} /></Col>
               <Col></Col>
             </Row>
             <Row>
@@ -204,7 +204,7 @@ export class ResignReqScreen extends Component {
             </Row>
             <Row>
               <Col><Form.Label>Care Center</Form.Label></Col>
-              <Col><Form.Control plaintext readOnly value={this.state.careCenter} /></Col>
+              <Col><Form.Control plaintext readOnly value={this.state.costCenter} /></Col>
               <Col></Col>
             </Row>
             <Row>
@@ -219,7 +219,7 @@ export class ResignReqScreen extends Component {
             </Row>
             <Row>
               <Col><Form.Label>Mobile Number</Form.Label></Col>
-              <Col><Form.Control plaintext readOnly value={this.state.mobNumber} /></Col>
+              <Col><Form.Control plaintext readOnly value={this.state.mobile} /></Col>
               <Col></Col>
             </Row>
           </Form.Group>
