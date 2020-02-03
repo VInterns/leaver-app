@@ -110,5 +110,23 @@ module.exports = (db) => {
             });
     });
 
+    router.post('/update/phase6', function(req, res){
+        
+        var leaverId = req.body.staffId;
+        db.collection(collection).findOneAndUpdate({"staffId": leaverId}, {
+            $set: {"phase6": req.body.phase6}
+        }, function(err, doc){
+            if(err){
+                res.status(404).send();
+                throw err;
+            }
+            else {
+                res.status(200).send({
+                    "msg": "employee successfully found, and security data successfully updated"
+                })
+            }
+        })
+    })
+
     return router;
 };

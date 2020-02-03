@@ -24,6 +24,7 @@ export class Header extends React.Component {
           <Nav.Link href="/cc-consumer-activation-table">CC Consumer Activation</Nav.Link>
           <Nav.Link href="/resign">Resignation</Nav.Link>
           <Nav.Link href="/hr-view">HR View</Nav.Link>
+          <Nav.Link href="/ast">AST View</Nav.Link>
         </Nav>
       </Navbar>
     );
@@ -39,3 +40,4 @@ const mapStateToProps = (state) => {
 };
 
 export const ConnectedHeader = connect(mapStateToProps)(Header);
+
