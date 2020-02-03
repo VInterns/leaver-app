@@ -1,5 +1,8 @@
 import React from "react";
-import { Form, FormLabel, Row, Col, Button } from "react-bootstrap";
+import { 
+  Table,
+
+} from "react-bootstrap";
 
 /////////////////////////////////////////////////////////////////////////
 const API = "/api";
@@ -101,147 +104,90 @@ export class ASTResignationDetailScreen extends React.Component {
     const phase1 = Object(resignationDetails.phase1);
 
     return (
-      <div className="ast-page">
-        <header className="ast-header">Application Security Team Task</header>
-        <hr />
-        <div className="leaver-info">
-          <label className="info-title">Leaver Details</label>
-          <div className="info">
-            <div className="info-line">
-              <FormLabel className="info-key">Staff ID</FormLabel>
-              <FormLabel className="info-value">
-                {resignationDetails.staffId}
-              </FormLabel>
-              <FormLabel className="info-key spaced">SAP Staff ID</FormLabel>
-              <FormLabel className="info-value">
-                {resignationDetails.sapStaffId}
-              </FormLabel>
-            </div>
-            <div className="info-line">
-              <FormLabel className="info-key">Leaver Name</FormLabel>
-              <FormLabel className="info-value">
-                {resignationDetails.name}
-              </FormLabel>
-              <FormLabel className="info-key spaced">Manager</FormLabel>
-              <FormLabel className="info-value">
-                {resignationDetails.managerName}
-              </FormLabel>
-            </div>
-            <div className="info-line">
-              <FormLabel className="info-key">Department</FormLabel>
-              <FormLabel className="info-value">
-                {resignationDetails.department}
-              </FormLabel>
-              <FormLabel className="info-key spaced">Cost Center</FormLabel>
-              <FormLabel className="info-value">
-                {resignationDetails.costCentre}
-              </FormLabel>
-            </div>
-            <div className="info-line">
-              <FormLabel className="info-key">Job title</FormLabel>
-              <FormLabel className="info-value">
-                {resignationDetails.jobTitle}
-              </FormLabel>
-              <FormLabel className="info-key spaced">Hiring Date</FormLabel>
-              <FormLabel className="info-value">
-                {resignationDetails.hiringDate}
-              </FormLabel>
-            </div>
-            <div className="info-line">
-              <FormLabel className="info-key">Mobile Number</FormLabel>
-              <FormLabel className="info-value">
-                {resignationDetails.mobile}
-              </FormLabel>
-              <FormLabel className="info-key spaced">
-                Last Working Day
-              </FormLabel>
-              <FormLabel className="info-value">{phase1.lastWorkDay}</FormLabel>
-            </div>
-          </div>
-          <hr />
+      <div className = "container">
+        <center style = {{margin: "25px"}}>
+          <h3>Leaver Info</h3>
+          <hr/>
           <div>
-            <Form id="entry-data">
-              <Form.Group as={Row}>
-                <Col sm={2}>
-                  <Form.Label className="info-key wide">
-                    Disabled Secure ID
-                  </Form.Label>
-                </Col>
-                <Col sm={10}>
-                  <Form.Control
-                    id="disabledSecureId"
-                    as="select"
-                    className="separate"
-                    defaultValue={this.state.disabledSecureId}
-                    onChange={this.handleChange}
-                  >
-                    <option value={true}>Yes</option>
-                    <option value={false}>No</option>
-                  </Form.Control>
-                </Col>
-              </Form.Group>
-              <Form.Group as={Row}>
-                <Col sm={2}>
-                  <Form.Label className="info-key wide">
-                    Disabled Remedy Account
-                  </Form.Label>
-                </Col>
-                <Col sm={10}>
-                  <Form.Control
-                    id="disabledRemedyAccount"
-                    as="select"
-                    defaultValue={this.state.disabledRemedyAccount}
-                    className="separate"
-                    onChange={this.handleChange}
-                  >
-                    <option value={true}>Yes</option>
-                    <option value={false}>No</option>
-                  </Form.Control>
-                </Col>
-              </Form.Group>
-              <Form.Group as={Row}>
-                <Col sm={2}>
-                  <Form.Label className="info-key wide">
-                    Disabled Accounts In Production Systems
-                  </Form.Label>
-                </Col>
-                <Col sm={10}>
-                  <Form.Control
-                    id="disabledAccountsInProductionSystems"
-                    as="select"
-                    className="separate"
-                    defaultValue={
-                      this.state.disabledAccountsInProductionSystems
-                    }
-                    onChange={this.handleChange}
-                  >
-                    <option value={true}>Yes</option>
-                    <option value={false}>No</option>
-                  </Form.Control>
-                </Col>
-              </Form.Group>
-              <Form.Group>
-                <Form.Label className="info-key wide">Comments</Form.Label>
-                <Form.Control
-                  id="comment"
-                  as="textarea"
-                  rows="5"
-                  onChange={this.handleChange}
-                />
-              </Form.Group>
-              <div className="submission">
-                <Button
-                  variant="primary"
-                  type="submit"
-                  className="submit-btn"
-                  onClick={this.submitButton}
-                >
-                  Submit
-                </Button>
-              </div>
-            </Form>
+            <div>
+              <Table bordered hover>
+                <tbody>
+                  <tr>
+                    <td><span style = {{fontWeight: "bold"}} >Staff ID:</span> {resignationDetails.staffId}</td>
+                    <td><span style = {{fontWeight: "bold"}} >SAP Stuff ID:</span> {resignationDetails.sapStuffId}</td>
+                  </tr>
+                  <tr>
+                    <td><span style = {{fontWeight: "bold"}} >Leaver Name:</span> {resignationDetails.name}</td>
+                    <td><span style = {{fontWeight: "bold"}} >Manager:</span> {resignationDetails.managerName}</td>
+                  </tr>
+                  <tr>
+                    <td><span style = {{fontWeight: "bold"}} >Department:</span> {resignationDetails.department}</td>
+                    <td><span style = {{fontWeight: "bold"}} >Cost Center:</span> {resignationDetails.costCenter}</td>
+                  </tr>
+                  <tr>
+                    <td><span style = {{fontWeight: "bold"}} >Job Title:</span> {resignationDetails.jobTitle}</td>
+                    <td><span style = {{fontWeight: "bold"}} >Hiring Date:</span> {resignationDetails.hiringDate}</td>
+                  </tr>
+                  <tr>
+                    <td><span style = {{fontWeight: "bold"}} >Mobile Number:</span> {resignationDetails.mobile}</td>
+                    <td><span style = {{fontWeight: "bold"}} >Last Working Day:</span> {phase1.lastWorkDay}</td>
+                  </tr>
+                </tbody>
+              </Table>
+            </div>
+            <hr/>
+            <div className = "d-flex flex-row align-content-center">
+              <div className = "p-2">disabled Secure ID</div>
+              <select 
+                id = "disabledSecureId"
+                onChange = {this.handleChange}
+                className = "p-2 form-control col-sm-1"
+                defaultValue = {this.state.disabledSecureId}>
+                <option value = {true}>Yes</option>
+                <option value = {false}>No</option>
+              </select>
+            </div>
+            <div className = "d-flex flex-row mt-3">
+              <div className = "p-2">disabled Remedy Account</div>
+              <select 
+                id = "disabledRemedyAccount"
+                onChange = {this.handleChange}
+                className = "p-2 form-control col-sm-1"
+                defaultValue = {this.state.disabledRemedyAccount}>
+                <option value = {true}>Yes</option>
+                <option value = {false}>No</option>
+              </select>
+            </div>
+            <br/>
+            <div className = "d-flex flex-row mt-3">
+              <div className = "p-2">disabled Accounts in Production Systems</div>
+              <select 
+                id = "disabledAccountsInProductionSystems"
+                onChange = {this.handleChange}
+                className = "p-2 form-control col-sm-1"
+                defaultValue = {this.state.disabledAccountsInProductionSystems}>
+                <option value = {true}>Yes</option>
+                <option value = {false}>No</option>
+              </select>
+            </div>
+            <br/>
+            <div className = "d-flex flex-column mt-3">
+              <label for = "comment" className = "p-2 align-self-start">Comments</label>
+              <textarea
+                id = "comment"
+                rows = "5"
+                type = "textarea"
+                onChange = {this.handleChange}
+                className = "p-2 form-control"/>
+            </div>
+            <button 
+              style = {{ width: '100px' }}
+              onClick = {this.submitButton}
+              className = "btn btn-primary mt-3" 
+              >Submit
+            </button>
           </div>
-        </div>
+        </center>
       </div>
     );
   }

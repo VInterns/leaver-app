@@ -14,12 +14,30 @@ export class ASTTableScreen extends React.Component {
       requests: []
     };
 
+    this.checkStatus = this.checkStatus.bind(this);
     this.onRowClick = this.onRowClick.bind(this);
     this.fetchResignations = this.fetchResignations.bind(this);
   }
 
   componentDidMount() {
     this.fetchResignations();
+  }
+
+  checkStatus(status){
+    switch(status){
+      case "pending":
+        return (
+          <td style = {{color: "#BE0002", fontWeight: "bold", textTransform: "uppercase"}}>{status}</td>
+        );
+      case "done": 
+      return (
+        <td style = {{color: "#5cb85c", fontWeight: "bold", textTransform: "uppercase"}}>{status}</td>
+      );
+      default:
+        return (
+          <td style = {{color: "#34a1fd", fontWeight: "bold", textTransform: "uppercase"}}>{status}</td>
+        );
+    }
   }
 
   onRowClick(resignation) {
@@ -48,38 +66,38 @@ export class ASTTableScreen extends React.Component {
   render() {
     const { requests } = this.state;
     return (
-      <div className="ast-page">
-        <header className="ast-header">Application Security Team</header>
-        <hr />
-        <div className="ast-data">
-          <Table className="ast" borderless>
-            <thead>
-              <tr>
-                <th>Staff ID</th>
-                <th>Employee Name</th>
-                <th>Manager Name</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {requests.map(request => (
-                <tr
-                  onClick={() => this.onRowClick(request)}
-                  key={request.staffId}
-                >
-                  <td>{request.staffId}</td>
-                  <td>{request.name}</td>
-                  <td>{request.managerName}</td>
-                  {request.phase6.status === "done" ? (
-                    <td id="done">{request.phase6.status}</td>
-                  ) : (
-                      <td id="pending">{request.phase6.status}</td>
-                    )}
+      <div className="container">
+        <center style={{ margin: '25px' }}>
+          <header className="ast-header"> 
+            <h3>Application Security Team</h3>
+            </header>
+          <hr/>
+          <div className="ast-data">
+            <Table className="ast" bordered hover>
+              <thead>
+                <tr style = {{backgroundColor: "#BE0002"}}>
+                  <th style = {{color: "white"}}>Staff ID</th>
+                  <th style = {{color: "white"}}>Employee Name</th>
+                  <th style = {{color: "white"}}>Manager Name</th>
+                  <th style = {{color: "white"}}>Status</th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
-        </div>
+              </thead>
+              <tbody>
+                {requests.map(request => (
+                  <tr
+                    onClick={() => this.onRowClick(request)}
+                    key={request.staffId}
+                  >
+                    <td>{request.staffId}</td>
+                    <td>{request.name}</td>
+                    <td>{request.managerName}</td>
+                    {this.checkStatus(request.phase6.status)}
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </div>
+        </center>
       </div>
     );
   }
