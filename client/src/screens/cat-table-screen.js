@@ -31,6 +31,11 @@ export class ConsumerTable extends Component {
         return (
             <div className="container">
                 <center style={{ margin: '25px' }}>
+                    <header>
+                        <hr/>
+                        <h3>CC Consumer Activation</h3>
+                        <hr/>
+                    </header>
                     <div>
                         <Table bordered hover>
                             <thead>

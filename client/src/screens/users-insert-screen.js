@@ -118,33 +118,35 @@ export class UploadExcelScreen extends Component {
   render() {
     return (
       <div className="container">
-        <div className="row">
-          <div className="offset-md-3 col-md-6">
-            <div className="form-group files">
-              <h1>Upload Excel File </h1>
-              <input
-                type="file"
-                className="form-control"
-                multiple
-                onChange={this.onChangeHandler}
-              />
-            </div>
-            <div className="form-group">
-              <ToastContainer />
-              <Progress max="100" color="success" value={this.state.loaded}>
-                {Math.round(this.state.loaded, 2)}%
-              </Progress>
-            </div>
+        <center style = {{margin: "25px"}}>
+          <div className="row">
+            <div className="offset-md-3 col-md-6">
+              <div className="form-group files">
+                <h1>Upload Excel File </h1>
+                <input
+                  type="file"
+                  className="form-control"
+                  multiple
+                  onChange={this.onChangeHandler}
+                />
+              </div>
+              <div className="form-group">
+                <ToastContainer />
+                <Progress max="100" color="success" value={this.state.loaded}>
+                  {Math.round(this.state.loaded, 2)}%
+                </Progress>
+              </div>
 
-            <button
-              type="button"
-              className="btn btn-success btn-block"
-              onClick={this.onClickHandler}
-            >
-              Upload
-            </button>
+              <button
+                type="button"
+                className="btn btn-success btn-block"
+                onClick={this.onClickHandler}
+              >
+                Upload
+              </button>
+            </div>
           </div>
-        </div>
+        </center>
       </div>
     );
   }

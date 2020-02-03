@@ -98,10 +98,13 @@ export class FormRes extends React.Component {
     return (
       <div className = "container">
         <center style = {{margin: "25px"}}>
-        <h3>Leaver Info</h3>
+          <header>
+            <hr/>
+            <h3>Leaver Info</h3>
+            <hr/>
+          </header>
         {/* <h2>Leaver Details</h2> */}
-        <data>{null}</data>
-        <hr/>
+        {/* <data>{null}</data> */}
         <div>
             <div>
               <Table bordered hover>
@@ -153,7 +156,7 @@ export class FormRes extends React.Component {
                 type = "submit" 
                 value = "Submit" 
                 onClick={() => this.submit}
-                className="btn btn-primary"  />
+                className="btn btn-danger"  />
             </form>
         </div>
         </center>

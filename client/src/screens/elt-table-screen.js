@@ -79,9 +79,10 @@ export class ELTTableScreen extends React.Component {
             <div className = "container">
                 <center style = {{margin: "25px"}}>
                     <header className="elt-header">
+                        <hr/>
                         <h3>Enterprise Logistics Team</h3>
+                        <hr/>
                     </header>
-                    <hr/>
                     <div className="elt-data">
                         <Table bordered hover striped responsive>
                             <thead>

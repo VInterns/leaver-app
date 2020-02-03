@@ -68,12 +68,13 @@ export class ASTTableScreen extends React.Component {
     return (
       <div className="container">
         <center style={{ margin: '25px' }}>
-          <header className="ast-header"> 
+          <header> 
+            <hr/>
             <h3>Application Security Team</h3>
-            </header>
-          <hr/>
-          <div className="ast-data">
-            <Table className="ast" bordered hover striped>
+            <hr/>
+          </header>
+          <div>
+            <Table bordered hover striped>
               <thead>
                 <tr style = {{backgroundColor: "#BE0002"}}>
                   <th className = "text-white">Staff ID</th>

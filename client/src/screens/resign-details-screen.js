@@ -28,19 +28,23 @@ export class ResignationsScreen extends Component {
     }
     render() {
         return (
-            <>
-                <h3 className='container'>Resignation Request </h3>
-                <Table bordered striped hover className='container' >
+            <div className = "container">
+                <center style = {{margin: "25px"}}>
+                    <header>
+                        <hr/>
+                        <h3 className='container'>Resignation Request </h3>
+                        <hr/>
+                    </header>
+                <Table bordered hover className='container' >
                     <thead>
                         {this.state.data && <tr>
-                            <th>Data</th>
-                            <th>Value</th>
-                            <th>Status : {this.state.data.phase1.status}</th>
+                            <th style = {{backgroundColor: "#BE0002"}} className = "text-white">Data</th>
+                            <th style = {{backgroundColor: "#BE0002"}} className = "text-white">Value</th>
+                            <th style = {{backgroundColor: "#BE0002"}} className = "text-white">Status : {this.state.data.phase1.status}</th>
                         </tr>
                         }
                     </thead>
                     <tbody>
-
                         {this.state.data && <tr>
                             <td>Staff ID </td>
                             <td>{this.state.data.staffId}</td>
@@ -125,13 +129,17 @@ export class ResignationsScreen extends Component {
                     </tbody>
                 </Table>
 
-                <h3 className='container'>Customer Care (SMC) </h3>
-                <Table bordered striped hover className='container' >
+                <header>
+                        <hr/>
+                        <h3 className='container'>Customer Care (SMC)</h3>
+                        <hr/>
+                </header>
+                <Table bordered hover className='container' >
                     <thead>
                         {this.state.data && <tr>
-                            <th>Data</th>
-                            <th>Value</th>
-                            <th>Status : {this.state.data.phase2.status}</th>
+                            <th style = {{backgroundColor: "#BE0002"}} className = "text-white">Data</th>
+                            <th style = {{backgroundColor: "#BE0002"}} className = "text-white">Value</th>
+                            <th style = {{backgroundColor: "#BE0002"}} className = "text-white">Status : {this.state.data.phase2.status}</th>
                         </tr>
                         }
                     </thead>
@@ -177,13 +185,18 @@ export class ResignationsScreen extends Component {
 
                     </tbody>
                 </Table>
-                <h3 className='container'>Work Force</h3>
-                <Table bordered striped hover className='container' >
+
+                <header>
+                    <hr/>
+                    <h3 className='container'>Work Force</h3>
+                    <hr/>
+                </header>
+                <Table bordered hover className='container' >
                     <thead>
                         {this.state.data && <tr>
-                            <th>Data</th>
-                            <th>Value</th>
-                            <th>Status : {this.state.data.phase3.status}</th>
+                            <th style = {{backgroundColor: "#BE0002"}} className = "text-white">Data</th>
+                            <th style = {{backgroundColor: "#BE0002"}} className = "text-white">Value</th>
+                            <th style = {{backgroundColor: "#BE0002"}} className = "text-white">Status : {this.state.data.phase3.status}</th>
                         </tr>
                         }
                     </thead>
@@ -228,13 +241,18 @@ export class ResignationsScreen extends Component {
 
                     </tbody>
                 </Table>
-                <h3 className='container'>Risk Managment </h3>
-                <Table bordered striped hover className='container' >
+
+                <header>
+                    <hr/>
+                    <h3 className='container'>Risk Managment </h3>
+                    <hr/>
+                </header>
+                <Table bordered hover className='container' >
                     <thead>
                         {this.state.data && <tr>
-                            <th>Data</th>
-                            <th>Value</th>
-                            <th>Status : {this.state.data.phase4.status}</th>
+                            <th style = {{backgroundColor: "#BE0002"}} className = "text-white">Data</th>
+                            <th style = {{backgroundColor: "#BE0002"}} className = "text-white">Value</th>
+                            <th style = {{backgroundColor: "#BE0002"}} className = "text-white">Status : {this.state.data.phase4.status}</th>
                         </tr>
                         }
                     </thead>
@@ -276,13 +294,18 @@ export class ResignationsScreen extends Component {
 
                     </tbody>
                 </Table>
-                <h3 className='container'>Entrprise Logistics </h3>
-                <Table bordered striped hover className='container' >
+
+                <header>
+                    <hr/>
+                    <h3 className='container'>Entrprise Logistics </h3>
+                    <hr/>
+                </header>
+                <Table bordered hover className='container' >
                     <thead>
                         {this.state.data && <tr>
-                            <th>Data</th>
-                            <th>Value</th>
-                            <th>Status : {this.state.data.phase5.status}</th>
+                            <th style = {{backgroundColor: "#BE0002"}} className = "text-white">Data</th>
+                            <th style = {{backgroundColor: "#BE0002"}} className = "text-white">Value</th>
+                            <th style = {{backgroundColor: "#BE0002"}} className = "text-white">Status : {this.state.data.phase5.status}</th>
                         </tr>
                         }
                     </thead>
@@ -297,13 +320,18 @@ export class ResignationsScreen extends Component {
 
                     </tbody>
                 </Table>
-                <h3 className='container'>Application Security </h3>
-                <Table bordered striped hover className='container' >
+
+                <header>
+                    <hr/>
+                    <h3 className='container'>Application Security</h3>
+                    <hr/>
+                </header>
+                <Table bordered hover className='container' >
                     <thead>
                         {this.state.data && <tr>
-                            <th>Data</th>
-                            <th>Value</th>
-                            <th>Status : {this.state.data.phase6.status}</th>
+                            <th style = {{backgroundColor: "#BE0002"}} className = "text-white">Data</th>
+                            <th style = {{backgroundColor: "#BE0002"}} className = "text-white">Value</th>
+                            <th style = {{backgroundColor: "#BE0002"}} className = "text-white">Status : {this.state.data.phase6.status}</th>
                         </tr>
                         }
                     </thead>
@@ -343,13 +371,18 @@ export class ResignationsScreen extends Component {
 
                     </tbody>
                 </Table>
-                <h3 className='container'>Security Hardware Token </h3>
-                <Table bordered striped hover className='container' >
+
+                <header>
+                    <hr/>
+                    <h3 className='container'>Security Hardware Token</h3>
+                    <hr/>
+                </header>
+                <Table bordered hover className='container' >
                     <thead>
                         {this.state.data && <tr>
-                            <th>Data</th>
-                            <th>Value</th>
-                            <th>Status : {this.state.data.phase7.status}</th>
+                            <th style = {{backgroundColor: "#BE0002"}} className = "text-white">Data</th>
+                            <th style = {{backgroundColor: "#BE0002"}} className = "text-white">Value</th>
+                            <th style = {{backgroundColor: "#BE0002"}} className = "text-white">Status : {this.state.data.phase7.status}</th>
                         </tr>
                         }
                     </thead>
@@ -368,8 +401,8 @@ export class ResignationsScreen extends Component {
 
                     </tbody>
                 </Table>
-
-            </>
+                </center>
+            </div>
 
         );
 

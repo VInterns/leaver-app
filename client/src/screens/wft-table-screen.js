@@ -16,6 +16,7 @@ export class WorkForceScreen extends React.Component {
         }
 
         this.clickButton = this.clickButton.bind(this);
+        this.checkStatus = this.checkStatus.bind(this);
         this.fetchRequestsData = this.fetchRequestsData.bind(this);
     }
 
@@ -23,6 +24,24 @@ export class WorkForceScreen extends React.Component {
         this.fetchRequestsData();
         //this.timer = setInterval(() => this.fetchRequestsData(), 1000000000);
     }
+
+    checkStatus(status){
+        switch(status){
+            case "pending":
+                return (
+                <td style = {{color: "#BE0002", fontWeight: "bold", textTransform: "uppercase"}}>{status}</td>
+                );
+            case "done": 
+                return (
+                    <td style = {{color: "#5cb85c", fontWeight: "bold", textTransform: "uppercase"}}>{status}</td>
+                );
+            default:
+                return (
+                <td style = {{color: "#34a1fd", fontWeight: "bold", textTransform: "uppercase"}}>{status}</td>
+                );
+        }
+    }
+    
 
     clickButton(req) {
         this.props.history.push({
@@ -36,10 +55,6 @@ export class WorkForceScreen extends React.Component {
         fetch(API + SEARCH)
             .then((res) => {
                 return res.json();
-                // console.log(res.json())
-                // const retRequests = res.data;
-                // console.log(res)
-                // this.setState({requests: retRequests})
             }).then(data => {
                 console.log(data)
                 this.setState({ requests: data })
@@ -52,22 +67,33 @@ export class WorkForceScreen extends React.Component {
     render() {
         const { requests } = this.state;
         return (
-            <div className="request">
-                <h1 id="wf">WF Table</h1>
-                <Table id="requests">
-                    <tbody>
-                        <tr>
-                            <th>Staff ID</th>
-                            <th>Name</th>
-                            <th>Status</th>
-                        </tr>
-                        {requests.map(request => <tr onClick={() => this.clickButton(request)} key={request.staffId}>
-                            <td>{request.staffId}</td>
-                            <td>{request.name}</td>
-                            <td>{request.status}</td>
-                        </tr>)}
-                    </tbody>
-                </Table>
+            <div className = "container">
+                <center style = {{margin: "25px"}}>
+                    <header>
+                        <h3>Work Force Team</h3>
+                        <hr/>
+                    </header>    
+                    <div>
+                        <Table bordered hover striped>
+                        <thead>
+                            <tr style = {{backgroundColor: "#BE0002"}}>
+                                <th className = "text-white">Staff ID</th>
+                                <th className = "text-white">Employee Name</th>
+                                <th className = "text-white">Manager Name</th>
+                                <th className = "text-white">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {requests.map(request => <tr onClick={() => this.clickButton(request)} key={request.staffId}>
+                                <td>{request.staffId}</td>
+                                <td>{request.name}</td>
+                                <td>{request.managerName}</td>
+                                {this.checkStatus(request.phase3.status)}
+                            </tr>)}
+                        </tbody>
+                    </Table>
+                </div>
+                </center>
             </div>
         )
     }

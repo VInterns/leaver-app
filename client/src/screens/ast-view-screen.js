@@ -17,6 +17,7 @@ export class ASTResignationDetailScreen extends React.Component {
 
     this.state = {
       resignationDetails: {},
+      leaver: {},
       disabledSecureId: false,
       disabledRemedyAccount: false,
       disabledAccountsInProductionSystems: false,
@@ -27,6 +28,7 @@ export class ASTResignationDetailScreen extends React.Component {
     this.normalizeVal = this.normalizeVal.bind(this);
     this.submitButton = this.submitButton.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.fetchLeaverInfo = this.fetchLeaverInfo.bind(this);
   }
 
   componentDidMount() {
@@ -52,6 +54,28 @@ export class ASTResignationDetailScreen extends React.Component {
     let state = {};
     state[event.target.id] = event.target.value;
     this.setState(state);
+  }
+
+  fetchLeaverInfo(){
+
+    let QUERY = "/users/?id=" + this.state.resignationDetails.staffId;
+
+    fetch(API + QUERY, {
+      method: "post",
+      headers: {"Content-Type": "application/json"}
+    })
+    .then((res) => {
+      return res.json();
+    })
+    .then((leaverInfo) => {
+      this.setState({
+        leaver: leaverInfo
+      })
+    })
+    .catch((err) => {
+      throw err;
+    })
+
   }
 
   submitButton(event) {
@@ -106,8 +130,11 @@ export class ASTResignationDetailScreen extends React.Component {
     return (
       <div className = "container">
         <center style = {{margin: "25px"}}>
-          <h3>Leaver Info</h3>
-          <hr/>
+          <header>
+            <hr/>
+            <h3>Leaver Info</h3>
+            <hr/>
+          </header>
           <div>
             <div>
               <Table bordered hover>
@@ -136,7 +163,7 @@ export class ASTResignationDetailScreen extends React.Component {
               </Table>
             </div>
             <hr/>
-            <div className = "d-flex flex-row align-content-center">
+            <div className = "d-flex flex-row">
               <div className = "p-2">disabled Secure ID</div>
               <select 
                 id = "disabledSecureId"
@@ -172,7 +199,7 @@ export class ASTResignationDetailScreen extends React.Component {
             </div>
             <br/>
             <div className = "d-flex flex-column mt-3">
-              <label for = "comment" className = "p-2 align-self-start">Comments</label>
+              <label htmlFor = "comment" className = "p-2 align-self-start">Comments</label>
               <textarea
                 id = "comment"
                 rows = "5"
@@ -182,7 +209,7 @@ export class ASTResignationDetailScreen extends React.Component {
             <button 
               style = {{ width: '100px' }}
               onClick = {this.submitButton}
-              className = "btn btn-primary mt-3" 
+              className = "btn btn-danger mt-3" 
               >Submit
             </button>
           </div>

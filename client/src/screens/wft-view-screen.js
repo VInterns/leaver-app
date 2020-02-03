@@ -1,4 +1,5 @@
 import React from "react";
+import {Table} from "react-bootstrap";
 
 const API = '/api/resignations';
 const INSERT = '/wf/insertBalance';
@@ -60,82 +61,102 @@ export class WorkForceScreenDetail extends React.Component {
                 "staffId": this.state.detail.staffId,
                 "phase3": phase3
             }),
-            headers: { 'Content-Type': 'application/json' }
+            headers: { "Content-Type": "application/json" }
         })
-            .then((res) => {
-                return res.json()
-            })
-            .then(data => {
-                console.log(data);
-            })
-            .catch((err) => {
-                console.log(err);
-            })
+        .then((res) => {
+            return res.json();
+        })
+        .then(data => {
+            console.log(data);
+        })
+        .catch((err) => {
+             console.log(err);
+        })
 
 
     }
 
     render() {
         const { detail } = this.state;
+        const phase1 = Object(detail.phase1);
         return (
-
-            <div className="detail-container">
-                <div className="top-panel">
-                    <h2>Leaver Details</h2>
-                    <div className="leaver-info">
-                        <div className="row-info">
-                            <label className="key">Staff ID</label>
-                            <label className="value">{detail.staffId}</label>
-                            <label className="value2">Leaver Name</label>
-                            <label className="key2">{detail.name}</label>
-                            <label className="key3">Department</label>
-                            <label className="value3">{detail.department}</label>
-                            <label className="key4">Job Title</label>
-                            <label className="value4">{detail.jobTitle}</label>
-
-                            <label className="key5">Mobile Number</label>
-                            <label className="value5">{detail.phone}</label>
-                            <label className="key6">SAP Staff ID</label>
-                            <label className="value6">{detail.SAPStuffId}</label>
-                            <label className="key7">Manger</label>
-                            <label className="value7">{detail.manager}</label>
-                            <label className="key8">Cost Center</label>
-                            <label className="value8">{detail.costCenter}</label>
-                            <label className="key9">Hire Date</label>
-                            <label className="value9">{detail.hiringDate}</label>
-                            <label className="key0">Last Working Day</label>
-                            <label className="value0">{detail.lastWorkingDay}</label>
+            <div className = "container">
+                <center style = {{margin: "25px"}}>
+                    <header>
+                        <hr/>
+                        <h3>Leaver Info</h3>
+                        <hr/>
+                    </header>
+                    <div>
+                        <div>
+                            <Table bordered hover>
+                                <tbody>
+                                    <tr>
+                                        <td><span style = {{fontWeight: "bold"}} >Staff ID:</span> {detail.staffId}</td>
+                                        <td><span style = {{fontWeight: "bold"}} >SAP Stuff ID:</span> {detail.sapStuffId}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span style = {{fontWeight: "bold"}} >Leaver Name:</span> {detail.name}</td>
+                                        <td><span style = {{fontWeight: "bold"}} >Manager:</span> {detail.managerName}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span style = {{fontWeight: "bold"}} >Department:</span> {detail.department}</td>
+                                        <td><span style = {{fontWeight: "bold"}} >Cost Center:</span> {detail.costCenter}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span style = {{fontWeight: "bold"}} >Job Title:</span> {detail.jobTitle}</td>
+                                        <td><span style = {{fontWeight: "bold"}} >Hiring Date:</span> {detail.hiringDate}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span style = {{fontWeight: "bold"}} >Mobile Number:</span> {detail.mobile}</td>
+                                        <td><span style = {{fontWeight: "bold"}} >Last Working Day:</span> {phase1.lastWorkDay}</td>
+                                    </tr>
+                                </tbody>
+                            </Table>
                         </div>
+                        <hr/>
+                        <div className = "d-flex flex-row justify-content-end">
+                            <label htmlFor = "iex" className = "p-2">IEX</label>
+                            <input 
+                                id = "iex" 
+                                type = "number" 
+                                value = {this.state.iex} 
+                                onChange = {this.handleChange} 
+                                className = "p-2 form-control col-sm-2" />
+                        </div>
+                        <div className = "d-flex flex-column">
+                            <h4 className = "p-2 align-self-start">Leaver Balance</h4>
+                            <div className = "p-2">
+                                <Table bordered>
+                                    <thead>
+                                        <tr style = {{backgroundColor: "#BE0002"}}>
+                                            <th className = "text-white">Annuals Granted</th>
+                                            <th className = "text-white">Annuals Taken</th>
+                                            <th className = "text-white">No Show</th>
+                                            <th className = "text-white">Lost Hours</th>
+                                            <th className = "text-white">In Lieu Days to Take</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><input style = {{width: "190px"}} type="number" className = "form-control" id="annualsGranted" value={this.state.annualsGranted} onChange={this.handleChange} /></td>
+                                            <td><input style = {{width: "190px"}} type="number" className = "form-control" id="annualsTaken" value={this.state.annualsTaken} onChange={this.handleChange} /></td>
+                                            <td><input style = {{width: "190px"}} type="number" className = "form-control" id="noShow" value={this.state.noShow} onChange={this.handleChange} /></td>
+                                            <td><input style = {{width: "190px"}} type="number" className = "form-control" id="lostHours" value={this.state.lostHours} onChange={this.handleChange} /></td>
+                                            <td><input style = {{width: "190px"}} type="number" className = "form-control" id="inLieuDaysToTake" value={this.state.inLieuDaysToTake} onChange={this.handleChange} /></td>
+                                        </tr>
+                                    </tbody>
+                                </Table>
+                            </div>
+                        </div>
+                        <button
+                            style = {{width: "100px"}}
+                            onClick = {this.submitBalance} 
+                            className = "btn btn-danger">
+                            Submit
+                        </button>
                     </div>
-                </div>
-
-                <label className="iex">IEX</label>
-                <input type="number" id="iex" value={this.state.iex} onChange={this.handleChange} className="iextxt" />
-                <h4>Leave Balance:</h4>
-
-                <div>
-                    <table id="balanceDetails">
-                        <tbody>
-                            <tr>
-                                <th>Annuals Granted</th>
-                                <th>Annuals Taken</th>
-                                <th>No Show</th>
-                                <th>Lost Hours</th>
-                                <th>In lieu days to take</th>
-                            </tr>
-                            <tr>
-                                <td><input type="number" id="annualsGranted" value={this.state.annualsGranted} onChange={this.handleChange} /></td>
-                                <td><input type="number" id="annualsTaken" value={this.state.annualsTaken} onChange={this.handleChange} /></td>
-                                <td><input type="number" id="noShow" value={this.state.noShow} onChange={this.handleChange} /></td>
-                                <td><input type="number" id="lostHours" value={this.state.lostHours} onChange={this.handleChange} /></td>
-                                <td><input type="number" id="inLieuDaysToTake" value={this.state.inLieuDaysToTake} onChange={this.handleChange} /></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div>
-                    <button onClick={this.submitBalance} className="bottom-panel">Submit</button>
-                </div>
+                </center>
             </div>
         )
     }

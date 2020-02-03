@@ -103,11 +103,15 @@ export class CCConsumerActivation extends Component {
         return (
             <div className="container">
                 <center style={{ margin: '25px' }}>
-                    <h3>CC Consumer Activation</h3>
+                    <header>
+                        <hr/>
+                        <h3>CC Consumer Activation</h3>
+                        <hr/>
+                    </header>
                     <div>
                         <div>
 
-                            <Table bordered hover striped>
+                            <Table bordered hover>
                                 <tbody>
                                     <tr>
                                         <td>Staff ID:  {this.state.Data.staffId}</td>
@@ -161,7 +165,7 @@ export class CCConsumerActivation extends Component {
                                 ref={inComment => this.inputComment = inComment}
                                 placeholder="Input Comment here" />
                         </div>
-                        <button className="btn btn-primary" style={{ width: '100px' }}
+                        <button className="btn btn-danger" style={{ width: '100px' }}
                             onClick={() => {
                                 this.clickSubmit()
                             }}>Submit</button>
