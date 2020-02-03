@@ -89,7 +89,7 @@ module.exports = db => {
     res.status(200).send({ msg: "hi" });
   });
 
-  router.post("/", function(req, res) {
+  router.post("/", function (req, res) {
     // check if resignatin request exists in db
     db.collection(collection)
       .findOne({ staffId: req.body.staffId })
@@ -112,14 +112,14 @@ module.exports = db => {
       });
   });
 
-  router.post("/update/phase6", function(req, res) {
+  router.post("/update/phase6", function (req, res) {
     var leaverId = req.body.staffId;
     db.collection(collection).findOneAndUpdate(
       { staffId: leaverId },
       {
         $set: { phase6: req.body.phase6 }
       },
-      function(err, doc) {
+      function (err, doc) {
         if (err) {
           res.status(404).send();
           throw err;
@@ -131,6 +131,16 @@ module.exports = db => {
         }
       }
     );
+  });
+
+  router.post("/resignations", (req, res) => {
+    db.collection(collection).update(req.body, (err, res) => {
+      if (err) {
+        throw err
+      } else {
+        return res.send('done')
+      }
+    })
   });
 
   return router;

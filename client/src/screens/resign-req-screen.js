@@ -30,7 +30,6 @@ export class ResignReqScreen extends Component {
       noShow: '',
       lostHours: '',
       daysToTake: '',
-
       sapStaffId: '',
       name: '',
       managerName: '',
@@ -84,6 +83,7 @@ export class ResignReqScreen extends Component {
       body: JSON.stringify({
         staffId: this.state.staffId,
         managerName: this.state.managerName,
+        name: this.state.name,
         status: "new",
         phase1: {
           status: "done",

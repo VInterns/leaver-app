@@ -7,3 +7,5 @@ export * from './consumer_table';
 export * from './authentication-screen';
 export * from './ast-table-screen';
 export * from './ast-view-screen';
+export * from './form-res-screen';
+export * from './elt-table-screen';
