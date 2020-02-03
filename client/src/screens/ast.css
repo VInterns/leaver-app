@@ -35,7 +35,7 @@
     height: 40px;
 }
 
-.ast tr:hover {
+.ast tbody tr:hover {
     background: #f8d5d5;
     font-weight: bold;
 }
