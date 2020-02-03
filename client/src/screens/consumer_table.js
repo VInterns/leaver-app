@@ -15,7 +15,7 @@ export class consumerTable extends Component {
 
     //fetch all pending resignations
     getData() {
-        var url = 'http://localhost:8080/api/resignations/pending';
+        var url = '/api/resignations/pending';
         axios.get(url)
             .then((retrieveData) => {
                 this.setState({

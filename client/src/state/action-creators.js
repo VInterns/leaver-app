@@ -3,7 +3,7 @@ import * as actions from './actions';
 export const login = (credentials) => (dispatch) =>
   makeRequest(
     dispatch,
-    "http://localhost:8080/api/login",
+    "/api/login",
     {
       method: "POST",
       headers: { "content-type": "application/json" },
@@ -35,7 +35,10 @@ export const logoutSuccessful = () => ({
 
 
 export const logout = () => (dispatch) => {
-  makeRequest(dispatch, "http://localhost:8080/api/login", { method: "DELETE" }, res => {
+  makeRequest(dispatch, "/api/login", {
+    method: "DELETE",
+    headers: { "content-type": "application/json" }
+  }, res => {
     if (res.status === 204) {
       dispatch(logoutSuccessful());
     }

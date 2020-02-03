@@ -1,7 +1,14 @@
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
+import { connect } from "react-redux";
 
 
+const mapStateToProps = (state) => {
+    return {
+        isAuthenticated: state.isAuthenticated,
+        account: state.account
+    };
+};
 
 export class PrivateRoute extends React.Component {
 
@@ -38,3 +45,6 @@ export class PrivateRoute extends React.Component {
     };
 
 }
+
+
+export const ConnectedPrivateRoute = connect(mapStateToProps)(PrivateRoute)

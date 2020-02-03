@@ -14,7 +14,7 @@ import storage from 'redux-persist/lib/storage'; // defaults to localStorage for
 import { authenticationReducer } from './state';
 import { PersistGate } from 'redux-persist/integration/react';
 
-import { Header, PrivateRoute } from './components';
+import { ConnectedHeader, ConnectedPrivateRoute } from './components';
 
 import {
   UploadExcelScreen,
@@ -29,7 +29,7 @@ import {
 import 'semantic-ui-css/semantic.min.css';
 
 const persistConfig = {
-  key: 'leaver-app',
+  key: 'leaver',
   storage,
 };
 
@@ -41,21 +41,18 @@ let store = createStore(
 );
 let persistor = persistStore(store);
 
+
 class App extends Component {
   Props: {
     isAuthenticated?: boolean,
     account?: Account
   };
   render() {
-    console.log(this.props)
-    const state = store.getState();
     return (
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <>
-            {
-              state.isLoggedIn && <Header account={state.account} />
-            }
+            <ConnectedHeader />
             <Router>
               <Switch>
                 <Route path="/" exact component={props => <AuthenticationScreen {...props} headerText="Sign in to Leaver App"
@@ -70,18 +67,13 @@ class App extends Component {
                   logo={null}
                   loginWelcomeImg={null} />}
                 />
-                <PrivateRoute path="/upload"
-                  exact
-                  allowed={["admin"]}
-                  component={UploadExcelScreen}
-                  isAuthenticated={state.isAuthenticated}
-                  account={state.account}
-                />
-                <Route path="/hr-view" component={HrViewScreen} />
-                <Route path="/resignations-details" component={ResignationsScreen} />
-                <Route path="/cc-consumer-activation-table" component={consumerTable} />
-                <Route path="/cc-consumer-activation" component={CCConsumerActivation} />
-                <Route path="/resign" component={ResignReqScreen} />
+
+                <ConnectedPrivateRoute path="/upload" exact allowed={["admin"]} component={UploadExcelScreen} />
+                <ConnectedPrivateRoute allowed={["admin"]} path="/hr-view" component={HrViewScreen} />
+                <ConnectedPrivateRoute allowed={["admin"]} path="/resignations-details" component={ResignationsScreen} />
+                <ConnectedPrivateRoute allowed={["admin"]} path="/cc-consumer-activation-table" component={consumerTable} />
+                <ConnectedPrivateRoute allowed={["admin"]} path="/cc-consumer-activation" component={CCConsumerActivation} />
+                <ConnectedPrivateRoute allowed={["admin"]} path="/resign" component={ResignReqScreen} />
               </Switch>
             </Router>
           </>
@@ -92,3 +84,4 @@ class App extends Component {
 }
 
 export default App;
+

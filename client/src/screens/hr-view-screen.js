@@ -10,7 +10,7 @@ export class HrViewScreen extends Component {
         };
     }
     componentWillMount() {
-        fetch('http://localhost:8080/api/resignations').then((res) => {
+        fetch('/api/resignations').then((res) => {
             res.json().then((data) => {
                 this.setState({ data: data });
             })

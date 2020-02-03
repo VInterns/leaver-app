@@ -20,8 +20,9 @@ export class LoginForm extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.isLoggedin) {
-      this.props.history.push('/');
+    console.log(nextProps)
+    if (nextProps.isAuthenticated) {
+      this.props.history.push('/upload');
     }
   }
   props: {
@@ -38,7 +39,7 @@ export class LoginForm extends Component {
     signupHref: string,
     tryLogin: () => {},
     loading: boolean,
-    isLoggedin: boolean,
+    isAuthenticated: boolean,
     error: string,
     history: Object,
   };

@@ -26,7 +26,7 @@ export class CCConsumerActivation extends Component {
         }
 
 
-        var url2 = 'http://localhost:8080/api/users/?id=' + params.id;
+        var url2 = '/api/users/?id=' + params.id;
         axios.get(url2)
             .then((retrieveData) => {
                 this.setState({
@@ -67,8 +67,8 @@ export class CCConsumerActivation extends Component {
 
         let url = this.props.location.search;
         let params = queryString.parse(url);
-        var url2 = 'http://localhost:8080/api/resignations/data?id=' + params.id;
-        axios.post("http://localhost:8080/api/resignations/national-id?id=" + params.id, this.state.selectedFile[0])
+        var url2 = '/api/resignations/data?id=' + params.id;
+        axios.post("/api/resignations/national-id?id=" + params.id, this.state.selectedFile[0])
 
         //send data to the backend
         fetch(url2, {

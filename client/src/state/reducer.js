@@ -17,18 +17,18 @@ export function authenticationReducer(
     case actions.LOGIN_SUCCEESS: {
       return {
         ...state,
-        token: action.payload.token,
         username: action.payload.username,
-        isLoggedIn: true,
+        isAuthenticated: true,
         errorMessage: '',
         loading: false,
+        account: action.payload
       };
     }
 
     case actions.LOGIN_FAILED: {
       return {
         ...state,
-        isLoggedIn: false,
+        isAuthenticated: false,
         errorMessage: action.payload,
         loading: false,
       };

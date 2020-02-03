@@ -1,30 +1,29 @@
 import React, { Component } from 'react';
-import { Loader, Dimmer, Image } from 'semantic-ui-react';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { LoginForm } from '../components/login-form';
-import { login } from '../state/action-creators';
+import { login, logout } from '../state/action-creators';
 
 class authenticationContainer extends Component {
   static mapStateToProps(state) {
     return {
       loginError: state.errorMessage,
       loading: state.loading,
-      isLoggedin: state.isLoggedIn,
+      isAuthenticated: state.isAuthenticated,
     };
   }
 
   static mapDispatchToProps(dispatch) {
-    return bindActionCreators({ login }, dispatch);
+    return bindActionCreators({ login, logout }, dispatch);
   }
 
 
   props: {
     loginError: string,
     loading: boolean,
-    isLoggedin: boolean,
+    isAuthenticated: boolean,
     login: (userModel: UserLoginModel) => void,
     headerText: string,
     subheaderText: string,
@@ -40,18 +39,6 @@ class authenticationContainer extends Component {
   };
 
   render() {
-    const value = (
-      <div>
-        <Dimmer active>
-          <Loader size="large" indeterminate>
-            Loading.....
-          </Loader>
-        </Dimmer>
-
-        <Image src="https://react.semantic-ui.com/images/wireframe/short-paragraph.png" />
-      </div>
-    );
-
 
     return (
       <div>
@@ -60,7 +47,7 @@ class authenticationContainer extends Component {
           tryLogin={this.props.login}
           error={this.props.loginError}
           loading={this.props.loading}
-          isLoggedin={this.props.isLoggedin}
+          isAuthenticated={this.props.isAuthenticated}
           headerText={this.props.headerText}
           subheaderText={this.props.subheaderText}
           loginText={this.props.loginText}

@@ -1,5 +1,5 @@
 import React from "react";
-
+import { connect } from "react-redux";
 import { Nav, Navbar } from 'react-bootstrap';
 
 
@@ -13,6 +13,9 @@ export class Header extends React.Component {
 
 
   render() {
+    if (!this.props.isAuthenticated) {
+      return null
+    };
     return (
       <Navbar style={{ backgroundColor: "#BE0002" }} variant="dark"  >
         <Navbar.Brand href="#">Leaver App</Navbar.Brand>
@@ -26,5 +29,13 @@ export class Header extends React.Component {
     );
 
   }
-
 }
+
+const mapStateToProps = (state) => {
+  return {
+    isAuthenticated: state.isAuthenticated,
+    account: state.account
+  };
+};
+
+export const ConnectedHeader = connect(mapStateToProps)(Header);

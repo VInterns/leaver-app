@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config();
 const connectMongo = require("connect-mongo");
 const debug = require("debug")("server");
 const http = require("http");
