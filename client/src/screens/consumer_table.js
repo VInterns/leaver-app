@@ -43,7 +43,7 @@ export class consumerTable extends Component {
                             <tbody>
                                 {this.state.Data.map((item, index) => {
                                     return <tr key={index}>
-                                        <td>{item.employeeName}</td>
+                                        <td>{item.name}</td>
                                         <td>{item.managerName}</td>
                                         <td>< button className="btn btn-primary" style={{
                                             backgroundColor: "#BE0002"

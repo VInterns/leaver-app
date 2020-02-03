@@ -113,10 +113,10 @@ export class CCConsumerActivation extends Component {
                                 <tbody>
                                     <tr>
                                         <td>Staff ID:  {this.state.Data.staffId}</td>
-                                        <td>SAP Staff ID:  {this.state.Data.sapId}</td>
+                                        <td>SAP Staff ID:  {this.state.Data.sapStaffId}</td>
                                     </tr>
                                     <tr>
-                                        <td>Leaver Name:  {this.state.Data.employeeName}</td>
+                                        <td>Leaver Name:  {this.state.Data.name}</td>
                                         <td>Manager:  {this.state.Data.managerName}</td>
                                     </tr>
                                     <tr>
@@ -128,7 +128,7 @@ export class CCConsumerActivation extends Component {
                                         <td>Hiring Date:  {this.state.Data.hiringDate}</td>
                                     </tr>
                                     <tr>
-                                        <td>Mobile Number:  {this.state.Data.mobNumber}</td>
+                                        <td>Mobile Number:  {this.state.Data.mobile}</td>
                                         <td>LastWorkingDay:  {this.state.Data.lastWorkingDay}</td>
                                     </tr>
                                 </tbody>

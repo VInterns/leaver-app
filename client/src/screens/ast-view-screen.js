@@ -151,7 +151,7 @@ export class ASTResignationDetailScreen extends React.Component {
             <div className="info-line">
               <FormLabel className="info-key">Mobile Number</FormLabel>
               <FormLabel className="info-value">
-                {resignationDetails.mobileNumber}
+                {resignationDetails.mobile}
               </FormLabel>
               <FormLabel className="info-key spaced">
                 Last Working Day
