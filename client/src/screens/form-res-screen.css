@@ -83,3 +83,23 @@ input {
     width: 10%;
     margin-left: 45%;
 }
+
+
+
+/******** ELTTableScreen Styles********/
+.elt-page {
+    background-color: #f9f9f9;
+    font-family: sans-serif;
+    padding: 75px;
+}
+
+.elt-page .elt-header {
+    margin-top: 30px;
+    text-align: start;
+    font-weight: bolder;
+    font-size: 25px;
+}
+
+.elt-page .elt-data {
+    padding: 15px;
+}

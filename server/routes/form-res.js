@@ -4,26 +4,33 @@ module.exports = (db) => {
 
     const router = new Router();
     router.post("/", (req, res) => {
-        console.log('FOUND')
-        db.collection('resignations').findOne({id : req.body.id}, (err, result) => {
+        console.log('Backend:: FOUND')
+
+        var leaverId = req.body.id;
+
+        db.collection('resignations').findOne({"staffId" : leaverId}, (err, result) => {
             if (err) {
                 throw err
             } else {
-                console.log(req.body)
-                console.log(result)
+                /* console.log(req.body)
+                console.log(result) */
                 return res.json(result);
             }
         })
     });
     router.post("/update", (req, res) => {
         console.log('HEY')
-        db.collection('resignations').updateOne({comment : req.body.comment}, (err, result) => {
+        var leaverId = req.body.staffId;
+        db.collection('resignations').findOneAndUpdate({"staffId": leaverId},
+            {$set: {"phase5" : req.body.phase5}}, (err, result) => {
             if (err) {
                 throw err
             } else {
-                console.log(req.body)
-                console.log(result)
-                return res.json(result);
+                /* console.log(req.body)
+                console.log(result) */
+                res.status(200).send({
+                    "msg": "phase 5 updated successfully"
+                })
             }
         })
     });

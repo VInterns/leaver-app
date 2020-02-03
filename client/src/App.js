@@ -11,7 +11,8 @@ import {
   LoginScreen,
   UploadExcelScreen,
   Resignations,
-  FormRes
+  FormRes,
+  ELTTableScreen
 } from './screens';
 
 import './App.css';
@@ -26,6 +27,7 @@ class App extends Component {
             <Route path="/" exact component={LoginScreen} />
             <Route path="/upload" component={UploadExcelScreen} />
             <Route path="/resignations" component={Resignations} />
+            <Route path="/elt" component = {ELTTableScreen}/>
             <Route path="/form-res" component={FormRes} />
           </Switch>
         </Router>

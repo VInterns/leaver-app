@@ -5,10 +5,14 @@ import './resignations-screen.css'
 export class FormRes extends React.Component {
     constructor(props) {
       super(props);
+      
       this.state = {
         entry: []
         //comment: ''
       };
+
+      this.submit = this.submit.bind(this);
+
     }
     getentry()
     {
@@ -16,7 +20,7 @@ export class FormRes extends React.Component {
        fetch(`http://localhost:8080/api/form/`, {
          method: 'post',
          //mode: 'no-cors',
-         body: JSON.stringify({id : this.props.history.location.pathname.split('/')[2]}),
+         body: JSON.stringify({id : this.props.history.location.state.resId}),
          headers: {
           'content-type': 'application/json'
         },
@@ -30,11 +34,20 @@ export class FormRes extends React.Component {
        )
     }
     submit(e) {
+      e.preventDefault();
       //var comment = e.target.elements.comment.value
-      console.log(e.target.elements.comment.value)
+      /* console.log("e.target::", e.target.elements.comment.value)
+      console.log("staffId", this.state.entry.staffId); */
+
+      let phase5 = {
+        comment : e.target.elements.comment.value
+      }
       fetch('http://localhost:8080/api/form/update', {
         method: 'post',
-        body: JSON.stringify({comment : e.target.elements.comment.value}),
+        body: JSON.stringify({
+          staffId: this.state.entry.staffId,
+          phase5: phase5
+        }),
         headers: {
           'content-type': 'application/json'
         },
@@ -45,14 +58,14 @@ export class FormRes extends React.Component {
     }
     handleChange = e => {
         this.state.comment = e.target.elements.value;
-        console.log(e.target.tagName);
+        //console.log(e.target.tagName);
         this.setState({ [e.target.name]: e.target.value });
         //this.submit(comment)
       }
     componentDidMount(){
     this.getentry()
-    console.log()
-    console.log(this.props.history)
+    /* console.log()
+    console.log(this.props.history) */
     //console.log(this.props.history.location.pathname.split('/')[2])
     }
     renderEntry() {
@@ -92,7 +105,7 @@ export class FormRes extends React.Component {
               </div>
     
               <br />
-              <input type="submit" value="Submit" className="submit_btn" onClick={this.submit}/>
+              <input type="submit" value="Submit" className="submit_btn" onClick={() => this.submit}/>
               </form>
           </div>
         );
