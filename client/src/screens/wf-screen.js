@@ -1,13 +1,11 @@
 import React from "react";
-import {
-    Table
-} from 'react-bootstrap';
-import './wf-screen.css';
-const API = 'http://localhost:8080/api/resignations';
+import { Table } from 'react-bootstrap';
+
+const API = '/api/resignations';
 const SEARCH = '/wf/fetchRequests'
 
 /////////////////////////////////////////////////////////////////////////
-export class WorkForceScreen extends React.Component{
+export class WorkForceScreen extends React.Component {
 
 
     constructor(props) {
@@ -26,25 +24,25 @@ export class WorkForceScreen extends React.Component{
         //this.timer = setInterval(() => this.fetchRequestsData(), 1000000000);
     }
 
-    clickButton(req){
-      this.props.history.push({
-          pathname: "/wf-view-detail",
-          state: {detail : req}
-      })
+    clickButton(req) {
+        this.props.history.push({
+            pathname: "/wf-view-detail",
+            state: { detail: req }
+        })
     }
 
     fetchRequestsData() {
-        this.setState({...this.state});
-        fetch(API + SEARCH )
-            .then( (res) => {
+        this.setState({ ...this.state });
+        fetch(API + SEARCH)
+            .then((res) => {
                 return res.json();
                 // console.log(res.json())
                 // const retRequests = res.data;
                 // console.log(res)
                 // this.setState({requests: retRequests})
-            }).then(data=>{
+            }).then(data => {
                 console.log(data)
-                this.setState({requests: data})
+                this.setState({ requests: data })
             })
             .catch((err) => {
                 console.log(err);
@@ -52,27 +50,25 @@ export class WorkForceScreen extends React.Component{
     }
 
     render() {
-        const {requests} = this.state;
-            return (
-                <div className = "request">
-                    <h1 id = "wf">WF Table</h1>
-                    <Table id = "requests">
-                        <tbody>
+        const { requests } = this.state;
+        return (
+            <div className="request">
+                <h1 id="wf">WF Table</h1>
+                <Table id="requests">
+                    <tbody>
                         <tr>
                             <th>Staff ID</th>
                             <th>Name</th>
                             <th>Status</th>
                         </tr>
-                        {requests.map(request=> <tr onClick = {() => this.clickButton(request)} key = {request.staffId}>
-                        <td>{request.staffId}</td>
-                        <td>{request.name}</td>
-                        <td>{request.status}</td>
+                        {requests.map(request => <tr onClick={() => this.clickButton(request)} key={request.staffId}>
+                            <td>{request.staffId}</td>
+                            <td>{request.name}</td>
+                            <td>{request.status}</td>
                         </tr>)}
-                        </tbody>
-                    </Table>
-                </div>
-            )
-        }
+                    </tbody>
+                </Table>
+            </div>
+        )
+    }
 }
-
-/////////////////////////////////////////////////////////////////////////

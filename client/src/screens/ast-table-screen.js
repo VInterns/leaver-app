@@ -1,6 +1,5 @@
 import React from "react";
 import { Table } from "react-bootstrap";
-import "./ast.css";
 
 /////////////////////////////////////////////////////////////////////////
 const API = "/api/";
@@ -74,8 +73,8 @@ export class ASTTableScreen extends React.Component {
                   {request.phase6.status === "done" ? (
                     <td id="done">{request.phase6.status}</td>
                   ) : (
-                    <td id="pending">{request.phase6.status}</td>
-                  )}
+                      <td id="pending">{request.phase6.status}</td>
+                    )}
                 </tr>
               ))}
             </tbody>

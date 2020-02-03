@@ -1,5 +1,4 @@
 import React from "react";
-import "./ast.css";
 import { Form, FormLabel, Row, Col, Button } from "react-bootstrap";
 
 /////////////////////////////////////////////////////////////////////////

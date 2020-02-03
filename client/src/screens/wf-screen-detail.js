@@ -1,17 +1,16 @@
 import React from "react";
-import "./wf-screen-detail.css";
 
-const API = 'http://localhost:8080/api/resignations';
+const API = '/api/resignations';
 const INSERT = '/wf/insertBalance';
-/////////////////////////////////////////////////////////////////////////
-export class WorkForceScreenDetail  extends React.Component{
+
+export class WorkForceScreenDetail extends React.Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            detail : {},
-            annualsGranted : "",
+            detail: {},
+            annualsGranted: "",
             annualsTaken: "",
             noShow: "",
             lostHours: "",
@@ -24,9 +23,9 @@ export class WorkForceScreenDetail  extends React.Component{
 
     }
 
-    handleChange=(event)=> {
+    handleChange = (event) => {
         let state = {};
-        state[event.target.id]=event.target.value;
+        state[event.target.id] = event.target.value;
         this.setState(state);
     }
 
@@ -36,7 +35,7 @@ export class WorkForceScreenDetail  extends React.Component{
         this.setState({
             detail: retDetail
         })
- 
+
     }
 
     submitBalance = (event) => {
@@ -61,61 +60,61 @@ export class WorkForceScreenDetail  extends React.Component{
                 "staffId": this.state.detail.staffId,
                 "phase3": phase3
             }),
-            headers: {'Content-Type': 'application/json'}
+            headers: { 'Content-Type': 'application/json' }
         })
-        .then((res) => {
+            .then((res) => {
                 return res.json()
-        })
-        .then(data => {
-            console.log(data);
-        })
-        .catch((err) => {
+            })
+            .then(data => {
+                console.log(data);
+            })
+            .catch((err) => {
                 console.log(err);
-        })
+            })
 
 
     }
 
     render() {
-        const {detail} = this.state;
-        return(
-            
-            <div className = "detail-container">
-                <div className = "top-panel">
-                    <h2>Leaver Details</h2>
-                    <div className = "leaver-info">
-                        <div className = "row-info">
-                            <label className = "key">Staff ID</label>
-                            <label className = "value">{detail.staffId}</label>
-                            <label className = "value2">Leaver Name</label>
-                            <label className = "key2">{detail.name}</label>
-                            <label className = "key3">Department</label>
-                            <label className = "value3">{detail.department}</label>
-                            <label className = "key4">Job Title</label>
-                            <label className = "value4">{detail.jobTitle}</label>
+        const { detail } = this.state;
+        return (
 
-                            <label className = "key5">Mobile Number</label>
-                            <label className = "value5">{detail.phone}</label>
-                            <label className = "key6">SAP Staff ID</label>
-                            <label className = "value6">{detail.SAPStuffId}</label>
-                            <label className = "key7">Manger</label>
-                            <label className = "value7">{detail.manager}</label>
-                            <label className = "key8">Cost Center</label>
-                            <label className = "value8">{detail.costCenter}</label>
-                            <label className = "key9">Hire Date</label>
-                            <label className = "value9">{detail.hiringDate}</label>
-                            <label className = "key0">Last Working Day</label>
-                            <label className = "value0">{detail.lastWorkingDay}</label>
+            <div className="detail-container">
+                <div className="top-panel">
+                    <h2>Leaver Details</h2>
+                    <div className="leaver-info">
+                        <div className="row-info">
+                            <label className="key">Staff ID</label>
+                            <label className="value">{detail.staffId}</label>
+                            <label className="value2">Leaver Name</label>
+                            <label className="key2">{detail.name}</label>
+                            <label className="key3">Department</label>
+                            <label className="value3">{detail.department}</label>
+                            <label className="key4">Job Title</label>
+                            <label className="value4">{detail.jobTitle}</label>
+
+                            <label className="key5">Mobile Number</label>
+                            <label className="value5">{detail.phone}</label>
+                            <label className="key6">SAP Staff ID</label>
+                            <label className="value6">{detail.SAPStuffId}</label>
+                            <label className="key7">Manger</label>
+                            <label className="value7">{detail.manager}</label>
+                            <label className="key8">Cost Center</label>
+                            <label className="value8">{detail.costCenter}</label>
+                            <label className="key9">Hire Date</label>
+                            <label className="value9">{detail.hiringDate}</label>
+                            <label className="key0">Last Working Day</label>
+                            <label className="value0">{detail.lastWorkingDay}</label>
                         </div>
                     </div>
                 </div>
 
                 <label className="iex">IEX</label>
-                <input type="number" id="iex"  value = {this.state.iex} onChange = {this.handleChange} className="iextxt"/>
+                <input type="number" id="iex" value={this.state.iex} onChange={this.handleChange} className="iextxt" />
                 <h4>Leave Balance:</h4>
 
                 <div>
-                    <table id = "balanceDetails">
+                    <table id="balanceDetails">
                         <tbody>
                             <tr>
                                 <th>Annuals Granted</th>
@@ -123,25 +122,23 @@ export class WorkForceScreenDetail  extends React.Component{
                                 <th>No Show</th>
                                 <th>Lost Hours</th>
                                 <th>In lieu days to take</th>
-                              </tr>
+                            </tr>
                             <tr>
-                                <td><input type="number" id="annualsGranted" value = {this.state.annualsGranted} onChange = {this.handleChange}/></td>
-                                <td><input type="number" id="annualsTaken" value = {this.state.annualsTaken} onChange = {this.handleChange}/></td>
-                                <td><input type="number" id="noShow" value = {this.state.noShow} onChange = {this.handleChange}/></td>
-                                <td><input type="number" id="lostHours" value = {this.state.lostHours} onChange = {this.handleChange}/></td>
-                                <td><input type="number" id="inLieuDaysToTake" value = {this.state.inLieuDaysToTake} onChange = {this.handleChange}/></td>
+                                <td><input type="number" id="annualsGranted" value={this.state.annualsGranted} onChange={this.handleChange} /></td>
+                                <td><input type="number" id="annualsTaken" value={this.state.annualsTaken} onChange={this.handleChange} /></td>
+                                <td><input type="number" id="noShow" value={this.state.noShow} onChange={this.handleChange} /></td>
+                                <td><input type="number" id="lostHours" value={this.state.lostHours} onChange={this.handleChange} /></td>
+                                <td><input type="number" id="inLieuDaysToTake" value={this.state.inLieuDaysToTake} onChange={this.handleChange} /></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <div>
-                    <button  onClick = {this.submitBalance} className = "bottom-panel">Submit</button>
+                    <button onClick={this.submitBalance} className="bottom-panel">Submit</button>
                 </div>
             </div>
         )
     }
-    
+
 
 }
-
-/////////////////////////////////////////////////////////////////////////
