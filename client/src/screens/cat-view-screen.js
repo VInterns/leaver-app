@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Table } from "reactstrap";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-//import queryString from 'query-string';
+import { ImageUploaderComponent } from '../components'
 
 var phoneBilledAmount = 'yes';
 export class CCConsumerActivation extends Component {
@@ -12,7 +11,8 @@ export class CCConsumerActivation extends Component {
         super(props);
         this.state = {
             Data: [],
-            lastWorkDay: ""
+            lastWorkDay: "",
+            nationalId: null
         };
         this.getData();
     }
@@ -55,12 +55,11 @@ export class CCConsumerActivation extends Component {
 
     clickSubmit() {
         //check if all data is given
-        if (this.state.selectedFile == null || this.state.selectedFile.length !== 1) {
+        if (!this.state.nationalId) {
             toast.error("Please select one file and try again");
             this.inputRatePlan.value = '';
             this.inputComment.value = '';
             phoneBilledAmount = 'yes';
-
             return;
         }
         else if (this.inputRatePlan.value === "" || this.inputComment.value === "") {
@@ -77,8 +76,6 @@ export class CCConsumerActivation extends Component {
 
         let id = params.staffId;
         var url2 = '/api/resignations/data?id=' + id;
-        axios.post("/api/resignations/national-id?id=" + id, this.state.selectedFile[0])
-
         //send data to the backend
         fetch(url2, {
             method: 'POST',
@@ -90,16 +87,13 @@ export class CCConsumerActivation extends Component {
                 ratePlan: this.inputRatePlan.value,
                 comment: this.inputComment.value,
                 phoneBilledAmount: phoneBilledAmount,
-                nationalId: this.state.selectedFile[0]
+                nationalId: this.state.nationalId
             })
-        })
-            //if success redirect to the cc-consumer-activation-table
-            .then((response) => {
-                this.props.history.push('cc-consumer-activation-table')
-            })
-            .catch(function (error) {
-                toast.error("Upload Fail");
-            });
+        }).then((response) => {
+            this.props.history.push('/cc-consumer-activation-table')
+        }).catch(function (error) {
+            toast.error("Upload Fail");
+        });
 
 
     };
@@ -108,14 +102,25 @@ export class CCConsumerActivation extends Component {
     getVal(sel) {
         phoneBilledAmount = sel.target.value;
     }
+
+    imageUploaderHandler = (file) => {
+        this.setState({
+            nationalId: {
+                fileName: file.name,
+                dataURL: file.dataURL,
+                type: file.type,
+                size: file.size
+            }
+        })
+    }
     render() {
         return (
             <div className="container">
                 <center style={{ margin: '25px' }}>
                     <header>
-                        <hr/>
+                        <hr />
                         <h3>CC Consumer Activation</h3>
-                        <hr/>
+                        <hr />
                     </header>
                     <div>
                         <div>
@@ -123,37 +128,32 @@ export class CCConsumerActivation extends Component {
                             <Table bordered hover>
                                 <tbody>
                                     <tr>
-                                        <td><span style = {{fontWeight: "bold"}}>Staff ID:</span> {this.state.Data.staffId}</td>
-                                        <td><span style = {{fontWeight: "bold"}}>SAP Staff ID:</span>  {this.state.Data.sapStaffId}</td>
+                                        <td><span style={{ fontWeight: "bold" }}>Staff ID:</span> {this.state.Data.staffId}</td>
+                                        <td><span style={{ fontWeight: "bold" }}>SAP Staff ID:</span>  {this.state.Data.sapStaffId}</td>
                                     </tr>
                                     <tr>
-                                        <td><span style = {{fontWeight: "bold"}}>Leaver Name:</span>  {this.state.Data.name}</td>
-                                        <td><span style = {{fontWeight: "bold"}}>Manager:</span>  {this.state.Data.managerName}</td>
+                                        <td><span style={{ fontWeight: "bold" }}>Leaver Name:</span>  {this.state.Data.name}</td>
+                                        <td><span style={{ fontWeight: "bold" }}>Manager:</span>  {this.state.Data.managerName}</td>
                                     </tr>
                                     <tr>
-                                        <td><span style = {{fontWeight: "bold"}}>Department:</span>  {this.state.Data.department}</td>
-                                        <td><span style = {{fontWeight: "bold"}}>Cost Center: </span> {this.state.Data.costCenter}</td>
+                                        <td><span style={{ fontWeight: "bold" }}>Department:</span>  {this.state.Data.department}</td>
+                                        <td><span style={{ fontWeight: "bold" }}>Cost Center: </span> {this.state.Data.costCenter}</td>
                                     </tr>
                                     <tr>
-                                        <td><span style = {{fontWeight: "bold"}}>Job Title:</span>{this.state.Data.jobTitle}</td>
-                                        <td><span style = {{fontWeight: "bold"}}>Hiring Date:</span>  {this.state.Data.hiringDate}</td>
+                                        <td><span style={{ fontWeight: "bold" }}>Job Title:</span>{this.state.Data.jobTitle}</td>
+                                        <td><span style={{ fontWeight: "bold" }}>Hiring Date:</span>  {this.state.Data.hiringDate}</td>
                                     </tr>
                                     <tr>
-                                        <td><span style = {{fontWeight: "bold"}}>Mobile Number: </span> {this.state.Data.mobile}</td>
-                                        <td><span style = {{fontWeight: "bold"}}>LastWorkingDay:</span>  {this.state.lastWorkDay}</td>
+                                        <td><span style={{ fontWeight: "bold" }}>Mobile Number: </span> {this.state.Data.mobile}</td>
+                                        <td><span style={{ fontWeight: "bold" }}>LastWorkingDay:</span>  {this.state.lastWorkDay}</td>
                                     </tr>
                                 </tbody>
                             </Table>
                         </div>
-                        <hr/>
+                        <hr />
                         <div className="form-group files">
                             <div>Upload Scanned copy of National ID </div>
-                            <input
-                                type="file"
-                                className="form-control"
-                                multiple
-                                onChange={this.onChangeHandler}
-                            />
+                            <ImageUploaderComponent fileAddHandler={this.imageUploaderHandler} />
                         </div>
                         <div className="form-group" style={{ margin: '15px' }}>
                             <div>Rate Plan</div>
