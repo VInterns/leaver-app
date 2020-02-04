@@ -7,6 +7,7 @@ import {
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ImageUploaderComponent } from '../components';
 
 const API = '/api/';
 const SEARCH = 'users/search'
@@ -151,6 +152,17 @@ export class ResignReqScreen extends Component {
     else {
       this.setState({ [e.target.name]: e.target.value });
     }
+  }
+
+  imageUploaderHandler = (file) => {
+    this.setState({
+      nationalIdImg: {
+        fileName: file.name,
+        dataURL: file.dataURL,
+        type: file.type,
+        size: file.size
+      }
+    })
   }
 
   render() {
@@ -299,7 +311,9 @@ export class ResignReqScreen extends Component {
           <Form.Group className="p-2 border border-danger">
             <Row>
               <Col><Form.Label>Copy of National ID</Form.Label></Col>
-              <Col><input required type="file" className="form-control-file border" name="nationalIdImg" onChange={this.handleChange} /></Col>
+              <Col>
+                <ImageUploaderComponent fileAddHandler={this.imageUploaderHandler} />
+              </Col>
             </Row>
           </Form.Group>
           <br />
