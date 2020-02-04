@@ -31,7 +31,9 @@ import {
   FormRes,
   ELTTableScreen,
   SHTTableScreen,
-  SHTViewScreen
+  SHTViewScreen,
+  SMCTableScreen,
+  SMCResignationDetailScreen
 } from './screens';
 
 import 'semantic-ui-css/semantic.min.css';
@@ -80,6 +82,8 @@ class App extends Component {
                 <ConnectedPrivateRoute path="/upload" exact allowed={["admin"]} component={UploadExcelScreen} />
                 <ConnectedPrivateRoute allowed={["admin"]} path="/hr-view" component={HrViewScreen} />
                 <ConnectedPrivateRoute allowed={["admin"]} path="/resignations-details" component={ResignationsScreen} />
+                <ConnectedPrivateRoute allowed={["admin"]} path="/smc" component={SMCTableScreen} />
+                <ConnectedPrivateRoute allowed={["admin"]} path="/smc-view/:staffId/:lastWorkDay" component={SMCResignationDetailScreen} />
                 <ConnectedPrivateRoute allowed={["admin"]} path="/cc-consumer-activation-table" component={ConsumerTable} />
                 <ConnectedPrivateRoute allowed={["admin"]} path="/cc-consumer-activation/:staffId/:lastWorkDay" component={CCConsumerActivation} />
                 <ConnectedPrivateRoute allowed={["admin"]} path="/resign" component={ResignReqScreen} />

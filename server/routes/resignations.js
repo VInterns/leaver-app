@@ -165,6 +165,28 @@ module.exports = db => {
     );
   });
 
+  router.post("/update/phase2", function (req, res) {
+    var leaverId = req.body.staffId;
+    db.collection(collection).findOneAndUpdate(
+      { staffId: leaverId },
+      {
+        $set: { phase2: req.body.phase2 }
+      },
+      function (err, doc) {
+        if (err) {
+          res.status(404).send();
+          throw err;
+        } else {
+          res.status(200).send({
+            msg:
+              "Employee successfully found, and SMC data successfully updated"
+          });
+        }
+      }
+    );
+  });
+
+
   router.post("/update/phase7", function (req, res) {
     var leaverId = req.body.staffId;
     db.collection(collection).findOneAndUpdate(

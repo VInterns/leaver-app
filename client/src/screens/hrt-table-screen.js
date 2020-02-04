@@ -52,13 +52,13 @@ export class HrViewScreen extends Component {
                     <tr style = {{backgroundColor: "#BE0002"}}>
                         <th className = "text-white">Staff ID</th>
                         <th className = "text-white">Manager Name</th>
-                        <th className = "text-white">Phase 1</th>
-                        <th className = "text-white">Phase 2</th>
-                        <th className = "text-white">Phase 3</th>
-                        <th className = "text-white">Phase 4</th>
-                        <th className = "text-white">Phase 5</th>
-                        <th className = "text-white">Phase 6</th>
-                        <th className = "text-white">Phase 7</th>
+                        <th className = "text-white">Resignation Reguest</th>
+                        <th className = "text-white">Customer Care</th>
+                        <th className = "text-white">Work Force</th>
+                        <th className = "text-white">CC Consumer Activation</th>
+                        <th className = "text-white">Enterprise Logistics</th>
+                        <th className = "text-white">Application Security</th>
+                        <th className = "text-white">Security Hardware Token</th>
                     </tr>
                 </thead>
                 <tbody>

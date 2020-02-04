@@ -4,7 +4,7 @@ module.exports = (db) => {
 
     const router = new Router();
     router.post("/", (req, res) => {
-        ('Backend:: FOUND')
+        // ('Backend:: FOUND')
 
         var leaverId = req.body.id;
 
@@ -19,7 +19,7 @@ module.exports = (db) => {
         })
     });
     router.post("/update", (req, res) => {
-        ('HEY')
+        // ('HEY')
         var leaverId = req.body.staffId;
         db.collection('resignations').findOneAndUpdate({"staffId": leaverId},
             {$set: {"phase5" : req.body.phase5}}, (err, result) => {

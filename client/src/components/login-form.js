@@ -103,7 +103,6 @@ export class LoginForm extends Component {
         </Grid.Column>
         <Grid.Column
           largeScreen={9}
-          widescreen={16}
           style={{ backgroundColor: '#f4f4f4' }}
         >
           <Grid
