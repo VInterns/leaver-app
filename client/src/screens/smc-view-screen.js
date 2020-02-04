@@ -33,12 +33,15 @@ export class SMCResignationDetailScreen extends React.Component {
 
   ///////////////////////////////////////////////
   componentDidMount() {
+
     let params = this.props.match.params;
     let lastDay = params.lastWorkDay;
+
     this.fetchLeaverInfo(params.staffId);
     this.setState({
       lastWorkDay: lastDay
     })
+    
   }
 
   ///////////////////////////////////////////////
@@ -105,7 +108,7 @@ export class SMCResignationDetailScreen extends React.Component {
 
     let phase2 = {
       returnedHeadset: returnedHeadsetNormalized,
-      disabledRemedyAccount: returnedKeysNormalized,
+      returnedKeys: returnedKeysNormalized,
       returnedOhda: returnedOhdaNormalized,
       deduct: deductNormalized,
       comment: this.state.comment,
