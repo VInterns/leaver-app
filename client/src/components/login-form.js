@@ -20,7 +20,6 @@ export class LoginForm extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps)
     if (nextProps.isAuthenticated) {
       this.props.history.push('/upload');
     }

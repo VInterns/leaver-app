@@ -8,39 +8,50 @@ export class FormRes extends React.Component {
     super(props);
 
     this.state = {
-      entry: []
+      entry: [],
+      lastWorkDay: ""
       //comment: ''
     };
 
     this.submit = this.submit.bind(this);
-
   }
+
+
+
+
   getentry() {
-    //console.log(this.props.history.location.pathname.split('/')[2])
+
     fetch(`/api/form/`, {
       method: 'post',
-      //mode: 'no-cors',
       body: JSON.stringify({ id: this.props.history.location.state.resId }),
       headers: {
         'content-type': 'application/json'
       },
-      //body: JSON.stringify({id: '2345'})
     })
-      .then(response => response.json())
-      .then(data =>
+      .then(response => {
+          return response.json()
+      })
+      .then(data => {
         this.setState({
           entry: data,
         })
-      )
+      })
+      .catch(err => {
+        throw err;
+      })
   }
+
+
+
   submit(e) {
     e.preventDefault();
     //var comment = e.target.elements.comment.value
-    /* console.log("e.target::", e.target.elements.comment.value)
-    console.log("staffId", this.state.entry.staffId); */
+    /* ("e.target::", e.target.elements.comment.value)
+    ("staffId", this.state.entry.staffId); */
 
     let phase5 = {
-      comment: e.target.elements.comment.value
+      comment: e.target.elements.comment.value,
+      status: "done"
     }
     fetch('/api/form/update', {
       method: 'post',
@@ -56,27 +67,38 @@ export class FormRes extends React.Component {
       return res.json();
     })
     .then(data => {
-      console.log(data);
+      return data;
     })
     .catch((err)=> {
       throw err;
     })
   }
+
+
+
   onSubmit = (e) => {
     e.preventDefault();
   }
+
+
+
   handleChange = e => {
-    //this.setState({ comment: e.target.elements.value });
-    //console.log(e.target.tagName);
     this.setState({ [e.target.id]: e.target.value });
     //this.submit(comment)
   }
+
+
   componentDidMount() {
     this.getentry()
-    /* console.log()
-    console.log(this.props.history) */
-    //console.log(this.props.history.location.pathname.split('/')[2])
+
+    let lastDay = this.props.history.location.state.lastWorkDay;
+
+    this.setState({
+      lastWorkDay: lastDay
+    })
   }
+
+
   renderEntry() {
     return (
       Object.values(this.state.entry).map((value, index) => {
@@ -90,10 +112,12 @@ export class FormRes extends React.Component {
       )
     )
   };
+
+
+
   render() {
 
     const {entry} = this.state;
-    const phase1 = Object(entry.phase1);
 
     return (
       <div className = "container">
@@ -111,7 +135,7 @@ export class FormRes extends React.Component {
                 <tbody>
                   <tr>
                     <td><span style = {{fontWeight: "bold"}} >Staff ID:</span> {entry.staffId}</td>
-                    <td><span style = {{fontWeight: "bold"}} >SAP Stuff ID:</span> {entry.sapStuffId}</td>
+                    <td><span style = {{fontWeight: "bold"}} >SAP Stuff ID:</span> {entry.sapStaffId}</td>
                   </tr>
                   <tr>
                     <td><span style = {{fontWeight: "bold"}} >Leaver Name:</span> {entry.name}</td>
@@ -127,7 +151,7 @@ export class FormRes extends React.Component {
                   </tr>
                   <tr>
                     <td><span style = {{fontWeight: "bold"}} >Mobile Number:</span> {entry.mobile}</td>
-                    <td><span style = {{fontWeight: "bold"}} >Last Working Day:</span> {phase1.lastWorkDay}</td>
+                    <td><span style = {{fontWeight: "bold"}} >Last Working Day:</span> {this.state.lastWorkDay}</td>
                   </tr>
                 </tbody>
               </Table>

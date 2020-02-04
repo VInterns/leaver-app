@@ -50,10 +50,11 @@ export class ConsumerTable extends Component {
                                     return <tr key={index}>
                                         <td>{item.name}</td>
                                         <td>{item.managerName}</td>
-                                        <td>< button className="btn btn-primary" style={{
-                                            backgroundColor: "#BE0002"
-                                        }} onClick={() => {
-                                            this.props.history.push('cc-consumer-activation?id=' + item.staffId)
+                                        <td>< button 
+                                            className="btn btn-primary" 
+                                            style={{ backgroundColor: "#BE0002"}} 
+                                            onClick={() => {
+                                            this.props.history.push(`/cc-consumer-activation/${item.staffId}/${item.phase1.lastWorkDay}`)
                                         }
                                         } > Fill Forum</button ></td>
                                     </tr>

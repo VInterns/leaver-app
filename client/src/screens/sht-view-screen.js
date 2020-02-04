@@ -6,21 +6,19 @@ import {
 
 /////////////////////////////////////////////////////////////////////////
 const API = "/api";
-const ROUTE = "/resignations/update/phase6";
+const ROUTE = "/resignations/update/phase7";
 const DONE = "done";
 const PENDING = "pending";
 
 /////////////////////////////////////////////////////////////////////////
-export class ASTResignationDetailScreen extends React.Component {
+export class SHTViewScreen extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       resignationDetails: {},
       leaver: {},
-      disabledSecureId: false,
-      disabledRemedyAccount: false,
-      disabledAccountsInProductionSystems: false,
+      returnedHwToken: false,
       comment: ""
     };
 
@@ -46,12 +44,8 @@ export class ASTResignationDetailScreen extends React.Component {
     return value === "true" ? true : false;
   }
 
-  checkStatus(condX, condY, condZ) {
-    if (condX === true && condY === true && condZ === true) {
-      return DONE;
-    } else {
-      return PENDING;
-    }
+  checkStatus(condX) {
+    return (condX === true)? DONE: PENDING;
   }
 
   handleChange(event) {
@@ -86,33 +80,19 @@ export class ASTResignationDetailScreen extends React.Component {
   submitButton(event) {
     event.preventDefault();
 
-    var disabledSecureIdNormalized = this.normalizeVal(
-      this.state.disabledSecureId
-    );
-    var disabledRemedyAccountNormalized = this.normalizeVal(
-      this.state.disabledRemedyAccount
-    );
-    var disabledAccountsInProductionSystemsNormalized = this.normalizeVal(
-      this.state.disabledAccountsInProductionSystems
-    );
+    var returnedHwTokenNormalized = this.normalizeVal(this.state.returnedHwToken)
 
-    let phase6 = {
-      disabledSecureId: disabledSecureIdNormalized,
-      disabledRemedyAccount: disabledRemedyAccountNormalized,
-      disabledAccountsInProductionSystems: disabledAccountsInProductionSystemsNormalized,
+    let phase7 = {
+      returnedHwToken: returnedHwTokenNormalized,
       comment: this.state.comment,
-      status: this.checkStatus(
-        disabledSecureIdNormalized,
-        disabledRemedyAccountNormalized,
-        disabledAccountsInProductionSystemsNormalized
-      )
+      status: this.checkStatus(returnedHwTokenNormalized)
     };
 
     fetch(API + ROUTE, {
       method: "post",
       body: JSON.stringify({
         staffId: this.state.resignationDetails.staffId,
-        phase6: phase6
+        phase7: phase7
       }),
       headers: { "Content-Type": "application/json" }
     })
@@ -120,7 +100,7 @@ export class ASTResignationDetailScreen extends React.Component {
         return res.json();
       })
       .then(data => {
-        return data;
+        return data
       })
       .catch(err => {
         throw err;
@@ -169,40 +149,16 @@ export class ASTResignationDetailScreen extends React.Component {
             </div>
             <hr/>
             <div className = "d-flex flex-row">
-              <div className = "p-2">disabled Secure ID</div>
+              <div className = "p-2">Returned HW Token</div>
               <select 
-                id = "disabledSecureId"
+                id = "returnedHwToken"
                 onChange = {this.handleChange}
                 className = "p-2 form-control col-sm-1"
-                defaultValue = {this.state.disabledSecureId}>
+                defaultValue = {this.state.returnedHwToken}>
                 <option value = {true}>Yes</option>
                 <option value = {false}>No</option>
               </select>
             </div>
-            <div className = "d-flex flex-row mt-3">
-              <div className = "p-2">disabled Remedy Account</div>
-              <select 
-                id = "disabledRemedyAccount"
-                onChange = {this.handleChange}
-                className = "p-2 form-control col-sm-1"
-                defaultValue = {this.state.disabledRemedyAccount}>
-                <option value = {true}>Yes</option>
-                <option value = {false}>No</option>
-              </select>
-            </div>
-            <br/>
-            <div className = "d-flex flex-row mt-3">
-              <div className = "p-2">disabled Accounts in Production Systems</div>
-              <select 
-                id = "disabledAccountsInProductionSystems"
-                onChange = {this.handleChange}
-                className = "p-2 form-control col-sm-1 text-center"
-                defaultValue = {this.state.disabledAccountsInProductionSystems}>
-                <option value = {true}>Yes</option>
-                <option value = {false}>No</option>
-              </select>
-            </div>
-            <br/>
             <div className = "d-flex flex-column mt-3">
               <label htmlFor = "comment" className = "p-2 align-self-start">Comments</label>
               <textarea

@@ -22,7 +22,6 @@ export class WorkForceScreen extends React.Component {
 
     componentDidMount() {
         this.fetchRequestsData();
-        //this.timer = setInterval(() => this.fetchRequestsData(), 1000000000);
     }
 
     checkStatus(status){
@@ -56,11 +55,10 @@ export class WorkForceScreen extends React.Component {
             .then((res) => {
                 return res.json();
             }).then(data => {
-                console.log(data)
                 this.setState({ requests: data })
             })
             .catch((err) => {
-                console.log(err);
+                throw err;
             })
     }
 
@@ -70,6 +68,7 @@ export class WorkForceScreen extends React.Component {
             <div className = "container">
                 <center style = {{margin: "25px"}}>
                     <header>
+                        <hr/>
                         <h3>Work Force Team</h3>
                         <hr/>
                     </header>    

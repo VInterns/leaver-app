@@ -47,10 +47,15 @@ export class ELTTableScreen extends React.Component {
         }
     }
 
-    onRowClick(searchId) {
+    onRowClick(resignation) {
+
+        let phase1 = Object(resignation.phase1)
         this.props.history.push({
             pathname: "/form-res",
-            state: { resId: searchId }
+            state: { 
+                resId: resignation.staffId,
+                lastWorkDay: phase1.lastWorkDay
+            }
         })
     }
 
@@ -67,7 +72,6 @@ export class ELTTableScreen extends React.Component {
                 })
             })
             .catch((err) => {
-                console.log(err);
                 throw err;
             })
     }
@@ -94,7 +98,7 @@ export class ELTTableScreen extends React.Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                {resRrequests.map(resignation => <tr onClick={() => this.onRowClick(resignation.staffId)} key={resignation.staffId}>
+                                {resRrequests.map(resignation => <tr onClick={() => this.onRowClick(resignation)} key={resignation.staffId}>
                                     <td>{resignation.staffId}</td>
                                     <td>{resignation.name}</td>
                                     <td>{resignation.managerName}</td>

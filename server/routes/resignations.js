@@ -31,15 +31,15 @@ module.exports = db => {
 
   router.get("/:id", (req, res) => {
     let urlSections = req.url.split("/");
-    console.log(urlSections[urlSections.length - 1] + "url");
+    (urlSections[urlSections.length - 1] + "url");
     var query = { staffId: Number(urlSections[urlSections.length - 1]) };
-    console.log(query);
+    (query);
     db.collection(collection).findOne(query, (err, data) => {
       if (err) {
-        console.log(err);
+        (err);
         res.status(500).send();
       } else {
-        console.log(data);
+        (data);
         res.json(data);
       }
     });
@@ -60,8 +60,8 @@ module.exports = db => {
     db.collection(collection)
       .updateOne(myquery, newvalues)
       .then(result => {
-        // console.log(result);
-        console.log(`Successfully updated.`);
+        // (result);
+        (`Successfully updated.`);
         res.status(200).send(true);
       })
       .catch(err => {
@@ -78,7 +78,7 @@ module.exports = db => {
     let newvalues = { $set: { phase4 } };
     // db.collection(collection).updateOne(myquery, newvalues)
     //     .then(result => {
-    //         console.log(`Successfully added a national id.`)
+    //         (`Successfully added a national id.`)
     //         res.status(200).send(true);
     //     })
     //     .catch(err => {
@@ -127,7 +127,7 @@ module.exports = db => {
   router.post('/wf/insertBalance', (req, res) => {
     var leaverId = req.body.staffId;
 
-    console.log(req.body.phase3);
+    (req.body.phase3);
 
     db.collection(collection).updateOne({ "staffId": leaverId }, {
       $set: { "phase3": req.body.phase3 }
@@ -150,6 +150,27 @@ module.exports = db => {
       { staffId: leaverId },
       {
         $set: { phase6: req.body.phase6 }
+      },
+      function (err, doc) {
+        if (err) {
+          res.status(404).send();
+          throw err;
+        } else {
+          res.status(200).send({
+            msg:
+              "employee successfully found, and security data successfully updated"
+          });
+        }
+      }
+    );
+  });
+
+  router.post("/update/phase7", function (req, res) {
+    var leaverId = req.body.staffId;
+    db.collection(collection).findOneAndUpdate(
+      { staffId: leaverId },
+      {
+        $set: { phase7: req.body.phase7 }
       },
       function (err, doc) {
         if (err) {

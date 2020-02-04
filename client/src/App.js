@@ -29,7 +29,9 @@ import {
   ResignationsScreen,
   AuthenticationScreen,
   FormRes,
-  ELTTableScreen
+  ELTTableScreen,
+  SHTTableScreen,
+  SHTViewScreen
 } from './screens';
 
 import 'semantic-ui-css/semantic.min.css';
@@ -79,7 +81,7 @@ class App extends Component {
                 <ConnectedPrivateRoute allowed={["admin"]} path="/hr-view" component={HrViewScreen} />
                 <ConnectedPrivateRoute allowed={["admin"]} path="/resignations-details" component={ResignationsScreen} />
                 <ConnectedPrivateRoute allowed={["admin"]} path="/cc-consumer-activation-table" component={ConsumerTable} />
-                <ConnectedPrivateRoute allowed={["admin"]} path="/cc-consumer-activation" component={CCConsumerActivation} />
+                <ConnectedPrivateRoute allowed={["admin"]} path="/cc-consumer-activation/:staffId/:lastWorkDay" component={CCConsumerActivation} />
                 <ConnectedPrivateRoute allowed={["admin"]} path="/resign" component={ResignReqScreen} />
                 <ConnectedPrivateRoute allowed={["admin"]} path="/ast" component={ASTTableScreen} />
                 <ConnectedPrivateRoute allowed={["admin"]} path="/ast-resignation" component={ASTResignationDetailScreen} />
@@ -87,6 +89,8 @@ class App extends Component {
                 <ConnectedPrivateRoute allowed={["admin"]} path="/form-res" component={FormRes} />
                 <ConnectedPrivateRoute allowed={["admin"]} path="/wf-view" component={WorkForceScreen} />
                 <ConnectedPrivateRoute allowed={["admin"]} path="/wf-view-detail" component={WorkForceScreenDetail} />
+                <ConnectedPrivateRoute allowed={["admin"]} path="/sht" component={SHTTableScreen} />
+                <ConnectedPrivateRoute allowed={["admin"]} path="/sht-view" component={SHTViewScreen} />
               </Switch>
             </Router>
           </>

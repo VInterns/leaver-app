@@ -27,6 +27,7 @@ export class Header extends React.Component {
           <Nav.Link href="/hr-view">Human Resources</Nav.Link>
           <Nav.Link href="/ast">Application Security</Nav.Link>
           <Nav.Link href="/elt">Entrprise Logistics</Nav.Link>
+          <Nav.Link href="/sht">Security Hardware Token</Nav.Link>
         </Nav>
       </Navbar>
     );

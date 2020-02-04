@@ -8,20 +8,22 @@ export class ResignationsScreen extends Component {
             data: null
 
         };
+
+        this.normalizeVal = this.normalizeVal.bind(this);
     }
 
-    componentWillMount() {
-        console.log(
 
-            this.props.history.location
-        )
+    normalizeVal(value) {
+        return (value === true) ? "Yes" : "No";
+    }
+
+    componentDidMount() {
         let url = this.props.location.search;
         let params = querString.parse(url);
         const id = params.id;
 
         fetch(`/api/resignations/${id}`).then((res) => {
             res.json().then((data) => {
-                console.log(data);
                 this.setState({ data: data });
             })
         })
@@ -57,17 +59,17 @@ export class ResignationsScreen extends Component {
                         }
                         {this.state.data && <tr>
                             <td>Returned Headset </td>
-                            <td>{this.state.data.phase1.returnedHeadset}</td>
+                            <td>{this.normalizeVal(this.state.data.phase1.returnedHeadset)}</td>
                         </tr>
                         }
                         {this.state.data && <tr>
                             <td>Returned Keys </td>
-                            <td>{this.state.data.phase1.returnedKeys}</td>
+                            <td>{this.normalizeVal(this.state.data.phase1.returnedKeys)}</td>
                         </tr>
                         }
                         {this.state.data && <tr>
                             <td>Returned 3ohada </td>
-                            <td>{this.state.data.phase1.returnedOhda}</td>
+                            <td>{this.normalizeVal(this.state.data.phase1.returnedOhda)}</td>
                         </tr>
                         }
                         {this.state.data && <tr>
@@ -158,17 +160,17 @@ export class ResignationsScreen extends Component {
                         }
                         {this.state.data && <tr>
                             <td>Returned Headset </td>
-                            <td>{this.state.data.phase2.returnedHeadset}</td>
+                            <td>{this.normalizeVal(this.state.data.phase2.returnedHeadset)}</td>
                         </tr>
                         }
                         {this.state.data && <tr>
                             <td>Returned Keys </td>
-                            <td>{this.state.data.phase2.returnedKeys}</td>
+                            <td>{this.normalizeVal(this.state.data.phase2.returnedKeys)}</td>
                         </tr>
                         }
                         {this.state.data && <tr>
                             <td>Returned 3ohada </td>
-                            <td>{this.state.data.phase2.returnedOhda}</td>
+                            <td>{this.normalizeVal(this.state.data.phase2.returnedOhda)}</td>
                         </tr>
                         }
                         {this.state.data && <tr>
@@ -224,7 +226,7 @@ export class ResignationsScreen extends Component {
                         }
                         {this.state.data && <tr>
                             <td>Days To Take </td>
-                            <td>{this.state.data.phase3.daysToTake}</td>
+                            <td>{this.state.data.phase3.inLieuDaysToTake}</td>
                         </tr>
                         }
                         {this.state.data && <tr>
@@ -280,8 +282,8 @@ export class ResignationsScreen extends Component {
                         </tr>
                         }
                         {this.state.data && <tr>
-                            <td>Has Phonr Billed Account </td>
-                            <td>{this.state.data.phase4.phoneBilledAcc}</td>
+                            <td>Has Phone Billed Account </td>
+                            <td>{this.normalizeVal(this.state.data.phase4.phoneBilledAcc)}</td>
 
                         </tr>
                         }
@@ -350,17 +352,17 @@ export class ResignationsScreen extends Component {
                         }
                         {this.state.data && <tr>
                             <td>Disabled Secure ID </td>
-                            <td>{this.state.data.phase6.disabledSecureId}</td>
+                            <td>{this.normalizeVal(this.state.data.phase6.disabledSecureId)}</td>
                         </tr>
                         }
                         {this.state.data && <tr>
                             <td>Disabled Remedy Account </td>
-                            <td>{this.state.data.phase6.disabledRemedyAccount}</td>
+                            <td>{this.normalizeVal(this.state.data.phase6.disabledRemedyAccount)}</td>
                         </tr>
                         }
                         {this.state.data && <tr>
                             <td>Disabled Accounts in Productions Systems </td>
-                            <td>{this.state.data.phase6.disabledAccountsInProductionSystems}</td>
+                            <td>{this.normalizeVal(this.state.data.phase6.disabledAccountsInProductionSystems)}</td>
                         </tr>
                         }
                         {this.state.data && <tr>
@@ -390,7 +392,7 @@ export class ResignationsScreen extends Component {
 
                         {this.state.data && <tr>
                             <td>Returned HW Token </td>
-                            <td>{this.state.data.phase7.returnedHwToken}</td>
+                            <td>{this.normalizeVal(this.state.data.phase7.returnedHwToken)}</td>
                         </tr>
                         }
                         {this.state.data && <tr>

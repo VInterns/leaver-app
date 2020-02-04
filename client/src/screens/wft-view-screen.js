@@ -1,8 +1,8 @@
 import React from "react";
 import {Table} from "react-bootstrap";
 
-const API = '/api/resignations';
-const INSERT = '/wf/insertBalance';
+const API = '/api';
+const INSERT = '/resignations/wf/insertBalance';
 
 export class WorkForceScreenDetail extends React.Component {
 
@@ -11,6 +11,7 @@ export class WorkForceScreenDetail extends React.Component {
 
         this.state = {
             detail: {},
+            leaver: {},
             annualsGranted: "",
             annualsTaken: "",
             noShow: "",
@@ -21,6 +22,7 @@ export class WorkForceScreenDetail extends React.Component {
 
         this.submitBalance = this.submitBalance.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.fetchLeaverInfo = this.fetchLeaverInfo.bind(this);
 
     }
 
@@ -33,10 +35,37 @@ export class WorkForceScreenDetail extends React.Component {
 
     componentDidMount() {
         const retDetail = this.props.location.state.detail;
+
         this.setState({
             detail: retDetail
         })
 
+        this.fetchLeaverInfo(retDetail.staffId);
+
+    }
+
+
+    fetchLeaverInfo(searchId){
+
+        let QUERY = "/users/?id=" + searchId;
+    
+        fetch(API + QUERY, {
+            method: "get",
+            headers: {"Content-Type": "application/json"}
+        })
+        .then((res) => {
+            return res.json();
+        })
+        .then((data) => {
+            this.setState({
+            leaver: data
+            })
+        })
+        .catch((err) => {
+            if(err)
+            throw err;
+        })
+    
     }
 
     submitBalance = (event) => {
@@ -67,17 +96,17 @@ export class WorkForceScreenDetail extends React.Component {
             return res.json();
         })
         .then(data => {
-            console.log(data);
+            return data;
         })
         .catch((err) => {
-             console.log(err);
+            throw err;
         })
 
 
     }
 
     render() {
-        const { detail } = this.state;
+        const { detail, leaver } = this.state;
         const phase1 = Object(detail.phase1);
         return (
             <div className = "container">
@@ -92,23 +121,23 @@ export class WorkForceScreenDetail extends React.Component {
                             <Table bordered hover>
                                 <tbody>
                                     <tr>
-                                        <td><span style = {{fontWeight: "bold"}} >Staff ID:</span> {detail.staffId}</td>
-                                        <td><span style = {{fontWeight: "bold"}} >SAP Stuff ID:</span> {detail.sapStuffId}</td>
+                                        <td><span style = {{fontWeight: "bold"}} >Staff ID:</span> {leaver.staffId}</td>
+                                        <td><span style = {{fontWeight: "bold"}} >SAP Stuff ID:</span> {leaver.sapStaffId}</td>
                                     </tr>
                                     <tr>
-                                        <td><span style = {{fontWeight: "bold"}} >Leaver Name:</span> {detail.name}</td>
-                                        <td><span style = {{fontWeight: "bold"}} >Manager:</span> {detail.managerName}</td>
+                                        <td><span style = {{fontWeight: "bold"}} >Leaver Name:</span> {leaver.name}</td>
+                                        <td><span style = {{fontWeight: "bold"}} >Manager:</span> {leaver.managerName}</td>
                                     </tr>
                                     <tr>
-                                        <td><span style = {{fontWeight: "bold"}} >Department:</span> {detail.department}</td>
-                                        <td><span style = {{fontWeight: "bold"}} >Cost Center:</span> {detail.costCenter}</td>
+                                        <td><span style = {{fontWeight: "bold"}} >Department:</span> {leaver.department}</td>
+                                        <td><span style = {{fontWeight: "bold"}} >Cost Center:</span> {leaver.costCenter}</td>
                                     </tr>
                                     <tr>
-                                        <td><span style = {{fontWeight: "bold"}} >Job Title:</span> {detail.jobTitle}</td>
-                                        <td><span style = {{fontWeight: "bold"}} >Hiring Date:</span> {detail.hiringDate}</td>
+                                        <td><span style = {{fontWeight: "bold"}} >Job Title:</span> {leaver.jobTitle}</td>
+                                        <td><span style = {{fontWeight: "bold"}} >Hiring Date:</span> {leaver.hiringDate}</td>
                                     </tr>
                                     <tr>
-                                        <td><span style = {{fontWeight: "bold"}} >Mobile Number:</span> {detail.mobile}</td>
+                                        <td><span style = {{fontWeight: "bold"}} >Mobile Number:</span> {leaver.mobile}</td>
                                         <td><span style = {{fontWeight: "bold"}} >Last Working Day:</span> {phase1.lastWorkDay}</td>
                                     </tr>
                                 </tbody>

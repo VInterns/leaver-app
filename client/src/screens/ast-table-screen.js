@@ -58,7 +58,6 @@ export class ASTTableScreen extends React.Component {
         });
       })
       .catch(err => {
-        console.log(err);
         throw err;
       });
   }

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Table } from "reactstrap";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import queryString from 'query-string';
+//import queryString from 'query-string';
 
 var phoneBilledAmount = 'yes';
 export class CCConsumerActivation extends Component {
@@ -11,22 +11,28 @@ export class CCConsumerActivation extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            Data: []
+            Data: [],
+            lastWorkDay: ""
         };
         this.getData();
     }
     //fetch data for the employee resignation form
     getData() {
-        let url = this.props.location.search;
-        let params = queryString.parse(url);
-        console.log(params.id)
-        if (params.id === undefined) {
+        //let url = this.props.location.search;
+        let params = this.props.match.params;
+
+        let id = params.staffId;
+        this.setState({
+            lastWorkDay: params.lastWorkDay
+        })
+
+        if (id === undefined) {
 
             this.props.history.push('cc-consumer-activation-table')
         }
 
 
-        var url2 = '/api/users/?id=' + params.id;
+        var url2 = '/api/users/?id=' + id;
         axios.get(url2)
             .then((retrieveData) => {
                 this.setState({
@@ -65,10 +71,13 @@ export class CCConsumerActivation extends Component {
             return;
         }
 
-        let url = this.props.location.search;
-        let params = queryString.parse(url);
-        var url2 = '/api/resignations/data?id=' + params.id;
-        axios.post("/api/resignations/national-id?id=" + params.id, this.state.selectedFile[0])
+        // let url = this.props.location.search;
+        //let params = queryString.parse(url);
+        let params = this.props.match.params;
+
+        let id = params.staffId;
+        var url2 = '/api/resignations/data?id=' + id;
+        axios.post("/api/resignations/national-id?id=" + id, this.state.selectedFile[0])
 
         //send data to the backend
         fetch(url2, {
@@ -114,29 +123,29 @@ export class CCConsumerActivation extends Component {
                             <Table bordered hover>
                                 <tbody>
                                     <tr>
-                                        <td>Staff ID:  {this.state.Data.staffId}</td>
-                                        <td>SAP Staff ID:  {this.state.Data.sapStaffId}</td>
+                                        <td><span style = {{fontWeight: "bold"}}>Staff ID:</span> {this.state.Data.staffId}</td>
+                                        <td><span style = {{fontWeight: "bold"}}>SAP Staff ID:</span>  {this.state.Data.sapStaffId}</td>
                                     </tr>
                                     <tr>
-                                        <td>Leaver Name:  {this.state.Data.name}</td>
-                                        <td>Manager:  {this.state.Data.managerName}</td>
+                                        <td><span style = {{fontWeight: "bold"}}>Leaver Name:</span>  {this.state.Data.name}</td>
+                                        <td><span style = {{fontWeight: "bold"}}>Manager:</span>  {this.state.Data.managerName}</td>
                                     </tr>
                                     <tr>
-                                        <td>Department:  {this.state.Data.department}</td>
-                                        <td>Cost Center:  {this.state.Data.costCenter}</td>
+                                        <td><span style = {{fontWeight: "bold"}}>Department:</span>  {this.state.Data.department}</td>
+                                        <td><span style = {{fontWeight: "bold"}}>Cost Center: </span> {this.state.Data.costCenter}</td>
                                     </tr>
                                     <tr>
-                                        <td>Job Title:  {this.state.Data.jobTitle}</td>
-                                        <td>Hiring Date:  {this.state.Data.hiringDate}</td>
+                                        <td><span style = {{fontWeight: "bold"}}>Job Title:</span>{this.state.Data.jobTitle}</td>
+                                        <td><span style = {{fontWeight: "bold"}}>Hiring Date:</span>  {this.state.Data.hiringDate}</td>
                                     </tr>
                                     <tr>
-                                        <td>Mobile Number:  {this.state.Data.mobile}</td>
-                                        <td>LastWorkingDay:  {this.state.Data.lastWorkingDay}</td>
+                                        <td><span style = {{fontWeight: "bold"}}>Mobile Number: </span> {this.state.Data.mobile}</td>
+                                        <td><span style = {{fontWeight: "bold"}}>LastWorkingDay:</span>  {this.state.lastWorkDay}</td>
                                     </tr>
                                 </tbody>
                             </Table>
-
                         </div>
+                        <hr/>
                         <div className="form-group files">
                             <div>Upload Scanned copy of National ID </div>
                             <input

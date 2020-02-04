@@ -8,9 +8,29 @@ export class HrViewScreen extends Component {
             data: []
 
         };
+
+        this.checkStatus = this.checkStatus.bind(this);
     }
     
-    componentWillMount() {
+
+    checkStatus(status){
+        switch(status){
+            case "pending":
+                return (
+                <td style = {{color: "#BE0002", fontWeight: "bold", textTransform: "uppercase"}}>{status}</td>
+                );
+            case "done": 
+            return (
+                <td style = {{color: "#5cb85c", fontWeight: "bold", textTransform: "uppercase"}}>{status}</td>
+            );
+            default:
+                return (
+                <td style = {{color: "#34a1fd", fontWeight: "bold", textTransform: "uppercase"}}>{status}</td>
+                );
+        }
+    }
+
+    componentDidMount() {
         fetch('/api/resignations').then((res) => {
             res.json().then((data) => {
                 this.setState({ data: data });
@@ -50,13 +70,13 @@ export class HrViewScreen extends Component {
                                 }} key={index}>
                                     <td>{value.staffId} </td>
                                     <td >{value.managerName}</td>
-                                    <td>{value.phase1.status}</td>
-                                    <td>{value.phase2.status}</td>
-                                    <td>{value.phase3.status}</td>
-                                    <td>{value.phase4.status}</td>
-                                    <td>{value.phase5.status}</td>
-                                    <td>{value.phase6.status}</td>
-                                    <td>{value.phase7.status}</td>
+                                    {this.checkStatus(value.phase1.status)}
+                                    {this.checkStatus(value.phase2.status)}
+                                    {this.checkStatus(value.phase3.status)}
+                                    {this.checkStatus(value.phase4.status)}
+                                    {this.checkStatus(value.phase5.status)}
+                                    {this.checkStatus(value.phase6.status)}
+                                    {this.checkStatus(value.phase7.status)}
                                 </tr>
                             )
                         })
