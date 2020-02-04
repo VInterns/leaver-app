@@ -1,9 +1,10 @@
 import React from 'react';
 import {
-  Table
-} from "react-bootstrap";
+  LeaverDetails
+} from "../components";
 
-export class FormRes extends React.Component {
+export class ELTViewScreen extends React.Component {
+
   constructor(props) {
     super(props);
 
@@ -16,9 +17,7 @@ export class FormRes extends React.Component {
     this.submit = this.submit.bind(this);
   }
 
-
-
-
+  ///////////////////////////////////////////////
   getentry() {
 
     fetch(`/api/form/`, {
@@ -41,8 +40,7 @@ export class FormRes extends React.Component {
       })
   }
 
-
-
+  ///////////////////////////////////////////////
   submit(e) {
     e.preventDefault();
     //var comment = e.target.elements.comment.value
@@ -74,20 +72,18 @@ export class FormRes extends React.Component {
     })
   }
 
-
-
+  ///////////////////////////////////////////////
   onSubmit = (e) => {
     e.preventDefault();
   }
 
-
-
+  ///////////////////////////////////////////////
   handleChange = e => {
     this.setState({ [e.target.id]: e.target.value });
     //this.submit(comment)
   }
 
-
+  ///////////////////////////////////////////////
   componentDidMount() {
     this.getentry()
 
@@ -98,7 +94,7 @@ export class FormRes extends React.Component {
     })
   }
 
-
+  ///////////////////////////////////////////////
   renderEntry() {
     return (
       Object.values(this.state.entry).map((value, index) => {
@@ -113,8 +109,7 @@ export class FormRes extends React.Component {
     )
   };
 
-
-
+  ///////////////////////////////////////////////
   render() {
 
     const {entry} = this.state;
@@ -122,40 +117,8 @@ export class FormRes extends React.Component {
     return (
       <div className = "container">
         <center style = {{margin: "25px"}}>
-          <header>
-            <hr/>
-            <h3>Leaver Info</h3>
-            <hr/>
-          </header>
-        {/* <h2>Leaver Details</h2> */}
-        {/* <data>{null}</data> */}
         <div>
-            <div>
-              <Table bordered hover>
-                <tbody>
-                  <tr>
-                    <td><span style = {{fontWeight: "bold"}} >Staff ID:</span> {entry.staffId}</td>
-                    <td><span style = {{fontWeight: "bold"}} >SAP Stuff ID:</span> {entry.sapStaffId}</td>
-                  </tr>
-                  <tr>
-                    <td><span style = {{fontWeight: "bold"}} >Leaver Name:</span> {entry.name}</td>
-                    <td><span style = {{fontWeight: "bold"}} >Manager:</span> {entry.managerName}</td>
-                  </tr>
-                  <tr>
-                    <td><span style = {{fontWeight: "bold"}} >Department:</span> {entry.department}</td>
-                    <td><span style = {{fontWeight: "bold"}} >Cost Center:</span> {entry.costCenter}</td>
-                  </tr>
-                  <tr>
-                    <td><span style = {{fontWeight: "bold"}} >Job Title:</span> {entry.jobTitle}</td>
-                    <td><span style = {{fontWeight: "bold"}} >Hiring Date:</span> {entry.hiringDate}</td>
-                  </tr>
-                  <tr>
-                    <td><span style = {{fontWeight: "bold"}} >Mobile Number:</span> {entry.mobile}</td>
-                    <td><span style = {{fontWeight: "bold"}} >Last Working Day:</span> {this.state.lastWorkDay}</td>
-                  </tr>
-                </tbody>
-              </Table>
-            </div>
+            <LeaverDetails leaverDetail = {{leaverInfo: entry, lastDay: this.state.lastWorkDay}}/>
             <hr/>
             <form onSubmit={this.submit.bind(this)}>
               <div className = "d-flex flex-column form-group">

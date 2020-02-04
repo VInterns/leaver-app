@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Table } from "reactstrap";
 import { ToastContainer, toast } from "react-toastify";
-import { ImageUploaderComponent } from '../components'
+import { ImageUploaderComponent, LeaverDetails } from '../components'
 
+/////////////////////////////////////////////////////////////////////////
 var phoneBilledAmount = 'yes';
+
+  /////////////////////////////////////////////////////////////////////////
 export class CCConsumerActivation extends Component {
 
     constructor(props) {
@@ -16,6 +18,8 @@ export class CCConsumerActivation extends Component {
         };
         this.getData();
     }
+
+    ///////////////////////////////////////////////
     //fetch data for the employee resignation form
     getData() {
         //let url = this.props.location.search;
@@ -41,10 +45,12 @@ export class CCConsumerActivation extends Component {
             });
     }
 
+    ///////////////////////////////////////////////
     componentDidMount() {
         this.getData();
     }
 
+    ///////////////////////////////////////////////
     //on click on choose file
     onChangeHandler = event => {
         var files = event.target.files;
@@ -53,6 +59,7 @@ export class CCConsumerActivation extends Component {
         });
     };
 
+    ///////////////////////////////////////////////
     clickSubmit() {
         //check if all data is given
         if (!this.state.nationalId) {
@@ -73,7 +80,6 @@ export class CCConsumerActivation extends Component {
         // let url = this.props.location.search;
         //let params = queryString.parse(url);
         let params = this.props.match.params;
-
         let id = params.staffId;
         var url2 = '/api/resignations/data?id=' + id;
         //send data to the backend
@@ -98,11 +104,13 @@ export class CCConsumerActivation extends Component {
 
     };
 
+    ///////////////////////////////////////////////
     //DROP DOWN(phone Billed Amount) change value
     getVal(sel) {
         phoneBilledAmount = sel.target.value;
     }
 
+    ///////////////////////////////////////////////
     imageUploaderHandler = (file) => {
         this.setState({
             nationalId: {
@@ -113,43 +121,14 @@ export class CCConsumerActivation extends Component {
             }
         })
     }
+
+    ///////////////////////////////////////////////
     render() {
         return (
             <div className="container">
                 <center style={{ margin: '25px' }}>
-                    <header>
-                        <hr />
-                        <h3>CC Consumer Activation</h3>
-                        <hr />
-                    </header>
                     <div>
-                        <div>
-
-                            <Table bordered hover>
-                                <tbody>
-                                    <tr>
-                                        <td><span style={{ fontWeight: "bold" }}>Staff ID:</span> {this.state.Data.staffId}</td>
-                                        <td><span style={{ fontWeight: "bold" }}>SAP Staff ID:</span>  {this.state.Data.sapStaffId}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><span style={{ fontWeight: "bold" }}>Leaver Name:</span>  {this.state.Data.name}</td>
-                                        <td><span style={{ fontWeight: "bold" }}>Manager:</span>  {this.state.Data.managerName}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><span style={{ fontWeight: "bold" }}>Department:</span>  {this.state.Data.department}</td>
-                                        <td><span style={{ fontWeight: "bold" }}>Cost Center: </span> {this.state.Data.costCenter}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><span style={{ fontWeight: "bold" }}>Job Title:</span>{this.state.Data.jobTitle}</td>
-                                        <td><span style={{ fontWeight: "bold" }}>Hiring Date:</span>  {this.state.Data.hiringDate}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><span style={{ fontWeight: "bold" }}>Mobile Number: </span> {this.state.Data.mobile}</td>
-                                        <td><span style={{ fontWeight: "bold" }}>LastWorkingDay:</span>  {this.state.lastWorkDay}</td>
-                                    </tr>
-                                </tbody>
-                            </Table>
-                        </div>
+                        <LeaverDetails leaverDetail = {{leaverInfo: this.state.Data, lastDay: this.state.lastWorkDay}}/>
                         <hr />
                         <div className="form-group files">
                             <div>Upload Scanned copy of National ID </div>
@@ -179,9 +158,8 @@ export class CCConsumerActivation extends Component {
                                 this.clickSubmit()
                             }}>Submit</button>
                     </div>
-
                 </center>
-                <ToastContainer />
+                <ToastContainer/>
             </div>
         );
     }

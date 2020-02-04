@@ -1,8 +1,7 @@
 import React from "react";
-import { 
-  Table,
-
-} from "react-bootstrap";
+import {
+  LeaverDetails
+} from "../components";
 
 /////////////////////////////////////////////////////////////////////////
 const API = "/api";
@@ -32,6 +31,7 @@ export class SMCResignationDetailScreen extends React.Component {
     this.fetchLeaverInfo = this.fetchLeaverInfo.bind(this);
   }
 
+  ///////////////////////////////////////////////
   componentDidMount() {
     let params = this.props.match.params;
     let lastDay = params.lastWorkDay;
@@ -39,13 +39,14 @@ export class SMCResignationDetailScreen extends React.Component {
     this.setState({
       lastWorkDay: lastDay
     })
-    
   }
 
+  ///////////////////////////////////////////////
   normalizeVal(value) {
     return value === "true" || value === "on"? true : false;
   }
 
+  ///////////////////////////////////////////////
   checkStatus(condX, condY, condZ, condA) {
     if (condX === true && condY === true && condZ === true && condA === true) {
       return DONE;
@@ -54,12 +55,14 @@ export class SMCResignationDetailScreen extends React.Component {
     }
   }
 
+  ///////////////////////////////////////////////
   handleChange(event) {
     let state = {};
     state[event.target.id] = event.target.value;
     this.setState(state);
   }
 
+  ///////////////////////////////////////////////
   fetchLeaverInfo(searchId){
 
     let QUERY = "/users/?id=" + searchId;
@@ -83,6 +86,7 @@ export class SMCResignationDetailScreen extends React.Component {
 
   }
 
+  ///////////////////////////////////////////////
   submitButton(event) {
     event.preventDefault();
 
@@ -139,38 +143,8 @@ export class SMCResignationDetailScreen extends React.Component {
     return (
       <div className = "container">
         <center style = {{margin: "25px"}}>
-          <header>
-            <hr/>
-            <h3>Leaver Info</h3>
-            <hr/>
-          </header>
           <div>
-            <div>
-              <Table bordered hover>
-                <tbody>
-                  <tr>
-                    <td><span style = {{fontWeight: "bold"}} >Staff ID:</span> {leaver.staffId}</td>
-                    <td><span style = {{fontWeight: "bold"}} >SAP Stuff ID:</span> {leaver.sapStaffId}</td>
-                  </tr>
-                  <tr>
-                    <td><span style = {{fontWeight: "bold"}} >Leaver Name:</span> {leaver.name}</td>
-                    <td><span style = {{fontWeight: "bold"}} >Manager:</span> {leaver.managerName}</td>
-                  </tr>
-                  <tr>
-                    <td><span style = {{fontWeight: "bold"}} >Department:</span> {leaver.department}</td>
-                    <td><span style = {{fontWeight: "bold"}} >Cost Center:</span> {leaver.costCenter}</td>
-                  </tr>
-                  <tr>
-                    <td><span style = {{fontWeight: "bold"}} >Job Title:</span> {leaver.jobTitle}</td>
-                    <td><span style = {{fontWeight: "bold"}} >Hiring Date:</span> {leaver.hiringDate}</td>
-                  </tr>
-                  <tr>
-                    <td><span style = {{fontWeight: "bold"}} >Mobile Number:</span> {"+" + leaver.mobile}</td>
-                    <td><span style = {{fontWeight: "bold"}} >Last Working Day:</span> {this.state.lastWorkDay}</td>
-                  </tr>
-                </tbody>
-              </Table>
-            </div>
+            <LeaverDetails leaverDetail = {{leaverInfo: leaver, lastDay: this.state.lastWorkDay}}/>
             <hr/>
             <div className = "d-flex flex-row">
               <div className = "p-2">disabled Secure ID</div>
@@ -185,7 +159,7 @@ export class SMCResignationDetailScreen extends React.Component {
             </div>
             <div className = "d-flex flex-row mt-3">
               <div className = "p-2">disabled Remedy Account</div>
-              <select handleChange
+              <select
                 id = "returnedKeys"
                 onChange = {this.handleChange}
                 className = "p-2 form-control col-sm-1"

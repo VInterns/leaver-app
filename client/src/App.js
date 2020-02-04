@@ -28,8 +28,8 @@ import {
   ASTResignationDetailScreen,
   ResignationsScreen,
   AuthenticationScreen,
-  FormRes,
   ELTTableScreen,
+  ELTViewScreen,
   SHTTableScreen,
   SHTViewScreen,
   SMCTableScreen,
@@ -90,7 +90,7 @@ class App extends Component {
                 <ConnectedPrivateRoute allowed={["admin"]} path="/ast" component={ASTTableScreen} />
                 <ConnectedPrivateRoute allowed={["admin"]} path="/ast-resignation" component={ASTResignationDetailScreen} />
                 <ConnectedPrivateRoute allowed={["admin"]} path="/elt" component={ELTTableScreen} />
-                <ConnectedPrivateRoute allowed={["admin"]} path="/form-res" component={FormRes} />
+                <ConnectedPrivateRoute allowed={["admin"]} path="/form-res" component={ELTViewScreen} />
                 <ConnectedPrivateRoute allowed={["admin"]} path="/wf-view" component={WorkForceScreen} />
                 <ConnectedPrivateRoute allowed={["admin"]} path="/wf-view-detail" component={WorkForceScreenDetail} />
                 <ConnectedPrivateRoute allowed={["admin"]} path="/sht" component={SHTTableScreen} />

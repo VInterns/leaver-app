@@ -1,8 +1,7 @@
 import React from "react";
 import { 
-  Table,
-
-} from "react-bootstrap";
+  LeaverDetails
+} from "../components";
 
 /////////////////////////////////////////////////////////////////////////
 const API = "/api";
@@ -31,6 +30,7 @@ export class ASTResignationDetailScreen extends React.Component {
     this.fetchLeaverInfo = this.fetchLeaverInfo.bind(this);
   }
 
+  ///////////////////////////////////////////////
   componentDidMount() {
     const retResignation = this.props.location.state.resDetails;
 
@@ -42,10 +42,12 @@ export class ASTResignationDetailScreen extends React.Component {
 
   }
 
+  ///////////////////////////////////////////////
   normalizeVal(value) {
     return value === "true" ? true : false;
   }
 
+  ///////////////////////////////////////////////
   checkStatus(condX, condY, condZ) {
     if (condX === true && condY === true && condZ === true) {
       return DONE;
@@ -54,12 +56,14 @@ export class ASTResignationDetailScreen extends React.Component {
     }
   }
 
+  ///////////////////////////////////////////////
   handleChange(event) {
     let state = {};
     state[event.target.id] = event.target.value;
     this.setState(state);
   }
 
+  ///////////////////////////////////////////////
   fetchLeaverInfo(searchId){
 
     let QUERY = "/users/?id=" + searchId;
@@ -83,6 +87,7 @@ export class ASTResignationDetailScreen extends React.Component {
 
   }
 
+  ///////////////////////////////////////////////
   submitButton(event) {
     event.preventDefault();
 
@@ -135,38 +140,7 @@ export class ASTResignationDetailScreen extends React.Component {
     return (
       <div className = "container">
         <center style = {{margin: "25px"}}>
-          <header>
-            <hr/>
-            <h3>Leaver Info</h3>
-            <hr/>
-          </header>
-          <div>
-            <div>
-              <Table bordered hover>
-                <tbody>
-                  <tr>
-                    <td><span style = {{fontWeight: "bold"}} >Staff ID:</span> {leaver.staffId}</td>
-                    <td><span style = {{fontWeight: "bold"}} >SAP Stuff ID:</span> {leaver.sapStaffId}</td>
-                  </tr>
-                  <tr>
-                    <td><span style = {{fontWeight: "bold"}} >Leaver Name:</span> {leaver.name}</td>
-                    <td><span style = {{fontWeight: "bold"}} >Manager:</span> {leaver.managerName}</td>
-                  </tr>
-                  <tr>
-                    <td><span style = {{fontWeight: "bold"}} >Department:</span> {leaver.department}</td>
-                    <td><span style = {{fontWeight: "bold"}} >Cost Center:</span> {leaver.costCenter}</td>
-                  </tr>
-                  <tr>
-                    <td><span style = {{fontWeight: "bold"}} >Job Title:</span> {leaver.jobTitle}</td>
-                    <td><span style = {{fontWeight: "bold"}} >Hiring Date:</span> {leaver.hiringDate}</td>
-                  </tr>
-                  <tr>
-                    <td><span style = {{fontWeight: "bold"}} >Mobile Number:</span> {"+" + leaver.mobile}</td>
-                    <td><span style = {{fontWeight: "bold"}} >Last Working Day:</span> {phase1.lastWorkDay}</td>
-                  </tr>
-                </tbody>
-              </Table>
-            </div>
+            <LeaverDetails leaverDetail = { {leaverInfo: leaver, lastDay: phase1.lastWorkDay}}/>
             <hr/>
             <div className = "d-flex flex-row">
               <div className = "p-2">disabled Secure ID</div>
@@ -217,7 +191,6 @@ export class ASTResignationDetailScreen extends React.Component {
               className = "btn btn-danger mt-3" 
               >Submit
             </button>
-          </div>
         </center>
       </div>
     );
