@@ -186,7 +186,6 @@ module.exports = db => {
     );
   });
 
-
   router.post("/update/phase7", function (req, res) {
     var leaverId = req.body.staffId;
     db.collection(collection).findOneAndUpdate(
@@ -218,5 +217,12 @@ module.exports = db => {
     })
   });
 
+
+  router.post(
+    "/uploadHandler/",
+    (req, res) => {
+      res.send({ responseText: "req.file.path" }); // You can send any response to the user here
+    }
+  );
   return router;
 };
