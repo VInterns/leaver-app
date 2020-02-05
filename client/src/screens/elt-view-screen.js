@@ -3,6 +3,10 @@ import {
   LeaverDetails
 } from "../components";
 
+/////////////////////////////////////////////////////////////////////////
+const API = "/api";
+
+/////////////////////////////////////////////////////////////////////////
 export class ELTViewScreen extends React.Component {
 
   constructor(props) {
@@ -10,47 +14,47 @@ export class ELTViewScreen extends React.Component {
 
     this.state = {
       entry: [],
-      lastWorkDay: ""
-      //comment: ''
+      lastWorkDay: '',
     };
 
+    this.getEntry = this.getEntry.bind(this);
     this.submit = this.submit.bind(this);
   }
 
   ///////////////////////////////////////////////
-  getentry() {
+  getEntry(searchId) {
 
-    fetch(`/api/form/`, {
-      method: 'post',
-      body: JSON.stringify({ id: this.props.history.location.state.resId }),
-      headers: {
-        'content-type': 'application/json'
-      },
+    let QUERY = "/users/?id=" + searchId;
+
+    fetch(API + QUERY, {
+      method: 'get',
+      headers: {'content-type': 'application/json'},
     })
-      .then(response => {
-          return response.json()
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      this.setState({
+        entry: data
       })
-      .then(data => {
-        this.setState({
-          entry: data,
-        })
-      })
-      .catch(err => {
+    })
+    .catch((err) => {
+      if(err){
         throw err;
-      })
+      }
+    })
   }
 
   ///////////////////////////////////////////////
   submit(e) {
+
     e.preventDefault();
-    //var comment = e.target.elements.comment.value
-    /* ("e.target::", e.target.elements.comment.value)
-    ("staffId", this.state.entry.staffId); */
 
     let phase5 = {
       comment: e.target.elements.comment.value,
       status: "done"
     }
+    
     fetch('/api/form/update', {
       method: 'post',
       body: JSON.stringify({
@@ -73,41 +77,22 @@ export class ELTViewScreen extends React.Component {
   }
 
   ///////////////////////////////////////////////
-  onSubmit = (e) => {
-    e.preventDefault();
-  }
-
-  ///////////////////////////////////////////////
   handleChange = e => {
     this.setState({ [e.target.id]: e.target.value });
-    //this.submit(comment)
   }
 
   ///////////////////////////////////////////////
   componentDidMount() {
-    this.getentry()
 
     let lastDay = this.props.history.location.state.lastWorkDay;
+    let staffID = this.props.history.location.state.resId;
+
+    this.getEntry(staffID)
 
     this.setState({
       lastWorkDay: lastDay
     })
   }
-
-  ///////////////////////////////////////////////
-  renderEntry() {
-    return (
-      Object.values(this.state.entry).map((value, index) => {
-        //const { id, name, email, status } = value
-        return (
-          <data>
-            {Object.values(value).map(id => <data>{id}</data>)}
-          </data>
-        )
-      }
-      )
-    )
-  };
 
   ///////////////////////////////////////////////
   render() {

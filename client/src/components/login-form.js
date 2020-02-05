@@ -10,6 +10,8 @@ import {
   Dimmer,
 } from 'semantic-ui-react';
 
+import vodafoneLogo from "../assets/images/logo.svg";
+
 export class LoginForm extends Component {
   constructor() {
     super();
@@ -72,7 +74,7 @@ export class LoginForm extends Component {
           <Grid textAlign="center" verticalAlign="middle">
             <Grid.Row>
               <Grid.Column floated="left" width={5}>
-                <Image src={this.props.logo || './logo.png'} />
+                <Image src={this.props.logo || vodafoneLogo} style = {{height: "35px", width: "35px"}}/>
               </Grid.Column>
               <Grid.Column floated="right" width={5}>
                 <Button

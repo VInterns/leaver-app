@@ -34,7 +34,7 @@ export class LeaverDetails extends React.Component{
                             <td><span style = {{fontWeight: "bold"}} >Hiring Date:</span> {leaver.hiringDate}</td>
                         </tr>
                         <tr>
-                            <td><span style = {{fontWeight: "bold"}} >Mobile Number:</span> {leaver.mobile}</td>
+                            <td><span style = {{fontWeight: "bold"}} >Mobile Number:</span> {"+" + leaver.mobile}</td>
                             <td><span style = {{fontWeight: "bold"}} >Last Working Day:</span> {this.props.leaverDetail.lastDay}</td>
                         </tr>
                     </tbody>
