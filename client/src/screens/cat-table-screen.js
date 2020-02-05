@@ -10,7 +10,10 @@ export class ConsumerTable extends Component {
         this.state = {
             Data: [],
         };
+
         this.getData();
+        this.onRowClick = this.onRowClick.bind(this);
+        this.checkStatus = this.checkStatus.bind(this);
     }
 
     //fetch all pending resignations
@@ -27,6 +30,27 @@ export class ConsumerTable extends Component {
         this.getData();
     }
 
+    onRowClick(item){
+        this.props.history.push(`/cc-consumer-activation/${item.staffId}/${item.phase1.lastWorkDay}`)
+    }
+
+    checkStatus(status){
+        switch(status){
+            case "pending":
+                return (
+                <td style = {{color: "#BE0002", fontWeight: "bold", textTransform: "uppercase"}}>{status}</td>
+                );
+            case "done": 
+                return (
+                <td style = {{color: "#5cb85c", fontWeight: "bold", textTransform: "uppercase"}}>{status}</td>
+                );
+            default:
+                return (
+                <td style = {{color: "#34a1fd", fontWeight: "bold", textTransform: "uppercase"}}>{status}</td>
+                );
+        }
+    }
+
     render() {
         return (
             <div className="container">
@@ -40,23 +64,19 @@ export class ConsumerTable extends Component {
                         <Table bordered hover>
                             <thead>
                                 <tr style={{ backgroundColor: "#BE0002" }} >
-                                    <th style={{ color: "white" }} >Leaver Name</th>
+                                    <th style={{ color: "white" }} >Staff ID</th>
+                                    <th style={{ color: "white" }}>Employee Name</th>
                                     <th style={{ color: "white" }}>Manager Name</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {this.state.Data.map((item, index) => {
-                                    return <tr key={index}>
+                                    return <tr key={index} onClick = {() => this.onRowClick(item)}>
+                                        <td>{item.staffId}</td>
                                         <td>{item.name}</td>
                                         <td>{item.managerName}</td>
-                                        <td>< button 
-                                            className="btn btn-primary" 
-                                            style={{ backgroundColor: "#BE0002"}} 
-                                            onClick={() => {
-                                            this.props.history.push(`/cc-consumer-activation/${item.staffId}/${item.phase1.lastWorkDay}`)
-                                        }
-                                        } > Fill Forum</button ></td>
+                                        {this.checkStatus(item.phase4.status)}
                                     </tr>
                                 })}
                             </tbody >

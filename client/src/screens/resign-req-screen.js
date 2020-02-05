@@ -73,7 +73,7 @@ export class ResignReqScreen extends Component {
           this.setState({ costCenter: data.costCenter });
           this.setState({ jobTitle: data.jobTitle });
           this.setState({ hiringDate: data.hiringDate });
-          this.setState({ mobile: data.mobile });
+          this.setState({ mobile: "+" + data.mobile });
         }
       })
   }

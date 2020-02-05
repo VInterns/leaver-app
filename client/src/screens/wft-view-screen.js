@@ -82,7 +82,6 @@ export class WorkForceScreenDetail extends React.Component {
             "lostHours": this.state.lostHours,
             "inLieuDaysToTake": this.state.inLieuDaysToTake,
             "iex": this.state.iex,
-            "staffId": this.state.detail.staffId,
             "status": "done"
         }
 

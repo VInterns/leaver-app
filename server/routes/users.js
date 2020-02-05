@@ -3,7 +3,7 @@ var XLSX = require("xlsx");
 
 module.exports = db => {
   const router = new express.Router();
-  const collection = "users";
+  const collection = "employees";
 
   router.get("/", (req, res) => {
     db.collection(collection).findOne(

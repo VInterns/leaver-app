@@ -54,7 +54,7 @@ export class ELTViewScreen extends React.Component {
     fetch('/api/form/update', {
       method: 'post',
       body: JSON.stringify({
-        staffId: this.state.entry.staffId,
+        staffId: this.props.history.location.state.resId,
         phase5: phase5
       }),
       headers: {
