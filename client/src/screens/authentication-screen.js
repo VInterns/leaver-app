@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { LoginForm } from '../components/login-form';
-import { login, logout } from '../state/action-creators';
+import { login, logout } from '../state';
 
 class authenticationContainer extends Component {
   static mapStateToProps(state) {
