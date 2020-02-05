@@ -31,7 +31,7 @@ export class Header extends React.Component {
     }
     return (
       <Navbar style={{ backgroundColor: "#BE0002" }} variant="dark">
-        <Navbar.Brand href="/">Leaver App</Navbar.Brand>
+        <Navbar.Brand >Leaver App</Navbar.Brand>
         <Nav className="mr-auto">
           <Nav.Link href="/upload">Upload Users</Nav.Link>
           <Nav.Link href="/resign">Resignation Request</Nav.Link>
