@@ -18,6 +18,7 @@ export class ResignReqScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      username: '',
       staffId: '',
       returnedHeadset: true,
       returnedKeys: true,
@@ -74,6 +75,7 @@ export class ResignReqScreen extends Component {
           this.setState({ jobTitle: data.jobTitle });
           this.setState({ hiringDate: data.hiringDate });
           this.setState({ mobile: "+" + data.mobile });
+          this.setState({ username: data.username});
         }
       })
   }
@@ -138,6 +140,26 @@ export class ResignReqScreen extends Component {
           return undefined;
         }
       })
+
+
+      let QUERY = "mail/sendMail";
+
+      fetch(API + QUERY, {
+        method: "post",
+        body: JSON.stringify({
+          mailList : [
+            this.state.username
+          ]
+        }),
+        "headers": {"Content-type": "application/json"}
+      })
+      .then((res) => {
+        return console.log(res);
+      })
+      .catch((err) => {
+        return console.log(err);
+      });
+
   }
 
   handleChange = e => {
