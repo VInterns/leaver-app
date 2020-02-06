@@ -1,5 +1,6 @@
 "use strict";
 const nodemailer = require("nodemailer");
+const {getDB} = require("../db");
 
 /////////////////////////////////////////////////////////////
 const sendMail = async function(req, res){
@@ -10,7 +11,7 @@ const sendMail = async function(req, res){
         secure: false,
         port: 587,
         auth: {
-            user: process.env.USER,
+            user: "process.env.USER",
             pass: process.env.PASS
         },
         tls: {
@@ -64,4 +65,38 @@ const sendMail = async function(req, res){
 }
 
 /////////////////////////////////////////////////////////////
-module.exports = {sendMail}
+const getMailList = function (req, res) {
+    
+    let _db = getDB();
+    let query = {
+        $or: [
+            {role : "hr"},  // HR
+            {role: "ast"},  // Application Security Team
+            {role: "wf"},   // Work Force Team
+            {role: "elt"},  // Enterprise Logistics Team
+            {role: "ccca"}, // CC Consumer Activations Team
+            {role: "smc"},  // Customer Care Team
+            {role: "shwt"}  // Security HW Token Team
+        ]
+    };
+    let collection = "users";
+
+    _db.collection(collection)
+        .find(query, { password: false, usename: true, role: true})
+        .toArray((err, admins) => {
+            if(err){
+                throw err;
+            } else {
+
+                /* Return only emails */
+                let list = admins.map(admin => {
+                    return admin.username;
+                })
+
+                return res.json(list);
+            }
+        })
+}
+
+/////////////////////////////////////////////////////////////
+module.exports = {sendMail, getMailList}

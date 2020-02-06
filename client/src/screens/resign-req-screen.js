@@ -42,7 +42,13 @@ export class ResignReqScreen extends Component {
       hiringDate: '',
       mobile: '',
       iex: '',
+      mailList: []
     };
+  }
+
+  /* Added to fetch MailList */
+  componentDidMount(){
+    this.fetchMailList();
   }
 
   onSearch = (e) => {
@@ -144,12 +150,14 @@ export class ResignReqScreen extends Component {
 
       let QUERY = "mail/sendMail";
 
+      /* Append Employee Email */
+      this.state.mailList.push(this.state.username);
+
+      /* Send Email to mailList */
       fetch(API + QUERY, {
         method: "post",
         body: JSON.stringify({
-          mailList : [
-            this.state.username
-          ]
+          mailList : this.state.mailList
         }),
         "headers": {"Content-type": "application/json"}
       })
@@ -174,6 +182,27 @@ export class ResignReqScreen extends Component {
     else {
       this.setState({ [e.target.name]: e.target.value });
     }
+  }
+
+  fetchMailList(){
+    let LIST_QUERY = "mail/getMailList";
+
+      /* Fetch Mailing List */
+      fetch(API + LIST_QUERY, {
+        method: "get",
+        headers: {"Content-type": "application/json"}
+      })
+      .then((res) => {
+        return res.json();
+      })
+      .then((list) => {
+        this.setState({
+          mailList: list
+        })
+      })
+      .catch((err) => {
+        throw err;
+      })
   }
 
   imageUploaderHandler = (file) => {
