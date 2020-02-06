@@ -11,7 +11,7 @@ const sendMail = async function(req, res){
         secure: false,
         port: 587,
         auth: {
-            user: "process.env.USER",
+            user: process.env.USER,
             pass: process.env.PASS
         },
         tls: {
