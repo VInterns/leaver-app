@@ -14,7 +14,7 @@ import storage from 'redux-persist/lib/storage'; // defaults to localStorage for
 import { authenticationReducer } from './state';
 import { PersistGate } from 'redux-persist/integration/react';
 
-import { ConnectedHeader, ConnectedPrivateRoute } from './components';
+import {ConnectedHeader, ConnectedPrivateRoute } from './components';
 
 import {
   UploadExcelScreen,
@@ -27,6 +27,7 @@ import {
   ASTTableScreen,
   ASTResignationDetailScreen,
   ResignationsScreen,
+  RegistrationScreen,
   AuthenticationScreen,
   ELTTableScreen,
   ELTViewScreen,
@@ -66,7 +67,8 @@ class App extends Component {
             <ConnectedHeader />
             <Router>
               <Switch>
-                <Route path="/" exact component={props => <AuthenticationScreen {...props} headerText="Sign in to Leaver App"
+                <Route path="/" exact component={props => <AuthenticationScreen {...props} 
+                  headerText="Sign in to Leaver App"
                   subheaderText="Please insert your login details below"
                   loginText="Sign in"
                   signupHref="/signup"
@@ -78,7 +80,25 @@ class App extends Component {
                   logo={null}
                   loginWelcomeImg={null} />}
                 />
-
+                <Route path = "/signup" component = {props => <RegistrationScreen {...props} 
+                  headerText = "Create an account in Leaver App"
+                  verifyButtonText = "Verify code"
+                  verifyHeader = "Verification"
+                  verifyText = "Please enter the 6-digit code we sent you on email"
+                  getCodeText = "Get Signup Code"
+                  subheaderText = "Please provide the required details below"
+                  loginText = "Sign in"
+                  loginHref = "/"
+                  signupText = "Sign up"
+                  signupHeader = "Welcome to Leaver App"
+                  signupSubheader = "This is outsource Leaver-App System"
+                  usernamePlaceholder = "Enter your Organization Email"
+                  userCodePlaceholder = "Secret code"
+                  passwordPlaceholder = "Create a new Password"
+                  codeRequested = {false}
+                  logo = {null}
+                  signupWelcomeImg = {null}/>}
+                />
                 <ConnectedPrivateRoute path="/upload" exact allowed={["admin"]} component={UploadExcelScreen} />
                 <ConnectedPrivateRoute allowed={["admin"]} path="/hr-view" component={HrViewScreen} />
                 <ConnectedPrivateRoute allowed={["admin"]} path="/resignations-details" component={ResignationsScreen} />

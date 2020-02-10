@@ -24,8 +24,8 @@ const sendMail = async function(req, res){
     let options = {
         from: process.env.USER,
         to: req.body.mailList,
-        subject: "Greetings",
-        text: "Greetings from Vodafone."
+        subject: request.body.subject,
+        text: request.body.text
     }
 
     /* SendMail */
@@ -55,6 +55,7 @@ const sendMail = async function(req, res){
             return res.status(400).json(errorMessage);
         }
         else{
+            
             return res.status(200).json({
                 "response": `Message successfully sent to ${info.envelope.to}`,
                 "messageId": `${info.messageId}`
@@ -98,5 +99,11 @@ const getMailList = function (req, res) {
         })
 }
 
+
+const sendCode = function (req, res){
+    return res.status(200).json({
+        "msg": "sendCode Reached!!"
+    })
+}
 /////////////////////////////////////////////////////////////
-module.exports = {sendMail, getMailList}
+module.exports = {sendMail, getMailList, sendCode}

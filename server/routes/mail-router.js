@@ -8,5 +8,8 @@ router.route("/sendMail")
 router.route("/getMailList")
     .get(mailer.getMailList)
 
+router.route("/sendCode")
+    .post(mailer.sendCode)
+
 ////////////////////////////////////////////
 module.exports = router;
