@@ -79,22 +79,22 @@ class App extends Component {
                   loginWelcomeImg={null} />}
                 />
 
-                <ConnectedPrivateRoute path="/upload" exact allowed={["admin"]} component={UploadExcelScreen} />
-                <ConnectedPrivateRoute allowed={["admin"]} path="/hr-view" component={HrViewScreen} />
-                <ConnectedPrivateRoute allowed={["admin"]} path="/resignations-details" component={ResignationsScreen} />
-                <ConnectedPrivateRoute allowed={["admin"]} path="/smc" component={SMCTableScreen} />
-                <ConnectedPrivateRoute allowed={["admin"]} path="/smc-view/:staffId/:lastWorkDay" component={SMCResignationDetailScreen} />
-                <ConnectedPrivateRoute allowed={["admin"]} path="/cc-consumer-activation-table" component={ConsumerTable} />
-                <ConnectedPrivateRoute allowed={["admin"]} path="/cc-consumer-activation/:staffId/:lastWorkDay" component={CCConsumerActivation} />
-                <ConnectedPrivateRoute allowed={["admin"]} path="/resign" component={ResignReqScreen} />
-                <ConnectedPrivateRoute allowed={["admin"]} path="/ast" component={ASTTableScreen} />
-                <ConnectedPrivateRoute allowed={["admin"]} path="/ast-resignation" component={ASTResignationDetailScreen} />
-                <ConnectedPrivateRoute allowed={["admin"]} path="/elt" component={ELTTableScreen} />
-                <ConnectedPrivateRoute allowed={["admin"]} path="/form-res" component={ELTViewScreen} />
-                <ConnectedPrivateRoute allowed={["admin"]} path="/wf-view" component={WorkForceScreen} />
-                <ConnectedPrivateRoute allowed={["admin"]} path="/wf-view-detail" component={WorkForceScreenDetail} />
-                <ConnectedPrivateRoute allowed={["admin"]} path="/sht" component={SHTTableScreen} />
-                <ConnectedPrivateRoute allowed={["admin"]} path="/sht-view" component={SHTViewScreen} />
+                <ConnectedPrivateRoute path="/upload" exact allowed={["admin","hr"]} component={UploadExcelScreen} />
+                <ConnectedPrivateRoute allowed={["admin","hr"]} path="/hr-view" component={HrViewScreen} />
+                <ConnectedPrivateRoute allowed={["admin","manager"]} path="/resignations-details" component={ResignationsScreen} />
+                <ConnectedPrivateRoute allowed={["admin","smc"]} path="/smc" component={SMCTableScreen} />
+                <ConnectedPrivateRoute allowed={["admin","smc"]} path="/smc-view/:staffId/:lastWorkDay" component={SMCResignationDetailScreen} />
+                <ConnectedPrivateRoute allowed={["admin","cc"]} path="/cc-consumer-activation-table" component={ConsumerTable} />
+                <ConnectedPrivateRoute allowed={["admin","cc"]} path="/cc-consumer-activation/:staffId/:lastWorkDay" component={CCConsumerActivation} />
+                <ConnectedPrivateRoute allowed={["admin","manager"]} path="/resign" component={ResignReqScreen} />
+                <ConnectedPrivateRoute allowed={["admin","ast"]} path="/ast" component={ASTTableScreen} />
+                <ConnectedPrivateRoute allowed={["admin","ast"]} path="/ast-resignation" component={ASTResignationDetailScreen} />
+                <ConnectedPrivateRoute allowed={["admin","elt"]} path="/elt" component={ELTTableScreen} />
+                <ConnectedPrivateRoute allowed={["admin","elt"]} path="/form-res" component={ELTViewScreen} />
+                <ConnectedPrivateRoute allowed={["admin","wf"]} path="/wf-view" component={WorkForceScreen} />
+                <ConnectedPrivateRoute allowed={["admin","wf"]} path="/wf-view-detail" component={WorkForceScreenDetail} />
+                <ConnectedPrivateRoute allowed={["admin","sht"]} path="/sht" component={SHTTableScreen} />
+                <ConnectedPrivateRoute allowed={["admin","sht"]} path="/sht-view" component={SHTViewScreen} />
               </Switch>
             </Router>
           </>
