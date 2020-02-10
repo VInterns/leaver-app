@@ -1,5 +1,5 @@
 const getDatabaseUrl = () => {
-    return process.env.DATABASE_URL || "mongodb://localhost:27017/leaver-app";
+    return process.env.DATABASE_URL || "mongodb://leaver-web-app:hradmin!1@ds153494.mlab.com:53494/CloudFoundry_m7qr12so_siq44qr1";
 };
 
 const getPort = () => {
