@@ -1,6 +1,5 @@
 // to do -> redirect after Submit
 import React, { Component } from 'react';
-import {store} from '../App';
 import {
   Container, Form, Row, Col,
   Button,
@@ -9,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ImageUploaderComponent } from '../components';
+import {store} from '../App';
 
 // const store = require('../App')
 
@@ -38,7 +38,7 @@ export class ResignReqScreen extends Component {
       managerName : '',
       ntAccount : '',
       department : '',
-      costCenter : '',
+      careCenter : '',
       jobTitle : '',
       hiringDate : '',
       mobile : '',
@@ -71,14 +71,14 @@ export class ResignReqScreen extends Component {
         if (data) {
           this.setState({ staffId: data.staffId });
           this.setState({ sapStaffId: data.staffId });
-          this.setState({ name: data.name });
+          this.setState({ name: data.employeeName});
           this.setState({ managerName: data.managerName });
           this.setState({ ntAccount: data.ntAccount });
           this.setState({ department: data.department });
-          this.setState({ costCenter: data.costCenter });
-          this.setState({ jobTitle: data.jobTitle });
+          this.setState({ careCenter: data.careCenter });
+          this.setState({ jobTitle: data.jobTitle});
           this.setState({ hiringDate: data.hiringDate });
-          this.setState({ mobile: "+" + data.mobile });
+          this.setState({ mobile: "+2" + data.mobNumber });
         }
       })
   }
@@ -225,7 +225,7 @@ export class ResignReqScreen extends Component {
             </Row>
             <Row>
               <Col><Form.Label>Care Center</Form.Label></Col>
-              <Col><Form.Control plaintext readOnly value={this.state.costCenter} /></Col>
+              <Col><Form.Control plaintext readOnly value={this.state.careCenter} /></Col>
               <Col></Col>
             </Row>
             <Row>

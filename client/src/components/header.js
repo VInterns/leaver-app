@@ -17,9 +17,9 @@ export class Header extends React.Component {
       astUsers : ["admin","ast"],
       eltUsers : ["admin","elt"],
       shtUsers : ["admin","sht"],
-      hrViewUsers : ["admin","hr"]
+      hrViewUsers : ["admin","hr"],
+      myResignations : ["admin","manager"],
     };
-    // const resign_req_users = ["manager","hr"];
   }
 
   static mapStateToProps(state) {
@@ -48,7 +48,6 @@ export class Header extends React.Component {
         <Navbar.Brand >Leaver App</Navbar.Brand>
         <Nav className="mr-auto">
           {this.checkAuth(this.state.uploadUsers,this.props.account.role) && <Nav.Link href="/upload">Upload Users</Nav.Link>}
-          {console.log(this.props.account.role)}
           {this.checkAuth(this.state.resignReqUsers,this.props.account.role) && <Nav.Link href="/resign">Resignation Request</Nav.Link>}
           {this.checkAuth(this.state.smcUsers,this.props.account.role) && <Nav.Link href="/smc">Customer Care</Nav.Link>}
           {this.checkAuth(this.state.wfUsers,this.props.account.role) && <Nav.Link href="/wf-view">Work Force</Nav.Link>}
@@ -61,6 +60,7 @@ export class Header extends React.Component {
           {this.checkAuth(this.state.hrViewUsers,this.props.account.role) && <Nav.Link href="/hr-view">Human Resources</Nav.Link>}
         </Nav>
         <Nav className="justify-content-end" activeKey="/home">
+          {this.checkAuth(this.state.myResignations,this.props.account.role) && <Nav.Link href="/my-resignations">My Resignations</Nav.Link>}
           <Nav.Link position="right" onClick={() => {
             this.props.logout();
           }} >Logout</Nav.Link>
