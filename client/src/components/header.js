@@ -9,8 +9,15 @@ export class Header extends React.Component {
     super();
     this.state = {
       err: "",
-      resign_req_users : ["manager","hr"],
-
+      uploadUsers : ["admin","hr"],
+      resignReqUsers : ["admin","manager","hr"],
+      smcUsers : ["admin","smc"],
+      wfUsers : ["admin","wf"],
+      ccConsumerUsers : ["admin","cc"],
+      astUsers : ["admin","ast"],
+      eltUsers : ["admin","elt"],
+      shtUsers : ["admin","sht"],
+      hrViewUsers : ["admin","hr"]
     };
     // const resign_req_users = ["manager","hr"];
   }
@@ -40,19 +47,18 @@ export class Header extends React.Component {
       <Navbar style={{ backgroundColor: "#BE0002" }} variant="dark">
         <Navbar.Brand >Leaver App</Navbar.Brand>
         <Nav className="mr-auto">
-          <Nav.Link href="/upload">Upload Users</Nav.Link>
+          {this.checkAuth(this.state.uploadUsers,this.props.account.role) && <Nav.Link href="/upload">Upload Users</Nav.Link>}
           {console.log(this.props.account.role)}
-          {this.checkAuth(this.state.resign_req_users,this.props.account.role) && <Nav.Link href="/resign">Resignation Request</Nav.Link>}
-          {/* {this.props.account.role === "finance" && <Nav.Link href="/resign">Resignation Request</Nav.Link>} */}
-          <Nav.Link href="/smc">Customer Care</Nav.Link>
-          <Nav.Link href="/wf-view">Work Force</Nav.Link>
-          <Nav.Link href="/cc-consumer-activation-table">
+          {this.checkAuth(this.state.resignReqUsers,this.props.account.role) && <Nav.Link href="/resign">Resignation Request</Nav.Link>}
+          {this.checkAuth(this.state.smcUsers,this.props.account.role) && <Nav.Link href="/smc">Customer Care</Nav.Link>}
+          {this.checkAuth(this.state.wfUsers,this.props.account.role) && <Nav.Link href="/wf-view">Work Force</Nav.Link>}
+          {this.checkAuth(this.state.ccConsumerUsers,this.props.account.role) && <Nav.Link href="/cc-consumer-activation-table">
             CC Consumer Activation
-          </Nav.Link>
-          <Nav.Link href="/ast">Application Security</Nav.Link>
-          <Nav.Link href="/elt">Entrprise Logistics</Nav.Link>
-          <Nav.Link href="/sht">Security Hardware Token</Nav.Link>
-          <Nav.Link href="/hr-view">Human Resources</Nav.Link>
+          </Nav.Link>}
+          {this.checkAuth(this.state.astUsers,this.props.account.role) && <Nav.Link href="/ast">Application Security</Nav.Link>}
+          {this.checkAuth(this.state.eltUsers,this.props.account.role) && <Nav.Link href="/elt">Entrprise Logistics</Nav.Link>}
+          {this.checkAuth(this.state.shtUsers,this.props.account.role) && <Nav.Link href="/sht">Security Hardware Token</Nav.Link>}
+          {this.checkAuth(this.state.hrViewUsers,this.props.account.role) && <Nav.Link href="/hr-view">Human Resources</Nav.Link>}
         </Nav>
         <Nav className="justify-content-end" activeKey="/home">
           <Nav.Link position="right" onClick={() => {

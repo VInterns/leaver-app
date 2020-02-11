@@ -35,7 +35,7 @@ export class PrivateRoute extends React.Component {
                     if (!isAuthenticated) {
                         return <Redirect to="/" />;
                     }
-                    if (account && allowed.indexOf(account.role) === -1) {
+                    if (account && !allowed.some(r=> account.role.indexOf(r))) {
                         return <Redirect to="/forbidden" />;
                     }
                     return <Component {...props} />;
