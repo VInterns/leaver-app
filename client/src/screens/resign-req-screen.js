@@ -1,5 +1,6 @@
 // to do -> redirect after Submit
 import React, { Component } from 'react';
+import {store} from '../App';
 import {
   Container, Form, Row, Col,
   Button,
@@ -9,38 +10,42 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ImageUploaderComponent } from '../components';
 
+// const store = require('../App')
+
 const API = '/api/';
 const SEARCH = 'users/search'
 const SUBMIT = 'resignations/'
 
 export class ResignReqScreen extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
-      staffId: '',
-      returnedHeadset: true,
-      returnedKeys: true,
-      returnedOhda: true,
-      ohdaType: '',
-      lastWorkDay: '',
-      nationalId: '',
-      nationalIdImg: null,
-      annualsGranted: '',
-      annualsTaken: '',
-      noShow: '',
-      lostHours: '',
-      daysToTake: '',
-      sapStaffId: '',
-      name: '',
-      managerName: '',
-      ntAccount: '',
-      department: '',
-      costCenter: '',
-      jobTitle: '',
-      hiringDate: '',
-      mobile: '',
-      iex: '',
+      staffId : '',
+      returnedHeadset : true,
+      returnedKeys : true,
+      returnedOhda : true,
+      ohdaType : '',
+      lastWorkDay : '',
+      nationalId : '',
+      nationalIdImg : null,
+      annualsGranted : '',
+      annualsTaken : '',
+      noShow : '',
+      lostHours : '',
+      daysToTake : '',
+      sapStaffId : '',
+      name : '',
+      managerName : '',
+      ntAccount : '',
+      department : '',
+      costCenter : '',
+      jobTitle : '',
+      hiringDate : '',
+      mobile : '',
+      iex : '',
+      personalMobile : '',
+      recommended : '',
+      createdby: store.getState().username,
     };
   }
 
@@ -77,7 +82,7 @@ export class ResignReqScreen extends Component {
         }
       })
   }
-
+  
   onSubmit = (e) => {
     e.preventDefault();
     fetch(API + SUBMIT, {
@@ -85,9 +90,12 @@ export class ResignReqScreen extends Component {
         staffId: this.state.staffId,
         managerName: this.state.managerName,
         name: this.state.name,
+        createdby: this.state.createdby,
         status: "new",
         phase1: {
           status: "done",
+          personalMobile : this.state.personalMobile,
+          recommended: this.state.recommended,
           returnedHeadset: this.state.returnedHeadset,
           returnedKeys: this.state.returnedKeys,
           returnedOhda: this.state.returnedOhda,
@@ -100,7 +108,7 @@ export class ResignReqScreen extends Component {
           noShow: this.state.noShow,
           lostHours: this.state.lostHours,
           daysToTake: this.state.daysToTake,
-          iex: this.state.iex
+          iex: this.state.iex,
         },
         phase2: {
           status: "new",
@@ -141,6 +149,7 @@ export class ResignReqScreen extends Component {
   }
 
   handleChange = e => {
+    // toast.success(this.state.createdby);
     if (e.target.type === 'select-one') {
       if (e.target.value === 'yes') {
         this.setState({ [e.target.name]: true });
@@ -232,6 +241,21 @@ export class ResignReqScreen extends Component {
             <Row>
               <Col><Form.Label>Mobile Number</Form.Label></Col>
               <Col><Form.Control plaintext readOnly value={this.state.mobile} /></Col>
+              <Col></Col>
+            </Row>
+            <Row>
+              <Col><Form.Label>Personal Mobile Number</Form.Label></Col>
+              <Col><Form.Control as="textarea" rows="1" name="personalMobile" onChange={this.handleChange} required /></Col>
+              <Col></Col>
+            </Row>
+            <Row>
+              <Col><Form.Label>Recommended</Form.Label></Col>
+              <Col><input 
+                name="recommended" 
+                type="checkbox" 
+                defaultChecked={this.state.recommended} 
+                onChange={this.handleChange} 
+                className = "p-2 form-control col-sm-1 text-center" required/></Col>
               <Col></Col>
             </Row>
           </Form.Group>

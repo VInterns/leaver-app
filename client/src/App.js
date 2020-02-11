@@ -45,7 +45,7 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, authenticationReducer);
 
-let store = createStore(
+export let store = createStore(
   persistedReducer,
   composeWithDevTools(applyMiddleware(promiseMiddleware, thunkMiddleware)),
 );
