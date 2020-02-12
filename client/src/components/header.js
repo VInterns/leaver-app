@@ -8,8 +8,18 @@ export class Header extends React.Component {
   constructor() {
     super();
     this.state = {
-      err: ""
+      err: "",
+      uploadUsers: ["admin", "hr"],
+      resignReqUsers: ["admin", "manager", "hr"],
+      smcUsers: ["admin", "smc"],
+      wfUsers: ["admin", "wf"],
+      ccConsumerUsers: ["admin", "cc"],
+      astUsers: ["admin", "ast"],
+      eltUsers: ["admin", "elt"],
+      shtUsers: ["admin", "sht"],
+      hrViewUsers: ["admin", "hr"]
     };
+    // const resign_req_users = ["manager","hr"];
   }
 
   static mapStateToProps(state) {
@@ -24,6 +34,10 @@ export class Header extends React.Component {
     return bindActionCreators({ logout }, dispatch);
   }
 
+  checkAuth = (allowed_users, user_roles) => {
+    const found = allowed_users.some(r => user_roles.indexOf(r) >= 0);
+    return found;
+  }
 
   render() {
     if (!this.props.isAuthenticated) {
@@ -33,17 +47,18 @@ export class Header extends React.Component {
       <Navbar style={{ backgroundColor: "#BE0002" }} variant="dark">
         <Navbar.Brand >Leaver App</Navbar.Brand>
         <Nav className="mr-auto">
-          <Nav.Link href="/upload">Upload Users</Nav.Link>
-          <Nav.Link href="/resign">Resignation Request</Nav.Link>
-          <Nav.Link href="/smc">Customer Care</Nav.Link>
-          <Nav.Link href="/wf-view">Work Force</Nav.Link>
-          <Nav.Link href="/cc-consumer-activation-table">
+          {this.checkAuth(this.state.uploadUsers, this.props.account.roles) && <Nav.Link href="/upload">Upload Users</Nav.Link>}
+          {console.log(this.props.account.roles)}
+          {this.checkAuth(this.state.resignReqUsers, this.props.account.roles) && <Nav.Link href="/resign">Resignation Request</Nav.Link>}
+          {this.checkAuth(this.state.smcUsers, this.props.account.roles) && <Nav.Link href="/smc">Customer Care</Nav.Link>}
+          {this.checkAuth(this.state.wfUsers, this.props.account.roles) && <Nav.Link href="/wf-view">Work Force</Nav.Link>}
+          {this.checkAuth(this.state.ccConsumerUsers, this.props.account.roles) && <Nav.Link href="/cc-consumer-activation-table">
             CC Consumer Activation
-          </Nav.Link>
-          <Nav.Link href="/ast">Application Security</Nav.Link>
-          <Nav.Link href="/elt">Entrprise Logistics</Nav.Link>
-          <Nav.Link href="/sht">Security Hardware Token</Nav.Link>
-          <Nav.Link href="/hr-view">Human Resources</Nav.Link>
+          </Nav.Link>}
+          {this.checkAuth(this.state.astUsers, this.props.account.roles) && <Nav.Link href="/ast">Application Security</Nav.Link>}
+          {this.checkAuth(this.state.eltUsers, this.props.account.roles) && <Nav.Link href="/elt">Entrprise Logistics</Nav.Link>}
+          {this.checkAuth(this.state.shtUsers, this.props.account.roles) && <Nav.Link href="/sht">Security Hardware Token</Nav.Link>}
+          {this.checkAuth(this.state.hrViewUsers, this.props.account.roles) && <Nav.Link href="/hr-view">Human Resources</Nav.Link>}
         </Nav>
         <Nav className="justify-content-end" activeKey="/home">
           <Nav.Link position="right" onClick={() => {

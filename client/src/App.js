@@ -79,7 +79,7 @@ class App extends Component {
                   loginWelcomeImg={null} />}
                 />
 
-                <ConnectedPrivateRoute path="/upload" exact allowed={["admin","hr"]} component={UploadExcelScreen} />
+                <ConnectedPrivateRoute allowed={["admin","hr"]} path="/upload" exact component={UploadExcelScreen} />
                 <ConnectedPrivateRoute allowed={["admin","hr"]} path="/hr-view" component={HrViewScreen} />
                 <ConnectedPrivateRoute allowed={["admin","manager"]} path="/resignations-details" component={ResignationsScreen} />
                 <ConnectedPrivateRoute allowed={["admin","smc"]} path="/smc" component={SMCTableScreen} />
