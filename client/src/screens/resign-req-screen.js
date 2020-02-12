@@ -10,8 +10,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { ImageUploaderComponent } from '../components';
 import {store} from '../App';
 
-// const store = require('../App')
-
 const API = '/api/';
 const SEARCH = 'users/search'
 const SUBMIT = 'resignations/'
@@ -44,7 +42,7 @@ export class ResignReqScreen extends Component {
       mobile : '',
       iex : '',
       personalMobile : '',
-      recommended : '',
+      recommended : false,
       createdby: store.getState().username,
     };
   }
@@ -158,6 +156,12 @@ export class ResignReqScreen extends Component {
         this.setState({ [e.target.name]: false });
       }
     }
+    else if (e.target.value === "on") {
+      this.setState({ [e.target.name]: true });
+    }
+    else if (e.target.value === "off") {
+      this.setState({ [e.target.name]: false });
+    }
     else {
       this.setState({ [e.target.name]: e.target.value });
     }
@@ -245,7 +249,7 @@ export class ResignReqScreen extends Component {
             </Row>
             <Row>
               <Col><Form.Label>Personal Mobile Number</Form.Label></Col>
-              <Col><Form.Control as="textarea" rows="1" name="personalMobile" onChange={this.handleChange} required /></Col>
+              <Col><Form.Control as="textarea" rows="1" name="personalMobile" onChange={this.handleChange} /></Col>
               <Col></Col>
             </Row>
             <Row>
@@ -254,8 +258,8 @@ export class ResignReqScreen extends Component {
                 name="recommended" 
                 type="checkbox" 
                 defaultChecked={this.state.recommended} 
-                onChange={this.handleChange} 
-                className = "p-2 form-control col-sm-1 text-center" required/></Col>
+                // onChange={this.handleChange} 
+                className = "p-2 form-control col-sm-1 text-center"/></Col>
               <Col></Col>
             </Row>
           </Form.Group>
@@ -281,7 +285,7 @@ export class ResignReqScreen extends Component {
             <Row>
               <Col><Form.Label>Returned 3ohda</Form.Label></Col>
               <Col>
-                <Form.Control as="select" name="returnedOhda" onChange={this.handleChange} required>
+                <Form.Control as="select" name="returnedOhda" onChange={this.handleChange}>
                   <option>Yes</option>
                   <option>No</option>
                 </Form.Control>
@@ -289,7 +293,7 @@ export class ResignReqScreen extends Component {
             </Row>
             <Row>
               <Col><Form.Label>3ohda Type</Form.Label></Col>
-              <Col><Form.Control as="textarea" rows="1" name="ohdaType" onChange={this.handleChange} required /></Col>
+              <Col><Form.Control as="textarea" rows="1" name="ohdaType" onChange={this.handleChange} /></Col>
             </Row>
           </Form.Group>
           <Form.Group className="p-2 border border-danger">
@@ -297,7 +301,7 @@ export class ResignReqScreen extends Component {
               <Col><Form.Label>Leave Balance</Form.Label></Col>
               <Col></Col>
               <Col><Form.Label>IEX</Form.Label></Col>
-              <Col><Form.Control as="textarea" rows="1" name="iex" onChange={this.handleChange} required /></Col>
+              <Col><Form.Control as="textarea" rows="1" name="iex" onChange={this.handleChange} /></Col>
             </Row>
             <table className="table">
               <thead className="thead-dark">
@@ -311,11 +315,11 @@ export class ResignReqScreen extends Component {
               </thead>
               <tbody>
                 <tr>
-                  <th scope="row"><Form.Control as="textarea" rows="1" name="annualsGranted" onChange={this.handleChange} required /></th>
-                  <td><Form.Control as="textarea" rows="1" name="annualsTaken" onChange={this.handleChange} required /></td>
-                  <td><Form.Control as="textarea" rows="1" name="noShow" onChange={this.handleChange} required /></td>
-                  <td><Form.Control as="textarea" rows="1" name="lostHours" onChange={this.handleChange} required /></td>
-                  <td><Form.Control as="textarea" rows="1" name="daysToTake" onChange={this.handleChange} required /></td>
+                  <th scope="row"><Form.Control as="textarea" rows="1" name="annualsGranted" onChange={this.handleChange} /></th>
+                  <td><Form.Control as="textarea" rows="1" name="annualsTaken" onChange={this.handleChange} /></td>
+                  <td><Form.Control as="textarea" rows="1" name="noShow" onChange={this.handleChange} /></td>
+                  <td><Form.Control as="textarea" rows="1" name="lostHours" onChange={this.handleChange} /></td>
+                  <td><Form.Control as="textarea" rows="1" name="daysToTake" onChange={this.handleChange} /></td>
                 </tr>
               </tbody>
             </table>
@@ -323,13 +327,12 @@ export class ResignReqScreen extends Component {
           <Form.Group className="p-2 border border-danger">
             <Row>
               <Col><Form.Label>Last Working Day</Form.Label></Col>
-              {/* <Col><Form.Control rows="1" required/></Col> */}
-              <Col> <input type="date" id="last" name="lastWorkDay"
-                min="2018-01-01" max="2026-12-31" onChange={this.handleChange} required></input></Col>
+\              <Col> <input type="date" id="last" name="lastWorkDay"
+                min="2018-01-01" max="2026-12-31" onChange={this.handleChange}></input></Col>
             </Row>
             <Row>
               <Col><Form.Label>National ID Number</Form.Label></Col>
-              <Col><Form.Control required as="textarea" rows="1" name="nationalId" onChange={this.handleChange} /></Col>
+              <Col><Form.Control as="textarea" rows="1" name="nationalId" onChange={this.handleChange} /></Col>
             </Row>
           </Form.Group>
           <Form.Group className="p-2 border border-danger">

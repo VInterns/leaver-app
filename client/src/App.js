@@ -34,7 +34,8 @@ import {
   SHTViewScreen,
   SMCTableScreen,
   SMCResignationDetailScreen,
-  ManagerResignationsTableScreen
+  ManagerResignationsTableScreen,
+  ManagerResignationsViewScreen
 } from './screens';
 
 import 'semantic-ui-css/semantic.min.css';
@@ -97,6 +98,7 @@ class App extends Component {
                 <ConnectedPrivateRoute allowed={["admin","sht"]} path="/sht" component={SHTTableScreen} />
                 <ConnectedPrivateRoute allowed={["admin","sht"]} path="/sht-view" component={SHTViewScreen} />
                 <ConnectedPrivateRoute allowed={["admin","manager"]} path="/my-resignations" component={ManagerResignationsTableScreen} />
+                <ConnectedPrivateRoute allowed={["admin","manager"]} path="/update-resignation" component={ManagerResignationsViewScreen} />
               </Switch>
             </Router>
           </>
