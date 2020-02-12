@@ -8,10 +8,10 @@ import { signup, sendCode } from "../state";
 class registrationContainer extends Component {
     static mapStateToProps(state){
         return {
-            signupError: state.errorMessage,
-            loading: state.loading,
-            isRegistered: state.isRegistered,
-            codeRequested: state.codeRequested
+            signupError: state.reg.errorMessage,
+            loading: state.reg.loading,
+            isRegistered: state.reg.isRegistered,
+            codeRequested: state.reg.codeRequested
         }
     }
 
@@ -24,8 +24,9 @@ class registrationContainer extends Component {
         signupError: string,
         loading: boolean,
         isRegistered: boolean,
-        sendCode: () => void;
-        signup: () => void;
+        sendCode: () => void,
+        signup: () => void,
+        verifyCode: () => void,
         logo: string,
         signupWelcomeImg: string,
         getCodeText: string,
@@ -53,6 +54,7 @@ class registrationContainer extends Component {
                     history = {this.props.history}
                     sendCode = {this.props.sendCode}
                     trySignup = {this.props.signup}
+                    verifyCode = {this.props.verifyCode}
                     error = {this.props.signupError}
                     loading = {this.props.loading}
                     isRegistered = {this.props.isRegistered}

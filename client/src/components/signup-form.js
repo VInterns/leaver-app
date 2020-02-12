@@ -49,6 +49,7 @@ export class SignupForm extends Component {
         verifyHeader : string,
         sendCode: () => {},
         trySignup: () => {},
+        verifyCode: () => {},
         loading: boolean,
         codeRequested: boolean,
         codeVerified: boolean,

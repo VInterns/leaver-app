@@ -52,6 +52,10 @@ export function authenticationReducer(
       };
     }
 
+    case actions.INIT_STATE:{
+      return AuthenticationInitialState;
+    }
+
     default:
       return state;
   }
@@ -60,7 +64,7 @@ export function authenticationReducer(
 
 
 export function registrationReducer(
-  state: RegistrationInitialState,
+  state =RegistrationInitialState,
   action,
 ) {
   switch (action.type){
@@ -95,6 +99,10 @@ export function registrationReducer(
         ...state,
         codeRequested: false
       }
+    }
+
+    case actions.INIT_STATE:{
+      return RegistrationInitialState;
     }
 
     default:

@@ -4,14 +4,14 @@ import {
   Route,
   Switch
 } from "react-router-dom";
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware ,combineReducers} from 'redux';
 import { Provider } from 'react-redux';
 import promiseMiddleware from 'redux-promise';
 import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
-import { authenticationReducer } from './state';
+import { authenticationReducer ,registrationReducer} from './state';
 import { PersistGate } from 'redux-persist/integration/react';
 
 import {ConnectedHeader, ConnectedPrivateRoute } from './components';
@@ -44,7 +44,7 @@ const persistConfig = {
   storage,
 };
 
-const persistedReducer = persistReducer(persistConfig, authenticationReducer);
+const persistedReducer = persistReducer(persistConfig, combineReducers({ auth: authenticationReducer,reg: registrationReducer}));
 
 let store = createStore(
   persistedReducer,

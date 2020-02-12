@@ -11,21 +11,21 @@ const sendMail = async function(req, res){
         secure: false,
         port: 587,
         auth: {
-            user: process.env.USER,
-            pass: process.env.PASS
+            user: "abokahfa@outlook.com",
+            pass: "Kahf_110396"
         },
         tls: {
             ciphers:'SSLv3'
         },
-        connectionTimeout: 30000,
+        // connectionTimeout: 30000,
     })
 
     /* Email Options Setup */
     let options = {
-        from: process.env.USER,
+        from: "abokahfa@outlook.com",
         to: req.body.mailList,
-        subject: request.body.subject,
-        text: request.body.text
+        subject: req.body.subject,
+        text: req.body.text
     }
 
     /* SendMail */
@@ -56,10 +56,31 @@ const sendMail = async function(req, res){
         }
         else{
             
-            return res.status(200).json({
-                "response": `Message successfully sent to ${info.envelope.to}`,
-                "messageId": `${info.messageId}`
-            });
+            /**
+             * bind code to email
+             * store it into db
+            */
+            let record = {
+                email: req.body.mailList,
+                code: req.body.code
+            }
+
+            let _db = getDB();
+            let collection = "verification-codes";
+
+            _db.collection(collection).insertOne(record, function(err){
+                if(err){
+                    throw err;
+                }
+                else {
+                    // _db.close();
+                    return res.status(200).json({
+                        "response": `Message successfully sent to ${info.envelope.to}`,
+                        "messageId": `${info.messageId}`
+                    })
+                }
+            })
+
         }
         
     })
@@ -83,7 +104,7 @@ const getMailList = function (req, res) {
     let collection = "users";
 
     _db.collection(collection)
-        .find(query, { password: false, usename: true, role: true})
+        .find(query, { password: false, username: true, role: true})
         .toArray((err, admins) => {
             if(err){
                 throw err;

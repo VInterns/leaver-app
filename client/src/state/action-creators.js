@@ -21,7 +21,6 @@ export const login = (credentials) => (dispatch) =>
     }
   );
 
-
 export const signup = (credentials) => (dispatch) => 
   makeRequest(
     dispatch,
@@ -43,19 +42,20 @@ export const signup = (credentials) => (dispatch) =>
   )
 
 export const sendCode = (email) => (dispatch) => {
+
+  let otp = randomize('0000000');
+
   makeRequest(
     dispatch,
-    "api/mail/sendCode",
+    "api/mail/sendMail",
     {
       method: "POST",
       headers: { "Content-Type": "application/json"},
       body: JSON.stringify({
-        mailList: [email],
+        mailList: email,
+        code: otp,
         subject: "Leaver App Signup Code",
-        text: `Dear user @ email,\nPlease find the following code to use
-        int your signup process to the Leaver App system.\n
-        Signup Code: ${randomize('000000')}
-        `
+        text: "Dear user @ email,\nPlease find the following code to use it in your signup process to the Leaver App system.\n Signup Code: " + otp
       })
     },
     res => {
@@ -65,17 +65,55 @@ export const sendCode = (email) => (dispatch) => {
           dispatch(sendCodeSuccessful())
         })
       } else {
+        console.log(res);
         dispatch(sendCodeFailed())
       }
     }
   )
 }
 
+export const verifyCode = (state) => (dispatch) => {
+  makeRequest(
+    dispatch,
+    "api/users/verifyCode",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json"},
+      body: JSON.stringify({
+        email: state.username,
+        toVerify: state.code
+      })
+    },
+    res => {
+      if (res.status === 200){
+        return res.json().then(result => {
+          console.log("Code Verified", result);
+          dispatch(verifyCodeSuccess())
+        })
+      } else {
+        dispatch(verifyCodeFailed())
+      }
+    }
+  )
+}
 
 export const sendCodeSuccessful = () => ({
   type: actions.SEND_CODE_SUCCESS
 })
 
+export const initializeApp= ()=>{
+  return { 
+    type:actions.INIT_STATE
+  };
+}
+
+export const verifyCodeSuccess = () => ({
+  type:actions.VERIFY_CODE_SUCCESS
+})
+
+export const verifyCodeFailed = () => ({
+  type:actions.VERIFY_CODE_FAILED
+})
 
 export const sendCodeFailed = () => ({
   type: actions.SEND_CODE_FAILED
@@ -103,7 +141,6 @@ export const logoutSuccessful = () => ({
   type: actions.LOGOUT
 });
 
-
 export const logout = () => (dispatch) => {
   makeRequest(dispatch, "/api/login", {
     method: "DELETE",
@@ -123,8 +160,6 @@ export const requestFinished = () => ({
   type: actions.SET_NOT_LOADING
 });
 
-
-
 export const makeRequest = (
   dispatch,
   url,
@@ -143,3 +178,5 @@ export const makeRequest = (
       throw err;
     });
 };
+
+

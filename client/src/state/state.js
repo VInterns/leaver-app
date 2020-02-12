@@ -10,6 +10,6 @@ export const AuthenticationInitialState = {
 export const RegistrationInitialState = {
   token: null,
   isSignedUp: false,
-  errorMessage: '',
-  loading: false,
+  codeRequested:false,
+  codeVerified:false
 };

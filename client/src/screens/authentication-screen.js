@@ -3,19 +3,19 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { LoginForm } from '../components/login-form';
-import { login, logout } from '../state';
+import { login, logout , initializeApp} from '../state';
 
 class authenticationContainer extends Component {
   static mapStateToProps(state) {
     return {
-      loginError: state.errorMessage,
-      loading: state.loading,
-      isAuthenticated: state.isAuthenticated,
+      loginError: state.auth.errorMessage,
+      loading: state.auth.loading,
+      isAuthenticated: state.auth.isAuthenticated,
     };
   }
 
   static mapDispatchToProps(dispatch) {
-    return bindActionCreators({ login, logout }, dispatch);
+    return bindActionCreators({ login, logout ,initializeApp}, dispatch);
   }
 
 
@@ -35,8 +35,13 @@ class authenticationContainer extends Component {
     signupHeader: string,
     signupSubheader: string,
     usernamePlaceholder: string,
+    initializeApp:()=>void,
   };
 
+/// IF You want to reset the State Please un-comment this function
+componentDidMount(){
+  this.props.initializeApp();
+}
   render() {
 
     return (
