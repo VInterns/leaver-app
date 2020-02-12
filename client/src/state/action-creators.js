@@ -54,7 +54,7 @@ export const sendCode = (email) => (dispatch) => {
         mailList: email,
         code: otp,
         subject: "Leaver App Signup Code",
-        text: "Dear user @ email,\n\nPlease find the following code to use it in your signup process to the Leaver App system.\n\nSignup Code: " + otp
+        text: "Dear user,\n\nPlease find the following code to use it in your signup process to the Leaver App system.\n\nSignup Code: " + otp
       })
     },
     res => {

@@ -67,7 +67,7 @@ export class SignupForm extends Component {
     }
 
     renderCodeSentView = () => {
-        console.log(this.props.codeVerified)
+        //console.log(this.props.codeVerified)
         return (
             <div>
                 <Grid
