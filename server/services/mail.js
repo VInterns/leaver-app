@@ -6,23 +6,34 @@ const {getDB} = require("../db");
 const sendMail = async function(req, res){
 
     /* Transporter Setup */
-    let transporter = nodemailer.createTransport({
+    /* let transporter = nodemailer.createTransport({
         host: "smtp-mail.outlook.com",
         secure: false,
         port: 587,
         auth: {
-            user: "abokahfa@outlook.com",
-            pass: "Kahf_110396"
+            user: process.env.USER,
+            pass: process.env.PASS
         },
         tls: {
             ciphers:'SSLv3'
         },
         // connectionTimeout: 30000,
+    }) */
+
+    let transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        auth: {
+                type: 'oAuth2',
+                user: 'abokahfa@gmail.com',
+                clientId: '421036610858-s65n7sbd5mat5m4t53hau6ba49n67ogp.apps.googleusercontent.com',
+                clientSecret: 'jmWV8nEeO9AUWS8EvJJYzxUV',
+                refreshToken: '1//04ah6dK_ZWvp8CgYIARAAGAQSNwF-L9IrVVCoe9X-NCVt2Linnyc20oZP2S3LdqZ9B98fd0gpcOFSBg8yTM-G_tq2hka2Fhu2LiY'     
+        }
     })
 
     /* Email Options Setup */
     let options = {
-        from: "abokahfa@outlook.com",
+        from: "abokahfa@gmail.com",
         to: req.body.mailList,
         subject: req.body.subject,
         text: req.body.text

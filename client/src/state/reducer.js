@@ -101,6 +101,20 @@ export function registrationReducer(
       }
     }
 
+    case actions.VERIFY_CODE_SUCCESS : {
+      return {
+        ...state,
+        codeVerified: true
+      }
+    }
+
+    case actions.VERIFY_CODE_FAILED : {
+      return {
+        ...state,
+        codeVerified: false
+      }
+    }
+
     case actions.INIT_STATE:{
       return RegistrationInitialState;
     }

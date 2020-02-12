@@ -3,7 +3,7 @@ const mailer = require("../services/mail");
 
 ////////////////////////////////////////////
 router.route("/sendMail")
-    .post(mailer.sendMail);
+    .post(pass,mailer.sendMail);
 
 router.route("/getMailList")
     .get(mailer.getMailList)

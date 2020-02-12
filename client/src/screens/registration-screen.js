@@ -3,7 +3,7 @@ import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 
 import { SignupForm } from "../components/signup-form";
-import { signup, sendCode } from "../state";
+import { signup, sendCode ,verifyCode} from "../state";
 
 class registrationContainer extends Component {
     static mapStateToProps(state){
@@ -11,12 +11,13 @@ class registrationContainer extends Component {
             signupError: state.reg.errorMessage,
             loading: state.reg.loading,
             isRegistered: state.reg.isRegistered,
-            codeRequested: state.reg.codeRequested
+            codeRequested: state.reg.codeRequested,
+            codeVerified: state.reg.codeVerified
         }
     }
 
     static mapDispatchToProps(dispatch){
-        return bindActionCreators({signup, sendCode}, dispatch);
+        return bindActionCreators({signup, sendCode, verifyCode}, dispatch);
     }
 
 
@@ -32,6 +33,8 @@ class registrationContainer extends Component {
         getCodeText: string,
         headerText: string,
         subheaderText: string,
+        createPasswordHeader: string,
+        createPasswordText: string,
         usernamePlaceholder: string,
         userCodePlaceholder: string,
         passwordPlaceholder: string,
@@ -48,6 +51,7 @@ class registrationContainer extends Component {
     }
 
     render(){
+        console.log(this.props)
         return(
             <div>
                 <SignupForm
@@ -62,6 +66,8 @@ class registrationContainer extends Component {
                     subheaderText = {this.props.subheaderText}
                     signupText = {this.props.signupText}
                     loginText = {this.props.loginText}
+                    createPasswordHeader = {this.props.createPasswordHeader}
+                    createPasswordText = {this.props.createPasswordText}
                     usernamePlaceholder = {this.props.usernamePlaceholder}
                     userCodePlaceholder = {this.props.userCodePlaceholder}
                     passwordPlaceholder = {this.props.passwordPlaceholder}

@@ -42,7 +42,6 @@ export const signup = (credentials) => (dispatch) =>
   )
 
 export const sendCode = (email) => (dispatch) => {
-
   let otp = randomize('0000000');
 
   makeRequest(
@@ -55,7 +54,7 @@ export const sendCode = (email) => (dispatch) => {
         mailList: email,
         code: otp,
         subject: "Leaver App Signup Code",
-        text: "Dear user @ email,\nPlease find the following code to use it in your signup process to the Leaver App system.\n Signup Code: " + otp
+        text: "Dear user @ email,\n\nPlease find the following code to use it in your signup process to the Leaver App system.\n\nSignup Code: " + otp
       })
     },
     res => {
@@ -72,16 +71,17 @@ export const sendCode = (email) => (dispatch) => {
   )
 }
 
-export const verifyCode = (state) => (dispatch) => {
+export const verifyCode = (user) => (dispatch) => {
+
   makeRequest(
     dispatch,
-    "api/users/verifyCode",
+    "api/info/verifyCode",
     {
       method: "POST",
       headers: { "Content-Type": "application/json"},
       body: JSON.stringify({
-        email: state.username,
-        toVerify: state.code
+        email: user.username,
+        toVerify: user.code
       })
     },
     res => {

@@ -95,6 +95,8 @@ class App extends Component {
                   usernamePlaceholder = "Enter your Organization Email"
                   userCodePlaceholder = "Secret code"
                   passwordPlaceholder = "Create a new Password"
+                  createPasswordHeader = "Create Your Password"
+                  createPasswordText = "Password must be at least 8 characters."
                   codeRequested = {false}
                   logo = {null}
                   signupWelcomeImg = {null}/>}
