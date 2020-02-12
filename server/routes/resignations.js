@@ -16,6 +16,31 @@ module.exports = db => {
       });
   });
 
+  router.post("/", function (req, res) {
+    // check if resignatin request exists in db
+    db.collection(collection)
+      .findOne({ staffId: req.body.staffId })
+      .then(resigReg => {
+        if (!resigReg) {
+          // Insert new resignation request
+          db.collection(collection).insertOne(req.body, (err, result) => {
+            if (err) {
+              res.status(503).send({ error: "Insert to db error:(" });
+              throw err;
+            } else {
+              res.status(200).send({ error: "Heeh :)" });
+            }
+          });
+        } else {
+          res
+            .status(404)
+            .send({ error: "Resignation Request already exists:(" });
+        }
+      });
+  });
+
+
+
   router.get("/pending", (req, res) => {
     db.collection(collection)
       .find({ "phase4.status": "new" })
@@ -89,27 +114,21 @@ module.exports = db => {
     res.status(200).send({ msg: "hi" });
   });
 
-  router.post("/", function (req, res) {
-    // check if resignatin request exists in db
-    db.collection(collection)
-      .findOne({ staffId: req.body.staffId })
-      .then(resigReg => {
-        if (!resigReg) {
-          // Insert new resignation request
-          db.collection(collection).insertOne(req.body, (err, result) => {
-            if (err) {
-              res.status(503).send({ error: "Insert to db error:(" });
-              throw err;
-            } else {
-              res.status(200).send({ error: "Heeh :)" });
-            }
-          });
-        } else {
-          res
-            .status(404)
-            .send({ error: "Resignation Request already exists:(" });
-        }
-      });
+  router.get('/myresigns/:createdby', (req, res) => {
+    let urlSections = req.url.split("/");
+    (urlSections[urlSections.length - 1] + "url");
+    // var query = { staffId: Number(urlSections[urlSections.length - 1]) };
+    // (query);
+    // db.collection(collection).find({ "createdby": "admin@hr.com" }).toArray((err, requests) => {
+    db.collection(collection).find({ "createdby": urlSections[urlSections.length - 1] }).toArray((err, requests) => {
+      if (err) {
+        res.status(500).send();
+        throw err;
+      }
+      else {
+        res.send(requests);
+      }
+    });
   });
 
   router.get('/wf/fetchRequests', (req, res) => {
@@ -217,6 +236,19 @@ module.exports = db => {
     })
   });
 
+  router.post("/update/phase5", (req, res) => {
+    var leaverId = req.body.staffId;
+    db.collection(collection).findOneAndUpdate({ "staffId": leaverId },
+      { $set: { "phase5": req.body.phase5 } }, (err, result) => {
+        if (err) {
+          throw err
+        } else {
+          res.status(200).send({
+            "msg": "phase 5 updated successfully"
+          })
+        }
+      })
+  });
 
   router.post(
     "/uploadHandler/",
