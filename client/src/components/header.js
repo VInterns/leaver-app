@@ -24,8 +24,8 @@ export class Header extends React.Component {
 
   static mapStateToProps(state) {
     return {
-      isAuthenticated: state.isAuthenticated,
-      account: state.account
+      isAuthenticated: state.auth.isAuthenticated,
+      account: state.auth.account
     };
   };
 
@@ -40,6 +40,7 @@ export class Header extends React.Component {
   }
 
   render() {
+    console.log(this.props)
     if (!this.props.isAuthenticated) {
       return null;
     }

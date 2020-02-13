@@ -9,6 +9,7 @@ export * from './smc-view-screen';
 export * from './cat-table-screen';
 export * from './cat-view-screen';
 export * from './authentication-screen';
+export * from './registration-screen';
 export * from './ast-table-screen';
 export * from './ast-view-screen';
 export * from './elt-view-screen';

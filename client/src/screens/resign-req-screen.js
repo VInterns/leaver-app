@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ImageUploaderComponent } from '../components';
-import {store} from '../App';
+import { store } from '../App';
 
 // const store = require('../App')
 
@@ -20,33 +20,38 @@ export class ResignReqScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      staffId : '',
-      returnedHeadset : true,
-      returnedKeys : true,
-      returnedOhda : true,
-      ohdaType : '',
-      lastWorkDay : '',
-      nationalId : '',
-      nationalIdImg : null,
-      annualsGranted : '',
-      annualsTaken : '',
-      noShow : '',
-      lostHours : '',
-      daysToTake : '',
-      sapStaffId : '',
-      name : '',
-      managerName : '',
-      ntAccount : '',
-      department : '',
-      careCenter : '',
-      jobTitle : '',
-      hiringDate : '',
-      mobile : '',
-      iex : '',
-      personalMobile : '',
-      recommended : '',
+      staffId: '',
+      returnedHeadset: true,
+      returnedKeys: true,
+      returnedOhda: true,
+      ohdaType: '',
+      lastWorkDay: '',
+      nationalId: '',
+      nationalIdImg: null,
+      annualsGranted: '',
+      annualsTaken: '',
+      noShow: '',
+      lostHours: '',
+      daysToTake: '',
+      sapStaffId: '',
+      name: '',
+      managerName: '',
+      ntAccount: '',
+      department: '',
+      careCenter: '',
+      jobTitle: '',
+      hiringDate: '',
+      mobile: '',
+      iex: '',
+      personalMobile: '',
+      recommended: '',
       createdby: store.getState().username,
     };
+  }
+
+  /* Added to fetch MailList */
+  componentDidMount() {
+    // this.fetchMailList();
   }
 
   onSearch = (e) => {
@@ -71,18 +76,19 @@ export class ResignReqScreen extends Component {
         if (data) {
           this.setState({ staffId: data.staffId });
           this.setState({ sapStaffId: data.staffId });
-          this.setState({ name: data.employeeName});
+          this.setState({ name: data.employeeName });
           this.setState({ managerName: data.managerName });
           this.setState({ ntAccount: data.ntAccount });
           this.setState({ department: data.department });
           this.setState({ careCenter: data.careCenter });
-          this.setState({ jobTitle: data.jobTitle});
+          this.setState({ jobTitle: data.jobTitle });
           this.setState({ hiringDate: data.hiringDate });
-          this.setState({ mobile: "+2" + data.mobNumber });
+          this.setState({ mobile: "+2" + data.mobile });
+          this.setState({ username: data.username });
         }
       })
   }
-  
+
   onSubmit = (e) => {
     e.preventDefault();
     fetch(API + SUBMIT, {
@@ -94,7 +100,7 @@ export class ResignReqScreen extends Component {
         status: "new",
         phase1: {
           status: "done",
-          personalMobile : this.state.personalMobile,
+          personalMobile: this.state.personalMobile,
           recommended: this.state.recommended,
           returnedHeadset: this.state.returnedHeadset,
           returnedKeys: this.state.returnedKeys,
@@ -146,6 +152,28 @@ export class ResignReqScreen extends Component {
           return undefined;
         }
       })
+
+
+    // let QUERY = "mail/sendMail";
+
+    // /* Append Employee Email */
+    // this.state.mailList.push(this.state.username);
+
+    // /* Send Email to mailList */
+    // fetch(API + QUERY, {
+    //   method: "post",
+    //   body: JSON.stringify({
+    //     mailList : this.state.mailList
+    //   }),
+    //   "headers": {"Content-type": "application/json"}
+    // })
+    // .then((res) => {
+    //   return console.log(res);
+    // })
+    // .catch((err) => {
+    //   return console.log(err);
+    // });
+
   }
 
   handleChange = e => {
@@ -162,6 +190,27 @@ export class ResignReqScreen extends Component {
       this.setState({ [e.target.name]: e.target.value });
     }
   }
+
+  // fetchMailList(){
+  //   let LIST_QUERY = "mail/getMailList";
+
+  //     /* Fetch Mailing List */
+  //     fetch(API + LIST_QUERY, {
+  //       method: "get",
+  //       headers: {"Content-type": "application/json"}
+  //     })
+  //     .then((res) => {
+  //       return res.json();
+  //     })
+  //     .then((list) => {
+  //       this.setState({
+  //         mailList: list
+  //       })
+  //     })
+  //     .catch((err) => {
+  //       throw err;
+  //     })
+  // }
 
   imageUploaderHandler = (file) => {
     this.setState({
@@ -250,12 +299,12 @@ export class ResignReqScreen extends Component {
             </Row>
             <Row>
               <Col><Form.Label>Recommended</Form.Label></Col>
-              <Col><input 
-                name="recommended" 
-                type="checkbox" 
-                defaultChecked={this.state.recommended} 
-                onChange={this.handleChange} 
-                className = "p-2 form-control col-sm-1 text-center" required/></Col>
+              <Col><input
+                name="recommended"
+                type="checkbox"
+                defaultChecked={this.state.recommended}
+                onChange={this.handleChange}
+                className="p-2 form-control col-sm-1 text-center" required /></Col>
               <Col></Col>
             </Row>
           </Form.Group>
