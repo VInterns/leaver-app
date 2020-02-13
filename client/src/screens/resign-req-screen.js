@@ -152,10 +152,13 @@ export class ResignReqScreen extends Component {
     // toast.success(this.state.createdby);
     if (e.target.type === 'select-one') {
       if (e.target.value === 'yes') {
-        this.setState({ [e.target.name]: true });
+        this.setState({ [e.target.name]: 'true' });
       }
-      else {
-        this.setState({ [e.target.name]: false });
+      else if (e.target.value === 'no') {
+        this.setState({ [e.target.name]: 'false' });
+      }
+      else{
+        this.setState({ [e.target.name]: 'N/A' });
       }
     }
     else {
@@ -263,7 +266,8 @@ export class ResignReqScreen extends Component {
             <Row>
               <Col><Form.Label>Returned Headset</Form.Label></Col>
               <Col>
-                <Form.Control as="select" name="returnedHeadset" onChange={this.handleChange} defaultValue={{ label: "Yes", value: true }}>
+                <Form.Control as="select" name="returnedHeadset" onChange={this.handleChange} defaultValue={{ label: "N/A", value: 'N/A' }} >
+                  <option>N/A</option>
                   <option>Yes</option>
                   <option>No</option>
                 </Form.Control>
@@ -273,6 +277,7 @@ export class ResignReqScreen extends Component {
               <Col><Form.Label>Returned Keys</Form.Label></Col>
               <Col>
                 <Form.Control as="select" name="returnedKeys" onChange={this.handleChange}>
+                  <option>N/A</option>
                   <option>Yes</option>
                   <option>No</option>
                 </Form.Control>
@@ -282,6 +287,7 @@ export class ResignReqScreen extends Component {
               <Col><Form.Label>Returned 3ohda</Form.Label></Col>
               <Col>
                 <Form.Control as="select" name="returnedOhda" onChange={this.handleChange} required>
+                  <option>N/A</option>
                   <option>Yes</option>
                   <option>No</option>
                 </Form.Control>

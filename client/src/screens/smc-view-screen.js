@@ -156,6 +156,7 @@ export class SMCResignationDetailScreen extends React.Component {
                 onChange = {this.handleChange}
                 className = "p-2 form-control col-sm-1"
                 defaultValue = {this.state.returnedHeadset}>
+                <option> N/A </option>
                 <option value = {true}>Yes</option>
                 <option value = {false}>No</option>
               </select>
@@ -167,6 +168,7 @@ export class SMCResignationDetailScreen extends React.Component {
                 onChange = {this.handleChange}
                 className = "p-2 form-control col-sm-1"
                 defaultValue = {this.state.returnedKeys}>
+                <option> N/A </option>
                 <option value = {true}>Yes</option>
                 <option value = {false}>No</option>
               </select>
@@ -179,6 +181,7 @@ export class SMCResignationDetailScreen extends React.Component {
                 onChange = {this.handleChange}
                 className = "p-2 form-control col-sm-1 text-center"
                 defaultValue = {this.state.returnedOhda}>
+                <option> N/A </option>
                 <option value = {true}>Yes</option>
                 <option value = {false}>No</option>
               </select>
