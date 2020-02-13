@@ -149,7 +149,7 @@ export class ASTResignationDetailScreen extends React.Component {
                 onChange = {this.handleChange}
                 className = "p-2 form-control col-sm-1"
                 defaultValue = {this.state.disabledSecureId}>
-                <option> N/A </option>
+                <option value = {null}> N/A </option>
                 <option value = {true}>Yes</option>
                 <option value = {false}>No</option>
               </select>
@@ -161,7 +161,7 @@ export class ASTResignationDetailScreen extends React.Component {
                 onChange = {this.handleChange}
                 className = "p-2 form-control col-sm-1"
                 defaultValue = {this.state.disabledRemedyAccount}>
-                <option> N/A </option>
+                <option value = {null}> N/A </option>
                 <option value = {true}>Yes</option>
                 <option value = {false}>No</option>
               </select>
@@ -174,7 +174,7 @@ export class ASTResignationDetailScreen extends React.Component {
                 onChange = {this.handleChange}
                 className = "p-2 form-control col-sm-1 text-center"
                 defaultValue = {this.state.disabledAccountsInProductionSystems}>
-                <option> N/A </option>
+                <option value = {null}> N/A </option>
                 <option value = {true}>Yes</option>
                 <option value = {false}>No</option>
               </select>

@@ -40,7 +40,7 @@ import {
 import 'semantic-ui-css/semantic.min.css';
 
 const persistConfig = {
-  key: 'leaver',
+  key: 'leaver-app',
   storage,
 };
 

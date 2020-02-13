@@ -35,11 +35,19 @@ export class Header extends React.Component {
   }
 
   checkAuth = (allowed_users, user_roles) => {
-    const found = allowed_users.some(r => user_roles.indexOf(r) >= 0);
+    console.log(allowed_users,"allowed users")
+    const found = allowed_users.some(r =>{
+      console.log(user_roles.indexOf(`${r.toString()}`) !== -1,"condition");
+      console.log(user_roles,"all roles");
+      console.log(r,"currecnt role");
+      console.log(user_roles.indexOf(r),"index of");
+    return true;
+    })
     return found;
   }
 
   render() {
+    console.log(this.props)
     if (!this.props.isAuthenticated) {
       return null;
     }
