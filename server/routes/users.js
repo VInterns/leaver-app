@@ -16,7 +16,7 @@ module.exports = db => {
     );
   });
 
-  router.post("/search", function (req, res) {
+  router.post("/search", function(req, res) {
     db.collection(collection)
       .findOne({ staffId: Number(req.body.staffId) })
       .then(user => {
@@ -30,8 +30,12 @@ module.exports = db => {
 
   router.post("/bulkregister", (req, res) => {
     // db.collection(collection).drop();
-    db.collection(collection).insertMany(req.body, function (err1, result) {
+    db.collection(req.body.collection).insertMany(req.body.jsonData, function(
+      err1,
+      result
+    ) {
       if (err1) {
+        console.log(req.body.jsonData);
         res.status(500).send();
         res.end();
       } else {

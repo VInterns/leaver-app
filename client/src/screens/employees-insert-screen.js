@@ -5,14 +5,14 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 var XLSX = require("xlsx");
 
-export class UploadUsersScreen extends Component {
+export class UploadEmployeesScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
       loaded: 0,
       jsonData: null,
       readyUpload: false,
-      collection: "users"
+      collection: "employees"
     };
   }
   checkMimeType = event => {
@@ -121,7 +121,7 @@ export class UploadUsersScreen extends Component {
           <div className="row">
             <div className="offset-md-3 col-md-6">
               <div className="form-group files">
-                <h1>Upload Users File </h1>
+                <h1>Upload Employees File </h1>
                 <input
                   type="file"
                   className="form-control"
@@ -135,6 +135,7 @@ export class UploadUsersScreen extends Component {
                   {Math.round(this.state.loaded, 2)}%
                 </Progress>
               </div>
+
               <button
                 type="button"
                 className="btn btn-success btn-block"
