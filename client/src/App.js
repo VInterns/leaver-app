@@ -4,14 +4,14 @@ import {
   Route,
   Switch
 } from "react-router-dom";
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import promiseMiddleware from 'redux-promise';
 import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
-import { authenticationReducer } from './state';
+import { authenticationReducer, registrationReducer } from './state';
 import { PersistGate } from 'redux-persist/integration/react';
 
 import { ConnectedHeader, ConnectedPrivateRoute } from './components';
@@ -27,6 +27,7 @@ import {
   ASTTableScreen,
   ASTResignationDetailScreen,
   ResignationsScreen,
+  RegistrationScreen,
   AuthenticationScreen,
   ELTTableScreen,
   ELTViewScreen,
@@ -45,7 +46,7 @@ const persistConfig = {
   storage,
 };
 
-const persistedReducer = persistReducer(persistConfig, authenticationReducer);
+const persistedReducer = persistReducer(persistConfig, combineReducers({ auth: authenticationReducer, reg: registrationReducer }));
 
 export let store = createStore(
   persistedReducer,
@@ -68,7 +69,8 @@ class App extends Component {
             <ConnectedHeader />
             <Router>
               <Switch>
-                <Route path="/" exact component={props => <AuthenticationScreen {...props} headerText="Sign in to Leaver App"
+                <Route path="/" exact component={props => <AuthenticationScreen {...props}
+                  headerText="Sign in to Leaver App"
                   subheaderText="Please insert your login details below"
                   loginText="Sign in"
                   signupHref="/signup"
@@ -80,7 +82,27 @@ class App extends Component {
                   logo={null}
                   loginWelcomeImg={null} />}
                 />
-
+                <Route path="/signup" component={props => <RegistrationScreen {...props}
+                  headerText="Create an account in Leaver App"
+                  verifyButtonText="Verify code"
+                  verifyHeader="Verification"
+                  verifyText="Please enter the 6-digit code we sent you on email"
+                  getCodeText="Get Signup Code"
+                  subheaderText="Please provide the required details below"
+                  loginText="Sign in"
+                  loginHref="/"
+                  signupText="Sign up"
+                  signupHeader="Welcome to Leaver App"
+                  signupSubheader="This is outsource Leaver-App System"
+                  usernamePlaceholder="Enter your Organization Email"
+                  userCodePlaceholder="Secret code"
+                  passwordPlaceholder="Create a Password"
+                  createPasswordHeader="Create Your Password"
+                  createPasswordText="Password must be at least 8 characters."
+                  codeRequested={false}
+                  logo={null}
+                  signupWelcomeImg={null} />}
+                />
                 <ConnectedPrivateRoute allowed={["admin","hr"]} path="/upload" exact component={UploadExcelScreen} />
                 <ConnectedPrivateRoute allowed={["admin","hr"]} path="/hr-view" component={HrViewScreen} />
                 <ConnectedPrivateRoute allowed={["admin","manager"]} path="/resignations-details" component={ResignationsScreen} />
@@ -99,6 +121,7 @@ class App extends Component {
                 <ConnectedPrivateRoute allowed={["admin","sht"]} path="/sht-view" component={SHTViewScreen} />
                 <ConnectedPrivateRoute allowed={["admin","manager"]} path="/my-resignations" component={ManagerResignationsTableScreen} />
                 <ConnectedPrivateRoute allowed={["admin","manager"]} path="/update-resignation" component={ManagerResignationsViewScreen} />
+
               </Switch>
             </Router>
           </>

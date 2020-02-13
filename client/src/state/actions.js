@@ -10,3 +10,17 @@ export const LOGOUT = '[Authorization] logout';
 export const SET_LOADING = '[UI] loading';
 
 export const SET_NOT_LOADING = '[UI] Not loading'
+
+export const SIGNUP_SUCCESS = '[Registration] Signup Successful';
+
+export const SIGNUP_FAILED = '[Registration] Signup Failed';
+
+export const SEND_CODE_SUCCESS = '[Send Code] Code Successfully Sent';
+
+export const SEND_CODE_FAILED  = '[Send Code] Failed to send the code';
+
+export const VERIFY_CODE_SUCCESS = '[Verify Code] Code Verified';
+
+export const VERIFY_CODE_FAILED = '[Verify Code] Code Not Verified';
+
+export const INIT_STATE = '[APP] Initialize APP';

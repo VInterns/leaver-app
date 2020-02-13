@@ -255,6 +255,19 @@ module.exports = db => {
     })
   });
 
+  router.post("/update/phase5", (req, res) => {
+    var leaverId = req.body.staffId;
+    db.collection(collection).findOneAndUpdate({ "staffId": leaverId },
+      { $set: { "phase5": req.body.phase5 } }, (err, result) => {
+        if (err) {
+          throw err
+        } else {
+          res.status(200).send({
+            "msg": "phase 5 updated successfully"
+          })
+        }
+      })
+  });
 
   router.post(
     "/uploadHandler/",

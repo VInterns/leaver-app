@@ -5,3 +5,11 @@ export const AuthenticationInitialState = {
   loading: false,
   username: '',
 };
+
+
+export const RegistrationInitialState = {
+  token: null,
+  isRegistered: false,
+  codeRequested:false,
+  codeVerified:false
+};

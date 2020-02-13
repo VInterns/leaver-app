@@ -35,6 +35,7 @@ module.exports.up = function(done) {
     role: "sht"
   })
   .then(() => done());
+
 };
 
 module.exports.down = function(done) {
