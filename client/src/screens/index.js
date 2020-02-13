@@ -1,4 +1,5 @@
-export * from './users-insert-screen';
+export * from "./users-insert-screen";
+export * from "./employees-insert-screen";
 export * from './resign-req-screen';
 export * from './hrt-table-screen';
 export * from './wft-table-screen';

@@ -14,10 +14,11 @@ import storage from 'redux-persist/lib/storage'; // defaults to localStorage for
 import { authenticationReducer, registrationReducer } from './state';
 import { PersistGate } from 'redux-persist/integration/react';
 
-import { ConnectedHeader, ConnectedPrivateRoute } from './components';
+import { ConnectedHeader, ConnectedPrivateRoute } from "./components";
 
 import {
-  UploadExcelScreen,
+  UploadEmployeesScreen,
+  UploadUsersScreen,
   CCConsumerActivation,
   ConsumerTable,
   ResignReqScreen,
@@ -39,7 +40,7 @@ import {
   ManagerResignationsViewScreen
 } from './screens';
 
-import 'semantic-ui-css/semantic.min.css';
+import "semantic-ui-css/semantic.min.css";
 
 const persistConfig = {
   key: 'leaver-app',
@@ -50,10 +51,9 @@ const persistedReducer = persistReducer(persistConfig, combineReducers({ auth: a
 
 export let store = createStore(
   persistedReducer,
-  composeWithDevTools(applyMiddleware(promiseMiddleware, thunkMiddleware)),
+  composeWithDevTools(applyMiddleware(promiseMiddleware, thunkMiddleware))
 );
 let persistor = persistStore(store);
-
 
 class App extends Component {
   Props: {
@@ -62,7 +62,6 @@ class App extends Component {
   };
   render() {
     return (
-
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <>
@@ -103,7 +102,18 @@ class App extends Component {
                   logo={null}
                   signupWelcomeImg={null} />}
                 />
-                <ConnectedPrivateRoute allowed={["admin","hr"]} path="/upload" exact component={UploadExcelScreen} />
+           <ConnectedPrivateRoute
+                  allowed={["admin", "hr"]}
+                  path="/upload_users"
+                  exact
+                  component={UploadUsersScreen}
+                />
+                <ConnectedPrivateRoute
+                  allowed={["admin", "hr"]}
+                  path="/upload_employees"
+                  exact
+                  component={UploadEmployeesScreen}
+                />
                 <ConnectedPrivateRoute allowed={["admin","hr"]} path="/hr-view" component={HrViewScreen} />
                 <ConnectedPrivateRoute allowed={["admin","manager"]} path="/resignations-details" component={ResignationsScreen} />
                 <ConnectedPrivateRoute allowed={["admin","smc"]} path="/smc" component={SMCTableScreen} />
@@ -132,4 +142,3 @@ class App extends Component {
 }
 
 export default App;
-
