@@ -19,9 +19,9 @@ export class ResignReqScreen extends Component {
     super(props);
     this.state = {
       staffId : '',
-      returnedHeadset : true,
-      returnedKeys : true,
-      returnedOhda : true,
+      returnedHeadset : null,
+      returnedKeys : null,
+      returnedOhda : null,
       ohdaType : '',
       lastWorkDay : '',
       nationalId : '',
@@ -149,11 +149,15 @@ export class ResignReqScreen extends Component {
   handleChange = e => {
     // toast.success(this.state.createdby);
     if (e.target.type === 'select-one') {
-      if (e.target.value === 'yes') {
+      console.log(e.target.value);
+      if (e.target.value === 'Yes') {
         this.setState({ [e.target.name]: true });
       }
-      else {
+      else if (e.target.value === 'No') {
         this.setState({ [e.target.name]: false });
+      }
+      else{
+        this.setState({ [e.target.name]: null });
       }
     }
     else if (e.target.value === "on") {

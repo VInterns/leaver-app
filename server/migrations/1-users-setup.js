@@ -11,28 +11,28 @@ module.exports.up = function(done) {
     .insertOne({
       username: "admin@hr.com",
       password: bcrypt.hashSync("hradmin", salt),
-      role: ["admin"]
+      role: "admin"
     })
   this.db
   .collection("users")
   .insertOne({
     username: "manager1@vodafone.com",
     password: bcrypt.hashSync("manager1", salt),
-    role: ["manager","hr"]
+    role:"manager"
   })
   this.db
   .collection("users")
   .insertOne({
     username: "hr1@vodafone.com",
     password: bcrypt.hashSync("hr1", salt),
-    role: ["hr"]
+    role: "hr"
   })
   this.db
   .collection("users")
   .insertOne({
     username: "security1@vodafone.com",
     password: bcrypt.hashSync("security1", salt),
-    role: ["sht"]
+    role: "sht"
   })
   .then(() => done());
 };
