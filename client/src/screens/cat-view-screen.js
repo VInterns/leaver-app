@@ -16,7 +16,6 @@ export class CCConsumerActivation extends Component {
             lastWorkDay: "",
             nationalId: null
         };
-        this.getData();
     }
 
     ///////////////////////////////////////////////

@@ -1,3 +1,4 @@
+const bcrypt = require("bcryptjs");
 const express = require("express");
 var XLSX = require("xlsx");
 
@@ -43,6 +44,25 @@ module.exports = db => {
       }
     });
   });
+
+
+  router.post("/addPassword", (req, res) => {
+
+    req.body.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync())
+
+    db.collection('users')
+      .updateOne({ username: req.body.username }, { $set: { "password": req.body.password } }, function (err) {
+        if (err) {
+          return res.status(500).json({
+            "msg": "Failed to update document."
+          })
+        } else {
+          return res.status(200).json({
+            "msg": "Document successfully updated."
+          })
+        }
+      })
+  })
 
   return router;
 };

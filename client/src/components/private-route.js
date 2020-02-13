@@ -5,8 +5,8 @@ import { connect } from "react-redux";
 
 const mapStateToProps = (state) => {
     return {
-        isAuthenticated: state.isAuthenticated,
-        account: state.account
+        isAuthenticated: state.auth.isAuthenticated,
+        account: state.auth.account
     };
 };
 

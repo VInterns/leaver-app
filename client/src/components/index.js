@@ -3,3 +3,4 @@ export * from './login-form';
 export * from './private-route';
 export * from './image-uploader';
 export * from './leaver-detail';
+export * from './signup-form';

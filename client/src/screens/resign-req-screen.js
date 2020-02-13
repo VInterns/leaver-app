@@ -8,9 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ImageUploaderComponent } from '../components';
-import {store} from '../App';
-
-// const store = require('../App')
+import { store } from '../App';
 
 const API = '/api/';
 const SEARCH = 'users/search'
@@ -21,9 +19,9 @@ export class ResignReqScreen extends Component {
     super(props);
     this.state = {
       staffId : '',
-      returnedHeadset : true,
-      returnedKeys : true,
-      returnedOhda : true,
+      returnedHeadset : null,
+      returnedKeys : null,
+      returnedOhda : null,
       ohdaType : '',
       lastWorkDay : '',
       nationalId : '',
@@ -44,9 +42,14 @@ export class ResignReqScreen extends Component {
       mobile : '',
       iex : '',
       personalMobile : '',
-      recommended : '',
+      recommended : false,
       createdby: store.getState().username,
     };
+  }
+
+  /* Added to fetch MailList */
+  componentDidMount() {
+    // this.fetchMailList();
   }
 
   onSearch = (e) => {
@@ -71,18 +74,19 @@ export class ResignReqScreen extends Component {
         if (data) {
           this.setState({ staffId: data.staffId });
           this.setState({ sapStaffId: data.staffId });
-          this.setState({ name: data.employeeName});
+          this.setState({ name: data.employeeName });
           this.setState({ managerName: data.managerName });
           this.setState({ ntAccount: data.ntAccount });
           this.setState({ department: data.department });
           this.setState({ careCenter: data.careCenter });
-          this.setState({ jobTitle: data.jobTitle});
+          this.setState({ jobTitle: data.jobTitle });
           this.setState({ hiringDate: data.hiringDate });
-          this.setState({ mobile: "+2" + data.mobNumber });
+          this.setState({ mobile: "+2" + data.mobile });
+          this.setState({ username: data.username });
         }
       })
   }
-  
+
   onSubmit = (e) => {
     e.preventDefault();
     fetch(API + SUBMIT, {
@@ -94,7 +98,7 @@ export class ResignReqScreen extends Component {
         status: "new",
         phase1: {
           status: "done",
-          personalMobile : this.state.personalMobile,
+          personalMobile: this.state.personalMobile,
           recommended: this.state.recommended,
           returnedHeadset: this.state.returnedHeadset,
           returnedKeys: this.state.returnedKeys,
@@ -146,22 +150,75 @@ export class ResignReqScreen extends Component {
           return undefined;
         }
       })
+
+
+    // let QUERY = "mail/sendMail";
+
+    // /* Append Employee Email */
+    // this.state.mailList.push(this.state.username);
+
+    // /* Send Email to mailList */
+    // fetch(API + QUERY, {
+    //   method: "post",
+    //   body: JSON.stringify({
+    //     mailList : this.state.mailList
+    //   }),
+    //   "headers": {"Content-type": "application/json"}
+    // })
+    // .then((res) => {
+    //   return console.log(res);
+    // })
+    // .catch((err) => {
+    //   return console.log(err);
+    // });
+
   }
 
   handleChange = e => {
     // toast.success(this.state.createdby);
     if (e.target.type === 'select-one') {
-      if (e.target.value === 'yes') {
+      console.log(e.target.value);
+      if (e.target.value === 'Yes') {
         this.setState({ [e.target.name]: true });
       }
-      else {
+      else if (e.target.value === 'No') {
         this.setState({ [e.target.name]: false });
       }
+      else{
+        this.setState({ [e.target.name]: null });
+      }
+    }
+    else if (e.target.value === "on") {
+      this.setState({ [e.target.name]: true });
+    }
+    else if (e.target.value === "off") {
+      this.setState({ [e.target.name]: false });
     }
     else {
       this.setState({ [e.target.name]: e.target.value });
     }
   }
+
+  // fetchMailList(){
+  //   let LIST_QUERY = "mail/getMailList";
+
+  //     /* Fetch Mailing List */
+  //     fetch(API + LIST_QUERY, {
+  //       method: "get",
+  //       headers: {"Content-type": "application/json"}
+  //     })
+  //     .then((res) => {
+  //       return res.json();
+  //     })
+  //     .then((list) => {
+  //       this.setState({
+  //         mailList: list
+  //       })
+  //     })
+  //     .catch((err) => {
+  //       throw err;
+  //     })
+  // }
 
   imageUploaderHandler = (file) => {
     this.setState({
@@ -245,7 +302,7 @@ export class ResignReqScreen extends Component {
             </Row>
             <Row>
               <Col><Form.Label>Personal Mobile Number</Form.Label></Col>
-              <Col><Form.Control as="textarea" rows="1" name="personalMobile" onChange={this.handleChange} required /></Col>
+              <Col><Form.Control as="textarea" rows="1" name="personalMobile" onChange={this.handleChange} /></Col>
               <Col></Col>
             </Row>
             <Row>
@@ -254,8 +311,9 @@ export class ResignReqScreen extends Component {
                 name="recommended" 
                 type="checkbox" 
                 defaultChecked={this.state.recommended} 
-                onChange={this.handleChange} 
-                className = "p-2 form-control col-sm-1 text-center" required/></Col>
+                // onChange={this.handleChange} 
+                className = "p-2 form-control col-sm-1 text-center"/></Col>
+
               <Col></Col>
             </Row>
           </Form.Group>
@@ -281,7 +339,7 @@ export class ResignReqScreen extends Component {
             <Row>
               <Col><Form.Label>Returned 3ohda</Form.Label></Col>
               <Col>
-                <Form.Control as="select" name="returnedOhda" onChange={this.handleChange} required>
+                <Form.Control as="select" name="returnedOhda" onChange={this.handleChange}>
                   <option>Yes</option>
                   <option>No</option>
                 </Form.Control>
@@ -289,7 +347,7 @@ export class ResignReqScreen extends Component {
             </Row>
             <Row>
               <Col><Form.Label>3ohda Type</Form.Label></Col>
-              <Col><Form.Control as="textarea" rows="1" name="ohdaType" onChange={this.handleChange} required /></Col>
+              <Col><Form.Control as="textarea" rows="1" name="ohdaType" onChange={this.handleChange} /></Col>
             </Row>
           </Form.Group>
           <Form.Group className="p-2 border border-danger">
@@ -297,7 +355,7 @@ export class ResignReqScreen extends Component {
               <Col><Form.Label>Leave Balance</Form.Label></Col>
               <Col></Col>
               <Col><Form.Label>IEX</Form.Label></Col>
-              <Col><Form.Control as="textarea" rows="1" name="iex" onChange={this.handleChange} required /></Col>
+              <Col><Form.Control as="textarea" rows="1" name="iex" onChange={this.handleChange} /></Col>
             </Row>
             <table className="table">
               <thead className="thead-dark">
@@ -311,11 +369,11 @@ export class ResignReqScreen extends Component {
               </thead>
               <tbody>
                 <tr>
-                  <th scope="row"><Form.Control as="textarea" rows="1" name="annualsGranted" onChange={this.handleChange} required /></th>
-                  <td><Form.Control as="textarea" rows="1" name="annualsTaken" onChange={this.handleChange} required /></td>
-                  <td><Form.Control as="textarea" rows="1" name="noShow" onChange={this.handleChange} required /></td>
-                  <td><Form.Control as="textarea" rows="1" name="lostHours" onChange={this.handleChange} required /></td>
-                  <td><Form.Control as="textarea" rows="1" name="daysToTake" onChange={this.handleChange} required /></td>
+                  <th scope="row"><Form.Control as="textarea" rows="1" name="annualsGranted" onChange={this.handleChange} /></th>
+                  <td><Form.Control as="textarea" rows="1" name="annualsTaken" onChange={this.handleChange} /></td>
+                  <td><Form.Control as="textarea" rows="1" name="noShow" onChange={this.handleChange} /></td>
+                  <td><Form.Control as="textarea" rows="1" name="lostHours" onChange={this.handleChange} /></td>
+                  <td><Form.Control as="textarea" rows="1" name="daysToTake" onChange={this.handleChange} /></td>
                 </tr>
               </tbody>
             </table>
@@ -323,13 +381,12 @@ export class ResignReqScreen extends Component {
           <Form.Group className="p-2 border border-danger">
             <Row>
               <Col><Form.Label>Last Working Day</Form.Label></Col>
-              {/* <Col><Form.Control rows="1" required/></Col> */}
-              <Col> <input type="date" id="last" name="lastWorkDay"
-                min="2018-01-01" max="2026-12-31" onChange={this.handleChange} required></input></Col>
+\              <Col> <input type="date" id="last" name="lastWorkDay"
+                min="2018-01-01" max="2026-12-31" onChange={this.handleChange}></input></Col>
             </Row>
             <Row>
               <Col><Form.Label>National ID Number</Form.Label></Col>
-              <Col><Form.Control required as="textarea" rows="1" name="nationalId" onChange={this.handleChange} /></Col>
+              <Col><Form.Control as="textarea" rows="1" name="nationalId" onChange={this.handleChange} /></Col>
             </Row>
           </Form.Group>
           <Form.Group className="p-2 border border-danger">

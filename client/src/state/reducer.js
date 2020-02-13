@@ -1,5 +1,5 @@
 import * as actions from './actions';
-import { AuthenticationInitialState } from './state';
+import { AuthenticationInitialState, RegistrationInitialState } from './state';
 
 export function authenticationReducer(
   state = AuthenticationInitialState,
@@ -52,7 +52,72 @@ export function authenticationReducer(
       };
     }
 
+    case actions.INIT_STATE:{
+      return AuthenticationInitialState;
+    }
+
     default:
       return state;
+  }
+}
+
+
+
+export function registrationReducer(
+  state =RegistrationInitialState,
+  action,
+) {
+  switch (action.type){
+    case actions.SIGNUP_SUCCESS : {
+      return {
+        ...state,
+        isRegistered: true,
+        errorMessage: "",
+      };
+    }
+
+
+    case actions.SIGNUP_FAILED: {
+      return {
+        ...state,
+        isRegistered: false,
+        errorMessage: action.payload,
+      }
+    }
+
+    case actions.SEND_CODE_SUCCESS: {
+      return {
+        ...state,
+        codeRequested: true
+      }
+    }
+
+    case actions.SEND_CODE_FAILED : {
+      return {
+        ...state,
+        codeRequested: false
+      }
+    }
+
+    case actions.VERIFY_CODE_SUCCESS : {
+      return {
+        ...state,
+        codeVerified: true
+      }
+    }
+
+    case actions.VERIFY_CODE_FAILED : {
+      return {
+        ...state,
+        codeVerified: false
+      }
+    }
+
+    case actions.INIT_STATE:{
+      return RegistrationInitialState;
+    }
+
+    default:
+    return state;
   }
 }
