@@ -1,9 +1,9 @@
 "use strict";
 const nodemailer = require("nodemailer");
-const {getDB} = require("../db");
+const { getDB } = require("../db");
 
 /////////////////////////////////////////////////////////////
-const sendMail = async function(req, res){
+const sendMail = async function (req, res) {
 
     /* Transporter Setup */
     /* let transporter = nodemailer.createTransport({
@@ -23,11 +23,11 @@ const sendMail = async function(req, res){
     let transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         auth: {
-                type: 'oAuth2',
-                user: 'abokahfa@gmail.com',
-                clientId: '421036610858-s65n7sbd5mat5m4t53hau6ba49n67ogp.apps.googleusercontent.com',
-                clientSecret: 'jmWV8nEeO9AUWS8EvJJYzxUV',
-                refreshToken: '1//04ah6dK_ZWvp8CgYIARAAGAQSNwF-L9IrVVCoe9X-NCVt2Linnyc20oZP2S3LdqZ9B98fd0gpcOFSBg8yTM-G_tq2hka2Fhu2LiY'     
+            type: 'oAuth2',
+            user: 'abokahfa@gmail.com',
+            clientId: '421036610858-s65n7sbd5mat5m4t53hau6ba49n67ogp.apps.googleusercontent.com',
+            clientSecret: 'jmWV8nEeO9AUWS8EvJJYzxUV',
+            refreshToken: '1//04ah6dK_ZWvp8CgYIARAAGAQSNwF-L9IrVVCoe9X-NCVt2Linnyc20oZP2S3LdqZ9B98fd0gpcOFSBg8yTM-G_tq2hka2Fhu2LiY'
         }
     })
 
@@ -55,7 +55,7 @@ const sendMail = async function(req, res){
     //         /* Error Response */
     //         let resCode = err.responseCode;
     //         let smtpResponse = err.response;
-            
+
     //         /* Error Response Check */
     //         if(resCode != undefined){
     //             errorMessage["response"] = `${smtpResponse}`;
@@ -66,58 +66,58 @@ const sendMail = async function(req, res){
     //         return res.status(400).json(errorMessage);
     //     }
     //     else{
-            
-            /**
-             * bind code to email
-             * store it into db
-            */
-            let record = {
-                email: req.body.mailList,
-                code: req.body.code
-            }
 
-            let _db = getDB();
-            let collection = "verification-codes";
+    /**
+     * bind code to email
+     * store it into db
+    */
+    let record = {
+        email: req.body.mailList,
+        code: req.body.code
+    }
 
-            _db.collection(collection).insertOne(record, function(err){
-                if(err){
-                    throw err;
-                }
-                else {
-                    // _db.close();
-                    return res.status(200).json({
-                        // "response": `Message successfully sent to ${info.envelope.to}`,
-                        // "messageId": `${info.messageId}`
-                    })
-                }
+    let _db = getDB();
+    let collection = "codes";
+
+    _db.collection(collection).insertOne(record, function (err) {
+        if (err) {
+            throw err;
+        }
+        else {
+            // _db.close();
+            return res.status(200).json({
+                // "response": `Message successfully sent to ${info.envelope.to}`,
+                // "messageId": `${info.messageId}`
             })
+        }
+    })
 
     //     }
-        
+
     // })
 }
 
 /////////////////////////////////////////////////////////////
 const getMailList = function (req, res) {
-    
+
     let _db = getDB();
     let query = {
         $or: [
-            {role : "hr"},  // HR
-            {role: "ast"},  // Application Security Team
-            {role: "wf"},   // Work Force Team
-            {role: "elt"},  // Enterprise Logistics Team
-            {role: "ccca"}, // CC Consumer Activations Team
-            {role: "smc"},  // Customer Care Team
-            {role: "shwt"}  // Security HW Token Team
+            { role: "hr" },  // HR
+            { role: "ast" },  // Application Security Team
+            { role: "wf" },   // Work Force Team
+            { role: "elt" },  // Enterprise Logistics Team
+            { role: "ccca" }, // CC Consumer Activations Team
+            { role: "smc" },  // Customer Care Team
+            { role: "shwt" }  // Security HW Token Team
         ]
     };
     let collection = "users";
 
     _db.collection(collection)
-        .find(query, { password: false, username: true, role: true})
+        .find(query, { password: false, username: true, role: true })
         .toArray((err, admins) => {
-            if(err){
+            if (err) {
                 throw err;
             } else {
 
@@ -132,10 +132,10 @@ const getMailList = function (req, res) {
 }
 
 
-const sendCode = function (req, res){
+const sendCode = function (req, res) {
     return res.status(200).json({
         "msg": "sendCode Reached!!"
     })
 }
 /////////////////////////////////////////////////////////////
-module.exports = {sendMail, getMailList, sendCode}
+module.exports = { sendMail, getMailList, sendCode }

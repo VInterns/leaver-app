@@ -8,9 +8,9 @@ module.exports = {
         const collection = "users";
 
         passport.serializeUser((user, done) => {
-            const { username, name, role } = user;
+            const { username, name, roles } = user;
             debug("serialising", user.username);
-            done(null, JSON.stringify({ username, name, role }));
+            done(null, JSON.stringify({ username, name, roles }));
         });
 
         passport.deserializeUser((payload, done) => {
@@ -28,8 +28,8 @@ module.exports = {
                 db.collection(collection).findOne({ username }, (err, user) => {
                     bcrypt.compare(password, user ? user.password : "").then(match => {
                         if (user && match) {
-                            const { username, name, role } = user;
-                            return done(null, { username, name, role });
+                            const { username, name, roles } = user;
+                            return done(null, { username, name, roles });
                         }
                         return done(null, false, { message: "Incorrect credentials." });
                     });
@@ -44,9 +44,9 @@ module.exports = {
         }
         next();
     },
-    ensureHasRole: role => (req, res, next) => {
+    ensureHasRole: roles => (req, res, next) => {
         debug("ensuring", req.user ? req.user.role : "<unknown>");
-        if (req.user.role !== role) {
+        if (req.user && !roles.some(r => req.user.role.indexOf(r))) {
             res.sendStatus(403);
             res.end();
             return res;

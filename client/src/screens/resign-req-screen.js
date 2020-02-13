@@ -8,17 +8,18 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ImageUploaderComponent } from '../components';
+import { store } from '../App';
+
+// const store = require('../App')
 
 const API = '/api/';
 const SEARCH = 'users/search'
 const SUBMIT = 'resignations/'
 
 export class ResignReqScreen extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
       staffId: '',
       returnedHeadset: true,
       returnedKeys: true,
@@ -37,17 +38,19 @@ export class ResignReqScreen extends Component {
       managerName: '',
       ntAccount: '',
       department: '',
-      costCenter: '',
+      careCenter: '',
       jobTitle: '',
       hiringDate: '',
       mobile: '',
       iex: '',
-      mailList: []
+      personalMobile: '',
+      recommended: '',
+      createdby: store.getState().username,
     };
   }
 
   /* Added to fetch MailList */
-  componentDidMount(){
+  componentDidMount() {
     // this.fetchMailList();
   }
 
@@ -73,15 +76,15 @@ export class ResignReqScreen extends Component {
         if (data) {
           this.setState({ staffId: data.staffId });
           this.setState({ sapStaffId: data.staffId });
-          this.setState({ name: data.name });
+          this.setState({ name: data.employeeName });
           this.setState({ managerName: data.managerName });
           this.setState({ ntAccount: data.ntAccount });
           this.setState({ department: data.department });
-          this.setState({ costCenter: data.costCenter });
+          this.setState({ careCenter: data.careCenter });
           this.setState({ jobTitle: data.jobTitle });
           this.setState({ hiringDate: data.hiringDate });
-          this.setState({ mobile: "+" + data.mobile });
-          this.setState({ username: data.username});
+          this.setState({ mobile: "+2" + data.mobile });
+          this.setState({ username: data.username });
         }
       })
   }
@@ -93,9 +96,12 @@ export class ResignReqScreen extends Component {
         staffId: this.state.staffId,
         managerName: this.state.managerName,
         name: this.state.name,
+        createdby: this.state.createdby,
         status: "new",
         phase1: {
           status: "done",
+          personalMobile: this.state.personalMobile,
+          recommended: this.state.recommended,
           returnedHeadset: this.state.returnedHeadset,
           returnedKeys: this.state.returnedKeys,
           returnedOhda: this.state.returnedOhda,
@@ -108,7 +114,7 @@ export class ResignReqScreen extends Component {
           noShow: this.state.noShow,
           lostHours: this.state.lostHours,
           daysToTake: this.state.daysToTake,
-          iex: this.state.iex
+          iex: this.state.iex,
         },
         phase2: {
           status: "new",
@@ -148,29 +154,30 @@ export class ResignReqScreen extends Component {
       })
 
 
-      // let QUERY = "mail/sendMail";
+    // let QUERY = "mail/sendMail";
 
-      // /* Append Employee Email */
-      // this.state.mailList.push(this.state.username);
+    // /* Append Employee Email */
+    // this.state.mailList.push(this.state.username);
 
-      // /* Send Email to mailList */
-      // fetch(API + QUERY, {
-      //   method: "post",
-      //   body: JSON.stringify({
-      //     mailList : this.state.mailList
-      //   }),
-      //   "headers": {"Content-type": "application/json"}
-      // })
-      // .then((res) => {
-      //   return console.log(res);
-      // })
-      // .catch((err) => {
-      //   return console.log(err);
-      // });
+    // /* Send Email to mailList */
+    // fetch(API + QUERY, {
+    //   method: "post",
+    //   body: JSON.stringify({
+    //     mailList : this.state.mailList
+    //   }),
+    //   "headers": {"Content-type": "application/json"}
+    // })
+    // .then((res) => {
+    //   return console.log(res);
+    // })
+    // .catch((err) => {
+    //   return console.log(err);
+    // });
 
   }
 
   handleChange = e => {
+    // toast.success(this.state.createdby);
     if (e.target.type === 'select-one') {
       if (e.target.value === 'yes') {
         this.setState({ [e.target.name]: true });
@@ -267,7 +274,7 @@ export class ResignReqScreen extends Component {
             </Row>
             <Row>
               <Col><Form.Label>Care Center</Form.Label></Col>
-              <Col><Form.Control plaintext readOnly value={this.state.costCenter} /></Col>
+              <Col><Form.Control plaintext readOnly value={this.state.careCenter} /></Col>
               <Col></Col>
             </Row>
             <Row>
@@ -283,6 +290,21 @@ export class ResignReqScreen extends Component {
             <Row>
               <Col><Form.Label>Mobile Number</Form.Label></Col>
               <Col><Form.Control plaintext readOnly value={this.state.mobile} /></Col>
+              <Col></Col>
+            </Row>
+            <Row>
+              <Col><Form.Label>Personal Mobile Number</Form.Label></Col>
+              <Col><Form.Control as="textarea" rows="1" name="personalMobile" onChange={this.handleChange} required /></Col>
+              <Col></Col>
+            </Row>
+            <Row>
+              <Col><Form.Label>Recommended</Form.Label></Col>
+              <Col><input
+                name="recommended"
+                type="checkbox"
+                defaultChecked={this.state.recommended}
+                onChange={this.handleChange}
+                className="p-2 form-control col-sm-1 text-center" required /></Col>
               <Col></Col>
             </Row>
           </Form.Group>

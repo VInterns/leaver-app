@@ -12,7 +12,6 @@ const infoRouterFactory = require("./routes/info");
 const loginRouterFactory = require("./routes/login");
 const usersRouterFactory = require('./routes/users');
 const mailRouterFactory = require("./routes/mail-router");
-const formResRouterFactory = require("./routes/form-res");
 const resignationsRouterFactory = require('./routes/resignations');
 
 
@@ -65,7 +64,6 @@ const appFactory = (db, sessionStoreProvider) => {
   app.use(`${API_ROOT_PATH}/login`, loginRouterFactory());
   app.use(`${API_ROOT_PATH}/resignations`, resignationsRouterFactory(db));
   app.use(`${API_ROOT_PATH}/users`, usersRouterFactory(db));
-  app.use(`${API_ROOT_PATH}/form`, formResRouterFactory(db));
   app.use(`${API_ROOT_PATH}/mail`, mailRouterFactory);
 
   app.use(express.static(path.join(__dirname, "static")));

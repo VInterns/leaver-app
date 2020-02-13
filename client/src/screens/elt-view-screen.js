@@ -28,21 +28,21 @@ export class ELTViewScreen extends React.Component {
 
     fetch(API + QUERY, {
       method: 'get',
-      headers: {'content-type': 'application/json'},
+      headers: { 'content-type': 'application/json' },
     })
-    .then((res) => {
-      return res.json();
-    })
-    .then((data) => {
-      this.setState({
-        entry: data
+      .then((res) => {
+        return res.json();
       })
-    })
-    .catch((err) => {
-      if(err){
-        throw err;
-      }
-    })
+      .then((data) => {
+        this.setState({
+          entry: data
+        })
+      })
+      .catch((err) => {
+        if (err) {
+          throw err;
+        }
+      })
   }
 
   ///////////////////////////////////////////////
@@ -54,8 +54,8 @@ export class ELTViewScreen extends React.Component {
       comment: e.target.elements.comment.value,
       status: "done"
     }
-    
-    fetch('/api/form/update', {
+
+    fetch('/api/resignations/update/phase5', {
       method: 'post',
       body: JSON.stringify({
         staffId: this.props.history.location.state.resId,
@@ -65,15 +65,15 @@ export class ELTViewScreen extends React.Component {
         'content-type': 'application/json'
       },
     })
-    .then((res) => {
-      return res.json();
-    })
-    .then(data => {
-      return data;
-    })
-    .catch((err)=> {
-      throw err;
-    })
+      .then((res) => {
+        return res.json();
+      })
+      .then(data => {
+        return data;
+      })
+      .catch((err) => {
+        throw err;
+      })
   }
 
   ///////////////////////////////////////////////
@@ -97,40 +97,40 @@ export class ELTViewScreen extends React.Component {
   ///////////////////////////////////////////////
   render() {
 
-    const {entry} = this.state;
+    const { entry } = this.state;
 
     return (
-      <div className = "container">
-        <center style = {{margin: "25px"}}>
-        <div>
-            <LeaverDetails leaverDetail = {{leaverInfo: entry, lastDay: this.state.lastWorkDay}}/>
-            <hr/>
+      <div className="container">
+        <center style={{ margin: "25px" }}>
+          <div>
+            <LeaverDetails leaverDetail={{ leaverInfo: entry, lastDay: this.state.lastWorkDay }} />
+            <hr />
             <form onSubmit={this.submit.bind(this)}>
-              <div className = "d-flex flex-column form-group">
-                <label className = "p-2 align-self-start" htmlFor = "comment">Comments</label>
+              <div className="d-flex flex-column form-group">
+                <label className="p-2 align-self-start" htmlFor="comment">Comments</label>
                 <textarea
-                  id = "comment"
-                  rows = "5"
+                  id="comment"
+                  rows="5"
                   onChange={this.handleChange}
-                  className = "p-2 form-control"
+                  className="p-2 form-control"
                   placeholder="Enter your Comment"
                 />
-              </div>  
+              </div>
               <br />
               <div className="input-feedback">
                 <span className="error">
                   {this.state.err !== "" ? this.state.err : ""}
                 </span>
               </div>
-              <br/>
-              <input 
-                style = {{width: "100px"}}
-                type = "submit" 
-                value = "Submit" 
+              <br />
+              <input
+                style={{ width: "100px" }}
+                type="submit"
+                value="Submit"
                 onClick={() => this.submit}
-                className="btn btn-danger"  />
+                className="btn btn-danger" />
             </form>
-        </div>
+          </div>
         </center>
       </div>
     );

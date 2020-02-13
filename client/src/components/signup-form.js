@@ -80,7 +80,7 @@ export class SignupForm extends Component {
                             {(this.props.codeVerified === true) ? (
                                 <div>
                                     <Header as="h2" color="black" textAlign="center">
-                                    {this.props.createPasswordHeader}
+                                        {this.props.createPasswordHeader}
                                     </Header>
                                     <Header as="h4" color="black" textAlign="center">
                                         {this.props.createPasswordText}
@@ -90,6 +90,7 @@ export class SignupForm extends Component {
                                         type="password"
                                         icon="key"
                                         iconPosition="left"
+
                                         onChange={event => {
                                             this.updateFields(event.target.value, 'password')
                                         }}
@@ -186,6 +187,7 @@ export class SignupForm extends Component {
     }
 
     render() {
+        console.log(this.state);
         const value = (
             <div>
                 <Dimmer active>

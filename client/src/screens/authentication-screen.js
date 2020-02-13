@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { LoginForm } from '../components/login-form';
-import { login, logout , initializeApp} from '../state';
+import { login, logout, initializeApp } from '../state';
 
 class authenticationContainer extends Component {
   static mapStateToProps(state) {
@@ -15,7 +15,7 @@ class authenticationContainer extends Component {
   }
 
   static mapDispatchToProps(dispatch) {
-    return bindActionCreators({ login, logout , initializeApp}, dispatch);
+    return bindActionCreators({ login, logout, initializeApp }, dispatch);
   }
 
 
@@ -35,13 +35,13 @@ class authenticationContainer extends Component {
     signupHeader: string,
     signupSubheader: string,
     usernamePlaceholder: string,
-    initializeApp:()=>void,
+    initializeApp: () => void,
   };
 
-/// IF You want to reset the State Please un-comment this function
-// componentDidMount(){
-//   this.props.initializeApp();
-// }
+  // // / IF You want to reset the State Please un-comment this function
+  // componentDidMount() {
+  //   this.props.initializeApp();
+  // }
   render() {
 
     return (
