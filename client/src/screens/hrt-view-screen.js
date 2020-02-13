@@ -89,13 +89,13 @@ export class ResignationsScreen extends Component {
                             }
                             {this.state.data && <tr>
                                 <td>National ID Image </td>
-<td>
-{
-    this.state.data.phase1.nationalIdImg && <img
-    alt={`${this.state.data.phase1.nationalIdImg.fileName}`}
-    src={`${this.state.data.phase1.nationalIdImg.dataURL}`}
-    />}
-    </td>
+                                <td>
+                                    {
+                                        this.state.data.phase1.nationalIdImg && <img
+                                            alt={`${this.state.data.phase1.nationalIdImg.fileName}`}
+                                            src={`${this.state.data.phase1.nationalIdImg.dataURL}`}
+                                        />}
+                                </td>
                             </tr>
                             }
                             {this.state.data && <tr>
