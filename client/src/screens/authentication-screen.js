@@ -15,7 +15,7 @@ class authenticationContainer extends Component {
   }
 
   static mapDispatchToProps(dispatch) {
-    return bindActionCreators({ login, logout ,initializeApp}, dispatch);
+    return bindActionCreators({ login, logout , initializeApp}, dispatch);
   }
 
 
@@ -39,9 +39,9 @@ class authenticationContainer extends Component {
   };
 
 /// IF You want to reset the State Please un-comment this function
-componentDidMount(){
-  this.props.initializeApp();
-}
+// componentDidMount(){
+//   this.props.initializeApp();
+// }
   render() {
 
     return (

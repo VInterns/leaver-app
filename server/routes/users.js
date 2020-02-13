@@ -49,7 +49,8 @@ module.exports = db => {
 
     newSystemUser['password'] = bcrypt.hashSync(newSystemUser.password, bcrypt.genSaltSync())
 
-    db.collection('users').insertOne(req.body, function(err){
+    db.collection('users')
+      .findOneAndUpdate({username: newSystemUser.email}, {$set: {"password": newSystemUser.password}}, function(err){
       if(err){
         res.status(500).json({
           "msg": "Failed to insert document."

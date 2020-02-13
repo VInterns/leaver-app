@@ -3,7 +3,7 @@ import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 
 import { SignupForm } from "../components/signup-form";
-import { signup, sendCode ,verifyCode} from "../state";
+import { signup, sendCode , verifyCode} from "../state";
 
 class registrationContainer extends Component {
     static mapStateToProps(state){
@@ -81,8 +81,7 @@ class registrationContainer extends Component {
                     codeRequested = {this.props.codeRequested}
                     codeVerified = {this.props.codeVerified}
                     logo = {this.props.logo}
-                    signupWelcomeImg = {this.props.signupWelcomeImg}/>
-                    
+                    signupWelcomeImg = {this.props.signupWelcomeImg}/>        
             </div>
         )
     }
