@@ -40,7 +40,7 @@ import {
 import 'semantic-ui-css/semantic.min.css';
 
 const persistConfig = {
-  key: 'leaver',
+  key: 'leaver-app',
   storage,
 };
 
@@ -94,7 +94,7 @@ class App extends Component {
                   signupSubheader = "This is outsource Leaver-App System"
                   usernamePlaceholder = "Enter your Organization Email"
                   userCodePlaceholder = "Secret code"
-                  passwordPlaceholder = "Create a new Password"
+                  passwordPlaceholder = "Create a Password"
                   createPasswordHeader = "Create Your Password"
                   createPasswordText = "Password must be at least 8 characters."
                   codeRequested = {false}

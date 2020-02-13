@@ -73,7 +73,6 @@ export function registrationReducer(
         ...state,
         isRegistered: true,
         errorMessage: "",
-        loading: false
       };
     }
 
@@ -83,7 +82,6 @@ export function registrationReducer(
         ...state,
         isRegistered: false,
         errorMessage: action.payload,
-        loading: false
       }
     }
 

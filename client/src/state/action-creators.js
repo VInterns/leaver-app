@@ -24,7 +24,7 @@ export const login = (credentials) => (dispatch) =>
 export const signup = (credentials) => (dispatch) => 
   makeRequest(
     dispatch,
-    "api/users/register",
+    "api/users/addPassword",
     {
       method: "POST",
       headers: { "Content-Type": "application/json"},
@@ -60,7 +60,6 @@ export const sendCode = (email) => (dispatch) => {
     res => {
       if (res.status === 200){
         return res.json().then(result => {
-          console.log("SendCode Success::" , result);
           dispatch(sendCodeSuccessful())
         })
       } else {

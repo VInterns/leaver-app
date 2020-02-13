@@ -42,27 +42,23 @@ module.exports = db => {
   });
 
 
-  router.post("/register", (req,res) => {
+  router.post("/addPassword", (req, res) => {
 
-    console.log(req.body)
-    let newSystemUser = req.body;
-
-    newSystemUser['password'] = bcrypt.hashSync(newSystemUser.password, bcrypt.genSaltSync())
+    req.body.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync())
 
     db.collection('users')
-      .findOneAndUpdate({username: newSystemUser.email}, {$set: {"password": newSystemUser.password}}, function(err){
-      if(err){
-        res.status(500).json({
-          "msg": "Failed to insert document."
-        })
-        res.end();
-      } else{
-        res.status(200).json({
-          "msg" : "Document successfully inserted."
-        })
-      }
-    })
+      .updateOne({ username: req.body.username }, { $set: { "password": req.body.password } }, function (err) {
+        if (err) {
+          return res.status(500).json({
+            "msg": "Failed to update document."
+          })
+        } else {
+          return res.status(200).json({
+            "msg": "Document successfully updated."
+          })
+        }
+      })
   })
-  
+
   return router;
 };

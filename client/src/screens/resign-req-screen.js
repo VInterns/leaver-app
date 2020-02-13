@@ -48,7 +48,7 @@ export class ResignReqScreen extends Component {
 
   /* Added to fetch MailList */
   componentDidMount(){
-    this.fetchMailList();
+    // this.fetchMailList();
   }
 
   onSearch = (e) => {
@@ -148,25 +148,25 @@ export class ResignReqScreen extends Component {
       })
 
 
-      let QUERY = "mail/sendMail";
+      // let QUERY = "mail/sendMail";
 
-      /* Append Employee Email */
-      this.state.mailList.push(this.state.username);
+      // /* Append Employee Email */
+      // this.state.mailList.push(this.state.username);
 
-      /* Send Email to mailList */
-      fetch(API + QUERY, {
-        method: "post",
-        body: JSON.stringify({
-          mailList : this.state.mailList
-        }),
-        "headers": {"Content-type": "application/json"}
-      })
-      .then((res) => {
-        return console.log(res);
-      })
-      .catch((err) => {
-        return console.log(err);
-      });
+      // /* Send Email to mailList */
+      // fetch(API + QUERY, {
+      //   method: "post",
+      //   body: JSON.stringify({
+      //     mailList : this.state.mailList
+      //   }),
+      //   "headers": {"Content-type": "application/json"}
+      // })
+      // .then((res) => {
+      //   return console.log(res);
+      // })
+      // .catch((err) => {
+      //   return console.log(err);
+      // });
 
   }
 
@@ -184,26 +184,26 @@ export class ResignReqScreen extends Component {
     }
   }
 
-  fetchMailList(){
-    let LIST_QUERY = "mail/getMailList";
+  // fetchMailList(){
+  //   let LIST_QUERY = "mail/getMailList";
 
-      /* Fetch Mailing List */
-      fetch(API + LIST_QUERY, {
-        method: "get",
-        headers: {"Content-type": "application/json"}
-      })
-      .then((res) => {
-        return res.json();
-      })
-      .then((list) => {
-        this.setState({
-          mailList: list
-        })
-      })
-      .catch((err) => {
-        throw err;
-      })
-  }
+  //     /* Fetch Mailing List */
+  //     fetch(API + LIST_QUERY, {
+  //       method: "get",
+  //       headers: {"Content-type": "application/json"}
+  //     })
+  //     .then((res) => {
+  //       return res.json();
+  //     })
+  //     .then((list) => {
+  //       this.setState({
+  //         mailList: list
+  //       })
+  //     })
+  //     .catch((err) => {
+  //       throw err;
+  //     })
+  // }
 
   imageUploaderHandler = (file) => {
     this.setState({

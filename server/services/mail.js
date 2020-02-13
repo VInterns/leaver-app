@@ -40,32 +40,32 @@ const sendMail = async function(req, res){
     }
 
     /* SendMail */
-    transporter.sendMail(options, function(err, info){
+    // transporter.sendMail(options, function(err, info){
 
-        if(err){
+    //     if(err){
 
-            console.log(err);
+    //         console.log(err);
 
-            /* Error Message Setup */
-            let errorMessage = {
-                "error": "Couldn't send message",
-                "response": ""
-            }
+    //         /* Error Message Setup */
+    //         let errorMessage = {
+    //             "error": "Couldn't send message",
+    //             "response": ""
+    //         }
 
-            /* Error Response */
-            let resCode = err.responseCode;
-            let smtpResponse = err.response;
+    //         /* Error Response */
+    //         let resCode = err.responseCode;
+    //         let smtpResponse = err.response;
             
-            /* Error Response Check */
-            if(resCode != undefined){
-                errorMessage["response"] = `${smtpResponse}`;
-            } else{
-                errorMessage["response"] = `${err}`;
-            }       
+    //         /* Error Response Check */
+    //         if(resCode != undefined){
+    //             errorMessage["response"] = `${smtpResponse}`;
+    //         } else{
+    //             errorMessage["response"] = `${err}`;
+    //         }       
 
-            return res.status(400).json(errorMessage);
-        }
-        else{
+    //         return res.status(400).json(errorMessage);
+    //     }
+    //     else{
             
             /**
              * bind code to email
@@ -86,15 +86,15 @@ const sendMail = async function(req, res){
                 else {
                     // _db.close();
                     return res.status(200).json({
-                        "response": `Message successfully sent to ${info.envelope.to}`,
-                        "messageId": `${info.messageId}`
+                        // "response": `Message successfully sent to ${info.envelope.to}`,
+                        // "messageId": `${info.messageId}`
                     })
                 }
             })
 
-        }
+    //     }
         
-    })
+    // })
 }
 
 /////////////////////////////////////////////////////////////
