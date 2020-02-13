@@ -46,8 +46,8 @@ export class ManagerResignationsTableScreen extends React.Component {
     
     clickButton(req) {
         this.props.history.push({
-            pathname: "/resign",
-            state: { detail: req }
+            pathname: "/update-resignation",
+            state: { resignReq: req }
         })
     }
 

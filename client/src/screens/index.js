@@ -17,3 +17,4 @@ export * from './elt-table-screen';
 export * from './sht-table-screen';
 export * from './sht-view-screen';
 export * from './manager-resigns-table-screen';
+export * from './manager-resigns-view-screen';

@@ -130,6 +130,7 @@ export class SHTViewScreen extends React.Component {
                 onChange = {this.handleChange}
                 className = "p-2 form-control col-sm-1"
                 defaultValue = {this.state.returnedHwToken}>
+                <option value = {null}> N/A </option>
                 <option value = {true}>Yes</option>
                 <option value = {false}>No</option>
               </select>

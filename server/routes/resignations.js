@@ -39,7 +39,26 @@ module.exports = db => {
       });
   });
 
-
+  router.post("/update/request", function (req, res) {
+    var leaverId = req.body.staffId;
+    db.collection(collection).findOneAndUpdate(
+      { staffId: leaverId },
+      {
+        $set: { phase1: req.body.phase1 }
+      },
+      function (err, doc) {
+        if (err) {
+          res.status(404).send();
+          throw err;
+        } else {
+          res.status(200).send({
+            msg:
+              "Employee successfully found, and resignation request updated data successfully updated"
+          });
+        }
+      }
+    );
+  });
 
   router.get("/pending", (req, res) => {
     db.collection(collection)
