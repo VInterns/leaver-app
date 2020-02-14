@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ImageUploaderComponent } from '../components';
-import { store } from '../App';
+import { connect } from "react-redux";
 
 const API = '/api/';
 const SEARCH = 'users/search'
@@ -18,32 +18,38 @@ export class ResignReqScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      staffId : '',
-      returnedHeadset : null,
-      returnedKeys : null,
-      returnedOhda : null,
-      ohdaType : '',
-      lastWorkDay : '',
-      nationalId : '',
-      nationalIdImg : null,
-      annualsGranted : '',
-      annualsTaken : '',
-      noShow : '',
-      lostHours : '',
-      daysToTake : '',
-      sapStaffId : '',
-      name : '',
-      managerName : '',
-      ntAccount : '',
-      department : '',
+      staffId: '',
+      returnedHeadset: null,
+      returnedKeys: null,
+      returnedOhda: null,
+      ohdaType: '',
+      lastWorkDay: '',
+      nationalId: '',
+      nationalIdImg: null,
+      annualsGranted: '',
+      annualsTaken: '',
+      noShow: '',
+      lostHours: '',
+      daysToTake: '',
+      sapStaffId: '',
+      name: '',
+      managerName: '',
+      ntAccount: '',
+      department: '',
       costCenter : '',
-      jobTitle : '',
-      hiringDate : '',
-      mobile : '',
-      iex : '',
-      personalMobile : '',
-      recommended : false,
-      createdby: store.getState().username,
+      jobTitle: '',
+      hiringDate: '',
+      mobile: '',
+      iex: '',
+      personalMobile: '',
+      recommended: false,
+      createdby: this.props.createdby,
+    };
+  }
+
+  static mapStateToProps(state) {
+    return {
+      createdby: state.auth.username,
     };
   }
 
@@ -184,7 +190,7 @@ export class ResignReqScreen extends Component {
       else if (e.target.value === 'No') {
         this.setState({ [e.target.name]: false });
       }
-      else{
+      else {
         this.setState({ [e.target.name]: null });
       }
     }
@@ -232,6 +238,8 @@ export class ResignReqScreen extends Component {
   }
 
   render() {
+    console.log(this.props);
+    console.log(this.state)
     return (
       <Container >
         <br />
@@ -307,12 +315,12 @@ export class ResignReqScreen extends Component {
             </Row>
             <Row>
               <Col><Form.Label>Recommended</Form.Label></Col>
-              <Col><input 
-                name="recommended" 
-                type="checkbox" 
-                defaultChecked={this.state.recommended} 
+              <Col><input
+                name="recommended"
+                type="checkbox"
+                defaultChecked={this.state.recommended}
                 // onChange={this.handleChange} 
-                className = "p-2 form-control col-sm-1 text-center"/></Col>
+                className="p-2 form-control col-sm-1 text-center" /></Col>
 
               <Col></Col>
             </Row>
@@ -404,3 +412,8 @@ export class ResignReqScreen extends Component {
     );
   }
 }
+
+
+export const ConnectedResignScreen = connect(
+  ResignReqScreen.mapStateToProps
+)(ResignReqScreen);
