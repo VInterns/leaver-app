@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
-import { ImageUploaderComponent, LeaverDetails } from '../components'
+import { LeaverDetails } from '../components'
 
 /////////////////////////////////////////////////////////////////////////
 var phoneBilledAmount = 'yes';
@@ -35,13 +34,23 @@ export class CCConsumerActivation extends Component {
         }
 
 
-        var url2 = '/api/users/?id=' + id;
-        axios.get(url2)
-            .then((retrieveData) => {
-                this.setState({
-                    Data: retrieveData.data,
-                });
-            });
+        var url2 = '/api/resignations/' + id;
+
+        fetch(url2, {
+            method: "GET",
+            headers: {"Content-type": "application/json"}
+        })
+        .then((res) => {
+            return res.json();
+        })
+        .then((data) => {
+            this.setState({
+                Data: data
+            })
+        })
+        .catch((err) => {
+            throw err;
+        })
     }
 
     ///////////////////////////////////////////////
@@ -76,8 +85,6 @@ export class CCConsumerActivation extends Component {
             return;
         }
 
-        // let url = this.props.location.search;
-        //let params = queryString.parse(url);
         let params = this.props.match.params;
         let id = params.staffId;
         var url2 = '/api/resignations/data?id=' + id;
@@ -123,6 +130,9 @@ export class CCConsumerActivation extends Component {
 
     ///////////////////////////////////////////////
     render() {
+        const {Data} = this.state;
+        const Phase1 = Object(Data.phase1);
+        const NationalIDImg = Object(Phase1.nationalIdImg);
         return (
             <div className="container">
                 <center style={{ margin: '25px' }}>
@@ -130,8 +140,10 @@ export class CCConsumerActivation extends Component {
                         <LeaverDetails leaverDetail = {{leaverInfo: this.state.Data, lastDay: this.state.lastWorkDay}}/>
                         <hr />
                         <div className="form-group files">
-                            <div>Upload Scanned copy of National ID </div>
-                            <ImageUploaderComponent fileAddHandler={this.imageUploaderHandler} />
+                            <div>National ID </div>
+                            <img
+                                alt = {NationalIDImg.fileName} 
+                                src = {NationalIDImg.dataURL} />
                         </div>
                         <div className="form-group" style={{ margin: '15px' }}>
                             <div>Rate Plan</div>

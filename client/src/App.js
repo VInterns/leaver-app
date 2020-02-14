@@ -102,7 +102,7 @@ class App extends Component {
                   logo={null}
                   signupWelcomeImg={null} />}
                 />
-           <ConnectedPrivateRoute
+          <ConnectedPrivateRoute
                   allowed={["admin", "hr"]}
                   path="/upload_users"
                   exact

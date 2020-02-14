@@ -36,7 +36,7 @@ export class ResignReqScreen extends Component {
       managerName : '',
       ntAccount : '',
       department : '',
-      careCenter : '',
+      costCenter : '',
       jobTitle : '',
       hiringDate : '',
       mobile : '',
@@ -74,11 +74,11 @@ export class ResignReqScreen extends Component {
         if (data) {
           this.setState({ staffId: data.staffId });
           this.setState({ sapStaffId: data.staffId });
-          this.setState({ name: data.employeeName });
+          this.setState({ name: data.name });
           this.setState({ managerName: data.managerName });
           this.setState({ ntAccount: data.ntAccount });
           this.setState({ department: data.department });
-          this.setState({ careCenter: data.careCenter });
+          this.setState({ costCenter: data.costCenter});
           this.setState({ jobTitle: data.jobTitle });
           this.setState({ hiringDate: data.hiringDate });
           this.setState({ mobile: "+2" + data.mobile });
@@ -281,8 +281,8 @@ export class ResignReqScreen extends Component {
               <Col></Col>
             </Row>
             <Row>
-              <Col><Form.Label>Care Center</Form.Label></Col>
-              <Col><Form.Control plaintext readOnly value={this.state.careCenter} /></Col>
+              <Col><Form.Label>Cost Center</Form.Label></Col>
+              <Col><Form.Control plaintext readOnly value={this.state.costCenter} /></Col>
               <Col></Col>
             </Row>
             <Row>
@@ -381,7 +381,7 @@ export class ResignReqScreen extends Component {
           <Form.Group className="p-2 border border-danger">
             <Row>
               <Col><Form.Label>Last Working Day</Form.Label></Col>
-\              <Col> <input type="date" id="last" name="lastWorkDay"
+              <Col> <input type="date" id="last" name="lastWorkDay"
                 min="2018-01-01" max="2026-12-31" onChange={this.handleChange}></input></Col>
             </Row>
             <Row>
