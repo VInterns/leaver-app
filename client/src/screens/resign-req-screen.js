@@ -19,9 +19,9 @@ export class ResignReqScreen extends Component {
     super(props);
     this.state = {
       staffId: '',
-      returnedHeadset: null,
-      returnedKeys: null,
-      returnedOhda: null,
+      returnedHeadset: "",
+      returnedKeys: "",
+      returnedOhda: "",
       ohdaType: '',
       lastWorkDay: '',
       nationalId: '',
@@ -87,7 +87,7 @@ export class ResignReqScreen extends Component {
           this.setState({ careCenter: data.careCenter });
           this.setState({ jobTitle: data.jobTitle });
           this.setState({ hiringDate: data.hiringDate });
-          this.setState({ mobile: "+2" + data.mobile });
+          this.setState({ mobile: data.mobile });
           this.setState({ username: data.username });
         }
       })
@@ -180,29 +180,25 @@ export class ResignReqScreen extends Component {
 
   }
 
-  handleChange = e => {
-    // toast.success(this.state.createdby);
-    if (e.target.type === 'select-one') {
-      console.log(e.target.value);
-      if (e.target.value === 'Yes') {
-        this.setState({ [e.target.name]: true });
-      }
-      else if (e.target.value === 'No') {
-        this.setState({ [e.target.name]: false });
-      }
-      else {
-        this.setState({ [e.target.name]: null });
-      }
+  ///////////////////////////////////////////////
+  normalizeVal(value) {
+    if (value === 'true' || value === "on" || value === "Yes"){
+      return true;
     }
-    else if (e.target.value === "on") {
-      this.setState({ [e.target.name]: true });
+    else if (value === "") {
+      return "";
     }
-    else if (e.target.value === "off") {
-      this.setState({ [e.target.name]: false });
+    else if (value === 'false' || value === "off" || value === "No"){
+      return false;
     }
     else {
-      this.setState({ [e.target.name]: e.target.value });
+      return value
     }
+  }
+  ///////////////////////////////////////////////
+
+  handleChange = e => {
+      this.setState({ [e.target.name]: this.normalizeVal(e.target.value) });
   }
 
   // fetchMailList(){
@@ -238,8 +234,6 @@ export class ResignReqScreen extends Component {
   }
 
   render() {
-    console.log(this.props);
-    console.log(this.state)
     return (
       <Container >
         <br />
@@ -319,7 +313,7 @@ export class ResignReqScreen extends Component {
                 name="recommended"
                 type="checkbox"
                 defaultChecked={this.state.recommended}
-                // onChange={this.handleChange} 
+                onChange={this.handleChange} 
                 className="p-2 form-control col-sm-1 text-center" /></Col>
 
               <Col></Col>
@@ -329,27 +323,30 @@ export class ResignReqScreen extends Component {
             <Row>
               <Col><Form.Label>Returned Headset</Form.Label></Col>
               <Col>
-                <Form.Control as="select" name="returnedHeadset" onChange={this.handleChange} defaultValue={{ label: "Yes", value: true }}>
-                  <option>Yes</option>
-                  <option>No</option>
+                <Form.Control as="select" name="returnedHeadset" onChange={this.handleChange} defaultValue={this.state.returnedHeadset}>
+                  <option value = {""}> N/A </option>
+                  <option value = {true}>Yes</option>
+                  <option value = {false}>No</option>
                 </Form.Control>
               </Col>
             </Row>
             <Row>
               <Col><Form.Label>Returned Keys</Form.Label></Col>
               <Col>
-                <Form.Control as="select" name="returnedKeys" onChange={this.handleChange}>
-                  <option>Yes</option>
-                  <option>No</option>
+                <Form.Control as="select" name="returnedKeys" onChange={this.handleChange} defaultValue={this.state.returnedKeys}>
+                  <option value = {""}> N/A </option>
+                  <option value = {true}>Yes</option>
+                  <option value = {false}>No</option>
                 </Form.Control>
               </Col>
             </Row>
             <Row>
               <Col><Form.Label>Returned 3ohda</Form.Label></Col>
               <Col>
-                <Form.Control as="select" name="returnedOhda" onChange={this.handleChange}>
-                  <option>Yes</option>
-                  <option>No</option>
+                <Form.Control as="select" name="returnedOhda" onChange={this.handleChange} defaultValue={this.state.returnedOhda}>
+                  <option value = {""}> N/A </option>
+                  <option value = {true}>Yes</option>
+                  <option value = {false}>No</option>
                 </Form.Control>
               </Col>
             </Row>
@@ -389,7 +386,7 @@ export class ResignReqScreen extends Component {
           <Form.Group className="p-2 border border-danger">
             <Row>
               <Col><Form.Label>Last Working Day</Form.Label></Col>
-              \              <Col> <input type="date" id="last" name="lastWorkDay"
+              <Col> <input type="date" id="last" name="lastWorkDay"
                 min="2018-01-01" max="2026-12-31" onChange={this.handleChange}></input></Col>
             </Row>
             <Row>
