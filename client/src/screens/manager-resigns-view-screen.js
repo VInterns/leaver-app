@@ -108,31 +108,34 @@ export class ManagerResignationsViewScreen extends Component {
   }
 
   handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
+    this.setState({ [e.target.name]: this.normalizeVal(e.target.value) });
   }
 
+  ///////////////////////////////////////////////
   normalizeVal(value) {
-    return value === "true" || value === "on"? true : false;
+    if (value === 'true' || value === "on" || value === "Yes"){
+      return true;
+    }
+    else if (value === "") {
+      return "";
+    }
+    else if (value === 'false' || value === "off" || value === "No"){
+      return false;
+    }
+    else {
+      return value
+    }
   }
+  ///////////////////////////////////////////////
 
   onUpdate = (e) => {
     e.preventDefault();
 
-    var returnedHeadsetNormalized = this.normalizeVal(
-      this.state.returnedHeadset
-    );
-    var returnedKeysNormalized = this.normalizeVal(
-      this.state.returnedKeys
-    );
-    var returnedOhdaNormalized = this.normalizeVal(
-      this.state.returnedOhda
-    );
-
     let phase1 = {
       ...this.state.resReq.phase1,
-      returnedHeadset: returnedHeadsetNormalized,
-      returnedKeys: returnedKeysNormalized,
-      returnedOhda: returnedOhdaNormalized,
+      returnedHeadset: this.state.returnedHeadset,
+      returnedKeys: this.state.returnedKeys,
+      returnedOhda: this.state.returnedOhda,
       ohdaType : this.state.ohdaType,
       iex : this.state.iex,
       annualsGranted : this.state.annualsGranted,
@@ -151,15 +154,21 @@ export class ManagerResignationsViewScreen extends Component {
       }),
       headers: { "Content-Type": "application/json" }
     })
-      .then(res => {
-        return res.json();
-      })
-      .then(data => {
-        return data;
-      })
-      .catch(err => {
-        throw err;
-      });
+    .then((response) => {
+      if (response.status === 200) {
+        toast.success("Resignation Request Updated");
+      }
+      else if (response.status === 503) {
+        toast.error("Error in db");
+      }
+      else {
+        toast.error("Resigation Resquest cannot be updated");
+        return undefined;
+      }
+    })
+    .catch(err => {
+      throw err;
+    });
   }
 
   render() {
@@ -238,6 +247,7 @@ export class ManagerResignationsViewScreen extends Component {
               <Col><Form.Label>Returned Headset</Form.Label></Col>
               <Col>
                 <Form.Control as="select" name="returnedHeadset" onChange={this.handleChange} value={this.state.returnedHeadset}>
+                  <option value = {""}> N/A </option>
                   <option value = {true}>Yes</option>
                   <option value = {false}>No</option>
                 </Form.Control>
@@ -247,6 +257,7 @@ export class ManagerResignationsViewScreen extends Component {
               <Col><Form.Label>Returned Keys</Form.Label></Col>
               <Col>
                 <Form.Control as="select" name="returnedKeys" onChange={this.handleChange} value={this.state.returnedKeys}>
+                  <option value = {""}> N/A </option>
                   <option value = {true}>Yes</option>
                   <option value = {false}>No</option>
                 </Form.Control>
@@ -256,6 +267,7 @@ export class ManagerResignationsViewScreen extends Component {
               <Col><Form.Label>Returned 3ohda</Form.Label></Col>
               <Col>
                 <Form.Control as="select" name="returnedOhda" onChange={this.handleChange} value={this.state.returnedOhda}>
+                  <option value = {""}> N/A </option>
                   <option value = {true}>Yes</option>
                   <option value = {false}>No</option>
                 </Form.Control>
