@@ -156,6 +156,7 @@ export class CCConsumerActivation extends Component {
                             <select onChange={this.getVal}>
                                 <option value="yes">yes</option>
                                 <option value="no">no</option>
+                                <option value="N/A">N/A</option>
                             </select>
                         </div>
                         <div className="form-group" style={{ margin: '15px' }}>
