@@ -17,9 +17,9 @@ export class ManagerResignationsViewScreen extends Component {
     super(props);
     this.state = {
       staffId : '',
-      returnedHeadset : true,
-      returnedKeys : true,
-      returnedOhda : true,
+      returnedHeadset : false,
+      returnedKeys : false,
+      returnedOhda : false,
       ohdaType : '',
       lastWorkDay : '',
       nationalId : '',

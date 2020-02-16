@@ -19,9 +19,9 @@ export class ResignReqScreen extends Component {
     super(props);
     this.state = {
       staffId: '',
-      returnedHeadset: "",
-      returnedKeys: "",
-      returnedOhda: "",
+      returnedHeadset: false,
+      returnedKeys: false,
+      returnedOhda: false,
       ohdaType: '',
       lastWorkDay: '',
       nationalId: '',
@@ -200,6 +200,7 @@ export class ResignReqScreen extends Component {
   handleChange = e => {
       this.setState({ [e.target.name]: this.normalizeVal(e.target.value) });
   }
+///////////////////////////////////////////////
 
   // fetchMailList(){
   //   let LIST_QUERY = "mail/getMailList";
