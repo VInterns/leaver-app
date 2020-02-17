@@ -1,5 +1,9 @@
 const bcrypt = require("bcryptjs");
 const express = require("express");
+const {
+  ensureLoggedIn,
+  ensureHasRole
+} = require("../middlewares/authentication");
 var XLSX = require("xlsx");
 
 module.exports = db => {

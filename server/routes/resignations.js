@@ -1,4 +1,8 @@
 const { Router } = require("express");
+const {
+  ensureLoggedIn,
+  ensureHasRole
+} = require("../middlewares/authentication");
 
 module.exports = db => {
   const router = new Router();
