@@ -41,19 +41,46 @@ module.exports = db => {
     ensureLoggedIn,
     ensureHasRole(["admin"]),
     (req, res) => {
-      // db.collection(collection).drop();
-      db.collection(req.body.collection).insertMany(req.body.jsonData, function(
-        err1,
-        result
+      const emplyees_columns = [
+        "staffId",
+        "name",
+        "managerName",
+        "ntAccount",
+        "department",
+        "careCenter",
+        "jobTitle",
+        "hiringDate",
+        "mobile",
+        "username"
+      ];
+      const users_columns = ["email", "staffId", "roles"];
+      let checker = (arr, target) => target.every(v => arr.includes(v)); //To check if all elements exist
+      if (
+        //Check if all the required columns exist in the header
+        req.body.jsonData.length == 0 ||
+        (req.body.collection == "employees" &&
+          (Object.keys(req.body.jsonData[0]).length !=
+            emplyees_columns.length ||
+          !checker(Object.keys(req.body.jsonData[0]), emplyees_columns))) ||
+          (req.body.collection == "users" &&
+            (Object.keys(req.body.jsonData[0]).length != users_columns.length ||
+            !checker(Object.keys(req.body.jsonData[0]), users_columns)))
       ) {
-        if (err1) {
-          console.log(req.body.jsonData);
-          res.status(500).send();
-          res.end();
-        } else {
-          res.status(200).end();
-        }
-      });
+        res.status(400).send();
+        res.end();
+      } else {
+        db.collection(req.body.collection).insertMany(
+          req.body.jsonData,
+          function(err1, result) {
+            if (err1) {
+              res.status(500).send();
+              res.end();
+            } else {
+              res.status(200).end();
+            }
+          }
+        );
+      }
     }
   );
 
