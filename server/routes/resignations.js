@@ -4,7 +4,7 @@ module.exports = db => {
   const router = new Router();
   const collection = "resignations";
 
-  router.get("/", (req, res) => {
+  router.get("/", ensureLoggedIn, (req, res) => {
     db.collection(collection)
       .find()
       .toArray((err, data) => {
@@ -16,7 +16,7 @@ module.exports = db => {
       });
   });
 
-  router.post("/", function (req, res) {
+  router.post("/", ensureLoggedIn, function(req, res) {
     // check if resignatin request exists in db
     db.collection(collection)
       .findOne({ staffId: req.body.staffId })
@@ -39,14 +39,14 @@ module.exports = db => {
       });
   });
 
-  router.post("/update/request", function (req, res) {
+  router.post("/update/request", ensureLoggedIn, function(req, res) {
     var leaverId = req.body.staffId;
     db.collection(collection).findOneAndUpdate(
       { staffId: leaverId },
       {
         $set: { phase1: req.body.phase1 }
       },
-      function (err, doc) {
+      function(err, doc) {
         if (err) {
           res.status(404).send();
           throw err;
@@ -60,7 +60,7 @@ module.exports = db => {
     );
   });
 
-  router.get("/pending", (req, res) => {
+  router.get("/pending", ensureLoggedIn, (req, res) => {
     db.collection(collection)
       .find({ "phase4.status": "new" })
       .toArray((error, results) => {
@@ -73,23 +73,23 @@ module.exports = db => {
       });
   });
 
-  router.get("/:id", (req, res) => {
+  router.get("/:id", ensureLoggedIn, (req, res) => {
     let urlSections = req.url.split("/");
-    (urlSections[urlSections.length - 1] + "url");
+    urlSections[urlSections.length - 1] + "url";
     var query = { staffId: Number(urlSections[urlSections.length - 1]) };
-    (query);
+    query;
     db.collection(collection).findOne(query, (err, data) => {
       if (err) {
-        (err);
+        err;
         res.status(500).send();
       } else {
-        (data);
+        data;
         res.json(data);
       }
     });
   });
 
-  router.post("/data", (req, res) => {
+  router.post("/data", ensureLoggedIn, (req, res) => {
     let phase4 = {
       ratePlan: req.body.ratePlan,
       phoneBilledAmount: req.body.phoneBilledAmount,
@@ -105,7 +105,7 @@ module.exports = db => {
       .updateOne(myquery, newvalues)
       .then(result => {
         // (result);
-        (`Successfully updated.`);
+        `Successfully updated.`;
         res.status(200).send(true);
       })
       .catch(err => {
@@ -114,7 +114,7 @@ module.exports = db => {
       });
   });
 
-  router.post("/national-id", (req, res) => {
+  router.post("/national-id", ensureLoggedIn, (req, res) => {
     let phase4 = {
       nationalId: req.body
     };
@@ -133,63 +133,66 @@ module.exports = db => {
     res.status(200).send({ msg: "hi" });
   });
 
-  router.get('/myresigns/:createdby', (req, res) => {
+  router.get("/myresigns/:createdby", ensureLoggedIn, (req, res) => {
     let urlSections = req.url.split("/");
-    (urlSections[urlSections.length - 1] + "url");
+    urlSections[urlSections.length - 1] + "url";
     // var query = { staffId: Number(urlSections[urlSections.length - 1]) };
     // (query);
     // db.collection(collection).find({ "createdby": "admin@hr.com" }).toArray((err, requests) => {
-    db.collection(collection).find({ "createdby": urlSections[urlSections.length - 1] }).toArray((err, requests) => {
-      if (err) {
-        res.status(500).send();
-        throw err;
-      }
-      else {
-        res.send(requests);
-      }
-    });
+    db.collection(collection)
+      .find({ createdby: urlSections[urlSections.length - 1] })
+      .toArray((err, requests) => {
+        if (err) {
+          res.status(500).send();
+          throw err;
+        } else {
+          res.send(requests);
+        }
+      });
   });
 
-  router.get('/wf/fetchRequests', (req, res) => {
-    db.collection(collection).find({ "status": "new" }).toArray((err, requests) => {
-      if (err) {
-        res.status(500).send();
-        throw err;
-      }
-      else {
-        res.send(requests);
-      }
-    });
+  router.get("/wf/fetchRequests", ensureLoggedIn, (req, res) => {
+    db.collection(collection)
+      .find({ status: "new" })
+      .toArray((err, requests) => {
+        if (err) {
+          res.status(500).send();
+          throw err;
+        } else {
+          res.send(requests);
+        }
+      });
   });
 
-  router.post('/wf/insertBalance', (req, res) => {
+  router.post("/wf/insertBalance", ensureLoggedIn, (req, res) => {
     var leaverId = req.body.staffId;
 
-    (req.body.phase3);
+    req.body.phase3;
 
-    db.collection(collection).updateOne({ "staffId": leaverId }, {
-      $set: { "phase3": req.body.phase3 }
-    }, (err, doc) => {
-      if (err) {
-
-        res.status(500).send(doc);
-        throw err;
+    db.collection(collection).updateOne(
+      { staffId: leaverId },
+      {
+        $set: { phase3: req.body.phase3 }
+      },
+      (err, doc) => {
+        if (err) {
+          res.status(500).send(doc);
+          throw err;
+        } else {
+          res.send("Employee data updated!!");
+        }
       }
-      else {
-
-        res.send("Employee data updated!!");
-      }
-    });
+    );
   });
 
-  router.post("/update/phase6", function (req, res) {
+  router.post("/update/phase6", ensureLoggedIn, function(req, res) {
     var leaverId = req.body.staffId;
     db.collection(collection).findOneAndUpdate(
       { staffId: leaverId },
       {
         $set: { phase6: req.body.phase6 }
       },
-      function (err, doc) {
+      function(err, doc) {
         if (err) {
           res.status(404).send();
           throw err;
@@ -203,14 +206,14 @@ module.exports = db => {
     );
   });
 
-  router.post("/update/phase2", function (req, res) {
+  router.post("/update/phase2", ensureLoggedIn, function(req, res) {
     var leaverId = req.body.staffId;
     db.collection(collection).findOneAndUpdate(
       { staffId: leaverId },
       {
         $set: { phase2: req.body.phase2 }
       },
-      function (err, doc) {
+      function(err, doc) {
         if (err) {
           res.status(404).send();
           throw err;
@@ -224,14 +227,14 @@ module.exports = db => {
     );
   });
 
-  router.post("/update/phase7", function (req, res) {
+  router.post("/update/phase7", ensureLoggedIn, function(req, res) {
     var leaverId = req.body.staffId;
     db.collection(collection).findOneAndUpdate(
       { staffId: leaverId },
       {
         $set: { phase7: req.body.phase7 }
       },
-      function (err, doc) {
+      function(err, doc) {
         if (err) {
           res.status(404).send();
           throw err;
@@ -245,35 +248,35 @@ module.exports = db => {
     );
   });
 
-  router.post("/resignations", (req, res) => {
+  router.post("/resignations", ensureLoggedIn, (req, res) => {
     db.collection(collection).update(req.body, (err, res) => {
       if (err) {
-        throw err
+        throw err;
       } else {
-        return res.send('done')
+        return res.send("done");
       }
-    })
+    });
   });
 
-  router.post("/update/phase5", (req, res) => {
+  router.post("/update/phase5", ensureLoggedIn, (req, res) => {
     var leaverId = req.body.staffId;
-    db.collection(collection).findOneAndUpdate({ "staffId": leaverId },
-      { $set: { "phase5": req.body.phase5 } }, (err, result) => {
+    db.collection(collection).findOneAndUpdate(
+      { staffId: leaverId },
+      { $set: { phase5: req.body.phase5 } },
+      (err, result) => {
         if (err) {
-          throw err
+          throw err;
         } else {
           res.status(200).send({
-            "msg": "phase 5 updated successfully"
-          })
+            msg: "phase 5 updated successfully"
+          });
         }
-      })
+      }
+    );
   });
 
-  router.post(
-    "/uploadHandler/",
-    (req, res) => {
-      res.send({ responseText: "req.file.path" }); // You can send any response to the user here
-    }
-  );
+  router.post("/uploadHandler/", ensureLoggedIn, (req, res) => {
+    res.send({ responseText: "req.file.path" }); // You can send any response to the user here
+  });
   return router;
 };
