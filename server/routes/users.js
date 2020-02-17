@@ -20,8 +20,11 @@ module.exports = db => {
       }
     );
   });
-
-  router.post("/search", ensureLoggedIn, function(req, res) {
+  let roles = {};
+  router.post("/search", ensureLoggedIn, ensureHasRole(["admin"]), function(
+    req,
+    res
+  ) {
     db.collection(collection)
       .findOne({ staffId: Number(req.body.staffId) })
       .then(user => {
@@ -33,44 +36,54 @@ module.exports = db => {
       });
   });
 
-  router.post("/bulkregister", ensureLoggedIn, (req, res) => {
-    // db.collection(collection).drop();
-    db.collection(req.body.collection).insertMany(req.body.jsonData, function(
-      err1,
-      result
-    ) {
-      if (err1) {
-        console.log(req.body.jsonData);
-        res.status(500).send();
-        res.end();
-      } else {
-        res.status(200).end();
-      }
-    });
-  });
-
-  router.post("/addPassword", ensureLoggedIn, (req, res) => {
-    req.body.password = bcrypt.hashSync(
-      req.body.password,
-      bcrypt.genSaltSync()
-    );
-
-    db.collection("users").updateOne(
-      { username: req.body.username },
-      { $set: { password: req.body.password } },
-      function(err) {
-        if (err) {
-          return res.status(500).json({
-            msg: "Failed to update document."
-          });
+  router.post(
+    "/bulkregister",
+    ensureLoggedIn,
+    ensureHasRole(["admin"]),
+    (req, res) => {
+      // db.collection(collection).drop();
+      db.collection(req.body.collection).insertMany(req.body.jsonData, function(
+        err1,
+        result
+      ) {
+        if (err1) {
+          console.log(req.body.jsonData);
+          res.status(500).send();
+          res.end();
         } else {
-          return res.status(200).json({
-            msg: "Document successfully updated."
-          });
+          res.status(200).end();
         }
-      }
-    );
-  });
+      });
+    }
+  );
+
+  router.post(
+    "/addPassword",
+    ensureLoggedIn,
+    ensureHasRole(["admin"]),
+    (req, res) => {
+      req.body.password = bcrypt.hashSync(
+        req.body.password,
+        bcrypt.genSaltSync()
+      );
+
+      db.collection("users").updateOne(
+        { username: req.body.username },
+        { $set: { password: req.body.password } },
+        function(err) {
+          if (err) {
+            return res.status(500).json({
+              msg: "Failed to update document."
+            });
+          } else {
+            return res.status(200).json({
+              msg: "Document successfully updated."
+            });
+          }
+        }
+      );
+    }
+  );
 
   return router;
 };
