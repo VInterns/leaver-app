@@ -2,7 +2,8 @@ import React from "react";
 import { 
   LeaverDetails
 } from "../components";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 /////////////////////////////////////////////////////////////////////////
 const API = "/api";
 const ROUTE = "/resignations/update/phase6";
@@ -44,12 +45,24 @@ export class ASTResignationDetailScreen extends React.Component {
 
   ///////////////////////////////////////////////
   normalizeVal(value) {
-    return value === "true" ? true : false;
+    if (value === 'true' || value === "on" || value === "Yes"){
+      return true;
+    }
+    else if (value === "") {
+      return "";
+    }
+    else if (value === 'false' || value === "off" || value === "No"){
+      return false;
+    }
+    else {
+      return value
+    }
   }
-
   ///////////////////////////////////////////////
+
   checkStatus(condX, condY, condZ) {
-    if (condX === true && condY === true && condZ === true) {
+    // check confition after adding N/A
+    if ((condX === true || condX === "") && (condY === true || condY === "") && (condZ === true || condZ === "")) {
       return DONE;
     } else {
       return PENDING;
@@ -59,7 +72,7 @@ export class ASTResignationDetailScreen extends React.Component {
   ///////////////////////////////////////////////
   handleChange(event) {
     let state = {};
-    state[event.target.id] = event.target.value;
+    state[event.target.id] = this.normalizeVal(event.target.value);
     this.setState(state);
   }
 
@@ -91,25 +104,15 @@ export class ASTResignationDetailScreen extends React.Component {
   submitButton(event) {
     event.preventDefault();
 
-    var disabledSecureIdNormalized = this.normalizeVal(
-      this.state.disabledSecureId
-    );
-    var disabledRemedyAccountNormalized = this.normalizeVal(
-      this.state.disabledRemedyAccount
-    );
-    var disabledAccountsInProductionSystemsNormalized = this.normalizeVal(
-      this.state.disabledAccountsInProductionSystems
-    );
-
     let phase6 = {
-      disabledSecureId: disabledSecureIdNormalized,
-      disabledRemedyAccount: disabledRemedyAccountNormalized,
-      disabledAccountsInProductionSystems: disabledAccountsInProductionSystemsNormalized,
+      disabledSecureId: this.state.disabledSecureId,
+      disabledRemedyAccount: this.state.disabledRemedyAccount,
+      disabledAccountsInProductionSystems: this.state.disabledAccountsInProductionSystems,
       comment: this.state.comment,
       status: this.checkStatus(
-        disabledSecureIdNormalized,
-        disabledRemedyAccountNormalized,
-        disabledAccountsInProductionSystemsNormalized
+        this.state.disabledSecureId,
+        this.state.disabledRemedyAccount,
+        this.state.disabledAccountsInProductionSystems
       )
     };
 
@@ -121,15 +124,21 @@ export class ASTResignationDetailScreen extends React.Component {
       }),
       headers: { "Content-Type": "application/json" }
     })
-      .then(res => {
-        return res.json();
-      })
-      .then(data => {
-        return data;
-      })
-      .catch(err => {
-        throw err;
-      });
+    .then((response) => {
+      if (response.status === 200) {
+        toast.success("Security data submitted");
+      }
+      else if (response.status === 503) {
+        toast.error("Error in db");
+      }
+      else {
+        toast.error("Security data cannot be updated");
+        return undefined;
+      }
+    })
+    .catch(err => {
+      throw err;
+    });
   }
 
   /////////////////////////////////////////////////////////////////////////
@@ -139,6 +148,7 @@ export class ASTResignationDetailScreen extends React.Component {
 
     return (
       <div className = "container">
+        <ToastContainer />
         <center style = {{margin: "25px"}}>
             <LeaverDetails leaverDetail = { {leaverInfo: leaver, lastDay: phase1.lastWorkDay}}/>
             <hr/>
@@ -148,8 +158,8 @@ export class ASTResignationDetailScreen extends React.Component {
                 id = "disabledSecureId"
                 onChange = {this.handleChange}
                 className = "p-2 form-control col-sm-1"
-                defaultValue = {this.state.disabledSecureId}>
-                <option value = {null}> N/A </option>
+                value = {this.state.disabledSecureId}>
+                <option value = {""}>N/A</option>
                 <option value = {true}>Yes</option>
                 <option value = {false}>No</option>
               </select>
@@ -160,8 +170,8 @@ export class ASTResignationDetailScreen extends React.Component {
                 id = "disabledRemedyAccount"
                 onChange = {this.handleChange}
                 className = "p-2 form-control col-sm-1"
-                defaultValue = {this.state.disabledRemedyAccount}>
-                <option value = {null}> N/A </option>
+                value = {this.state.disabledRemedyAccount}>
+                <option value = {""}>N/A</option>
                 <option value = {true}>Yes</option>
                 <option value = {false}>No</option>
               </select>
@@ -173,8 +183,8 @@ export class ASTResignationDetailScreen extends React.Component {
                 id = "disabledAccountsInProductionSystems"
                 onChange = {this.handleChange}
                 className = "p-2 form-control col-sm-1 text-center"
-                defaultValue = {this.state.disabledAccountsInProductionSystems}>
-                <option value = {null}> N/A </option>
+                value = {this.state.disabledAccountsInProductionSystems}>
+                <option value = {""}>N/A</option>
                 <option value = {true}>Yes</option>
                 <option value = {false}>No</option>
               </select>

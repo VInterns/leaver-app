@@ -154,6 +154,20 @@ module.exports = db => {
       res.status(200).send({ msg: "hi" });
     }
   );
+  
+  router.get('/myresigns/:createdby', (req, res) => {
+    let urlSections = req.url.split("/");
+    (urlSections[urlSections.length - 1] + "url");
+    db.collection(collection).find({ "createdby": urlSections[urlSections.length - 1] }).toArray((err, requests) => {
+      if (err) {
+        res.status(500).send();
+        throw err;
+      }
+      else {
+        res.send(requests);
+      }
+    });
+  });
 
   router.get(
     "/myresigns/:createdby",

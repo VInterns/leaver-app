@@ -21,11 +21,13 @@ export class LoginForm extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  static getDerivedStateFromProps(nextProps) {
     if (nextProps.isAuthenticated) {
-      this.props.history.push('/upload');
+      nextProps.history.push('/upload');
     }
+    return null;
   }
+  
   props: {
     logo: string,
     loginWelcomeImg: string,
@@ -44,7 +46,7 @@ export class LoginForm extends Component {
     error: string,
     history: Object,
   };
-
+  
   updateFields = (value, key) => {
     this.setState({
       [key]: value,
@@ -74,7 +76,7 @@ export class LoginForm extends Component {
           <Grid textAlign="center" verticalAlign="middle">
             <Grid.Row>
               <Grid.Column floated="left" width={5}>
-                <Image src={this.props.logo || vodafoneLogo} style = {{height: "35px", width: "35px"}}/>
+                <Image src={this.props.logo || vodafoneLogo} style={{ height: "35px", width: "35px" }} />
               </Grid.Column>
               <Grid.Column floated="right" width={5}>
                 <Button

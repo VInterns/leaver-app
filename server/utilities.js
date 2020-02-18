@@ -1,5 +1,5 @@
 const getDatabaseUrl = () => {
-  return 'mongodb://ehab:mongopassword@vf-shard-00-00-4myzf.mongodb.net:27017,vf-shard-00-01-4myzf.mongodb.net:27017,vf-shard-00-02-4myzf.mongodb.net:27017/leaver-app?ssl=true&replicaSet=VF-shard-0&authSource=admin&retryWrites=true&w=majority';
+    return process.env.DATABASE_URL || "mongodb://leaver-app:leaver-app-1@ds219459.mlab.com:19459/leaver-app?replicaSet=rs-ds219459&&retryWrites=false";
 };
 
 const getPort = () => {
