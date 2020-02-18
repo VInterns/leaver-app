@@ -46,7 +46,7 @@ export class ASTResignationDetailScreen extends React.Component {
   normalizeVal(value) {
     return value === "true" ? true : false;
   }
-
+  
   ///////////////////////////////////////////////
   checkStatus(condX, condY, condZ) {
     if (condX === true && condY === true && condZ === true) {

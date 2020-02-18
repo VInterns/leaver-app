@@ -1,4 +1,5 @@
 const { Router } = require("express");
+const mailer = require('../services/mail');
 
 module.exports = db => {
   const router = new Router();
@@ -17,7 +18,6 @@ module.exports = db => {
   });
 
   router.post("/", function (req, res) {
-    // check if resignatin request exists in db
     db.collection(collection)
       .findOne({ staffId: req.body.staffId })
       .then(resigReg => {
@@ -97,15 +97,17 @@ module.exports = db => {
       nationalId: req.body.nationalId,
       status: "done"
     };
+
     let myquery = {
       staffId: Number(req.query.id)
     };
+
     let newvalues = { $set: { phase4 } };
     db.collection(collection)
       .updateOne(myquery, newvalues)
       .then(result => {
-        // (result);
         (`Successfully updated.`);
+        (phase4.status === 'done') ? console.log('Send Email Here') : console.log('Do something else');
         res.status(200).send(true);
       })
       .catch(err => {
@@ -154,7 +156,7 @@ module.exports = db => {
         throw err;
       }
       else {
-
+        (req.body.phase3.status === 'done') ? console.log('Send Email Here') : console.log('Do something else');
         res.send("Employee data updated!!");
       }
     });
@@ -172,6 +174,7 @@ module.exports = db => {
           res.status(404).send();
           throw err;
         } else {
+          (req.body.phase6.status === 'done') ? console.log('Send Email Here') : console.log('Do something else');
           res.status(200).send({
             msg:
               "employee successfully found, and security data successfully updated"
@@ -193,6 +196,7 @@ module.exports = db => {
           res.status(404).send();
           throw err;
         } else {
+          (req.body.phase2.status === 'done') ? console.log('Send Email Here') : console.log('Do something else');
           res.status(200).send({
             msg:
               "Employee successfully found, and SMC data successfully updated"
@@ -214,6 +218,7 @@ module.exports = db => {
           res.status(404).send();
           throw err;
         } else {
+          (req.body.phase7.status === 'done') ? console.log('Send Email Here') : console.log('Do something else');
           res.status(200).send({
             msg:
               "employee successfully found, and security data successfully updated"
@@ -240,6 +245,7 @@ module.exports = db => {
         if (err) {
           throw err
         } else {
+          (req.body.phase5.status === 'done') ? console.log('Send Email Here') : console.log('Do something else');
           res.status(200).send({
             "msg": "phase 5 updated successfully"
           })

@@ -135,7 +135,6 @@ export class UploadEmployeesScreen extends Component {
                   {Math.round(this.state.loaded, 2)}%
                 </Progress>
               </div>
-
               <button
                 type="button"
                 className="btn btn-success btn-block"
