@@ -39,7 +39,6 @@ export class Header extends React.Component {
   };
 
   render() {
-    console.log(this.props)
     if (!this.props.isAuthenticated) {
       return null;
     }

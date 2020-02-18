@@ -24,10 +24,11 @@ export class SignupForm extends Component {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
+    static getDerivedStateFromProps(nextProps) {
         if (nextProps.isRegistered) {
-            this.props.history.push('/');
+            nextProps.history.push('/');
         }
+        return null;
     }
 
 
@@ -67,7 +68,6 @@ export class SignupForm extends Component {
     }
 
     renderCodeSentView = () => {
-        //console.log(this.props.codeVerified)
         return (
             <div>
                 <Grid
@@ -90,7 +90,6 @@ export class SignupForm extends Component {
                                         type="password"
                                         icon="key"
                                         iconPosition="left"
-
                                         onChange={event => {
                                             this.updateFields(event.target.value, 'password')
                                         }}

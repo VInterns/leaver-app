@@ -114,31 +114,9 @@ module.exports = db => {
       });
   });
 
-  router.post("/national-id", (req, res) => {
-    let phase4 = {
-      nationalId: req.body
-    };
-    let myquery = { staffId: req.query.id };
-    let newvalues = { $set: { phase4 } };
-    // db.collection(collection).updateOne(myquery, newvalues)
-    //     .then(result => {
-    //         (`Successfully added a national id.`)
-    //         res.status(200).send(true);
-    //     })
-    //     .catch(err => {
-    //         console.error(`Failed to add national id: ${err}`)
-    //         res.status(500).send();
-
-    //     })
-    res.status(200).send({ msg: "hi" });
-  });
-
   router.get('/myresigns/:createdby', (req, res) => {
     let urlSections = req.url.split("/");
     (urlSections[urlSections.length - 1] + "url");
-    // var query = { staffId: Number(urlSections[urlSections.length - 1]) };
-    // (query);
-    // db.collection(collection).find({ "createdby": "admin@hr.com" }).toArray((err, requests) => {
     db.collection(collection).find({ "createdby": urlSections[urlSections.length - 1] }).toArray((err, requests) => {
       if (err) {
         res.status(500).send();

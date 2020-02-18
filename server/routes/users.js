@@ -30,7 +30,6 @@ module.exports = db => {
   });
 
   router.post("/bulkregister", (req, res) => {
-    // db.collection(collection).drop();
     db.collection(req.body.collection).insertMany(req.body.jsonData, function(
       err1,
       result
