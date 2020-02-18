@@ -2,6 +2,7 @@ import React from "react";
 import {
   LeaverDetails
 } from "../components";
+import { ToastContainer, toast } from "react-toastify";
 
 /////////////////////////////////////////////////////////////////////////
 const API = "/api";
@@ -46,7 +47,18 @@ export class SMCResignationDetailScreen extends React.Component {
 
   ///////////////////////////////////////////////
   normalizeVal(value) {
-    return value === "true" || value === "on"? true : false;
+    if (value === 'true' || value === "on" || value === "Yes"){
+      return true;
+    }
+    else if (value === "") {
+      return "";
+    }
+    else if (value === 'false' || value === "off" || value === "No"){
+      return false;
+    }
+    else {
+      return value
+    }
   }
 
   ///////////////////////////////////////////////
@@ -61,7 +73,7 @@ export class SMCResignationDetailScreen extends React.Component {
   ///////////////////////////////////////////////
   handleChange(event) {
     let state = {};
-    state[event.target.id] = event.target.value;
+    state[event.target.id] = this.normalizeVal(event.target.value);
     this.setState(state);
   }
 
@@ -93,30 +105,17 @@ export class SMCResignationDetailScreen extends React.Component {
   submitButton(event) {
     event.preventDefault();
 
-    var returnedHeadsetNormalized = this.normalizeVal(
-      this.state.returnedHeadset
-    );
-    var returnedKeysNormalized = this.normalizeVal(
-      this.state.returnedKeys
-    );
-    var returnedOhdaNormalized = this.normalizeVal(
-      this.state.returnedOhda
-    );
-    var deductNormalized = this.normalizeVal(
-      this.state.deduct
-    );
-
     let phase2 = {
-      returnedHeadset: returnedHeadsetNormalized,
-      returnedKeys: returnedKeysNormalized,
-      returnedOhda: returnedOhdaNormalized,
-      deduct: deductNormalized,
+      returnedHeadset: this.state.returnedHeadset,
+      returnedKeys: this.state.returnedKeys,
+      returnedOhda: this.state.returnedOhda,
+      deduct: this.state.deduct,
       comment: this.state.comment,
       status: this.checkStatus(
-        returnedHeadsetNormalized,
-        returnedKeysNormalized,
-        returnedOhdaNormalized,
-        deductNormalized
+        this.state.returnedHeadset,
+        this.state.returnedKeys,
+        this.state.returnedOhda,
+        this.state.deduct
       )
     };
 
@@ -128,15 +127,21 @@ export class SMCResignationDetailScreen extends React.Component {
       }),
       headers: { "Content-Type": "application/json" }
     })
-      .then(res => {
-        return res.json();
-      })
-      .then(data => {
-        return data;
-      })
-      .catch(err => {
-        throw err;
-      });
+    .then((response) => {
+    if (response.status === 200) {
+      toast.success("SMC data submitted");
+    }
+    else if (response.status === 503) {
+      toast.error("Error in db");
+    }
+    else {
+      toast.error("Data cannot be submitted");
+      return undefined;
+    }
+    })
+    .catch(err => {
+      throw err;
+    });
   }
 
   /////////////////////////////////////////////////////////////////////////
@@ -145,6 +150,7 @@ export class SMCResignationDetailScreen extends React.Component {
 
     return (
       <div className = "container">
+        <ToastContainer />
         <center style = {{margin: "25px"}}>
           <div>
             <LeaverDetails leaverDetail = {{leaverInfo: leaver, lastDay: this.state.lastWorkDay}}/>
@@ -156,8 +162,8 @@ export class SMCResignationDetailScreen extends React.Component {
                 onChange = {this.handleChange}
                 className = "p-2 form-control col-sm-1"
                 defaultValue = {this.state.returnedHeadset}>
-                <option value = {null}> N/A </option>
-                <option value = {true}>Yes</option>
+                <option value = {""}> N/A </option>
+                <option value = {true}>Yes</option> 
                 <option value = {false}>No</option>
               </select>
             </div>
@@ -168,7 +174,7 @@ export class SMCResignationDetailScreen extends React.Component {
                 onChange = {this.handleChange}
                 className = "p-2 form-control col-sm-1"
                 defaultValue = {this.state.returnedKeys}>
-                <option value = {null}> N/A </option>
+                <option value = {""}> N/A </option>
                 <option value = {true}>Yes</option>
                 <option value = {false}>No</option>
               </select>
@@ -181,7 +187,7 @@ export class SMCResignationDetailScreen extends React.Component {
                 onChange = {this.handleChange}
                 className = "p-2 form-control col-sm-1 text-center"
                 defaultValue = {this.state.returnedOhda}>
-                <option value = {null}> N/A </option>
+                <option value = {""}> N/A </option>
                 <option value = {true}>Yes</option>
                 <option value = {false}>No</option>
               </select>
