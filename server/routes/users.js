@@ -21,7 +21,7 @@ module.exports = db => {
     );
   });
   let roles = {};
-  router.post("/search", ensureLoggedIn, ensureHasRole(["admin"]), function(
+  router.post("/search", ensureLoggedIn, ensureHasRole(["admin"]), function (
     req,
     res
   ) {
@@ -61,9 +61,9 @@ module.exports = db => {
         (req.body.collection == "employees" &&
           (Object.keys(req.body.jsonData[0]).length !=
             emplyees_columns.length ||
-          !checker(Object.keys(req.body.jsonData[0]), emplyees_columns))) ||
-          (req.body.collection == "users" &&
-            (Object.keys(req.body.jsonData[0]).length != users_columns.length ||
+            !checker(Object.keys(req.body.jsonData[0]), emplyees_columns))) ||
+        (req.body.collection == "users" &&
+          (Object.keys(req.body.jsonData[0]).length != users_columns.length ||
             !checker(Object.keys(req.body.jsonData[0]), users_columns)))
       ) {
         res.status(400).send();
@@ -71,7 +71,7 @@ module.exports = db => {
       } else {
         db.collection(req.body.collection).insertMany(
           req.body.jsonData,
-          function(err1, result) {
+          function (err1, result) {
             if (err1) {
               res.status(500).send();
               res.end();
@@ -86,8 +86,6 @@ module.exports = db => {
 
   router.post(
     "/addPassword",
-    ensureLoggedIn,
-    ensureHasRole(["admin"]),
     (req, res) => {
       req.body.password = bcrypt.hashSync(
         req.body.password,
@@ -97,7 +95,7 @@ module.exports = db => {
       db.collection("users").updateOne(
         { username: req.body.username },
         { $set: { password: req.body.password } },
-        function(err) {
+        function (err) {
           if (err) {
             return res.status(500).json({
               msg: "Failed to update document."
