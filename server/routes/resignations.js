@@ -156,7 +156,7 @@ module.exports = db => {
         throw err;
       }
       else {
-        (req.body.phase3.status === 'done') ? console.log('Send Email Here') : console.log('Do something else');
+        req.body.phase3.status === 'done' && mailer.sendPhaseUpdate();
         res.send("Employee data updated!!");
       }
     });
@@ -174,7 +174,7 @@ module.exports = db => {
           res.status(404).send();
           throw err;
         } else {
-          (req.body.phase6.status === 'done') ? console.log('Send Email Here') : console.log('Do something else');
+          req.body.phase6.status === 'done' && mailer.sendPhaseUpdate();
           res.status(200).send({
             msg:
               "employee successfully found, and security data successfully updated"
@@ -196,7 +196,7 @@ module.exports = db => {
           res.status(404).send();
           throw err;
         } else {
-          (req.body.phase2.status === 'done') ? console.log('Send Email Here') : console.log('Do something else');
+          req.body.phase2.status === 'done' && mailer.sendPhaseUpdate();
           res.status(200).send({
             msg:
               "Employee successfully found, and SMC data successfully updated"
@@ -218,7 +218,7 @@ module.exports = db => {
           res.status(404).send();
           throw err;
         } else {
-          (req.body.phase7.status === 'done') ? console.log('Send Email Here') : console.log('Do something else');
+          req.body.phase7.status === 'done' && mailer.sendPhaseUpdate();
           res.status(200).send({
             msg:
               "employee successfully found, and security data successfully updated"
@@ -245,7 +245,7 @@ module.exports = db => {
         if (err) {
           throw err
         } else {
-          (req.body.phase5.status === 'done') ? console.log('Send Email Here') : console.log('Do something else');
+          req.body.phase5.status === 'done' && mailer.sendPhaseUpdate();
           res.status(200).send({
             "msg": "phase 5 updated successfully"
           })
