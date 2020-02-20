@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ImageUploaderComponent } from '../components';
-import { store } from '../App';
+import { connect } from "react-redux";
 
 const API = '/api/';
 const SEARCH = 'users/search'
@@ -18,32 +18,38 @@ export class ResignReqScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      staffId : '',
-      returnedHeadset : null,
-      returnedKeys : null,
-      returnedOhda : null,
-      ohdaType : '',
-      lastWorkDay : '',
-      nationalId : '',
-      nationalIdImg : null,
-      annualsGranted : '',
-      annualsTaken : '',
-      noShow : '',
-      lostHours : '',
-      daysToTake : '',
-      sapStaffId : '',
-      name : '',
-      managerName : '',
-      ntAccount : '',
-      department : '',
-      costCenter : '',
-      jobTitle : '',
-      hiringDate : '',
-      mobile : '',
-      iex : '',
-      personalMobile : '',
-      recommended : false,
-      createdby: store.getState().username,
+      staffId: '',
+      returnedHeadset: false,
+      returnedKeys: false,
+      returnedOhda: false,
+      ohdaType: '',
+      lastWorkDay: '',
+      nationalId: '',
+      nationalIdImg: null,
+      annualsGranted: '',
+      annualsTaken: '',
+      noShow: '',
+      lostHours: '',
+      daysToTake: '',
+      sapStaffId: '',
+      name: '',
+      managerName: '',
+      ntAccount: '',
+      department: '',
+      careCenter : '',
+      jobTitle: '',
+      hiringDate: '',
+      mobile: '',
+      iex: '',
+      personalMobile: '',
+      recommended: false,
+      createdby: this.props.createdby,
+    };
+  }
+
+  static mapStateToProps(state) {
+    return {
+      createdby: state.auth.username,
     };
   }
 
@@ -78,10 +84,10 @@ export class ResignReqScreen extends Component {
           this.setState({ managerName: data.managerName });
           this.setState({ ntAccount: data.ntAccount });
           this.setState({ department: data.department });
-          this.setState({ costCenter: data.costCenter});
+          this.setState({ careCenter: data.careCenter});
           this.setState({ jobTitle: data.jobTitle });
           this.setState({ hiringDate: data.hiringDate });
-          this.setState({ mobile: "+2" + data.mobile });
+          this.setState({ mobile: data.mobile });
           this.setState({ username: data.username });
         }
       })
@@ -174,30 +180,27 @@ export class ResignReqScreen extends Component {
 
   }
 
-  handleChange = e => {
-    // toast.success(this.state.createdby);
-    if (e.target.type === 'select-one') {
-      console.log(e.target.value);
-      if (e.target.value === 'Yes') {
-        this.setState({ [e.target.name]: true });
-      }
-      else if (e.target.value === 'No') {
-        this.setState({ [e.target.name]: false });
-      }
-      else{
-        this.setState({ [e.target.name]: null });
-      }
+  ///////////////////////////////////////////////
+  normalizeVal(value) {
+    if (value === 'true' || value === "on" || value === "Yes"){
+      return true;
     }
-    else if (e.target.value === "on") {
-      this.setState({ [e.target.name]: true });
+    else if (value === "") {
+      return "";
     }
-    else if (e.target.value === "off") {
-      this.setState({ [e.target.name]: false });
+    else if (value === 'false' || value === "off" || value === "No"){
+      return false;
     }
     else {
-      this.setState({ [e.target.name]: e.target.value });
+      return value
     }
   }
+  ///////////////////////////////////////////////
+
+  handleChange = e => {
+      this.setState({ [e.target.name]: this.normalizeVal(e.target.value) });
+  }
+///////////////////////////////////////////////
 
   // fetchMailList(){
   //   let LIST_QUERY = "mail/getMailList";
@@ -281,8 +284,8 @@ export class ResignReqScreen extends Component {
               <Col></Col>
             </Row>
             <Row>
-              <Col><Form.Label>Cost Center</Form.Label></Col>
-              <Col><Form.Control plaintext readOnly value={this.state.costCenter} /></Col>
+              <Col><Form.Label>Care Center</Form.Label></Col>
+              <Col><Form.Control plaintext readOnly value={this.state.careCenter} /></Col>
               <Col></Col>
             </Row>
             <Row>
@@ -307,12 +310,12 @@ export class ResignReqScreen extends Component {
             </Row>
             <Row>
               <Col><Form.Label>Recommended</Form.Label></Col>
-              <Col><input 
-                name="recommended" 
-                type="checkbox" 
-                defaultChecked={this.state.recommended} 
-                // onChange={this.handleChange} 
-                className = "p-2 form-control col-sm-1 text-center"/></Col>
+              <Col><input
+                name="recommended"
+                type="checkbox"
+                defaultChecked={this.state.recommended}
+                onChange={this.handleChange} 
+                className="p-2 form-control col-sm-1 text-center" /></Col>
 
               <Col></Col>
             </Row>
@@ -321,27 +324,30 @@ export class ResignReqScreen extends Component {
             <Row>
               <Col><Form.Label>Returned Headset</Form.Label></Col>
               <Col>
-                <Form.Control as="select" name="returnedHeadset" onChange={this.handleChange} defaultValue={{ label: "Yes", value: true }}>
-                  <option>Yes</option>
-                  <option>No</option>
+                <Form.Control as="select" name="returnedHeadset" onChange={this.handleChange} defaultValue={this.state.returnedHeadset}>
+                  <option value = {""}> N/A </option>
+                  <option value = {true}>Yes</option>
+                  <option value = {false}>No</option>
                 </Form.Control>
               </Col>
             </Row>
             <Row>
               <Col><Form.Label>Returned Keys</Form.Label></Col>
               <Col>
-                <Form.Control as="select" name="returnedKeys" onChange={this.handleChange}>
-                  <option>Yes</option>
-                  <option>No</option>
+                <Form.Control as="select" name="returnedKeys" onChange={this.handleChange} defaultValue={this.state.returnedKeys}>
+                  <option value = {""}> N/A </option>
+                  <option value = {true}>Yes</option>
+                  <option value = {false}>No</option>
                 </Form.Control>
               </Col>
             </Row>
             <Row>
               <Col><Form.Label>Returned 3ohda</Form.Label></Col>
               <Col>
-                <Form.Control as="select" name="returnedOhda" onChange={this.handleChange}>
-                  <option>Yes</option>
-                  <option>No</option>
+                <Form.Control as="select" name="returnedOhda" onChange={this.handleChange} defaultValue={this.state.returnedOhda}>
+                  <option value = {""}> N/A </option>
+                  <option value = {true}>Yes</option>
+                  <option value = {false}>No</option>
                 </Form.Control>
               </Col>
             </Row>
@@ -404,3 +410,8 @@ export class ResignReqScreen extends Component {
     );
   }
 }
+
+
+export const ConnectedResignScreen = connect(
+  ResignReqScreen.mapStateToProps
+)(ResignReqScreen);

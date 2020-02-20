@@ -60,7 +60,7 @@ export class HrViewScreen extends Component {
                         <th className = "text-white">CC Consumer Activation</th>
                         <th className = "text-white">Enterprise Logistics</th>
                         <th className = "text-white">Application Security</th>
-                        <th className = "text-white">Security Hardware Token</th>
+                        <th className = "text-white">Security Hardware Team</th>
                     </tr>
                 </thead>
                 <tbody>

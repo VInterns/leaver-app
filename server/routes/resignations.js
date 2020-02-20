@@ -1,11 +1,16 @@
 const { Router } = require("express");
+
 const mailer = require('../services/mail');
+const {
+  ensureLoggedIn,
+  ensureHasRole
+} = require("../middlewares/authentication");
 
 module.exports = db => {
   const router = new Router();
   const collection = "resignations";
 
-  router.get("/", (req, res) => {
+  router.get("/", ensureLoggedIn, ensureHasRole(["admin"]), (req, res) => {
     db.collection(collection)
       .find()
       .toArray((err, data) => {
@@ -17,7 +22,12 @@ module.exports = db => {
       });
   });
 
-  router.post("/", function (req, res) {
+
+  router.post("/", ensureLoggedIn, ensureHasRole(["admin"]), function(
+    req,
+    res
+  ) {
+    // check if resignatin request exists in db
     db.collection(collection)
       .findOne({ staffId: req.body.staffId })
       .then(resigReg => {
@@ -39,57 +49,67 @@ module.exports = db => {
       });
   });
 
-  router.post("/update/request", function (req, res) {
-    var leaverId = req.body.staffId;
-    db.collection(collection).findOneAndUpdate(
-      { staffId: leaverId },
-      {
-        $set: { phase1: req.body.phase1 }
-      },
-      function (err, doc) {
-        if (err) {
-          res.status(404).send();
-          throw err;
-        } else {
-          res.status(200).send({
-            msg:
-              "Employee successfully found, and resignation request updated data successfully updated"
-          });
+  router.post(
+    "/update/request",
+    ensureLoggedIn,
+    ensureHasRole(["admin"]),
+    function(req, res) {
+      var leaverId = req.body.staffId;
+      db.collection(collection).findOneAndUpdate(
+        { staffId: leaverId },
+        {
+          $set: { phase1: req.body.phase1 }
+        },
+        function(err, doc) {
+          if (err) {
+            res.status(404).send();
+            throw err;
+          } else {
+            res.status(200).send({
+              msg:
+                "Employee successfully found, and resignation request updated data successfully updated"
+            });
+          }
         }
-      }
-    );
-  });
+      );
+    }
+  );
 
-  router.get("/pending", (req, res) => {
-    db.collection(collection)
-      .find({ "phase4.status": "new" })
-      .toArray((error, results) => {
-        if (error) {
-          console.error(`Failed to fetch data: ${err}`);
-          res.status(500).send();
-        } else {
-          res.status(200).send(results);
-        }
-      });
-  });
+  router.get(
+    "/pending",
+    ensureLoggedIn,
+    ensureHasRole(["admin"]),
+    (req, res) => {
+      db.collection(collection)
+        .find({ "phase4.status": "new" })
+        .toArray((error, results) => {
+          if (error) {
+            console.error(`Failed to fetch data: ${err}`);
+            res.status(500).send();
+          } else {
+            res.status(200).send(results);
+          }
+        });
+    }
+  );
 
-  router.get("/:id", (req, res) => {
+  router.get("/:id", ensureLoggedIn, ensureHasRole(["admin"]), (req, res) => {
     let urlSections = req.url.split("/");
-    (urlSections[urlSections.length - 1] + "url");
+    urlSections[urlSections.length - 1] + "url";
     var query = { staffId: Number(urlSections[urlSections.length - 1]) };
-    (query);
+    query;
     db.collection(collection).findOne(query, (err, data) => {
       if (err) {
-        (err);
+        err;
         res.status(500).send();
       } else {
-        (data);
+        data;
         res.json(data);
       }
     });
   });
 
-  router.post("/data", (req, res) => {
+  router.post("/data", ensureLoggedIn, ensureHasRole(["admin"]), (req, res) => {
     let phase4 = {
       ratePlan: req.body.ratePlan,
       phoneBilledAmount: req.body.phoneBilledAmount,
@@ -106,8 +126,7 @@ module.exports = db => {
     db.collection(collection)
       .updateOne(myquery, newvalues)
       .then(result => {
-        (`Successfully updated.`);
-        (phase4.status === 'done') ? console.log('Send Email Here') : console.log('Do something else');
+        phase4.status === 'done' && mailer.sendPhaseUpdate();
         res.status(200).send(true);
       })
       .catch(err => {
@@ -116,6 +135,30 @@ module.exports = db => {
       });
   });
 
+  router.post(
+    "/national-id",
+    ensureLoggedIn,
+    ensureHasRole(["admin"]),
+    (req, res) => {
+      let phase4 = {
+        nationalId: req.body
+      };
+      let myquery = { staffId: req.query.id };
+      let newvalues = { $set: { phase4 } };
+      // db.collection(collection).updateOne(myquery, newvalues)
+      //     .then(result => {
+      //         (`Successfully added a national id.`)
+      //         res.status(200).send(true);
+      //     })
+      //     .catch(err => {
+      //         console.error(`Failed to add national id: ${err}`)
+      //         res.status(500).send();
+
+      //     })
+      res.status(200).send({ msg: "hi" });
+    }
+  );
+  
   router.get('/myresigns/:createdby', (req, res) => {
     let urlSections = req.url.split("/");
     (urlSections[urlSections.length - 1] + "url");
@@ -130,59 +173,118 @@ module.exports = db => {
     });
   });
 
-  router.get('/wf/fetchRequests', (req, res) => {
-    db.collection(collection).find({ "status": "new" }).toArray((err, requests) => {
-      if (err) {
-        res.status(500).send();
-        throw err;
-      }
-      else {
-        res.send(requests);
-      }
-    });
-  });
+  router.get(
+    "/myresigns/:createdby",
+    ensureLoggedIn,
+    ensureHasRole(["admin"]),
+    (req, res) => {
+      let urlSections = req.url.split("/");
+      urlSections[urlSections.length - 1] + "url";
+      // var query = { staffId: Number(urlSections[urlSections.length - 1]) };
+      // (query);
+      // db.collection(collection).find({ "createdby": "admin@hr.com" }).toArray((err, requests) => {
+      db.collection(collection)
+        .find({ createdby: urlSections[urlSections.length - 1] })
+        .toArray((err, requests) => {
+          if (err) {
+            res.status(500).send();
+            throw err;
+          } else {
+            res.send(requests);
+          }
+        });
+    }
+  );
 
-  router.post('/wf/insertBalance', (req, res) => {
-    var leaverId = req.body.staffId;
+  router.get(
+    "/wf/fetchRequests",
+    ensureLoggedIn,
+    ensureHasRole(["admin"]),
+    (req, res) => {
+      db.collection(collection)
+        .find({ status: "new" })
+        .toArray((err, requests) => {
+          if (err) {
+            res.status(500).send();
+            throw err;
+          } else {
+            res.send(requests);
+          }
+        });
+    }
+  );
 
-    (req.body.phase3);
-
-    db.collection(collection).updateOne({ "staffId": leaverId }, {
-      $set: { "phase3": req.body.phase3 }
-    }, (err, doc) => {
-      if (err) {
-
-        res.status(500).send(doc);
-        throw err;
-      }
-      else {
-        req.body.phase3.status === 'done' && mailer.sendPhaseUpdate();
-        res.send("Employee data updated!!");
-      }
-    });
-  });
-
-  router.post("/update/phase6", function (req, res) {
-    var leaverId = req.body.staffId;
-    db.collection(collection).findOneAndUpdate(
-      { staffId: leaverId },
-      {
-        $set: { phase6: req.body.phase6 }
-      },
-      function (err, doc) {
-        if (err) {
-          res.status(404).send();
+  router.post(
+    "/wf/insertBalance",
+    ensureLoggedIn,
+    ensureHasRole(["admin"]),
+    (req, res) => {
+      var leaverId = req.body.staffId;
+      db.collection(collection).updateOne({"staffId" : leaverId}, {
+      $set: {"phase3" : req.body.phase3}}, (err, doc) => {
+        if(err) {
+          res.status(500).send(doc);
           throw err;
         } else {
-          req.body.phase6.status === 'done' && mailer.sendPhaseUpdate();
-          res.status(200).send({
-            msg:
-              "employee successfully found, and security data successfully updated"
-          });
+          req.body.phase3.status === 'done' && mailer.sendPhaseUpdate();
+          res.send('Epmolyee data updated');
         }
-      }
-    );
-  });
+      })
+    });
+
+
+  router.post(
+    "/update/phase6",
+    ensureLoggedIn,
+    ensureHasRole(["admin"]),
+    function(req, res) {
+      var leaverId = req.body.staffId;
+      db.collection(collection).findOneAndUpdate(
+        { staffId: leaverId },
+        {
+          $set: { phase6: req.body.phase6 }
+        },
+        function(err, doc) {
+          if (err) {
+            res.status(404).send();
+            throw err;
+          } else {
+            req.body.phase6.status === 'done' && mailer.sendPhaseUpdate();
+            res.status(200).send({
+              msg:
+                "employee successfully found, and security data successfully updated"
+            });
+          }
+        }
+      );
+    }
+  );
+
+  router.post(
+    "/update/phase2",
+    ensureLoggedIn,
+    ensureHasRole(["admin"]),
+    function(req, res) {
+      var leaverId = req.body.staffId;
+      db.collection(collection).findOneAndUpdate(
+        { staffId: leaverId },
+        {
+          $set: { phase2: req.body.phase2 }
+        },
+        function(err, doc) {
+          if (err) {
+            res.status(404).send();
+            throw err;
+          } else {
+            res.status(200).send({
+              msg:
+                "Employee successfully found, and SMC data successfully updated"
+            });
+          }
+        }
+      );
+    }
+  );
 
   router.post("/update/phase2", function (req, res) {
     var leaverId = req.body.staffId;
@@ -201,21 +303,40 @@ module.exports = db => {
             msg:
               "Employee successfully found, and SMC data successfully updated"
           });
-        }
-      }
-    );
-  });
 
-  router.post("/update/phase7", function (req, res) {
-    var leaverId = req.body.staffId;
-    db.collection(collection).findOneAndUpdate(
-      { staffId: leaverId },
-      {
-        $set: { phase7: req.body.phase7 }
-      },
-      function (err, doc) {
+  router.post(
+    "/update/phase7",
+    ensureLoggedIn,
+    ensureHasRole(["admin"]),
+    function(req, res) {
+      var leaverId = req.body.staffId;
+      db.collection(collection).findOneAndUpdate(
+        { staffId: leaverId },
+        {
+          $set: { phase7: req.body.phase7 }
+        },
+        function(err, doc) {
+          if (err) {
+            res.status(404).send();
+            throw err;
+          } else {
+            res.status(200).send({
+              msg:
+                "employee successfully found, and security data successfully updated"
+            });
+          }
+        }
+      );
+    }
+  );
+
+  router.post(
+    "/resignations",
+    ensureLoggedIn,
+    ensureHasRole(["admin"]),
+    (req, res) => {
+      db.collection(collection).update(req.body, (err, res) => {
         if (err) {
-          res.status(404).send();
           throw err;
         } else {
           req.body.phase7.status === 'done' && mailer.sendPhaseUpdate();
@@ -223,38 +344,40 @@ module.exports = db => {
             msg:
               "employee successfully found, and security data successfully updated"
           });
+          return res.send("done");
         }
-      }
-    );
-  });
+      });
+    }
+  );
 
-  router.post("/resignations", (req, res) => {
-    db.collection(collection).update(req.body, (err, res) => {
-      if (err) {
-        throw err
-      } else {
-        return res.send('done')
-      }
-    })
-  });
 
-  router.post("/update/phase5", (req, res) => {
-    var leaverId = req.body.staffId;
-    db.collection(collection).findOneAndUpdate({ "staffId": leaverId },
-      { $set: { "phase5": req.body.phase5 } }, (err, result) => {
-        if (err) {
-          throw err
-        } else {
-          req.body.phase5.status === 'done' && mailer.sendPhaseUpdate();
-          res.status(200).send({
-            "msg": "phase 5 updated successfully"
-          })
+  router.post(
+    "/update/phase5",
+    ensureLoggedIn,
+    ensureHasRole(["admin"]),
+    (req, res) => {
+      var leaverId = req.body.staffId;
+      db.collection(collection).findOneAndUpdate(
+        { staffId: leaverId },
+        { $set: { phase5: req.body.phase5 } },
+        (err, result) => {
+          if (err) {
+            throw err;
+          } else {
+            req.body.phase5.status === 'done' && mailer.sendPhaseUpdate();
+            res.status(200).send({
+              msg: "phase 5 updated successfully"
+            });
+          }
         }
-      })
-  });
+      );
+    }
+  );
 
   router.post(
     "/uploadHandler/",
+    ensureLoggedIn,
+    ensureHasRole(["admin"]),
     (req, res) => {
       res.send({ responseText: "req.file.path" }); // You can send any response to the user here
     }

@@ -2,6 +2,8 @@ import React from "react";
 import { 
   LeaverDetails
 } from "../components";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 /////////////////////////////////////////////////////////////////////////
 const API = "/api";
@@ -42,10 +44,21 @@ export class SHTViewScreen extends React.Component {
 
   ///////////////////////////////////////////////
   normalizeVal(value) {
-    return value === "true" ? true : false;
+    if (value === 'true' || value === "on" || value === "Yes"){
+      return true;
+    }
+    else if (value === "") {
+      return "";
+    }
+    else if (value === 'false' || value === "off" || value === "No"){
+      return false;
+    }
+    else {
+      return value
+    }
   }
-
   ///////////////////////////////////////////////
+
   checkStatus(condX) {
     return (condX === true)? DONE: PENDING;
   }
@@ -53,7 +66,7 @@ export class SHTViewScreen extends React.Component {
   ///////////////////////////////////////////////
   handleChange(event) {
     let state = {};
-    state[event.target.id] = event.target.value;
+    state[event.target.id] = this.normalizeVal(event.target.value);
     this.setState(state);
   }
 
@@ -85,12 +98,10 @@ export class SHTViewScreen extends React.Component {
   submitButton(event) {
     event.preventDefault();
 
-    var returnedHwTokenNormalized = this.normalizeVal(this.state.returnedHwToken)
-
     let phase7 = {
-      returnedHwToken: returnedHwTokenNormalized,
+      returnedHwToken: this.state.returnedHwToken,
       comment: this.state.comment,
-      status: this.checkStatus(returnedHwTokenNormalized)
+      status: this.checkStatus(this.state.returnedHwToken)
     };
 
     fetch(API + ROUTE, {
@@ -101,15 +112,21 @@ export class SHTViewScreen extends React.Component {
       }),
       headers: { "Content-Type": "application/json" }
     })
-      .then(res => {
-        return res.json();
-      })
-      .then(data => {
-        return data
-      })
-      .catch(err => {
-        throw err;
-      });
+    .then((response) => {
+      if (response.status === 200) {
+        toast.success("Data Sent");
+      }
+      else if (response.status === 503) {
+        toast.error("Error in db");
+      }
+      else {
+        toast.error("Data cannot be updated");
+        return undefined;
+      }
+    })
+    .catch(err => {
+      throw err;
+    });
   }
 
   /////////////////////////////////////////////////////////////////////////
@@ -119,6 +136,7 @@ export class SHTViewScreen extends React.Component {
 
     return (
       <div className = "container">
+        <ToastContainer />
         <center style = {{margin: "25px"}}>
           <div>
             <LeaverDetails leaverDetail = {{leaverInfo: leaver, lastDay: phase1.lastWorkDay}}/>
@@ -129,8 +147,8 @@ export class SHTViewScreen extends React.Component {
                 id = "returnedHwToken"
                 onChange = {this.handleChange}
                 className = "p-2 form-control col-sm-1"
-                defaultValue = {this.state.returnedHwToken}>
-                <option value = {null}> N/A </option>
+                value = {this.state.returnedHwToken}>
+                <option value = {""}> N/A </option>
                 <option value = {true}>Yes</option>
                 <option value = {false}>No</option>
               </select>

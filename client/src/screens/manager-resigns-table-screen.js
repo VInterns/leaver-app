@@ -1,7 +1,6 @@
 import React from "react";
 import { Table } from 'react-bootstrap';
-
-import {store} from '../App';
+import { connect } from "react-redux";
 
 const API = '/api/resignations/';
 const SEARCH = '/myresigns/'
@@ -13,9 +12,8 @@ export class ManagerResignationsTableScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-
             requests: [],
-            createdby: store.getState().username,
+            createdby: this.props.createdby,
         }
 
         this.clickButton = this.clickButton.bind(this);
@@ -23,27 +21,33 @@ export class ManagerResignationsTableScreen extends React.Component {
         this.fetchRequestsData = this.fetchRequestsData.bind(this);
     }
 
+    static mapStateToProps(state) {
+        return {
+            createdby: state.auth.username,
+        };
+    }
+
     componentDidMount() {
         this.fetchRequestsData();
     }
 
-    checkStatus(status){
-        switch(status){
+    checkStatus(status) {
+        switch (status) {
             case "pending":
                 return (
-                <td style = {{color: "#BE0002", fontWeight: "bold", textTransform: "uppercase"}}>{status}</td>
+                    <td style={{ color: "#BE0002", fontWeight: "bold", textTransform: "uppercase" }}>{status}</td>
                 );
-            case "done": 
+            case "done":
                 return (
-                    <td style = {{color: "#5cb85c", fontWeight: "bold", textTransform: "uppercase"}}>{status}</td>
+                    <td style={{ color: "#5cb85c", fontWeight: "bold", textTransform: "uppercase" }}>{status}</td>
                 );
             default:
                 return (
-                <td style = {{color: "#34a1fd", fontWeight: "bold", textTransform: "uppercase"}}>{status}</td>
+                    <td style={{ color: "#34a1fd", fontWeight: "bold", textTransform: "uppercase" }}>{status}</td>
                 );
         }
     }
-    
+
     clickButton(req) {
         this.props.history.push({
             pathname: "/update-resignation",
@@ -53,7 +57,7 @@ export class ManagerResignationsTableScreen extends React.Component {
 
     fetchRequestsData() {
         // this.setState({ ...this.state });
-        fetch(API +  SEARCH + this.state.createdby) //this.state.createdby"admin@hr.com"
+        fetch(API + SEARCH + this.state.createdby)
             .then((res) => {
                 return res.json();
             }).then(data => {
@@ -67,37 +71,42 @@ export class ManagerResignationsTableScreen extends React.Component {
     render() {
         const { requests } = this.state;
         return (
-            <div className = "container">
-                <center style = {{margin: "25px"}}>
+            <div className="container">
+                <center style={{ margin: "25px" }}>
                     <header>
-                        <hr/>
+                        <hr />
                         <h3>Work Force Team</h3>
-                        <hr/>
-                    </header>    
+                        <hr />
+                    </header>
                     <div>
                         <Table bordered hover striped>
-                        <thead>
-                            <tr style = {{backgroundColor: "#BE0002"}}>
-                                <th className = "text-white">Staff ID</th>
-                                <th className = "text-white">Leaver Name</th>
-                                <th className = "text-white">Manager Name</th>
-                                <th className = "text-white">Last Working Day</th>
-                                <th className = "text-white">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {requests.map(request => <tr onClick={() => this.clickButton(request)} key={request.staffId}>
-                                <td>{request.staffId}</td>
-                                <td>{request.name}</td>
-                                <td>{request.managerName}</td>
-                                <td>{request.phase1.lastWorkDay}</td>
-                                {this.checkStatus(request.status)}
-                            </tr>)}
-                        </tbody>
-                    </Table>
-                </div>
+                            <thead>
+                                <tr style={{ backgroundColor: "#BE0002" }}>
+                                    <th className="text-white">Staff ID</th>
+                                    <th className="text-white">Leaver Name</th>
+                                    <th className="text-white">Manager Name</th>
+                                    <th className="text-white">Last Working Day</th>
+                                    <th className="text-white">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {requests.map(request => <tr onClick={() => this.clickButton(request)} key={request.staffId}>
+                                    <td>{request.staffId}</td>
+                                    <td>{request.name}</td>
+                                    <td>{request.managerName}</td>
+                                    <td>{request.phase1.lastWorkDay}</td>
+                                    {this.checkStatus(request.status)}
+                                </tr>)}
+                            </tbody>
+                        </Table>
+                    </div>
                 </center>
             </div>
         )
     }
 }
+
+
+export const ConnectedManagerResignScreen = connect(
+    ManagerResignationsTableScreen.mapStateToProps
+)(ManagerResignationsTableScreen);
