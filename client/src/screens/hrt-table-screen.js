@@ -40,7 +40,7 @@ export class HrViewScreen extends Component {
 
     render() {
         return (
-            <div className = "container">
+            <div className = "container-fluid">
                 <center style = {{margin: "25px"}}>
                 <header className="ast-header"> 
                     <hr/>
@@ -49,10 +49,12 @@ export class HrViewScreen extends Component {
                 </header>
                 <Table bordered striped hover>
                 <thead>
-                    <tr style = {{backgroundColor: "#BE0002"}}>
+                    <tr style = {{backgroundColor: "#BE0002", "whiteSpace": "nowrap"}}>
                         <th className = "text-white">Staff ID</th>
+                        <th className = "text-white">Employee Name</th>
+                        <th className = "text-white">Last Working Day</th>
                         <th className = "text-white">Manager Name</th>
-                        <th className = "text-white">Resignation Reguest</th>
+                        <th className = "text-white">Resignation Request</th>
                         <th className = "text-white">Customer Care</th>
                         <th className = "text-white">Work Force</th>
                         <th className = "text-white">CC Consumer Activation</th>
@@ -69,6 +71,8 @@ export class HrViewScreen extends Component {
                                     this.props.history.push(`/resignations-details?id=${value.staffId}`)
                                 }} key={index}>
                                     <td>{value.staffId} </td>
+                                    <td>{value.name}</td>
+                                    <td>{value.phase1.lastWorkDay}</td>
                                     <td >{value.managerName}</td>
                                     {this.checkStatus(value.phase1.status)}
                                     {this.checkStatus(value.phase2.status)}

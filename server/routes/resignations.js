@@ -1,4 +1,6 @@
 const { Router } = require("express");
+
+const mailer = require('../services/mail');
 const {
   ensureLoggedIn,
   ensureHasRole
@@ -19,6 +21,7 @@ module.exports = db => {
         }
       });
   });
+
 
   router.post("/", ensureLoggedIn, ensureHasRole(["admin"]), function(
     req,
@@ -114,15 +117,16 @@ module.exports = db => {
       nationalId: req.body.nationalId,
       status: "done"
     };
+
     let myquery = {
       staffId: Number(req.query.id)
     };
+
     let newvalues = { $set: { phase4 } };
     db.collection(collection)
       .updateOne(myquery, newvalues)
       .then(result => {
-        // (result);
-        `Successfully updated.`;
+        phase4.status === 'done' && mailer.sendPhaseUpdate();
         res.status(200).send(true);
       })
       .catch(err => {
@@ -216,25 +220,18 @@ module.exports = db => {
     ensureHasRole(["admin"]),
     (req, res) => {
       var leaverId = req.body.staffId;
-
-      req.body.phase3;
-
-      db.collection(collection).updateOne(
-        { staffId: leaverId },
-        {
-          $set: { phase3: req.body.phase3 }
-        },
-        (err, doc) => {
-          if (err) {
-            res.status(500).send(doc);
-            throw err;
-          } else {
-            res.send("Employee data updated!!");
-          }
+      db.collection(collection).updateOne({"staffId" : leaverId}, {
+      $set: {"phase3" : req.body.phase3}}, (err, doc) => {
+        if(err) {
+          res.status(500).send(doc);
+          throw err;
+        } else {
+          req.body.phase3.status === 'done' && mailer.sendPhaseUpdate();
+          res.send('Epmolyee data updated');
         }
-      );
-    }
-  );
+      })
+    });
+
 
   router.post(
     "/update/phase6",
@@ -252,6 +249,7 @@ module.exports = db => {
             res.status(404).send();
             throw err;
           } else {
+            req.body.phase6.status === 'done' && mailer.sendPhaseUpdate();
             res.status(200).send({
               msg:
                 "employee successfully found, and security data successfully updated"
@@ -288,6 +286,24 @@ module.exports = db => {
     }
   );
 
+  router.post("/update/phase2", function (req, res) {
+    var leaverId = req.body.staffId;
+    db.collection(collection).findOneAndUpdate(
+      { staffId: leaverId },
+      {
+        $set: { phase2: req.body.phase2 }
+      },
+      function (err, doc) {
+        if (err) {
+          res.status(404).send();
+          throw err;
+        } else {
+          req.body.phase2.status === 'done' && mailer.sendPhaseUpdate();
+          res.status(200).send({
+            msg:
+              "Employee successfully found, and SMC data successfully updated"
+          });
+
   router.post(
     "/update/phase7",
     ensureLoggedIn,
@@ -323,11 +339,17 @@ module.exports = db => {
         if (err) {
           throw err;
         } else {
+          req.body.phase7.status === 'done' && mailer.sendPhaseUpdate();
+          res.status(200).send({
+            msg:
+              "employee successfully found, and security data successfully updated"
+          });
           return res.send("done");
         }
       });
     }
   );
+
 
   router.post(
     "/update/phase5",
@@ -342,6 +364,7 @@ module.exports = db => {
           if (err) {
             throw err;
           } else {
+            req.body.phase5.status === 'done' && mailer.sendPhaseUpdate();
             res.status(200).send({
               msg: "phase 5 updated successfully"
             });

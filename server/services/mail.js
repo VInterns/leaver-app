@@ -2,58 +2,59 @@
 const nodemailer = require("nodemailer");
 const { getDB } = require("../db");
 
+
+
+let transporter = nodemailer.createTransport({
+    host: "smtp-mail.outlook.com",
+    secure: false,
+    port: 587,
+    auth: {
+        user: process.env.USER,
+        pass: process.env.PASS
+    },
+    tls: {
+        ciphers:'SSLv3'
+    }
+})
+
 /////////////////////////////////////////////////////////////
 const sendMail = async function (req, res) {
 
-    /* Transporter Setup */
-    let transporter = nodemailer.createTransport({
-        host: "smtp-mail.outlook.com",
-        secure: false,
-        port: 587,
-        auth: {
-            user: process.env.USER,
-            pass: process.env.PASS
-        },
-        tls: {
-            ciphers:'SSLv3'
-        }
-    })
-
     /* Email Options Setup */
     let options = {
-        from: "abokahfa@gmail.com",
+        from: "abokahfa@outlook.com",
         to: req.body.mailList,
         subject: req.body.subject,
         text: req.body.text
     }
 
     /* SendMail */
-    // transporter.sendMail(options, function(err, info){
+    transporter.sendMail(options, function(err, info){
 
-    //     if(err){
+        if(err){
 
-    //         console.log(err);
+            console.log(err);
 
-    //         /* Error Message Setup */
-    //         let errorMessage = {
-    //             "error": "Couldn't send message",
-    //             "response": ""
-    //         }
+            /* Error Message Setup */
+            let errorMessage = {
+                "error": "Couldn't send message",
+                "response": ""
+            }
 
-    //         /* Error Response */
-    //         let resCode = err.responseCode;
-    //         let smtpResponse = err.response;
+            /* Error Response */
+            let resCode = err.responseCode;
+            let smtpResponse = err.response;
 
-    //         /* Error Response Check */
-    //         if(resCode != undefined){
-    //             errorMessage["response"] = `${smtpResponse}`;
-    //         } else{
-    //             errorMessage["response"] = `${err}`;
-    //         }       
+            /* Error Response Check */
+            if(resCode != undefined){
+                errorMessage["response"] = `${smtpResponse}`;
+            } else{
+                errorMessage["response"] = `${err}`;
+            }       
 
-    //         return res.status(400).json(errorMessage);
-    //     }
-    //     else{
+            return res.status(400).json(errorMessage);
+        }
+        else{
 
     /**
      * bind code to email
@@ -80,44 +81,48 @@ const sendMail = async function (req, res) {
         }
     })
 
-    //     }
+    }
 
-    // })
+    })
 }
 
 /////////////////////////////////////////////////////////////
-const getMailList = function (req, res) {
 
-    let _db = getDB();
-    let query = {
-        $or: [
-            { role: "hr" },   // HR
-            { role: "ast" },  // Application Security Team
-            { role: "wf" },   // Work Force Team
-            { role: "elt" },  // Enterprise Logistics Team
-            { role: "ccca" }, // CC Consumer Activations Team
-            { role: "smc" },  // Customer Care Team
-            { role: "shwt" }  // Security HW Token Team
-        ]
-    };
-    let collection = "users";
+const sendPhaseUpdate = function(req, res){
 
-    _db.collection(collection)
-        .find(query, { password: false, username: true, role: true })
-        .toArray((err, admins) => {
-            if (err) {
-                throw err;
-            } else {
+    let sendTo = [];
+    let db = getDB();
+    let query = { roles: {$in: ['hr', 'manager']}};
 
-                /* Return only emails */
-                let list = admins.map(admin => {
-                    return admin.username;
-                })
+    db.collection('users')
+        .find(query)
+        .toArray((err, users) => {
+            if(err) throw err;
 
-                return res.json(list);
+            sendTo = users.map(user => {
+                return user.username
+            })
+
+            let options = {
+                from: process.env.USER,
+                to : sendTo,
+                subject: "Phase Update",
+                text: "Phase Updated"
             }
-        })
-}
 
+            transporter.sendMail(options, (err, info) => {
+                if(err) {
+                    return console.log(err);
+                }
+                else {
+                    return res.json({
+                        "response": `email sent to ${info.envelope.to}`
+                    })
+                }
+            })
+        })
+    
+}
 /////////////////////////////////////////////////////////////
-module.exports = { sendMail, getMailList}
+module.exports = { sendMail, sendPhaseUpdate}
+

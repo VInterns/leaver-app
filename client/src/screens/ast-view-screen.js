@@ -58,6 +58,8 @@ export class ASTResignationDetailScreen extends React.Component {
       return value
     }
   }
+
+
   ///////////////////////////////////////////////
 
   checkStatus(condX, condY, condZ) {
