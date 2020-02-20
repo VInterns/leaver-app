@@ -382,7 +382,7 @@ export class ResignationsScreen extends Component {
 
                     <header>
                         <hr />
-                        <h3 className='container'>Security Hardware Token</h3>
+                        <h3 className='container'>Security Hardware Team</h3>
                         <hr />
                     </header>
                     <Table bordered hover className='container' >
@@ -397,7 +397,7 @@ export class ResignationsScreen extends Component {
                         <tbody>
 
                             {this.state.data && <tr>
-                                <td>Returned HW Token </td>
+                                <td>Returned HW Team </td>
                                 <td>{this.normalizeVal(this.state.data.phase7.returnedHwToken)}</td>
                             </tr>
                             }
