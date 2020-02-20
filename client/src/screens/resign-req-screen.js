@@ -36,7 +36,7 @@ export class ResignReqScreen extends Component {
       managerName: '',
       ntAccount: '',
       department: '',
-      costCenter : '',
+      careCenter : '',
       jobTitle: '',
       hiringDate: '',
       mobile: '',
@@ -84,7 +84,7 @@ export class ResignReqScreen extends Component {
           this.setState({ managerName: data.managerName });
           this.setState({ ntAccount: data.ntAccount });
           this.setState({ department: data.department });
-          this.setState({ costCenter: data.costCenter});
+          this.setState({ careCenter: data.careCenter});
           this.setState({ jobTitle: data.jobTitle });
           this.setState({ hiringDate: data.hiringDate });
           this.setState({ mobile: data.mobile });
@@ -284,8 +284,8 @@ export class ResignReqScreen extends Component {
               <Col></Col>
             </Row>
             <Row>
-              <Col><Form.Label>Cost Center</Form.Label></Col>
-              <Col><Form.Control plaintext readOnly value={this.state.costCenter} /></Col>
+              <Col><Form.Label>Care Center</Form.Label></Col>
+              <Col><Form.Control plaintext readOnly value={this.state.careCenter} /></Col>
               <Col></Col>
             </Row>
             <Row>
