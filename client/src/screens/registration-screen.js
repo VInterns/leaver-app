@@ -1,12 +1,12 @@
-import React, {Component} from "react";
-import {bindActionCreators} from "redux";
-import {connect} from "react-redux";
+import React, { Component } from "react";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 
 import { SignupForm } from "../components/signup-form";
-import { signup, sendCode , verifyCode} from "../state";
+import { signup, sendCode, verifyCode, initializeApp } from "../state";
 
 class registrationContainer extends Component {
-    static mapStateToProps(state){
+    static mapStateToProps(state) {
         return {
             signupError: state.reg.errorMessage,
             loading: state.reg.loading,
@@ -16,8 +16,8 @@ class registrationContainer extends Component {
         }
     }
 
-    static mapDispatchToProps(dispatch){
-        return bindActionCreators({signup, sendCode, verifyCode}, dispatch);
+    static mapDispatchToProps(dispatch) {
+        return bindActionCreators({ signup, sendCode, verifyCode, initializeApp }, dispatch);
     }
 
 
@@ -47,47 +47,54 @@ class registrationContainer extends Component {
         verifyButtonText: string,
         loginHref: string,
         codeRequested: boolean,
-        codeVerified: boolean
+        codeVerified: boolean,
+        initializeApp: () => void
     }
 
-    render(){
+
+    // / IF You want to reset the State Please un-comment this function
+    componentDidMount() {
+        this.props.initializeApp();
+    }
+
+    render() {
         //console.log(this.props)
-        return(
+        return (
             <div>
                 <SignupForm
-                    history = {this.props.history}
-                    sendCode = {this.props.sendCode}
-                    trySignup = {this.props.signup}
-                    verifyCode = {this.props.verifyCode}
-                    error = {this.props.signupError}
-                    loading = {this.props.loading}
-                    isRegistered = {this.props.isRegistered}
-                    headerText = {this.props.headerText}
-                    subheaderText = {this.props.subheaderText}
-                    signupText = {this.props.signupText}
-                    loginText = {this.props.loginText}
-                    createPasswordHeader = {this.props.createPasswordHeader}
-                    createPasswordText = {this.props.createPasswordText}
-                    usernamePlaceholder = {this.props.usernamePlaceholder}
-                    userCodePlaceholder = {this.props.userCodePlaceholder}
-                    passwordPlaceholder = {this.props.passwordPlaceholder}
-                    loginHref = {this.props.loginHref}
-                    signupHeader = {this.props.signupHeader}
-                    signupSubheader = {this.props.signupSubheader}
-                    getCodeText = {this.props.getCodeText}
-                    verifyText = {this.props.verifyText}
-                    verifyHeader = {this.props.verifyHeader}
-                    verifyButtonText = {this.props.verifyButtonText}
-                    codeRequested = {this.props.codeRequested}
-                    codeVerified = {this.props.codeVerified}
-                    logo = {this.props.logo}
-                    signupWelcomeImg = {this.props.signupWelcomeImg}/>        
+                    history={this.props.history}
+                    sendCode={this.props.sendCode}
+                    trySignup={this.props.signup}
+                    verifyCode={this.props.verifyCode}
+                    error={this.props.signupError}
+                    loading={this.props.loading}
+                    isRegistered={this.props.isRegistered}
+                    headerText={this.props.headerText}
+                    subheaderText={this.props.subheaderText}
+                    signupText={this.props.signupText}
+                    loginText={this.props.loginText}
+                    createPasswordHeader={this.props.createPasswordHeader}
+                    createPasswordText={this.props.createPasswordText}
+                    usernamePlaceholder={this.props.usernamePlaceholder}
+                    userCodePlaceholder={this.props.userCodePlaceholder}
+                    passwordPlaceholder={this.props.passwordPlaceholder}
+                    loginHref={this.props.loginHref}
+                    signupHeader={this.props.signupHeader}
+                    signupSubheader={this.props.signupSubheader}
+                    getCodeText={this.props.getCodeText}
+                    verifyText={this.props.verifyText}
+                    verifyHeader={this.props.verifyHeader}
+                    verifyButtonText={this.props.verifyButtonText}
+                    codeRequested={this.props.codeRequested}
+                    codeVerified={this.props.codeVerified}
+                    logo={this.props.logo}
+                    signupWelcomeImg={this.props.signupWelcomeImg} />
             </div>
         )
     }
 }
 
-export const RegistrationScreen = connect (
+export const RegistrationScreen = connect(
     registrationContainer.mapStateToProps,
     registrationContainer.mapDispatchToProps,
 )(registrationContainer);

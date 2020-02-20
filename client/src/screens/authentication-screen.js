@@ -38,10 +38,10 @@ class authenticationContainer extends Component {
     initializeApp: () => void,
   };
 
-  // // / IF You want to reset the State Please un-comment this function
-  // componentDidMount() {
-  //   this.props.initializeApp();
-  // }
+  // / IF You want to reset the State Please un-comment this function
+  componentDidMount() {
+    this.props.initializeApp();
+  }
   render() {
 
     return (
