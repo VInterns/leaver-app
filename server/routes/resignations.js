@@ -7,6 +7,7 @@ const {
 } = require("../middlewares/authentication");
 
 module.exports = db => {
+
   const router = new Router();
   const collection = "resignations";
 
@@ -23,16 +24,11 @@ module.exports = db => {
   });
 
 
-  router.post("/", ensureLoggedIn, ensureHasRole(["admin"]), function(
-    req,
-    res
-  ) {
-    // check if resignatin request exists in db
+  router.post("/", ensureLoggedIn, ensureHasRole(["admin"]), function (req, res) {
     db.collection(collection)
       .findOne({ staffId: req.body.staffId })
       .then(resigReg => {
         if (!resigReg) {
-          // Insert new resignation request
           db.collection(collection).insertOne(req.body, (err, result) => {
             if (err) {
               res.status(503).send({ error: "Insert to db error:(" });
@@ -53,14 +49,14 @@ module.exports = db => {
     "/update/request",
     ensureLoggedIn,
     ensureHasRole(["admin"]),
-    function(req, res) {
+    function (req, res) {
       var leaverId = req.body.staffId;
       db.collection(collection).findOneAndUpdate(
         { staffId: leaverId },
         {
           $set: { phase1: req.body.phase1 }
         },
-        function(err, doc) {
+        function (err, doc) {
           if (err) {
             res.status(404).send();
             throw err;
@@ -70,10 +66,8 @@ module.exports = db => {
                 "Employee successfully found, and resignation request updated data successfully updated"
             });
           }
-        }
-      );
-    }
-  );
+        });
+    });
 
   router.get(
     "/pending",
@@ -158,7 +152,7 @@ module.exports = db => {
       res.status(200).send({ msg: "hi" });
     }
   );
-  
+
   router.get('/myresigns/:createdby', (req, res) => {
     let urlSections = req.url.split("/");
     (urlSections[urlSections.length - 1] + "url");
@@ -220,9 +214,10 @@ module.exports = db => {
     ensureHasRole(["admin"]),
     (req, res) => {
       var leaverId = req.body.staffId;
-      db.collection(collection).updateOne({"staffId" : leaverId}, {
-      $set: {"phase3" : req.body.phase3}}, (err, doc) => {
-        if(err) {
+      db.collection(collection).updateOne({ "staffId": leaverId }, {
+        $set: { "phase3": req.body.phase3 }
+      }, (err, doc) => {
+        if (err) {
           res.status(500).send(doc);
           throw err;
         } else {
@@ -237,14 +232,14 @@ module.exports = db => {
     "/update/phase6",
     ensureLoggedIn,
     ensureHasRole(["admin"]),
-    function(req, res) {
+    function (req, res) {
       var leaverId = req.body.staffId;
       db.collection(collection).findOneAndUpdate(
         { staffId: leaverId },
         {
           $set: { phase6: req.body.phase6 }
         },
-        function(err, doc) {
+        function (err, doc) {
           if (err) {
             res.status(404).send();
             throw err;
@@ -264,14 +259,14 @@ module.exports = db => {
     "/update/phase2",
     ensureLoggedIn,
     ensureHasRole(["admin"]),
-    function(req, res) {
+    function (req, res) {
       var leaverId = req.body.staffId;
       db.collection(collection).findOneAndUpdate(
         { staffId: leaverId },
         {
           $set: { phase2: req.body.phase2 }
         },
-        function(err, doc) {
+        function (err, doc) {
           if (err) {
             res.status(404).send();
             throw err;
@@ -303,19 +298,22 @@ module.exports = db => {
             msg:
               "Employee successfully found, and SMC data successfully updated"
           });
+        }
+      })
+  });
 
   router.post(
     "/update/phase7",
     ensureLoggedIn,
     ensureHasRole(["admin"]),
-    function(req, res) {
+    function (req, res) {
       var leaverId = req.body.staffId;
       db.collection(collection).findOneAndUpdate(
         { staffId: leaverId },
         {
           $set: { phase7: req.body.phase7 }
         },
-        function(err, doc) {
+        function (err, doc) {
           if (err) {
             res.status(404).send();
             throw err;
@@ -382,5 +380,8 @@ module.exports = db => {
       res.send({ responseText: "req.file.path" }); // You can send any response to the user here
     }
   );
+
+
+
   return router;
-};
+}
