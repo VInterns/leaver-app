@@ -67,7 +67,7 @@ export class ManagerResignationsViewScreen extends Component {
       lostHours : request.phase1.lostHours,
       daysToTake : request.phase1.daysToTake,
       iex : request.phase1.iex,
-      personalMobile : request.phase1.personalMobile,
+      personalMobile : "+" + request.phase1.personalMobile,
       recommended : request.phase1.recommended,
       createdby: request.createdby,
     })
@@ -94,14 +94,14 @@ export class ManagerResignationsViewScreen extends Component {
         if (data) {
           this.setState({ staffId: data.staffId,
                           sapStaffId: data.staffId, 
-                          name: data.employeeName,
+                          name: data.name,
                           managerName: data.managerName,
                           ntAccount: data.ntAccount,
                           department: data.department,
                           careCenter: data.careCenter,
                           jobTitle: data.jobTitle,
                           hiringDate: data.hiringDate,
-                          mobile: "+2" + data.mobNumber
+                          mobile: "+" + data.mobile
          });
         }
       })
