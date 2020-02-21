@@ -34,15 +34,18 @@ export class SMCResignationDetailScreen extends React.Component {
 
   ///////////////////////////////////////////////
   componentDidMount() {
-
-    let params = this.props.match.params;
-    let lastDay = params.lastWorkDay;
-
-    this.fetchLeaverInfo(params.staffId);
+    const retDetail = this.props.location.state.detail;
+    const smcData = retDetail.phase2;
     this.setState({
-      lastWorkDay: lastDay
+      returnedHeadset: smcData.returnedHeadset,
+      returnedKeys: smcData.returnedKeys,
+      returnedOhda: smcData.returnedOhda,
+      deduct: smcData.deduct,
+      comment: smcData.comment,
+      lastWorkDay: retDetail.phase1.lastWorkDay
     })
     
+    this.fetchLeaverInfo(retDetail.staffId);
   }
 
   ///////////////////////////////////////////////
@@ -63,7 +66,8 @@ export class SMCResignationDetailScreen extends React.Component {
 
   ///////////////////////////////////////////////
   checkStatus(condX, condY, condZ, condA) {
-    if (condX === true && condY === true && condZ === true && condA === true) {
+    // check confition after adding N/A
+    if ((condX === true || condX === "") && (condY === true || condY === "") && (condZ === true || condZ === "") && (condA === true || condA === "")) {
       return DONE;
     } else {
       return PENDING;
@@ -161,7 +165,7 @@ export class SMCResignationDetailScreen extends React.Component {
                 id = "returnedHeadset"
                 onChange = {this.handleChange}
                 className = "p-2 form-control col-sm-1"
-                defaultValue = {this.state.returnedHeadset}>
+                value = {this.state.returnedHeadset}>
                 <option value = {""}> N/A </option>
                 <option value = {true}>Yes</option> 
                 <option value = {false}>No</option>
@@ -173,7 +177,7 @@ export class SMCResignationDetailScreen extends React.Component {
                 id = "returnedKeys"
                 onChange = {this.handleChange}
                 className = "p-2 form-control col-sm-1"
-                defaultValue = {this.state.returnedKeys}>
+                value = {this.state.returnedKeys}>
                 <option value = {""}> N/A </option>
                 <option value = {true}>Yes</option>
                 <option value = {false}>No</option>
@@ -186,7 +190,7 @@ export class SMCResignationDetailScreen extends React.Component {
                 id = "returnedOhda"
                 onChange = {this.handleChange}
                 className = "p-2 form-control col-sm-1 text-center"
-                defaultValue = {this.state.returnedOhda}>
+                value = {this.state.returnedOhda}>
                 <option value = {""}> N/A </option>
                 <option value = {true}>Yes</option>
                 <option value = {false}>No</option>
@@ -198,7 +202,7 @@ export class SMCResignationDetailScreen extends React.Component {
               <input 
                 id="deduct" 
                 type="checkbox" 
-                defaultChecked={this.state.deduct} 
+                checked={this.state.deduct} 
                 onChange={this.handleChange} 
                 className = "p-2 form-control col-sm-1 text-center" />
             </div>
@@ -209,7 +213,8 @@ export class SMCResignationDetailScreen extends React.Component {
                 id = "comment"
                 rows = "5"
                 onChange = {this.handleChange}
-                className = "p-2 form-control"/>
+                className = "p-2 form-control"
+                value={this.state.comment}/>
             </div>
             <button
               style = {{ width: '100px' }}
