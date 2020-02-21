@@ -69,15 +69,8 @@ export class CCConsumerActivation extends Component {
 
     ///////////////////////////////////////////////
     clickSubmit() {
-        //check if all data is given
-        if (!this.state.nationalId) {
-            toast.error("Please select one file and try again");
-            this.inputRatePlan.value = '';
-            this.inputComment.value = '';
-            phoneBilledAmount = 'yes';
-            return;
-        }
-        else if (this.inputRatePlan.value === "" || this.inputComment.value === "") {
+
+        if (this.inputRatePlan.value === "" || this.inputComment.value === "") {
             toast.error("Please fill all empty slots and try again");
             this.inputRatePlan.value = '';
             this.inputComment.value = '';
@@ -88,7 +81,7 @@ export class CCConsumerActivation extends Component {
         let params = this.props.match.params;
         let id = params.staffId;
         var url2 = '/api/resignations/data?id=' + id;
-        //send data to the backend
+
         fetch(url2, {
             method: 'POST',
             headers: {
