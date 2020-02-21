@@ -117,7 +117,7 @@ class App extends Component {
                 <ConnectedPrivateRoute allowed={["admin", "hr"]} path="/hr-view" component={HrViewScreen} />
                 <ConnectedPrivateRoute allowed={["admin", "manager"]} path="/resignations-details" component={ResignationsScreen} />
                 <ConnectedPrivateRoute allowed={["admin", "smc"]} path="/smc" component={SMCTableScreen} />
-                <ConnectedPrivateRoute allowed={["admin", "smc"]} path="/smc-view/:staffId/:lastWorkDay" component={SMCResignationDetailScreen} />
+                <ConnectedPrivateRoute allowed={["admin", "smc"]} path="/smc-view" component={SMCResignationDetailScreen} />
                 <ConnectedPrivateRoute allowed={["admin", "cc"]} path="/cc-consumer-activation-table" component={ConsumerTable} />
                 <ConnectedPrivateRoute allowed={["admin", "cc"]} path="/cc-consumer-activation/:staffId/:lastWorkDay" component={CCConsumerActivation} />
                 <ConnectedPrivateRoute allowed={["admin", "manager"]} path="/resign" component={ConnectedResignScreen} />
