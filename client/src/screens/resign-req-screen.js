@@ -122,12 +122,23 @@ export class ResignReqScreen extends Component {
         },
         phase2: {
           status: "new",
+          returnedHeadset: this.state.returnedHeadset,
+          returnedKeys: this.state.returnedKeys,
+          returnedOhda: this.state.returnedOhda,
         },
         phase3: {
           status: "new",
+          annualsGranted: this.state.annualsGranted,
+          annualsTaken: this.state.annualsTaken,
+          noShow: this.state.noShow,
+          lostHours: this.state.lostHours,
+          daysToTake: this.state.daysToTake,
+          iex: this.state.iex,
+
         },
         phase4: {
           status: "new",
+          nationalIdImg: this.state.nationalIdImg,
         },
         phase5: {
           status: "new",
