@@ -19,7 +19,7 @@ export class LeaverDetails extends React.Component{
                     <tbody>
                         <tr>
                             <td><span style = {{fontWeight: "bold"}}>Staff ID:</span> {leaver.staffId}</td>
-                            <td><span style = {{fontWeight: "bold"}}>SAP Stuff ID:</span> {leaver.sapStaffId}</td>
+                            <td><span style = {{fontWeight: "bold"}}>SAP Stuff ID:</span> {leaver.staffId}</td>
                         </tr>
                         <tr>
                             <td><span style = {{fontWeight: "bold"}} >Leaver Name:</span> {leaver.name}</td>
@@ -27,7 +27,7 @@ export class LeaverDetails extends React.Component{
                         </tr>
                         <tr>
                             <td><span style = {{fontWeight: "bold"}} >Department:</span> {leaver.department}</td>
-                            <td><span style = {{fontWeight: "bold"}} >Cost Center:</span> {leaver.costCenter}</td>
+                            <td><span style = {{fontWeight: "bold"}} >Care Center:</span> {leaver.careCenter}</td>
                         </tr>
                         <tr>
                             <td><span style = {{fontWeight: "bold"}} >Job Title:</span> {leaver.jobTitle}</td>
