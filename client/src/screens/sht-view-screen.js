@@ -60,7 +60,7 @@ export class SHTViewScreen extends React.Component {
   ///////////////////////////////////////////////
 
   checkStatus(condX) {
-    return (condX === true)? DONE: PENDING;
+    return (condX === true || condX === "")? DONE: PENDING;
   }
 
   ///////////////////////////////////////////////
