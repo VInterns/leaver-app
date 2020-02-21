@@ -156,7 +156,7 @@ export class SMCResignationDetailScreen extends React.Component {
             <LeaverDetails leaverDetail = {{leaverInfo: leaver, lastDay: this.state.lastWorkDay}}/>
             <hr/>
             <div className = "d-flex flex-row">
-              <div className = "p-2">disabled Secure ID</div>
+              <div className = "p-2">Returned Headset</div>
               <select 
                 id = "returnedHeadset"
                 onChange = {this.handleChange}
@@ -168,7 +168,7 @@ export class SMCResignationDetailScreen extends React.Component {
               </select>
             </div>
             <div className = "d-flex flex-row mt-3">
-              <div className = "p-2">disabled Remedy Account</div>
+              <div className = "p-2">Returned Keys</div>
               <select
                 id = "returnedKeys"
                 onChange = {this.handleChange}
@@ -181,7 +181,7 @@ export class SMCResignationDetailScreen extends React.Component {
             </div>
             <br/>
             <div className = "d-flex flex-row mt-3">
-              <div className = "p-2">disabled Accounts in Production Systems</div>
+              <div className = "p-2">Returned Ohda</div>
               <select 
                 id = "returnedOhda"
                 onChange = {this.handleChange}
