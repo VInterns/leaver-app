@@ -136,7 +136,7 @@ export class WorkForceScreenDetail extends React.Component {
                             value = {this.state.iex} 
                             onChange = {this.handleChange} 
                             className = "p-2 form-control col-sm-2" 
-                            value={this.state.iex}/>
+                            />
                     </div>
                     <div className = "d-flex flex-column">
                         <div className = "p-2">
