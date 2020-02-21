@@ -9,7 +9,6 @@ import "react-toastify/dist/ReactToastify.css";
 const API = "/api";
 const ROUTE = "/resignations/update/phase7";
 const DONE = "done";
-const PENDING = "pending";
 
 /////////////////////////////////////////////////////////////////////////
 export class SHTViewScreen extends React.Component {
@@ -57,11 +56,6 @@ export class SHTViewScreen extends React.Component {
       return value
     }
   }
-  ///////////////////////////////////////////////
-
-  checkStatus(condX) {
-    return (condX === true)? DONE: PENDING;
-  }
 
   ///////////////////////////////////////////////
   handleChange(event) {
@@ -101,7 +95,7 @@ export class SHTViewScreen extends React.Component {
     let phase7 = {
       returnedHwToken: this.state.returnedHwToken,
       comment: this.state.comment,
-      status: this.checkStatus(this.state.returnedHwToken)
+      status: DONE
     };
 
     fetch(API + ROUTE, {
