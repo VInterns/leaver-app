@@ -21,7 +21,7 @@ export class SMCResignationDetailScreen extends React.Component {
       returnedHeadset: false,
       returnedKeys: false,
       returnedOhda: false,
-      deduct: false,
+      deduct: this.props.location.state.detail.phase2.deduct,
       comment: ""
     };
 
@@ -108,7 +108,6 @@ export class SMCResignationDetailScreen extends React.Component {
   ///////////////////////////////////////////////
   submitButton(event) {
     event.preventDefault();
-
     let phase2 = {
       returnedHeadset: this.state.returnedHeadset,
       returnedKeys: this.state.returnedKeys,
@@ -201,9 +200,16 @@ export class SMCResignationDetailScreen extends React.Component {
               <div className = "p-2">Deduct</div>
               <input 
                 id="deduct" 
-                type="checkbox" 
-                checked={this.state.deduct} 
-                onChange={this.handleChange} 
+                type="checkbox"
+                defaultChecked={this.state.deduct} 
+                onChange={(e) => {
+                  this.handleChange({
+                    target: {
+                      id: e.target.id,
+                      value: e.target.checked,
+                    },
+                  });
+                }}
                 className = "p-2 form-control col-sm-1 text-center" />
             </div>
             <br/>

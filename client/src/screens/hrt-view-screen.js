@@ -128,12 +128,6 @@ export class ResignationsScreen extends Component {
                                 <td>{this.state.data.phase1.iex}</td>
                             </tr>
                             }
-                            {this.state.data && <tr>
-                                <td>Comment </td>
-                                <td>{this.state.data.phase1.comment}</td>
-
-                            </tr>
-                            }
                         </tbody>
                     </Table>
 
@@ -177,11 +171,6 @@ export class ResignationsScreen extends Component {
                             {this.state.data && <tr>
                                 <td>Returned 3ohada </td>
                                 <td>{this.normalizeVal(this.state.data.phase2.returnedOhda)}</td>
-                            </tr>
-                            }
-                            {this.state.data && <tr>
-                                <td>3ohada Type </td>
-                                <td>{this.state.data.phase2.ohdaType}</td>
                             </tr>
                             }
                             {this.state.data && <tr>
@@ -240,12 +229,6 @@ export class ResignationsScreen extends Component {
                                 <td>{this.state.data.phase3.iex}</td>
                             </tr>
                             }
-                            {this.state.data && <tr>
-                                <td>Comment </td>
-                                <td>{this.state.data.phase3.comment}</td>
-
-                            </tr>
-                            }
 
                         </tbody>
                     </Table>
@@ -278,7 +261,11 @@ export class ResignationsScreen extends Component {
                             }
                             {this.state.data && <tr>
                                 <td>National ID Scanned Copy </td>
-                                <td>{this.state.data.phase4.nationalIdImg}</td>
+                                <td>
+                                <img
+                                    alt = {this.state.data.phase4.nationalIdImg.fileName} 
+                                    src = {this.state.data.phase4.nationalIdImg.dataURL} />
+                                </td>
                             </tr>
                             }
                             {this.state.data && <tr>

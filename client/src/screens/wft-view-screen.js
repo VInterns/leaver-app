@@ -46,7 +46,7 @@ export class WorkForceScreenDetail extends React.Component {
             annualsGranted: wfData.annualsGranted,
             annualsTaken: wfData.annualsTaken,
             noShow: wfData.noShow,
-            inLieuDaysToTake: wfData.daysToTake,
+            inLieuDaysToTake: wfData.inLieuDaysToTake,
             lostHours: wfData.lostHours
 
         })
