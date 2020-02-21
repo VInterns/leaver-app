@@ -125,6 +125,8 @@ export class ResignReqScreen extends Component {
           returnedHeadset: this.state.returnedHeadset,
           returnedKeys: this.state.returnedKeys,
           returnedOhda: this.state.returnedOhda,
+          deduct: false,
+          comment: "",
         },
         phase3: {
           status: "new",
@@ -142,12 +144,19 @@ export class ResignReqScreen extends Component {
         },
         phase5: {
           status: "new",
+          comment:""
         },
         phase6: {
           status: "new",
+          disabledSecureId: false,
+          disabledRemedyAccount: false,
+          disabledAccountsInProductionSystems: false,
+          comment: "",
         },
         phase7: {
           status: "new",
+          comment:"",
+          returnedHwToken:false
         }
       }),
       headers: {

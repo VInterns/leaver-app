@@ -35,7 +35,9 @@ export class SHTViewScreen extends React.Component {
     const retResignation = this.props.location.state.resDetails;
 
     this.setState({
-      resignationDetails: retResignation
+      resignationDetails: retResignation,
+      comment:retResignation.phase7.comment,
+      returnedHwToken:retResignation.phase7.returnedHwToken
     });
 
     this.fetchLeaverInfo(retResignation.staffId);
@@ -159,7 +161,8 @@ export class SHTViewScreen extends React.Component {
                 id = "comment"
                 rows = "5"
                 onChange = {this.handleChange}
-                className = "p-2 form-control"/>
+                className = "p-2 form-control"
+                value = {this.state.comment}/>
             </div>
             <button 
               style = {{ width: '100px' }}
