@@ -1,6 +1,8 @@
 import React from "react";
 import {Table} from "react-bootstrap";
 import {LeaverDetails} from "../components";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const API = '/api';
 const INSERT = '/resignations/wf/insertBalance';
@@ -37,13 +39,18 @@ export class WorkForceScreenDetail extends React.Component {
     ///////////////////////////////////////////////
     componentDidMount() {
         const retDetail = this.props.location.state.detail;
-
+        const wfData = retDetail.phase3;
         this.setState({
-            detail: retDetail
+            detail: retDetail,
+            iex: wfData.iex,
+            annualsGranted: wfData.annualsGranted,
+            annualsTaken: wfData.annualsTaken,
+            noShow: wfData.noShow,
+            inLieuDaysToTake: wfData.daysToTake,
+            lostHours: wfData.lostHours
+
         })
-
         this.fetchLeaverInfo(retDetail.staffId);
-
     }
 
     ///////////////////////////////////////////////
@@ -69,7 +76,6 @@ export class WorkForceScreenDetail extends React.Component {
         })
     
     }
-
     ///////////////////////////////////////////////
     submitBalance = (event) => {
 
@@ -94,17 +100,21 @@ export class WorkForceScreenDetail extends React.Component {
             }),
             headers: { "Content-Type": "application/json" }
         })
-        .then((res) => {
-            return res.json();
+        .then((response) => {
+            if (response.status === 200) {
+            toast.success("Data sent");
+            }
+            else if (response.status === 503) {
+            toast.error("Error in db");
+            }
+            else {
+            toast.error("Data cannot be sent");
+            return undefined;
+            }
         })
-        .then(data => {
-            return data;
-        })
-        .catch((err) => {
+        .catch(err => {
             throw err;
-        })
-
-
+        });
     }
 
     ///////////////////////////////////////////////
@@ -113,9 +123,11 @@ export class WorkForceScreenDetail extends React.Component {
         const phase1 = Object(detail.phase1);
         return (
             <div className = "container">
+                <ToastContainer />
                 <center style = {{margin: "25px"}}>
                     <LeaverDetails leaverDetail = {{leaverInfo: leaver, lastDay: phase1.lastWorkDay}}/>
                     <hr/>
+                    <h4 className = "p-2 align-self-start">Leaver Balance</h4>
                     <div className = "d-flex flex-row justify-content-end">
                         <label htmlFor = "iex" className = "p-2">IEX</label>
                         <input 
@@ -123,10 +135,10 @@ export class WorkForceScreenDetail extends React.Component {
                             type = "number" 
                             value = {this.state.iex} 
                             onChange = {this.handleChange} 
-                            className = "p-2 form-control col-sm-2" />
+                            className = "p-2 form-control col-sm-2" 
+                            value={this.state.iex}/>
                     </div>
                     <div className = "d-flex flex-column">
-                        <h4 className = "p-2 align-self-start">Leaver Balance</h4>
                         <div className = "p-2">
                             <Table bordered>
                                 <thead>
