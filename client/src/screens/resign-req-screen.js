@@ -343,7 +343,6 @@ export class ResignReqScreen extends Component {
                 defaultChecked={this.state.recommended}
                 onChange={this.handleChange} 
                 className="p-2 form-control col-sm-1 text-center" /></Col>
-
               <Col></Col>
             </Row>
           </Form.Group>
