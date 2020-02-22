@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 const API = "/api";
 const ROUTE = "/resignations/update/phase7";
 const DONE = "done";
+const PENDING = "pending";
 
 /////////////////////////////////////////////////////////////////////////
 export class SHTViewScreen extends React.Component {
@@ -61,7 +62,12 @@ export class SHTViewScreen extends React.Component {
   ///////////////////////////////////////////////
 
   checkStatus(condX) {
-    return (condX === true || condX === "")? DONE: PENDING;
+    // check confition after adding N/A
+    if ((condX === true || condX === "")) {
+      return DONE;
+    } else {
+      return PENDING;
+    }
   }
 
   ///////////////////////////////////////////////
@@ -102,7 +108,7 @@ export class SHTViewScreen extends React.Component {
     let phase7 = {
       returnedHwToken: this.state.returnedHwToken,
       comment: this.state.comment,
-      status: this.checkStatus(this.state.returnedHwToken,this.state.comment)
+      status: this.checkStatus(this.state.returnedHwToken)
     };
 
     fetch(API + ROUTE, {
