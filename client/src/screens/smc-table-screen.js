@@ -48,12 +48,13 @@ export class SMCTableScreen extends React.Component {
     }
 
     onRowClick(item) {
-
-        let phase1 = Object(item.phase1);
-        this.props.history.push(`/smc-view/${item.staffId}/${phase1.lastWorkDay}`);
+        this.props.history.push({
+            pathname: "/smc-view",
+            state: { detail: item }
+        })
+        // let phase1 = Object(item.phase1);
+        // this.props.history.push(`/smc-view/${item.staffId}/${phase1.lastWorkDay}`);
     }
-
-
 
     getResignations() {
         fetch(API + SEARCH)

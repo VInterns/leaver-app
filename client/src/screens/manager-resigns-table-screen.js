@@ -41,6 +41,10 @@ export class ManagerResignationsTableScreen extends React.Component {
                 return (
                     <td style={{ color: "#5cb85c", fontWeight: "bold", textTransform: "uppercase" }}>{status}</td>
                 );
+            case "Updated":
+                return (
+                    <td style={{ color: "#BE0002", fontWeight: "bold", textTransform: "uppercase" }}>{status}</td>
+                );
             default:
                 return (
                     <td style={{ color: "#34a1fd", fontWeight: "bold", textTransform: "uppercase" }}>{status}</td>
@@ -95,7 +99,7 @@ export class ManagerResignationsTableScreen extends React.Component {
                                     <td>{request.name}</td>
                                     <td>{request.managerName}</td>
                                     <td>{request.phase1.lastWorkDay}</td>
-                                    {this.checkStatus(request.status)}
+                                    {this.checkStatus(request.phase1.status)}
                                 </tr>)}
                             </tbody>
                         </Table>

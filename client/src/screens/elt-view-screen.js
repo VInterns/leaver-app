@@ -2,6 +2,8 @@ import React from 'react';
 import {
   LeaverDetails
 } from "../components";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 /////////////////////////////////////////////////////////////////////////
 const API = "/api";
@@ -49,7 +51,6 @@ export class ELTViewScreen extends React.Component {
   submit(e) {
 
     e.preventDefault();
-
     let phase5 = {
       comment: e.target.elements.comment.value,
       status: "done"
@@ -65,15 +66,21 @@ export class ELTViewScreen extends React.Component {
         'content-type': 'application/json'
       },
     })
-      .then((res) => {
-        return res.json();
-      })
-      .then(data => {
-        return data;
-      })
-      .catch((err) => {
-        throw err;
-      })
+    .then((response) => {
+      if (response.status === 200) {
+        toast.success("Data Sent");
+      }
+      else if (response.status === 503) {
+        toast.error("Error in db");
+      }
+      else {
+        toast.error("Data cannot be updated");
+        return undefined;
+      }
+    })
+    .catch(err => {
+      throw err;
+    });
   }
 
   ///////////////////////////////////////////////
@@ -86,11 +93,13 @@ export class ELTViewScreen extends React.Component {
 
     let lastDay = this.props.history.location.state.lastWorkDay;
     let staffID = this.props.history.location.state.resId;
-
+    let phase5Comment = this.props.history.location.state.comment;
+    
     this.getEntry(staffID)
-
     this.setState({
-      lastWorkDay: lastDay
+      lastWorkDay: lastDay,
+      comment: phase5Comment
+
     })
   }
 
@@ -101,6 +110,7 @@ export class ELTViewScreen extends React.Component {
 
     return (
       <div className="container">
+        <ToastContainer />
         <center style={{ margin: "25px" }}>
           <div>
             <LeaverDetails leaverDetail={{ leaverInfo: entry, lastDay: this.state.lastWorkDay }} />
@@ -114,6 +124,7 @@ export class ELTViewScreen extends React.Component {
                   onChange={this.handleChange}
                   className="p-2 form-control"
                   placeholder="Enter your Comment"
+                  value={this.state.comment}
                 />
               </div>
               <br />

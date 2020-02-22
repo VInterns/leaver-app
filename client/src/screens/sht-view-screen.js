@@ -34,7 +34,9 @@ export class SHTViewScreen extends React.Component {
     const retResignation = this.props.location.state.resDetails;
 
     this.setState({
-      resignationDetails: retResignation
+      resignationDetails: retResignation,
+      comment:retResignation.phase7.comment,
+      returnedHwToken:retResignation.phase7.returnedHwToken
     });
 
     this.fetchLeaverInfo(retResignation.staffId);
@@ -55,6 +57,11 @@ export class SHTViewScreen extends React.Component {
     else {
       return value
     }
+  }
+  ///////////////////////////////////////////////
+
+  checkStatus(condX) {
+    return (condX === true || condX === "")? DONE: PENDING;
   }
 
   ///////////////////////////////////////////////
@@ -95,7 +102,7 @@ export class SHTViewScreen extends React.Component {
     let phase7 = {
       returnedHwToken: this.state.returnedHwToken,
       comment: this.state.comment,
-      status: DONE
+      status: this.checkStatus(this.state.returnedHwToken,this.state.comment)
     };
 
     fetch(API + ROUTE, {
@@ -153,7 +160,8 @@ export class SHTViewScreen extends React.Component {
                 id = "comment"
                 rows = "5"
                 onChange = {this.handleChange}
-                className = "p-2 form-control"/>
+                className = "p-2 form-control"
+                value = {this.state.comment}/>
             </div>
             <button 
               style = {{ width: '100px' }}

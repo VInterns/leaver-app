@@ -34,9 +34,13 @@ export class ASTResignationDetailScreen extends React.Component {
   ///////////////////////////////////////////////
   componentDidMount() {
     const retResignation = this.props.location.state.resDetails;
-
+    const phase6 = retResignation.phase6
     this.setState({
-      resignationDetails: retResignation
+      resignationDetails: retResignation,
+      disabledSecureId:phase6.disabledSecureId,
+      disabledRemedyAccount:phase6.disabledRemedyAccount,
+      disabledAccountsInProductionSystems:phase6.disabledAccountsInProductionSystems,
+      comment:phase6.comment
     });
 
     this.fetchLeaverInfo(retResignation.staffId);
@@ -59,9 +63,7 @@ export class ASTResignationDetailScreen extends React.Component {
     }
   }
 
-
   ///////////////////////////////////////////////
-
   checkStatus(condX, condY, condZ) {
     // check confition after adding N/A
     if ((condX === true || condX === "") && (condY === true || condY === "") && (condZ === true || condZ === "")) {
@@ -198,7 +200,8 @@ export class ASTResignationDetailScreen extends React.Component {
                 id = "comment"
                 rows = "5"
                 onChange = {this.handleChange}
-                className = "p-2 form-control"/>
+                className = "p-2 form-control"
+                value = {this.state.comment}/>
             </div>
             <button 
               style = {{ width: '100px' }}
