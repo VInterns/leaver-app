@@ -2,13 +2,15 @@
 import React, { Component } from 'react';
 import {
   Container, Form, Row, Col,
-  Button,
+  Button
 } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { ImageUploaderComponent } from '../components';
 import { connect } from "react-redux";
+import SimpleReactValidator from 'simple-react-validator';
+
+import { ImageUploaderComponent } from '../components';
 
 const API = '/api/';
 const SEARCH = 'users/search'
@@ -17,6 +19,7 @@ const SUBMIT = 'resignations/'
 export class ResignReqScreen extends Component {
   constructor(props) {
     super(props);
+    this.validator = new SimpleReactValidator({autoForceUpdate: this,className:'text-danger'});
     this.state = {
       staffId: '',
       returnedHeadset: false,
@@ -255,6 +258,7 @@ export class ResignReqScreen extends Component {
   }
 
   render() {
+    this.validator.purgeFields();
     return (
       <Container >
         <br />
@@ -325,7 +329,10 @@ export class ResignReqScreen extends Component {
             </Row>
             <Row>
               <Col><Form.Label>Personal Mobile Number</Form.Label></Col>
-              <Col><Form.Control as="textarea" rows="1" name="personalMobile" onChange={this.handleChange} /></Col>
+              <Col>
+                <Form.Control as="textarea" rows="1" name="personalMobile" onChange={this.handleChange} onBlur={() => this.validator.showMessageFor('Personal Mobile')} />
+                {this.validator.message('Personal Mobile', this.state.personalMobile, 'required|phone')}
+              </Col>
               <Col></Col>
             </Row>
             <Row>
@@ -340,8 +347,8 @@ export class ResignReqScreen extends Component {
               <Col></Col>
             </Row>
           </Form.Group>
-          <Form.Group className="p-2 border border-danger" >
-            <Row>
+          <Form.Group className="p-2 border border-danger">
+            <Row required>
               <Col><Form.Label>Returned Headset</Form.Label></Col>
               <Col>
                 <Form.Control as="select" name="returnedHeadset" onChange={this.handleChange} defaultValue={this.state.returnedHeadset}>
@@ -364,16 +371,20 @@ export class ResignReqScreen extends Component {
             <Row>
               <Col><Form.Label>Returned 3ohda</Form.Label></Col>
               <Col>
-                <Form.Control as="select" name="returnedOhda" onChange={this.handleChange} defaultValue={this.state.returnedOhda}>
+                <Form.Control as="select" name="returnedOhda" onChange={this.handleChange} defaultValue={this.state.returnedOhda} onBlur={() => this.validator.showMessageFor('returnedOhda')}>
                   <option value = {""}> N/A </option>
                   <option value = {true}>Yes</option>
                   <option value = {false}>No</option>
                 </Form.Control>
+                {this.validator.message('Returned Ohda', this.state.returnedOhda, 'required')}
               </Col>
             </Row>
             <Row>
               <Col><Form.Label>3ohda Type</Form.Label></Col>
-              <Col><Form.Control as="textarea" rows="1" name="ohdaType" onChange={this.handleChange} /></Col>
+              <Col>
+                <Form.Control as="textarea" rows="1" name="ohdaType" onChange={this.handleChange} onBlur={() => this.validator.showMessageFor('ohdaType')} />
+                {this.validator.message('ohdaType', this.state.ohdaType, 'required|alpha')}
+              </Col>
             </Row>
           </Form.Group>
           <Form.Group className="p-2 border border-danger">
@@ -381,7 +392,7 @@ export class ResignReqScreen extends Component {
               <Col><Form.Label>Leave Balance</Form.Label></Col>
               <Col></Col>
               <Col><Form.Label>IEX</Form.Label></Col>
-              <Col><Form.Control as="textarea" rows="1" name="iex" onChange={this.handleChange} /></Col>
+              <Col><Form.Control as="textarea" rows="1" name="iex" onChange={this.handleChange}/></Col>
             </Row>
             <table className="table">
               <thead className="thead-dark">
