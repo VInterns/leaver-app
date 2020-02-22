@@ -26,6 +26,7 @@ export class ConsumerTable extends Component {
                 })
             })
     }
+    
     componentDidMount() {
         this.getData();
     }
