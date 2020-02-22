@@ -263,8 +263,8 @@ export class ResignationsScreen extends Component {
                                 <td>National ID Scanned Copy </td>
                                 <td>
                                 <img
-                                    alt = {this.state.data.phase4.nationalIdImg.fileName} 
-                                    src = {this.state.data.phase4.nationalIdImg.dataURL} />
+                                    alt = {this.state.data.phase1.nationalIdImg.fileName} 
+                                    src = {this.state.data.phase1.nationalIdImg.dataURL} />
                                 </td>
                             </tr>
                             }
