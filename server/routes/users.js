@@ -4,7 +4,10 @@ const {
   ensureLoggedIn,
   ensureHasRole
 } = require("../middlewares/authentication");
-var XLSX = require("xlsx");
+var fs = require('fs');
+var mustache = require("mustache");
+let { sendEmail } = require('../services/mail');
+
 
 module.exports = db => {
   const router = new express.Router();
@@ -20,7 +23,7 @@ module.exports = db => {
       }
     );
   });
-  let roles = {};
+
   router.post("/search", ensureLoggedIn, ensureHasRole(["admin"]), function (
     req,
     res
@@ -76,6 +79,26 @@ module.exports = db => {
               res.status(500).send();
               res.end();
             } else {
+              if (req.body.collection === "users") {
+                fs.readFile(`${__dirname}/../templates/signup.html`, "utf8", function (
+                  err,
+                  mailTemplate
+                ) {
+                  if (err) {
+                    console.log(err);
+                  }
+                  for (let index = 0; index < req.body.jsonData.length; index++) {
+                    const row = req.body.jsonData[index];
+                    let { email, staffId } = row;
+                    let scope = { name: getFirstName(email), staffId, signupUrl: '' };
+                    let htmlBody = mustache.render(mailTemplate, scope);
+                    sendEmail([email], `Welcome ${scope.name} to Vodafone Outsource Leaver App`, htmlBody, () => {
+                      console.log(`Signup email sent to ${email}`);
+                    })
+                  }
+                });
+                console.log(req.body.jsonData);
+              }
               res.status(200).end();
             }
           }
@@ -112,3 +135,12 @@ module.exports = db => {
 
   return router;
 };
+
+
+const getFirstName = (email) => {
+  let initailSuffix = email.split('@')[0];
+  if (initailSuffix.includes('.')) {
+    return initailSuffix.split('.')[0]
+  }
+  return initailSuffix;
+}

@@ -2,8 +2,6 @@
 const nodemailer = require("nodemailer");
 const { getDB } = require("../db");
 
-
-
 let transporter = nodemailer.createTransport({
     host: "smtp-mail.outlook.com",
     secure: false,
@@ -13,7 +11,7 @@ let transporter = nodemailer.createTransport({
         pass: process.env.PASS
     },
     tls: {
-        ciphers:'SSLv3'
+        ciphers: 'SSLv3'
     }
 })
 
@@ -29,9 +27,9 @@ const sendMail = async function (req, res) {
     }
 
     /* SendMail */
-    transporter.sendMail(options, function(err, info){
+    transporter.sendMail(options, function (err, info) {
 
-        if(err){
+        if (err) {
 
             console.log(err);
 
@@ -46,58 +44,58 @@ const sendMail = async function (req, res) {
             let smtpResponse = err.response;
 
             /* Error Response Check */
-            if(resCode != undefined){
+            if (resCode != undefined) {
                 errorMessage["response"] = `${smtpResponse}`;
-            } else{
+            } else {
                 errorMessage["response"] = `${err}`;
-            }       
+            }
 
             return res.status(400).json(errorMessage);
         }
-        else{
-
-    /**
-     * bind code to email
-     * store it into db
-    */
-    let record = {
-        email: req.body.mailList,
-        code: req.body.code
-    }
-
-    let _db = getDB();
-    let collection = "codes";
-
-    _db.collection(collection).insertOne(record, function (err) {
-        if (err) {
-            throw err;
-        }
         else {
-            // _db.close();
-            return res.status(200).json({
-                // "response": `Message successfully sent to ${info.envelope.to}`,
-                // "messageId": `${info.messageId}`
-            })
-        }
-    })
 
-    }
+            /**
+             * bind code to email
+             * store it into db
+            */
+            let record = {
+                email: req.body.mailList,
+                code: req.body.code
+            }
+
+            let _db = getDB();
+            let collection = "codes";
+
+            _db.collection(collection).insertOne(record, function (err) {
+                if (err) {
+                    throw err;
+                }
+                else {
+                    // _db.close();
+                    return res.status(200).json({
+                        // "response": `Message successfully sent to ${info.envelope.to}`,
+                        // "messageId": `${info.messageId}`
+                    })
+                }
+            })
+
+        }
 
     })
 }
 
 /////////////////////////////////////////////////////////////
 
-const sendPhaseUpdate = function(req, res){
+const sendPhaseUpdate = function (req, res) {
 
     let sendTo = [];
     let db = getDB();
-    let query = { roles: {$in: ['hr', 'manager']}};
+    let query = { roles: { $in: ['hr', 'manager'] } };
 
     db.collection('users')
         .find(query)
         .toArray((err, users) => {
-            if(err) throw err;
+            if (err) throw err;
 
             sendTo = users.map(user => {
                 return user.username
@@ -105,13 +103,13 @@ const sendPhaseUpdate = function(req, res){
 
             let options = {
                 from: process.env.USER,
-                to : sendTo,
+                to: sendTo,
                 subject: "Phase Update",
                 text: "Phase Updated"
             }
 
             transporter.sendMail(options, (err, info) => {
-                if(err) {
+                if (err) {
                     return console.log(err);
                 }
                 else {
@@ -121,8 +119,30 @@ const sendPhaseUpdate = function(req, res){
                 }
             })
         })
-    
+
 }
 /////////////////////////////////////////////////////////////
-module.exports = { sendMail, sendPhaseUpdate}
+const sendEmail = (toMailList, subject, htmlbody, callBack, errCallBack = () => { }) => {
+
+    // TODO: make the mail template ready
+
+    let mailOptions = {
+        from: "abokahfa@outlook.com",
+        to: toMailList,
+        subject: subject,
+        html: htmlbody
+    };
+    console.log(mailOptions);
+    // transporter.sendMail(mailOptions, function (error, info) {
+    //     if (error) {
+    //         errCallBack();
+    //         throw error;
+    //     } else {
+    //         callBack();
+    //         console.log("Email sent: " + info.response);
+    //     }
+    // });
+}
+
+module.exports = { sendMail, sendPhaseUpdate, sendEmail }
 
