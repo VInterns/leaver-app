@@ -498,6 +498,29 @@ export class ResignReqScreen extends Component {
                 )}
               </Col>
             </Row>
+            <Row>
+              <Col>
+                <Form.Label>Last Working Day</Form.Label>
+              </Col>
+              <Col>
+                <input
+                  type="date"
+                  id="last"
+                  name="lastWorkDay"
+                  min="2018-01-01"
+                  max="2026-12-31"
+                  onChange={this.handleChange}
+                  onBlur={() =>
+                    this.validator.showMessageFor("last working day")
+                  }
+                ></input>
+                {this.validator.message(
+                  "last working day",
+                  this.state.personalMobile,
+                  "required"
+                )}
+              </Col>
+            </Row>
           </Form.Group>
           <Form.Group className="p-2 border border-danger form-group">
             <Row>
@@ -517,7 +540,9 @@ export class ResignReqScreen extends Component {
                   rows="1"
                   name="iex"
                   onChange={this.handleChange}
+                  onBlur={() => this.validator.showMessageFor("iex")}
                 />
+                {this.validator.message("iex", this.state.iex, "required")}
               </Col>
             </Row>
             <table className="table">
@@ -579,31 +604,6 @@ export class ResignReqScreen extends Component {
           <Form.Group className="p-2 border border-danger">
             <Row>
               <Col>
-                <Form.Label>Last Working Day</Form.Label>
-              </Col>
-              <Col>
-                <input
-                  type="date"
-                  id="last"
-                  name="lastWorkDay"
-                  min="2018-01-01"
-                  max="2026-12-31"
-                  onChange={this.handleChange}
-                  onBlur={() =>
-                    this.validator.showMessageFor("last working day")
-                  }
-                ></input>
-                {this.validator.message(
-                  "last working day",
-                  this.state.personalMobile,
-                  "required"
-                )}
-              </Col>
-            </Row>
-          </Form.Group>
-          <Form.Group className="p-2 border border-danger">
-            <Row>
-              <Col>
                 <Form.Label>National ID Number</Form.Label>
               </Col>
               <Col>
@@ -617,7 +617,7 @@ export class ResignReqScreen extends Component {
                 {this.validator.message(
                   "national id",
                   this.state.nationalId,
-                  "required|integer|max:14|min:14"
+                  "required|integer|size:14"
                 )}
               </Col>
             </Row>
