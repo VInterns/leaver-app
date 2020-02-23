@@ -41,6 +41,7 @@ import {
 } from './screens';
 
 import "semantic-ui-css/semantic.min.css";
+const welcomeImg = require('../src/assets/images/login-welcome.png');
 
 const persistConfig = {
   key: 'leaver-app',
@@ -79,7 +80,7 @@ class App extends Component {
                   usernamePlaceholder="Organization email"
                   passwordPlaceholder="Your password"
                   logo={null}
-                  loginWelcomeImg={null} />}
+                  loginWelcomeImg={welcomeImg} />}
                 />
                 <Route path="/signup" component={props => <RegistrationScreen {...props}
                   headerText="Create an account in Leaver App"
@@ -100,7 +101,7 @@ class App extends Component {
                   createPasswordText="Password must be at least 8 characters."
                   codeRequested={false}
                   logo={null}
-                  signupWelcomeImg={null} />}
+                  signupWelcomeImg={welcomeImg} />}
                 />
                 <ConnectedPrivateRoute
                   allowed={["admin", "hr"]}
