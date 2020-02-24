@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const express = require("express");
 var fs = require('fs');
+var mustache = require("mustache");
 
 const {
   ensureLoggedIn,
