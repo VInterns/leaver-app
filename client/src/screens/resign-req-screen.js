@@ -398,6 +398,30 @@ export class ResignReqScreen extends Component {
             </Row>
             <Row>
               <Col>
+                <Form.Label>Last Working Day<span style={{ color: 'red', fontSize: 25 }}>*</span></Form.Label>
+              </Col>
+              <Col>
+                <input
+                  type='date'
+                  id='last'
+                  name='lastWorkDay'
+                  min='2018-01-01'
+                  max='2026-12-31'
+                  onChange={this.handleChange}
+                  onBlur={() =>
+                    this.validator.showMessageFor('last working day')
+                  }
+                ></input>
+                {this.validator.message(
+                  'last working day',
+                  this.state.lastWorkDay,
+                  'required'
+                )}
+              </Col>
+            </Row>
+
+            <Row>
+              <Col>
                 <Form.Label>Personal Mobile Number<span style={{ color: 'red', fontSize: 25 }}>*</span></Form.Label>
               </Col>
               <Col>
@@ -489,7 +513,7 @@ export class ResignReqScreen extends Component {
                 </Form.Control>
                 {this.validator.message(
                   'Pending Sick Leave',
-                  this.state.returnedOhda,
+                  this.state.sickLeave,
                   'required'
                 )}
               </Col>
@@ -538,29 +562,7 @@ export class ResignReqScreen extends Component {
                 )}
               </Col>
             </Row>
-            <Row>
-              <Col>
-                <Form.Label>Last Working Day<span style={{ color: 'red', fontSize: 25 }}>*</span></Form.Label>
-              </Col>
-              <Col>
-                <input
-                  type='date'
-                  id='last'
-                  name='lastWorkDay'
-                  min='2018-01-01'
-                  max='2026-12-31'
-                  onChange={this.handleChange}
-                  onBlur={() =>
-                    this.validator.showMessageFor('last working day')
-                  }
-                ></input>
-                {this.validator.message(
-                  'last working day',
-                  this.state.personalMobile,
-                  'required'
-                )}
-              </Col>
-            </Row>
+
           </Form.Group>
           <Form.Group className='p-2 border border-danger form-group'>
             <Row>
