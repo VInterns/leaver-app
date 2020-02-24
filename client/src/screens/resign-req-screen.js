@@ -99,8 +99,8 @@ export class ResignReqScreen extends Component {
   };
 
   onSubmit = e => {
+    e.preventDefault();
     if (this.validator.allValid()) {
-      e.preventDefault();
       fetch(API + SUBMIT, {
         body: JSON.stringify({
           staffId: this.state.staffId,
@@ -267,7 +267,7 @@ export class ResignReqScreen extends Component {
             <Form.Group className='p-2 border border-danger'>
               <Row>
                 <Col>
-                  <Form.Label>Staff ID*</Form.Label>
+                  <Form.Label>Staff ID<span style={{ color: 'red', fontSize: 25 }}>*</span></Form.Label>
                 </Col>
                 <Col>
                   <Form.Control
@@ -389,7 +389,7 @@ export class ResignReqScreen extends Component {
             </Row>
             <Row>
               <Col>
-                <Form.Label>Mobile Number*</Form.Label>
+                <Form.Label>Mobile Number<span style={{ color: 'red', fontSize: 25 }}>*</span></Form.Label>
               </Col>
               <Col>
                 <Form.Control plaintext readOnly value={this.state.mobile} />
@@ -398,7 +398,7 @@ export class ResignReqScreen extends Component {
             </Row>
             <Row>
               <Col>
-                <Form.Label>Personal Mobile Number*</Form.Label>
+                <Form.Label>Personal Mobile Number<span style={{ color: 'red', fontSize: 25 }}>*</span></Form.Label>
               </Col>
               <Col>
                 <Form.Control
@@ -420,7 +420,7 @@ export class ResignReqScreen extends Component {
             </Row>
             <Row>
               <Col>
-                <Form.Label>Recommended*</Form.Label>
+                <Form.Label>Recommended<span style={{ color: 'red', fontSize: 25 }}>*</span></Form.Label>
               </Col>
               <Col>
                 <input
@@ -471,7 +471,7 @@ export class ResignReqScreen extends Component {
             </Row>
             <Row>
               <Col>
-                <Form.Label> Pending Sick Leave*</Form.Label>
+                <Form.Label> Pending Sick Leave<span style={{ color: 'red', fontSize: 25 }}>*</span></Form.Label>
               </Col>
               <Col>
                 <Form.Control
@@ -540,7 +540,7 @@ export class ResignReqScreen extends Component {
             </Row>
             <Row>
               <Col>
-                <Form.Label>Last Working Day*</Form.Label>
+                <Form.Label>Last Working Day<span style={{ color: 'red', fontSize: 25 }}>*</span></Form.Label>
               </Col>
               <Col>
                 <input
@@ -644,7 +644,7 @@ export class ResignReqScreen extends Component {
           <Form.Group className='p-2 border border-danger'>
             <Row>
               <Col>
-                <Form.Label>National ID Number*</Form.Label>
+                <Form.Label>National ID Number<span style={{ color: 'red', fontSize: 25 }}>*</span></Form.Label>
               </Col>
               <Col>
                 <Form.Control
