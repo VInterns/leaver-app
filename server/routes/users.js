@@ -133,3 +133,12 @@ module.exports = db => {
 
   return router;
 };
+
+
+const getFirstName = (email) => {
+  let initailSuffix = email.split('@')[0];
+  if (initailSuffix.includes('.')) {
+    return initailSuffix.split('.')[0]
+  }
+  return initailSuffix;
+}
