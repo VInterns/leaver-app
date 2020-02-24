@@ -13,7 +13,8 @@ export class CCConsumerActivation extends Component {
         this.state = {
             Data: [],
             lastWorkDay: "",
-            nationalId: null
+            nationalId: null,
+            leaver: {}
         };
     }
 
@@ -34,8 +35,28 @@ export class CCConsumerActivation extends Component {
         }
 
 
-        var url2 = '/api/resignations/' + id;
+        // Employee Details
+        let url = '/api/users/?id=' + id;
+        fetch(url, {
+            method: "GET",
+            headers: {"Content-Type": "application/json"}
+        })
+        .then((res) => {
+            return res.json();
+        })
+        .then((data) => {
+            this.setState({
+                leaver: data
+            })
+        })
+        .catch((err) => {
+            if(err)
+                throw err;
+        })
 
+        
+        // Resignation Details
+        var url2 = '/api/resignations/' + id;
         fetch(url2, {
             method: "GET",
             headers: {"Content-type": "application/json"}
@@ -123,6 +144,7 @@ export class CCConsumerActivation extends Component {
 
     ///////////////////////////////////////////////
     render() {
+        
         const {Data} = this.state;
         const Phase1 = Object(Data.phase1);
         const NationalIDImg = Object(Phase1.nationalIdImg);
@@ -130,7 +152,7 @@ export class CCConsumerActivation extends Component {
             <div className="container">
                 <center style={{ margin: '25px' }}>
                     <div>
-                        <LeaverDetails leaverDetail = {{leaverInfo: this.state.Data, lastDay: this.state.lastWorkDay}}/>
+                        <LeaverDetails leaverDetail = {{leaverInfo: this.state.leaver, lastDay: this.state.lastWorkDay}}/>
                         <hr />
                         <div className="form-group files">
                             <div>National ID </div>
