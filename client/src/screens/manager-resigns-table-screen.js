@@ -79,7 +79,7 @@ export class ManagerResignationsTableScreen extends React.Component {
                 <center style={{ margin: "25px" }}>
                     <header>
                         <hr />
-                        <h3>Work Force Team</h3>
+                        <h3>My Resignations</h3>
                         <hr />
                     </header>
                     <div>

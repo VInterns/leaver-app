@@ -17,9 +17,11 @@ export class ELTViewScreen extends React.Component {
     this.state = {
       entry: [],
       lastWorkDay: '',
+      comment: ""
     };
 
     this.getEntry = this.getEntry.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.submit = this.submit.bind(this);
   }
 
@@ -84,7 +86,7 @@ export class ELTViewScreen extends React.Component {
   }
 
   ///////////////////////////////////////////////
-  handleChange = e => {
+  handleChange(e){
     this.setState({ [e.target.id]: e.target.value });
   }
 
@@ -146,9 +148,4 @@ export class ELTViewScreen extends React.Component {
       </div>
     );
   }
-  handleChange = event => {
-    this.setState({
-      [event.target.name]: event.target.value
-    });
-  };
 }
