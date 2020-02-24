@@ -1,50 +1,51 @@
 // to do -> redirect after Submit
-import React, { Component } from "react";
-import { Container, Form, Row, Col, Button } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { connect } from "react-redux";
-import SimpleReactValidator from "simple-react-validator";
+import React, { Component } from 'react';
+import { Container, Form, Row, Col, Button } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { connect } from 'react-redux';
+import SimpleReactValidator from 'simple-react-validator';
 
-import { ImageUploaderComponent } from "../components";
+import { ImageUploaderComponent } from '../components';
 
-const API = "/api/";
-const SEARCH = "users/search";
-const SUBMIT = "resignations/";
+const API = '/api/';
+const SEARCH = 'users/search';
+const SUBMIT = 'resignations/';
 
 export class ResignReqScreen extends Component {
   constructor(props) {
     super(props);
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
-      className: "text-danger"
+      className: 'text-danger'
     });
     this.state = {
-      staffId: "",
+      staffId: '',
       returnedHeadset: false,
       returnedKeys: false,
       returnedOhda: false,
-      ohdaType: "",
-      lastWorkDay: "",
-      nationalId: "",
+      sickLeave: false,
+      ohdaType: '',
+      lastWorkDay: '',
+      nationalId: '',
       nationalIdImg: null,
-      annualsGranted: "",
-      annualsTaken: "",
-      noShow: "",
-      lostHours: "",
-      daysToTake: "",
-      sapStaffId: "",
-      name: "",
-      managerName: "",
-      ntAccount: "",
-      department: "",
-      careCenter: "",
-      jobTitle: "",
-      hiringDate: "",
-      mobile: "",
-      iex: "",
-      personalMobile: "",
+      annualsGranted: '',
+      annualsTaken: '',
+      noShow: '',
+      lostHours: '',
+      daysToTake: '',
+      sapStaffId: '',
+      name: '',
+      managerName: '',
+      ntAccount: '',
+      department: '',
+      careCenter: '',
+      jobTitle: '',
+      hiringDate: '',
+      mobile: '',
+      iex: '',
+      personalMobile: '',
       recommended: false,
       createdby: this.props.createdby
     };
@@ -66,15 +67,15 @@ export class ResignReqScreen extends Component {
     fetch(API + SEARCH, {
       body: JSON.stringify({ staffId: this.state.staffId }),
       headers: {
-        "content-type": "application/json"
+        'content-type': 'application/json'
       },
-      method: "POST"
+      method: 'POST'
     })
       .then(response => {
         if (response.status === 200) {
           return response.json();
         } else {
-          toast.error("User not found");
+          toast.error('User not found');
           return undefined;
         }
       })
@@ -104,9 +105,9 @@ export class ResignReqScreen extends Component {
           managerName: this.state.managerName,
           name: this.state.name,
           createdby: this.state.createdby,
-          status: "new",
+          status: 'new',
           phase1: {
-            status: "done",
+            status: 'done',
             personalMobile: this.state.personalMobile,
             recommended: this.state.recommended,
             returnedHeadset: this.state.returnedHeadset,
@@ -124,15 +125,15 @@ export class ResignReqScreen extends Component {
             iex: this.state.iex
           },
           phase2: {
-            status: "new",
+            status: 'new',
             returnedHeadset: this.state.returnedHeadset,
             returnedKeys: this.state.returnedKeys,
             returnedOhda: this.state.returnedOhda,
             deduct: false,
-            comment: ""
+            comment: ''
           },
           phase3: {
-            status: "new",
+            status: 'new',
             annualsGranted: this.state.annualsGranted,
             annualsTaken: this.state.annualsTaken,
             noShow: this.state.noShow,
@@ -141,37 +142,37 @@ export class ResignReqScreen extends Component {
             iex: this.state.iex
           },
           phase4: {
-            status: "new",
+            status: 'new',
             nationalIdImg: this.state.nationalIdImg
           },
           phase5: {
-            status: "new",
-            comment: ""
+            status: 'new',
+            comment: ''
           },
           phase6: {
-            status: "new",
+            status: 'new',
             disabledSecureId: false,
             disabledRemedyAccount: false,
             disabledAccountsInProductionSystems: false,
-            comment: ""
+            comment: ''
           },
           phase7: {
-            status: "new",
-            comment: "",
+            status: 'new',
+            comment: '',
             returnedHwToken: false
           }
         }),
         headers: {
-          "content-type": "application/json"
+          'content-type': 'application/json'
         },
-        method: "POST"
+        method: 'POST'
       }).then(response => {
         if (response.status === 200) {
-          toast.success("Resignation Request Recieved");
+          toast.success('Resignation Request Recieved');
         } else if (response.status === 503) {
-          toast.error("Error in db");
+          toast.error('Error in db');
         } else {
-          toast.error("Resigation already exists");
+          toast.error('Resigation already exists');
           return undefined;
         }
       });
@@ -196,17 +197,17 @@ export class ResignReqScreen extends Component {
       //   return console.log(err);
       // });
     } else {
-      toast.error("Please enter all required fields");
+      toast.error('Please enter all required fields');
     }
   };
 
   ///////////////////////////////////////////////
   normalizeVal(value) {
-    if (value === "true" || value === "on" || value === "Yes") {
+    if (value === 'true' || value === 'on' || value === 'Yes') {
       return true;
-    } else if (value === "") {
-      return "";
-    } else if (value === "false" || value === "off" || value === "No") {
+    } else if (value === '') {
+      return '';
+    } else if (value === 'false' || value === 'off' || value === 'No') {
       return false;
     } else {
       return value;
@@ -261,24 +262,24 @@ export class ResignReqScreen extends Component {
         <ToastContainer />
         <Form>
           <Form.Group>
-            <Form.Group className="p-2 border border-danger">
+            <Form.Group className='p-2 border border-danger'>
               <Row>
                 <Col>
                   <Form.Label>Staff ID</Form.Label>
                 </Col>
                 <Col>
                   <Form.Control
-                    name="staffId"
-                    id="id"
-                    placeholder="12345"
-                    className="form-control"
+                    name='staffId'
+                    id='id'
+                    placeholder='12345'
+                    className='form-control'
                     onChange={this.handleChange}
                   />
                 </Col>
                 <Col>
                   <Button
-                    type="button"
-                    variant="danger"
+                    type='button'
+                    variant='danger'
                     onClick={this.onSearch}
                   >
                     Search
@@ -288,7 +289,7 @@ export class ResignReqScreen extends Component {
             </Form.Group>
             <Row>
               <Col>
-                <Form.Label className="col-form-label">SAP Staff ID</Form.Label>
+                <Form.Label className='col-form-label'>SAP Staff ID</Form.Label>
               </Col>
               <Col>
                 <Form.Control
@@ -393,18 +394,18 @@ export class ResignReqScreen extends Component {
               </Col>
               <Col>
                 <Form.Control
-                  as="textarea"
-                  rows="1"
-                  name="personalMobile"
+                  as='textarea'
+                  rows='1'
+                  name='personalMobile'
                   onChange={this.handleChange}
                   onBlur={() =>
-                    this.validator.showMessageFor("Personal Mobile")
+                    this.validator.showMessageFor('Personal Mobile')
                   }
                 />
                 {this.validator.message(
-                  "Personal Mobile",
+                  'Personal Mobile',
                   this.state.personalMobile,
-                  "required|phone|size:11"
+                  'required|phone|size:11'
                 )}
               </Col>
               <Col></Col>
@@ -415,29 +416,29 @@ export class ResignReqScreen extends Component {
               </Col>
               <Col>
                 <input
-                  name="recommended"
-                  type="checkbox"
+                  name='recommended'
+                  type='checkbox'
                   defaultChecked={this.state.recommended}
                   onChange={this.handleChange}
-                  className="p-2 form-control col-sm-1 text-center"
+                  className='p-2 form-control col-sm-1 text-center'
                 />
               </Col>
               <Col></Col>
             </Row>
           </Form.Group>
-          <Form.Group className="p-2 border border-danger">
+          <Form.Group className='p-2 border border-danger'>
             <Row required>
               <Col>
                 <Form.Label>Returned Headset</Form.Label>
               </Col>
               <Col>
                 <Form.Control
-                  as="select"
-                  name="returnedHeadset"
+                  as='select'
+                  name='returnedHeadset'
                   onChange={this.handleChange}
                   defaultValue={this.state.returnedHeadset}
                 >
-                  <option value={""}> N/A </option>
+                  <option value={''}> N/A </option>
                   <option value={true}>Yes</option>
                   <option value={false}>No</option>
                 </Form.Control>
@@ -449,12 +450,12 @@ export class ResignReqScreen extends Component {
               </Col>
               <Col>
                 <Form.Control
-                  as="select"
-                  name="returnedKeys"
+                  as='select'
+                  name='returnedKeys'
                   onChange={this.handleChange}
                   defaultValue={this.state.returnedKeys}
                 >
-                  <option value={""}> N/A </option>
+                  <option value={''}> N/A </option>
                   <option value={true}>Yes</option>
                   <option value={false}>No</option>
                 </Form.Control>
@@ -462,43 +463,70 @@ export class ResignReqScreen extends Component {
             </Row>
             <Row>
               <Col>
-                <Form.Label>Returned 3ohda</Form.Label>
+                <Form.Label> Pending Sick Leave</Form.Label>
               </Col>
               <Col>
                 <Form.Control
-                  as="select"
-                  name="returnedOhda"
+                  as='select'
+                  name='sickLeave'
                   onChange={this.handleChange}
-                  defaultValue={this.state.returnedOhda}
-                  onBlur={() => this.validator.showMessageFor("returnedOhda")}
+                  defaultValue={this.state.sickLeave}
+                  onBlur={() =>
+                    this.validator.showMessageFor('Pending Sick Leave')
+                  }
                 >
-                  <option value={""}> N/A </option>
+                  <option value={''}> N/A </option>
                   <option value={true}>Yes</option>
                   <option value={false}>No</option>
                 </Form.Control>
                 {this.validator.message(
-                  "Returned Ohda",
+                  'Pending Sick Leave',
                   this.state.returnedOhda,
-                  "required"
+                  'required'
                 )}
               </Col>
             </Row>
             <Row>
               <Col>
-                <Form.Label>3ohda Type</Form.Label>
+                <Form.Label>Returned Custody</Form.Label>
               </Col>
               <Col>
                 <Form.Control
-                  as="textarea"
-                  rows="1"
-                  name="ohdaType"
+                  as='select'
+                  name='returnedOhda'
                   onChange={this.handleChange}
-                  onBlur={() => this.validator.showMessageFor("ohdaType")}
+                  defaultValue={this.state.returnedOhda}
+                  onBlur={() =>
+                    this.validator.showMessageFor('Returned Custody')
+                  }
+                >
+                  <option value={''}> N/A </option>
+                  <option value={true}>Yes</option>
+                  <option value={false}>No</option>
+                </Form.Control>
+                {this.validator.message(
+                  'Returned Custody',
+                  this.state.returnedOhda,
+                  'required'
+                )}
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <Form.Label>Custody Type</Form.Label>
+              </Col>
+              <Col>
+                <Form.Control
+                  as='textarea'
+                  rows='1'
+                  name='ohdaType'
+                  onChange={this.handleChange}
+                  onBlur={() => this.validator.showMessageFor('Custody Type')}
                 />
                 {this.validator.message(
-                  "ohdaType",
+                  'Custody Type',
                   this.state.ohdaType,
-                  "required|alpha"
+                  'required|alpha'
                 )}
               </Col>
             </Row>
@@ -508,28 +536,28 @@ export class ResignReqScreen extends Component {
               </Col>
               <Col>
                 <input
-                  type="date"
-                  id="last"
-                  name="lastWorkDay"
-                  min="2018-01-01"
-                  max="2026-12-31"
+                  type='date'
+                  id='last'
+                  name='lastWorkDay'
+                  min='2018-01-01'
+                  max='2026-12-31'
                   onChange={this.handleChange}
                   onBlur={() =>
-                    this.validator.showMessageFor("last working day")
+                    this.validator.showMessageFor('last working day')
                   }
                 ></input>
                 {this.validator.message(
-                  "last working day",
+                  'last working day',
                   this.state.personalMobile,
-                  "required"
+                  'required'
                 )}
               </Col>
             </Row>
           </Form.Group>
-          <Form.Group className="p-2 border border-danger form-group">
+          <Form.Group className='p-2 border border-danger form-group'>
             <Row>
               <Col>
-                <Form.Label className="d-flex justify-content-center h4">
+                <Form.Label className='d-flex justify-content-center h4'>
                   Leave Balance
                 </Form.Label>
               </Col>
@@ -538,66 +566,66 @@ export class ResignReqScreen extends Component {
               <Col>
                 <Form.Label>IEX</Form.Label>
               </Col>
-              <Col className="col-xs-2">
+              <Col className='col-xs-2'>
                 <Form.Control
-                  as="textarea"
-                  rows="1"
-                  name="iex"
+                  as='textarea'
+                  rows='1'
+                  name='iex'
                   onChange={this.handleChange}
-                  onBlur={() => this.validator.showMessageFor("iex")}
+                  onBlur={() => this.validator.showMessageFor('iex')}
                 />
-                {this.validator.message("iex", this.state.iex, "required")}
+                {this.validator.message('iex', this.state.iex, 'required')}
               </Col>
             </Row>
-            <table className="table">
-              <thead className="thead-dark">
+            <table className='table'>
+              <thead className='thead-dark'>
                 <tr>
-                  <th scope="col">Annuals Granted</th>
-                  <th scope="col">Annuals Taken</th>
-                  <th scope="col">No Show</th>
-                  <th scope="col">Lost Hours</th>
-                  <th scope="col">In Lieu days to take</th>
+                  <th scope='col'>Annuals Granted</th>
+                  <th scope='col'>Annuals Taken</th>
+                  <th scope='col'>No Show</th>
+                  <th scope='col'>Lost Hours</th>
+                  <th scope='col'>In Lieu days to take</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <th scope="row">
+                  <th scope='row'>
                     <Form.Control
-                      as="textarea"
-                      rows="1"
-                      name="annualsGranted"
+                      as='textarea'
+                      rows='1'
+                      name='annualsGranted'
                       onChange={this.handleChange}
                     />
                   </th>
                   <td>
                     <Form.Control
-                      as="textarea"
-                      rows="1"
-                      name="annualsTaken"
+                      as='textarea'
+                      rows='1'
+                      name='annualsTaken'
                       onChange={this.handleChange}
                     />
                   </td>
                   <td>
                     <Form.Control
-                      as="textarea"
-                      rows="1"
-                      name="noShow"
+                      as='textarea'
+                      rows='1'
+                      name='noShow'
                       onChange={this.handleChange}
                     />
                   </td>
                   <td>
                     <Form.Control
-                      as="textarea"
-                      rows="1"
-                      name="lostHours"
+                      as='textarea'
+                      rows='1'
+                      name='lostHours'
                       onChange={this.handleChange}
                     />
                   </td>
                   <td>
                     <Form.Control
-                      as="textarea"
-                      rows="1"
-                      name="daysToTake"
+                      as='textarea'
+                      rows='1'
+                      name='daysToTake'
                       onChange={this.handleChange}
                     />
                   </td>
@@ -605,23 +633,23 @@ export class ResignReqScreen extends Component {
               </tbody>
             </table>
           </Form.Group>
-          <Form.Group className="p-2 border border-danger">
+          <Form.Group className='p-2 border border-danger'>
             <Row>
               <Col>
                 <Form.Label>National ID Number*</Form.Label>
               </Col>
               <Col>
                 <Form.Control
-                  as="textarea"
-                  rows="1"
-                  name="nationalId"
+                  as='textarea'
+                  rows='1'
+                  name='nationalId'
                   onChange={this.handleChange}
-                  onBlur={() => this.validator.showMessageFor("national id")}
+                  onBlur={() => this.validator.showMessageFor('national id')}
                 />
                 {this.validator.message(
-                  "national id",
+                  'national id',
                   this.state.nationalId,
-                  "required|integer|size:14"
+                  'required|integer|size:14'
                 )}
               </Col>
             </Row>
@@ -638,9 +666,9 @@ export class ResignReqScreen extends Component {
           </Form.Group>
           <br />
           <Button
-            type="submit"
-            variant="danger"
-            size="lg"
+            type='submit'
+            variant='danger'
+            size='lg'
             onClick={this.onSubmit}
             block
           >
