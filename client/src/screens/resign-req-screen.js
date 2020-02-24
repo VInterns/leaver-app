@@ -47,7 +47,8 @@ export class ResignReqScreen extends Component {
       iex: '',
       personalMobile: '',
       recommended: false,
-      createdby: this.props.createdby
+      createdby: this.props.createdby,
+      employeeFound: false
     };
   }
 
@@ -73,6 +74,7 @@ export class ResignReqScreen extends Component {
     })
       .then(response => {
         if (response.status === 200) {
+          this.setState({ employeeFound: true });
           return response.json();
         } else {
           toast.error('User not found');
@@ -265,7 +267,7 @@ export class ResignReqScreen extends Component {
             <Form.Group className='p-2 border border-danger'>
               <Row>
                 <Col>
-                  <Form.Label>Staff ID</Form.Label>
+                  <Form.Label>Staff ID*</Form.Label>
                 </Col>
                 <Col>
                   <Form.Control
@@ -274,7 +276,13 @@ export class ResignReqScreen extends Component {
                     placeholder='12345'
                     className='form-control'
                     onChange={this.handleChange}
+                    onBlur={() => this.validator.showMessageFor('staff id')}
                   />
+                  {this.validator.message(
+                    'staff id',
+                    this.state.staffId,
+                    'required'
+                  )}
                 </Col>
                 <Col>
                   <Button
@@ -463,7 +471,7 @@ export class ResignReqScreen extends Component {
             </Row>
             <Row>
               <Col>
-                <Form.Label> Pending Sick Leave</Form.Label>
+                <Form.Label> Pending Sick Leave*</Form.Label>
               </Col>
               <Col>
                 <Form.Control
