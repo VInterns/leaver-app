@@ -96,104 +96,108 @@ export class ResignReqScreen extends Component {
   };
 
   onSubmit = e => {
-    e.preventDefault();
-    fetch(API + SUBMIT, {
-      body: JSON.stringify({
-        staffId: this.state.staffId,
-        managerName: this.state.managerName,
-        name: this.state.name,
-        createdby: this.state.createdby,
-        status: "new",
-        phase1: {
-          status: "done",
-          personalMobile: this.state.personalMobile,
-          recommended: this.state.recommended,
-          returnedHeadset: this.state.returnedHeadset,
-          returnedKeys: this.state.returnedKeys,
-          returnedOhda: this.state.returnedOhda,
-          ohdaType: this.state.ohdaType,
-          lastWorkDay: this.state.lastWorkDay,
-          nationalId: this.state.nationalId,
-          nationalIdImg: this.state.nationalIdImg,
-          annualsGranted: this.state.annualsGranted,
-          annualsTaken: this.state.annualsTaken,
-          noShow: this.state.noShow,
-          lostHours: this.state.lostHours,
-          daysToTake: this.state.daysToTake,
-          iex: this.state.iex
-        },
-        phase2: {
+    if (this.validator.allValid()) {
+      e.preventDefault();
+      fetch(API + SUBMIT, {
+        body: JSON.stringify({
+          staffId: this.state.staffId,
+          managerName: this.state.managerName,
+          name: this.state.name,
+          createdby: this.state.createdby,
           status: "new",
-          returnedHeadset: this.state.returnedHeadset,
-          returnedKeys: this.state.returnedKeys,
-          returnedOhda: this.state.returnedOhda,
-          deduct: false,
-          comment: ""
+          phase1: {
+            status: "done",
+            personalMobile: this.state.personalMobile,
+            recommended: this.state.recommended,
+            returnedHeadset: this.state.returnedHeadset,
+            returnedKeys: this.state.returnedKeys,
+            returnedOhda: this.state.returnedOhda,
+            ohdaType: this.state.ohdaType,
+            lastWorkDay: this.state.lastWorkDay,
+            nationalId: this.state.nationalId,
+            nationalIdImg: this.state.nationalIdImg,
+            annualsGranted: this.state.annualsGranted,
+            annualsTaken: this.state.annualsTaken,
+            noShow: this.state.noShow,
+            lostHours: this.state.lostHours,
+            daysToTake: this.state.daysToTake,
+            iex: this.state.iex
+          },
+          phase2: {
+            status: "new",
+            returnedHeadset: this.state.returnedHeadset,
+            returnedKeys: this.state.returnedKeys,
+            returnedOhda: this.state.returnedOhda,
+            deduct: false,
+            comment: ""
+          },
+          phase3: {
+            status: "new",
+            annualsGranted: this.state.annualsGranted,
+            annualsTaken: this.state.annualsTaken,
+            noShow: this.state.noShow,
+            lostHours: this.state.lostHours,
+            daysToTake: this.state.daysToTake,
+            iex: this.state.iex
+          },
+          phase4: {
+            status: "new",
+            nationalIdImg: this.state.nationalIdImg
+          },
+          phase5: {
+            status: "new",
+            comment: ""
+          },
+          phase6: {
+            status: "new",
+            disabledSecureId: false,
+            disabledRemedyAccount: false,
+            disabledAccountsInProductionSystems: false,
+            comment: ""
+          },
+          phase7: {
+            status: "new",
+            comment: "",
+            returnedHwToken: false
+          }
+        }),
+        headers: {
+          "content-type": "application/json"
         },
-        phase3: {
-          status: "new",
-          annualsGranted: this.state.annualsGranted,
-          annualsTaken: this.state.annualsTaken,
-          noShow: this.state.noShow,
-          lostHours: this.state.lostHours,
-          daysToTake: this.state.daysToTake,
-          iex: this.state.iex
-        },
-        phase4: {
-          status: "new",
-          nationalIdImg: this.state.nationalIdImg
-        },
-        phase5: {
-          status: "new",
-          comment: ""
-        },
-        phase6: {
-          status: "new",
-          disabledSecureId: false,
-          disabledRemedyAccount: false,
-          disabledAccountsInProductionSystems: false,
-          comment: ""
-        },
-        phase7: {
-          status: "new",
-          comment: "",
-          returnedHwToken: false
+        method: "POST"
+      }).then(response => {
+        if (response.status === 200) {
+          toast.success("Resignation Request Recieved");
+        } else if (response.status === 503) {
+          toast.error("Error in db");
+        } else {
+          toast.error("Resigation already exists");
+          return undefined;
         }
-      }),
-      headers: {
-        "content-type": "application/json"
-      },
-      method: "POST"
-    }).then(response => {
-      if (response.status === 200) {
-        toast.success("Resignation Request Recieved");
-      } else if (response.status === 503) {
-        toast.error("Error in db");
-      } else {
-        toast.error("Resigation already exists");
-        return undefined;
-      }
-    });
+      });
 
-    // let QUERY = "mail/sendMail";
+      // let QUERY = "mail/sendMail";
 
-    // /* Append Employee Email */
-    // this.state.mailList.push(this.state.username);
+      // /* Append Employee Email */
+      // this.state.mailList.push(this.state.username);
 
-    // /* Send Email to mailList */
-    // fetch(API + QUERY, {
-    //   method: "post",
-    //   body: JSON.stringify({
-    //     mailList : this.state.mailList
-    //   }),
-    //   "headers": {"Content-type": "application/json"}
-    // })
-    // .then((res) => {
-    //   return console.log(res);
-    // })
-    // .catch((err) => {
-    //   return console.log(err);
-    // });
+      // /* Send Email to mailList */
+      // fetch(API + QUERY, {
+      //   method: "post",
+      //   body: JSON.stringify({
+      //     mailList : this.state.mailList
+      //   }),
+      //   "headers": {"Content-type": "application/json"}
+      // })
+      // .then((res) => {
+      //   return console.log(res);
+      // })
+      // .catch((err) => {
+      //   return console.log(err);
+      // });
+    } else {
+      toast.error("Please enter all required fields");
+    }
   };
 
   ///////////////////////////////////////////////
@@ -376,7 +380,7 @@ export class ResignReqScreen extends Component {
             </Row>
             <Row>
               <Col>
-                <Form.Label>Mobile Number</Form.Label>
+                <Form.Label>Mobile Number*</Form.Label>
               </Col>
               <Col>
                 <Form.Control plaintext readOnly value={this.state.mobile} />
@@ -385,7 +389,7 @@ export class ResignReqScreen extends Component {
             </Row>
             <Row>
               <Col>
-                <Form.Label>Personal Mobile Number</Form.Label>
+                <Form.Label>Personal Mobile Number*</Form.Label>
               </Col>
               <Col>
                 <Form.Control
@@ -400,14 +404,14 @@ export class ResignReqScreen extends Component {
                 {this.validator.message(
                   "Personal Mobile",
                   this.state.personalMobile,
-                  "required|phone"
+                  "required|phone|size:11"
                 )}
               </Col>
               <Col></Col>
             </Row>
             <Row>
               <Col>
-                <Form.Label>Recommended</Form.Label>
+                <Form.Label>Recommended*</Form.Label>
               </Col>
               <Col>
                 <input
@@ -500,7 +504,7 @@ export class ResignReqScreen extends Component {
             </Row>
             <Row>
               <Col>
-                <Form.Label>Last Working Day</Form.Label>
+                <Form.Label>Last Working Day*</Form.Label>
               </Col>
               <Col>
                 <input
@@ -604,7 +608,7 @@ export class ResignReqScreen extends Component {
           <Form.Group className="p-2 border border-danger">
             <Row>
               <Col>
-                <Form.Label>National ID Number</Form.Label>
+                <Form.Label>National ID Number*</Form.Label>
               </Col>
               <Col>
                 <Form.Control
@@ -623,7 +627,7 @@ export class ResignReqScreen extends Component {
             </Row>
             <Row>
               <Col>
-                <Form.Label>Copy of National ID</Form.Label>
+                <Form.Label>Copy of National ID Front Page</Form.Label>
               </Col>
               <Col>
                 <ImageUploaderComponent
