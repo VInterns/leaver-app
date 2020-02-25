@@ -281,34 +281,6 @@ export class ManagerResignationsViewScreen extends Component {
           </Form.Group>
           <Form.Group className="p-2 border border-danger">
             <Row>
-              <Col><Form.Label>Leave Balance</Form.Label></Col>
-              <Col></Col>
-              <Col><Form.Label>IEX</Form.Label></Col>
-              <Col><Form.Control as="textarea" rows="1" name="iex" onChange={this.handleChange} value={this.state.iex} /></Col>
-            </Row>
-            <table className="table">
-              <thead className="thead-dark">
-                <tr>
-                  <th scope="col">Annuals Granted</th>
-                  <th scope="col">Annuals Taken</th>
-                  <th scope="col">No Show</th>
-                  <th scope="col">Lost Hours</th>
-                  <th scope="col">In Lieu days to take</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row"><Form.Control as="textarea" rows="1" name="annualsGranted" onChange={this.handleChange} value={this.state.annualsGranted} /></th>
-                  <td><Form.Control as="textarea" rows="1" name="annualsTaken" onChange={this.handleChange} value={this.state.annualsTaken} /></td>
-                  <td><Form.Control as="textarea" rows="1" name="noShow" onChange={this.handleChange} value={this.state.noShow} /></td>
-                  <td><Form.Control as="textarea" rows="1" name="lostHours" onChange={this.handleChange} value={this.state.lostHours} /></td>
-                  <td><Form.Control as="textarea" rows="1" name="daysToTake" onChange={this.handleChange} value={this.state.daysToTake} /></td>
-                </tr>
-              </tbody>
-            </table>
-          </Form.Group>
-          <Form.Group className="p-2 border border-danger">
-            <Row>
               <Col><Form.Label>Last Working Day</Form.Label></Col>
               <Col> <input type="date" id="last" name="lastWorkDay"
                 min="2018-01-01" max="2026-12-31" onChange={this.handleChange} value={this.state.lastWorkDay}></input></Col>
