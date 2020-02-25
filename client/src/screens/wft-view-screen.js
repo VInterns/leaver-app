@@ -127,7 +127,7 @@ export class WorkForceScreenDetail extends React.Component {
                     <LeaverDetails leaverDetail={{ leaverInfo: leaver, lastDay: phase1.lastWorkDay }} />
                     <hr />
                     <h4 className="p-2 align-self-start">Leaver Balance</h4>
-                    <div className="d-flex flex-row justify-content-end">
+                    <div className="d-flex flex-row justify-content-start">
                         <label htmlFor="iex" className="p-2">IEX</label>
                         <input
                             id="iex"
