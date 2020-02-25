@@ -87,7 +87,7 @@ export class ResignationsScreen extends Component {
                                 <td>{this.state.data.phase1.nationalId}</td>
                             </tr>
                             }
-                            {this.state.data && <tr>
+                            {this.state.data && this.state.data.phase1.nationalIdImg && <tr>
                                 <td>National ID Image </td>
                                 <td>
                                     {
@@ -232,10 +232,9 @@ export class ResignationsScreen extends Component {
 
                         </tbody>
                     </Table>
-
                     <header>
                         <hr />
-                        <h3 className='container'>Risk Managment </h3>
+                        <h3 className='container'>CC Consumer Activation </h3>
                         <hr />
                     </header>
                     <Table bordered hover className='container' >
@@ -259,7 +258,7 @@ export class ResignationsScreen extends Component {
                                 <td>{this.state.data.name}</td>
                             </tr>
                             }
-                            {this.state.data && <tr>
+                            {this.state.data && this.state.data.phase1.nationalIdImg && <tr>
                                 <td>National ID Scanned Copy </td>
                                 <td>
                                 <img
