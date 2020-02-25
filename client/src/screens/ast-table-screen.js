@@ -1,9 +1,10 @@
-import React from "react";
-import { Table } from "react-bootstrap";
+import React from 'react';
+import { Table } from 'react-bootstrap';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 /////////////////////////////////////////////////////////////////////////
-const API = "/api/";
-const SEARCH = "resignations/";
+const API = '/api/';
+const SEARCH = 'resignations/';
 
 /////////////////////////////////////////////////////////////////////////
 export class ASTTableScreen extends React.Component {
@@ -23,26 +24,50 @@ export class ASTTableScreen extends React.Component {
     this.fetchResignations();
   }
 
-  checkStatus(status){
-    switch(status){
-      case "pending":
+  checkStatus(status) {
+    switch (status) {
+      case 'pending':
         return (
-          <td style = {{color: "#BE0002", fontWeight: "bold", textTransform: "uppercase"}}>{status}</td>
+          <td
+            style={{
+              color: '#BE0002',
+              fontWeight: 'bold',
+              textTransform: 'uppercase'
+            }}
+          >
+            {status}
+          </td>
         );
-      case "done": 
+      case 'done':
         return (
-          <td style = {{color: "#5cb85c", fontWeight: "bold", textTransform: "uppercase"}}>{status}</td>
+          <td
+            style={{
+              color: '#5cb85c',
+              fontWeight: 'bold',
+              textTransform: 'uppercase'
+            }}
+          >
+            {status}
+          </td>
         );
       default:
         return (
-          <td style = {{color: "#34a1fd", fontWeight: "bold", textTransform: "uppercase"}}>{status}</td>
+          <td
+            style={{
+              color: '#34a1fd',
+              fontWeight: 'bold',
+              textTransform: 'uppercase'
+            }}
+          >
+            {status}
+          </td>
         );
     }
   }
 
   onRowClick(resignation) {
     this.props.history.push({
-      pathname: "/ast-resignation",
+      pathname: '/ast-resignation',
       state: { resDetails: resignation }
     });
   }
@@ -65,21 +90,29 @@ export class ASTTableScreen extends React.Component {
   render() {
     const { requests } = this.state;
     return (
-      <div className="container">
+      <div className='container'>
         <center style={{ margin: '25px' }}>
-          <header> 
-            <hr/>
+          <header>
+            <hr />
             <h3>Application Security Team</h3>
-            <hr/>
+            <hr />
           </header>
           <div>
-            <Table bordered hover striped>
+            <ReactHTMLTableToExcel
+              id='test-table-xls-button'
+              className='download-table-xls-button'
+              table='as-table'
+              filename='Resignations - Application Secutiry'
+              sheet='resignations'
+              buttonText='Download as XLS'
+            />
+            <Table bordered hover striped id='as-table'>
               <thead>
-                <tr style = {{backgroundColor: "#BE0002"}}>
-                  <th className = "text-white">Staff ID</th>
-                  <th className = "text-white">Employee Name</th>
-                  <th className = "text-white">Manager Name</th>
-                  <th className = "text-white">Status</th>
+                <tr style={{ backgroundColor: '#BE0002' }}>
+                  <th className='text-white'>Staff ID</th>
+                  <th className='text-white'>Employee Name</th>
+                  <th className='text-white'>Manager Name</th>
+                  <th className='text-white'>Status</th>
                 </tr>
               </thead>
               <tbody>
