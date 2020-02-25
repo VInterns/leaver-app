@@ -1,44 +1,138 @@
 import React from "react";
-import {Table} from "react-bootstrap";
+import { Form, Row, Col } from "react-bootstrap";
 
 /////////////////////////////////////////////////////////////////////////
-export class LeaverDetails extends React.Component{
-    
-    render(){
+export class LeaverDetails extends React.Component {
+
+    render() {
 
         let leaver = Object(this.props.leaverDetail.leaverInfo);
 
-        return(
+        return (
             <div>
-                <header>
-                    <hr/>
+                <header className='text-center'>
+                    <hr />
                     <h3>{"Leaver Details"}</h3>
-                    <hr/>
+                    <hr />
                 </header>
-                <Table bordered hover>
-                    <tbody>
-                        <tr>
-                            <td><span style = {{fontWeight: "bold"}}>Staff ID:</span> {leaver.staffId}</td>
-                            <td><span style = {{fontWeight: "bold"}}>SAP Stuff ID:</span> {leaver.staffId}</td>
-                        </tr>
-                        <tr>
-                            <td><span style = {{fontWeight: "bold"}} >Leaver Name:</span> {leaver.name}</td>
-                            <td><span style = {{fontWeight: "bold"}} >Manager:</span> {leaver.managerName}</td>
-                        </tr>
-                        <tr>
-                            <td><span style = {{fontWeight: "bold"}} >Department:</span> {leaver.department}</td>
-                            <td><span style = {{fontWeight: "bold"}} >Cost Center:</span> {leaver.careCenter}</td>
-                        </tr>
-                        <tr>
-                            <td><span style = {{fontWeight: "bold"}} >Job Title:</span> {leaver.jobTitle}</td>
-                            <td><span style = {{fontWeight: "bold"}} >Hiring Date:</span> {leaver.hiringDate}</td>
-                        </tr>
-                        <tr>
-                            <td><span style = {{fontWeight: "bold"}} >Mobile Number:</span> {"+" + leaver.mobile}</td>
-                            <td><span style = {{fontWeight: "bold"}} >Last Working Day:</span> {this.props.leaverDetail.lastDay}</td>
-                        </tr>
-                    </tbody>
-                </Table>
+                <Form className='mt-4 border p-5'>
+                    <Form.Group>
+                        <Row>
+                            <Col>
+                                <Form.Label className="font-weight-bold">StaffID</Form.Label>
+                            </Col>
+                            <Col>
+                                <Form.Control
+                                    readOnly
+                                    plaintext
+                                    value={leaver.staffId}
+                                />
+                            </Col>
+                            <Col>
+                                <Form.Label className="font-weight-bold">SAP StaffID</Form.Label>
+                            </Col>
+                            <Col>
+                                <Form.Control
+                                    readOnly
+                                    plaintext
+                                    value={leaver.staffId}
+                                />
+                            </Col>
+                        </Row>
+                        <hr />
+                        <Row>
+                            <Col>
+                                <Form.Label className="font-weight-bold">Leaver Name</Form.Label>
+                            </Col>
+                            <Col>
+                                <Form.Control
+                                    readOnly
+                                    plaintext
+                                    value={leaver.name}
+                                />
+                            </Col>
+                            <Col>
+                                <Form.Label className="font-weight-bold">Manager</Form.Label>
+                            </Col>
+                            <Col>
+                                <Form.Control
+                                    readOnly
+                                    plaintext
+                                    value={leaver.managerName}
+                                />
+                            </Col>
+                        </Row>
+                        <hr />
+                        <Row>
+                            <Col>
+                                <Form.Label className="font-weight-bold">Department</Form.Label>
+                            </Col>
+                            <Col>
+                                <Form.Control
+                                    readOnly
+                                    plaintext
+                                    value={leaver.department}
+                                />
+                            </Col>
+                            <Col>
+                                <Form.Label className="font-weight-bold">Cost Center</Form.Label>
+                            </Col>
+                            <Col>
+                                <Form.Control
+                                    readOnly
+                                    plaintext
+                                    value={leaver.careCenter}
+                                />
+                            </Col>
+                        </Row>
+                        <hr />
+                        <Row>
+                            <Col>
+                                <Form.Label className="font-weight-bold">Job Title</Form.Label>
+                            </Col>
+                            <Col>
+                                <Form.Control
+                                    readOnly
+                                    plaintext
+                                    value={leaver.jobTitle}
+                                />
+                            </Col>
+                            <Col>
+                                <Form.Label className="font-weight-bold">Hiring Date</Form.Label>
+                            </Col>
+                            <Col>
+                                <Form.Control
+                                    readOnly
+                                    plaintext
+                                    value={leaver.hiringDate}
+                                />
+                            </Col>
+                        </Row>
+                        <hr />
+                        <Row>
+                            <Col>
+                                <Form.Label className="font-weight-bold">Mobile Number</Form.Label>
+                            </Col>
+                            <Col>
+                                <Form.Control
+                                    readOnly
+                                    plaintext
+                                    value={'+' + leaver.mobile}
+                                />
+                            </Col>
+                            <Col>
+                                <Form.Label className="font-weight-bold">Last Working Day</Form.Label>
+                            </Col>
+                            <Col>
+                                <Form.Control
+                                    readOnly
+                                    plaintext
+                                    value={this.props.leaverDetail.lastDay}
+                                />
+                            </Col>
+                        </Row>
+                    </Form.Group>
+                </Form>
             </div>
         )
     }

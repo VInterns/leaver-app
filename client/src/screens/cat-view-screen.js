@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { ToastContainer, toast } from "react-toastify";
 import { LeaverDetails } from '../components'
+import { Form, Row, Col, Image, Button } from 'react-bootstrap';
 
 /////////////////////////////////////////////////////////////////////////
 var phoneBilledAmount = 'yes';
 
-  /////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
 export class CCConsumerActivation extends Component {
 
     constructor(props) {
@@ -16,6 +17,7 @@ export class CCConsumerActivation extends Component {
             nationalId: null,
             leaver: {}
         };
+        this.clickSubmit = this.clickSubmit.bind(this);
     }
 
     ///////////////////////////////////////////////
@@ -39,39 +41,39 @@ export class CCConsumerActivation extends Component {
         let url = '/api/users/?id=' + id;
         fetch(url, {
             method: "GET",
-            headers: {"Content-Type": "application/json"}
+            headers: { "Content-Type": "application/json" }
         })
-        .then((res) => {
-            return res.json();
-        })
-        .then((data) => {
-            this.setState({
-                leaver: data
+            .then((res) => {
+                return res.json();
             })
-        })
-        .catch((err) => {
-            if(err)
-                throw err;
-        })
+            .then((data) => {
+                this.setState({
+                    leaver: data
+                })
+            })
+            .catch((err) => {
+                if (err)
+                    throw err;
+            })
 
-        
+
         // Resignation Details
         var url2 = '/api/resignations/' + id;
         fetch(url2, {
             method: "GET",
-            headers: {"Content-type": "application/json"}
+            headers: { "Content-type": "application/json" }
         })
-        .then((res) => {
-            return res.json();
-        })
-        .then((data) => {
-            this.setState({
-                Data: data
+            .then((res) => {
+                return res.json();
             })
-        })
-        .catch((err) => {
-            throw err;
-        })
+            .then((data) => {
+                this.setState({
+                    Data: data
+                })
+            })
+            .catch((err) => {
+                throw err;
+            })
     }
 
     ///////////////////////////////////////////////
@@ -89,7 +91,9 @@ export class CCConsumerActivation extends Component {
     };
 
     ///////////////////////////////////////////////
-    clickSubmit() {
+    clickSubmit(e) {
+
+        e.preventDefault();
 
         if (this.inputRatePlan.value === "" || this.inputComment.value === "") {
             toast.error("Please fill all empty slots and try again");
@@ -116,7 +120,8 @@ export class CCConsumerActivation extends Component {
                 nationalId: this.state.nationalId
             })
         }).then((response) => {
-            this.props.history.push('/cc-consumer-activation-table')
+            toast.success("Data successfully updated")
+            //this.props.history.push('/cc-consumer-activation-table')
         }).catch(function (error) {
             toast.error("Upload Fail");
         });
@@ -144,49 +149,93 @@ export class CCConsumerActivation extends Component {
 
     ///////////////////////////////////////////////
     render() {
-        
-        const {Data} = this.state;
+
+        const { Data } = this.state;
         const Phase1 = Object(Data.phase1);
         const NationalIDImg = Object(Phase1.nationalIdImg);
         return (
-            <div className="container">
-                <center style={{ margin: '25px' }}>
-                    <div>
-                        <LeaverDetails leaverDetail = {{leaverInfo: this.state.leaver, lastDay: this.state.lastWorkDay}}/>
-                        <hr />
-                        <div className="form-group files">
-                            <div>National ID </div>
-                            <img
-                                alt = {NationalIDImg.fileName} 
-                                src = {NationalIDImg.dataURL} />
-                        </div>
-                        <div className="form-group" style={{ margin: '15px' }}>
-                            <div>Rate Plan</div>
-                            <input className="form-control" type="text" id="rateplan"
-                                ref={inRatePlan => this.inputRatePlan = inRatePlan}
-                                placeholder="Enter Rate Plan" />
-                        </div>
-                        <div>
-                            <div>Has Phone Billed Amount</div>
-                            <select onChange={this.getVal}>
-                                <option value="yes">yes</option>
-                                <option value="no">no</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </div>
-                        <div className="form-group" style={{ margin: '15px' }}>
-                            <div>Comment</div>
-                            <input className="form-control" type="textarea" id="comment"
-                                ref={inComment => this.inputComment = inComment}
-                                placeholder="Input Comment here" />
-                        </div>
-                        <button className="btn btn-danger" style={{ width: '100px' }}
-                            onClick={() => {
-                                this.clickSubmit()
-                            }}>Submit</button>
+            <div className="container mt-5">
+                    <div className='p-2'>
+                        <LeaverDetails leaverDetail={{ leaverInfo: this.state.leaver, lastDay: this.state.lastWorkDay }} />
                     </div>
-                </center>
-                <ToastContainer/>
+                <ToastContainer />
+                <Form className='p-2'>
+                    <Form.Group className='p-5 border'>
+                        <Row>
+                            <Col>
+                                <Form.Label className='col-form-group font-weight-bold'>National ID</Form.Label>
+                            </Col>
+                            <Col>
+                                <Form.Control
+                                    plaintext
+                                    readOnly
+                                    value={Phase1.nationalId}
+                                />
+                            </Col>
+                        </Row>
+                        <Row className = 'mt-3'>
+                            <Col>
+                                <Form.Label className='col-form-group font-weight-bold'>Copy of National ID</Form.Label>
+                            </Col>
+                            <Col>
+                                <Image
+                                    alt={NationalIDImg.fileName}
+                                    src={NationalIDImg.dataURL} />
+                            </Col>
+                        </Row>
+                        <Row className = 'mt-3'>
+                            <Col>
+                                <Form.Label className='col-form-group font-weight-bold'>Rate Plan</Form.Label>
+                            </Col>
+                            <Col style={{ marginTop: "10px" }}>
+                                <input 
+                                    className="form-control" 
+                                    type="text" 
+                                    id="rateplan"
+                                    ref={inRatePlan => this.inputRatePlan = inRatePlan}
+                                    placeholder="Enter Rate Plan" />
+                            </Col>
+                        </Row>
+                        <Row className = 'mt-3'>
+                            <Col>
+                                <Form.Label className='col-form-group font-weight-bold'>Has Phone Billed Amount</Form.Label>
+                            </Col>
+                            <Col style={{ marginTop: "10px" }}>
+                                <select className='form-control' onChange={this.getVal}>
+                                    <option value="yes">yes</option>
+                                    <option value="no">no</option>
+                                    <option value="N/A">N/A</option>
+                                </select>
+                            </Col>
+                        </Row>
+                        <Row className = 'mt-3'>
+                            <Col>
+                                <Form.Label className='col-form-group font-weight-bold'>Comments</Form.Label>
+                            </Col>
+                            <Col style={{ marginTop: "10px" }}>
+                                <textarea 
+                                    className="form-control" 
+                                    type="textarea" 
+                                    id="comment"
+                                    ref={inComment => this.inputComment = inComment}
+                                    placeholder="Input Comment here" />
+                            </Col>
+                        </Row>
+                        <Row className = 'mt-5'>
+                            <Col>
+                                <Button
+                                    size='lg'
+                                    type='submit'
+                                    block
+                                    variant='danger'
+                                    onClick={this.clickSubmit}
+                                >
+                                    Submit
+                                </Button>
+                            </Col>
+                        </Row>
+                    </Form.Group>
+                </Form>
             </div>
         );
     }
