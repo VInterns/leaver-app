@@ -30,6 +30,16 @@ export class HrViewScreen extends Component {
         }
     }
 
+    checkRequestStatus (resignation) {
+        if (resignation.phase2.status === "new" && resignation.phase3.status === "new" && resignation.phase4.status === "new" && resignation.phase5.status === "new" && resignation.phase6.status === "new" && resignation.phase7.status === "new" ) {
+            return "new";
+        } else if (resignation.phase2.status === "done" && resignation.phase3.status === "done" && resignation.phase4.status === "done" && resignation.phase5.status === "done" && resignation.phase6.status === "done" && resignation.phase7.status === "done" ) {
+            return "done";
+        } else {
+            return "pending";
+        }
+    }
+
     componentDidMount() {
         fetch('/api/resignations').then((res) => {
             res.json().then((data) => {
@@ -74,7 +84,7 @@ export class HrViewScreen extends Component {
                                     <td>{value.name}</td>
                                     <td>{value.phase1.lastWorkDay}</td>
                                     <td >{value.managerName}</td>
-                                    {this.checkStatus(value.phase1.status)}
+                                    {this.checkStatus(this.checkRequestStatus(value))}
                                     {this.checkStatus(value.phase2.status)}
                                     {this.checkStatus(value.phase3.status)}
                                     {this.checkStatus(value.phase4.status)}
