@@ -6,6 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { connect } from 'react-redux';
 import SimpleReactValidator from 'simple-react-validator';
+import Popup from "reactjs-popup";
 
 import { ImageUploaderComponent } from '../components';
 
@@ -77,7 +78,7 @@ export class ResignReqScreen extends Component {
           this.setState({ employeeFound: true });
           return response.json();
         } else {
-          toast.error('User not found');
+          toast.error('Employee not found');
           return undefined;
         }
       })
@@ -94,6 +95,7 @@ export class ResignReqScreen extends Component {
           this.setState({ hiringDate: data.hiringDate });
           this.setState({ mobile: data.mobile });
           this.setState({ username: data.username });
+          this.setState({ nationalId: data.nationalId})
         }
       });
   };
@@ -175,7 +177,7 @@ export class ResignReqScreen extends Component {
           toast.error('Error in db');
         } else {
           toast.error('Resigation already exists');
-          return undefined;
+          // return undefined;
         }
       });
 
@@ -572,12 +574,10 @@ export class ResignReqScreen extends Component {
                 </Form.Label>
               </Col>
             </Row>
-            <Row>
-              <Col>
-                <Form.Label>IEX</Form.Label>
-              </Col>
-              <Col className='col-xs-2'>
+            <Row className='.justify-content-md-left bd-highlight ml-2 mb-3 mt-3'>
+                <Form.Label className='p-2 bd-highlight mr-3 font-weight-bold'>IEX</Form.Label>
                 <Form.Control
+                  className = 'col-md-2'
                   as='textarea'
                   rows='1'
                   name='iex'
@@ -585,7 +585,6 @@ export class ResignReqScreen extends Component {
                   onBlur={() => this.validator.showMessageFor('iex')}
                 />
                 {this.validator.message('iex', this.state.iex, 'required')}
-              </Col>
             </Row>
             <table className='table'>
               <thead className='thead-dark'>
@@ -649,18 +648,11 @@ export class ResignReqScreen extends Component {
                 <Form.Label>National ID Number<span style={{ color: 'red', fontSize: 25 }}>*</span></Form.Label>
               </Col>
               <Col>
-                <Form.Control
-                  as='textarea'
-                  rows='1'
-                  name='nationalId'
-                  onChange={this.handleChange}
-                  onBlur={() => this.validator.showMessageFor('national id')}
+              <Form.Control
+                  plaintext
+                  readOnly
+                  value={this.state.nationalId}
                 />
-                {this.validator.message(
-                  'national id',
-                  this.state.nationalId,
-                  'required|integer|size:14'
-                )}
               </Col>
             </Row>
             <Row>
@@ -675,7 +667,7 @@ export class ResignReqScreen extends Component {
             </Row>
           </Form.Group>
           <br />
-          <Button
+          {/* <Button
             type='submit'
             variant='danger'
             size='lg'
@@ -683,7 +675,50 @@ export class ResignReqScreen extends Component {
             block
           >
             Submit
-          </Button>
+          </Button> */}
+          <Popup trigger={<Button
+            // type='submit'
+            variant='danger'
+            size='lg'
+            // onClick={this.onSubmit}
+            block
+          >
+            Submit
+          </Button>} 
+          modal 
+          closeOnDocumentClick>
+          {/* {close => (
+              <h2 className='align-center'> Are you sure you want to Submit? </h2>
+              <h5>Please note that once the resignation request is submitted, it cannot be cancelled </h5>
+              <div className="actions">
+              <Button
+                  variant='primary'
+                  size='sm'
+                  className="button"
+                  onClick={() => {
+                    console.log("modal closed ");
+                    // close();
+                  }}
+                >
+                  Cancel
+                </Button>
+              <Button
+                  variant='primary'
+                  size='sm'
+                  className="button"
+                  onClick={() => {
+                    console.log("modal closed ");
+                    // close();
+                  }}
+                >
+                  Submit
+                </Button>
+                
+            </div>
+          )} */}
+
+          </Popup>
+          
         </Form>
       </Container>
     );
