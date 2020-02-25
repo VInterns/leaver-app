@@ -27,7 +27,7 @@ export class LeaverDetails extends React.Component{
                         </tr>
                         <tr>
                             <td><span style = {{fontWeight: "bold"}} >Department:</span> {leaver.department}</td>
-                            <td><span style = {{fontWeight: "bold"}} >Care Center:</span> {leaver.careCenter}</td>
+                            <td><span style = {{fontWeight: "bold"}} >Cost Center:</span> {leaver.careCenter}</td>
                         </tr>
                         <tr>
                             <td><span style = {{fontWeight: "bold"}} >Job Title:</span> {leaver.jobTitle}</td>

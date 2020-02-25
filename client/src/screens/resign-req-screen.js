@@ -354,7 +354,7 @@ export class ResignReqScreen extends Component {
             </Row>
             <Row>
               <Col>
-                <Form.Label>Care Center</Form.Label>
+                <Form.Label>Cost Center</Form.Label>
               </Col>
               <Col>
                 <Form.Control

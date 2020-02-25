@@ -206,7 +206,7 @@ export class ManagerResignationsViewScreen extends Component {
               <Col></Col>
             </Row>
             <Row>
-              <Col><Form.Label>Care Center</Form.Label></Col>
+              <Col><Form.Label>Cost Center</Form.Label></Col>
               <Col><Form.Control plaintext readOnly value={this.state.careCenter} /></Col>
               <Col></Col>
             </Row>
