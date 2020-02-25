@@ -290,17 +290,6 @@ export class ManagerResignationsViewScreen extends Component {
               <Col><Form.Control plaintext readOnly value={this.state.nationalId} /></Col>
             </Row>
           </Form.Group>
-          <Form.Group className="p-2 border border-danger">
-            <Row>
-              <Col><Form.Label>Copy of National ID</Form.Label></Col>
-              <Col>
-                {this.state.nationalIdImg && <img
-                  alt={`${this.state.nationalIdImg.fileName}`}
-                  src={`${this.state.nationalIdImg.dataURL}`}
-                />}
-              </Col>
-            </Row>
-          </Form.Group>
           <br />
           <Button type="submit" variant="danger" size="lg" onClick={this.onUpdate} block>Update</Button>
         </Form>
