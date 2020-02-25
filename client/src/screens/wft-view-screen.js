@@ -1,5 +1,5 @@
 import React from "react";
-import { Table } from "react-bootstrap";
+import { Table, Form, Col, Row, Button } from "react-bootstrap";
 import { LeaverDetails } from "../components";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -121,27 +121,31 @@ export class WorkForceScreenDetail extends React.Component {
         const { detail, leaver } = this.state;
         const phase1 = Object(detail.phase1);
         return (
-            <div className="container">
+            <div className="container mt-5">
                 <ToastContainer />
-                <center style={{ margin: "25px" }}>
+                <div className='p-2'>
                     <LeaverDetails leaverDetail={{ leaverInfo: leaver, lastDay: phase1.lastWorkDay }} />
-                    <hr />
-                    <h4 className="p-2 align-self-start">Leaver Balance</h4>
-                    <div className="d-flex flex-row justify-content-start">
-                        <label htmlFor="iex" className="p-2">IEX</label>
-                        <input
-                            id="iex"
-                            type="number"
-                            value={this.state.iex}
-                            onChange={this.handleChange}
-                            className="p-2 form-control col-sm-2"
-                        />
-                    </div>
-                    <div className="d-flex flex-column">
-                        <div className="p-2">
+                </div>
+                <Form className='p-2'>
+                    <Form.Group className='p-5 border'>
+                        <Row>
+                            <Col>
+                                <Form.Label className='col-form-group font-weight-bold'>IEX</Form.Label>
+                            </Col>
+                            <Col>
+                                <input
+                                    id="iex"
+                                    type="number"
+                                    value={this.state.iex}
+                                    onChange={this.handleChange}
+                                    className="form-control"
+                                />
+                            </Col>
+                        </Row>
+                        <Row className='mt-3 table-responsive-md p-3'>
                             <Table bordered>
                                 <thead>
-                                    <tr style={{ backgroundColor: "#BE0002" }}>
+                                    <tr nowrap style={{ backgroundColor: "#BE0002"}}>
                                         <th className="text-white">Annuals Granted</th>
                                         <th className="text-white">Annuals Taken</th>
                                         <th className="text-white">No Show</th>
@@ -151,24 +155,32 @@ export class WorkForceScreenDetail extends React.Component {
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td><input style={{ width: "190px" }} type="number" className="form-control" id="annualsGranted" value={this.state.annualsGranted} onChange={this.handleChange} /></td>
-                                        <td><input style={{ width: "190px" }} type="number" className="form-control" id="annualsTaken" value={this.state.annualsTaken} onChange={this.handleChange} /></td>
-                                        <td><input style={{ width: "190px" }} type="number" className="form-control" id="noShow" value={this.state.noShow} onChange={this.handleChange} /></td>
-                                        <td><input style={{ width: "190px" }} type="number" className="form-control" id="lostHours" value={this.state.lostHours} onChange={this.handleChange} /></td>
-                                        <td><input style={{ width: "190px" }} type="number" className="form-control" id="inLieuDaysToTake" value={this.state.inLieuDaysToTake} onChange={this.handleChange} /></td>
+                                        <td><input type="number" className="form-control" id="annualsGranted" value={this.state.annualsGranted} onChange={this.handleChange} /></td>
+                                        <td><input type="number" className="form-control" id="annualsTaken" value={this.state.annualsTaken} onChange={this.handleChange} /></td>
+                                        <td><input type="number" className="form-control" id="noShow" value={this.state.noShow} onChange={this.handleChange} /></td>
+                                        <td><input type="number" className="form-control" id="lostHours" value={this.state.lostHours} onChange={this.handleChange} /></td>
+                                        <td><input type="number" className="form-control" id="inLieuDaysToTake" value={this.state.inLieuDaysToTake} onChange={this.handleChange} /></td>
                                     </tr>
                                 </tbody>
                             </Table>
-                        </div>
-                    </div>
-                    <button
-                        style={{ width: "100px" }}
-                        onClick={this.submitBalance}
-                        className="btn btn-danger">
-                        Submit
-                    </button>
-                </center>
+                        </Row>
+                        <Row className='mt-3'>
+                            <Col>
+                                <Button
+                                    size='lg'
+                                    type='submit'
+                                    block
+                                    variant='danger'
+                                    onClick={this.submitBalance}
+                                >
+                                    Submit
+                        </Button>
+                            </Col>
+                        </Row>
+                    </Form.Group>
+                </Form>
             </div>
+
         )
     }
 
