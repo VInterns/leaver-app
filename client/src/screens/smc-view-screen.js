@@ -2,6 +2,7 @@ import React from "react";
 import {
   LeaverDetails
 } from "../components";
+import { Form, Row, Col, Button } from 'react-bootstrap';
 import { ToastContainer, toast } from "react-toastify";
 
 /////////////////////////////////////////////////////////////////////////
@@ -44,19 +45,19 @@ export class SMCResignationDetailScreen extends React.Component {
       comment: smcData.comment,
       lastWorkDay: retDetail.phase1.lastWorkDay
     })
-    
+
     this.fetchLeaverInfo(retDetail.staffId);
   }
 
   ///////////////////////////////////////////////
   normalizeVal(value) {
-    if (value === 'true' || value === "on" || value === "Yes"){
+    if (value === 'true' || value === "on" || value === "Yes") {
       return true;
     }
     else if (value === "") {
       return "";
     }
-    else if (value === 'false' || value === "off" || value === "No"){
+    else if (value === 'false' || value === "off" || value === "No") {
       return false;
     }
     else {
@@ -82,26 +83,26 @@ export class SMCResignationDetailScreen extends React.Component {
   }
 
   ///////////////////////////////////////////////
-  fetchLeaverInfo(searchId){
+  fetchLeaverInfo(searchId) {
 
     let QUERY = "/users/?id=" + searchId;
 
     fetch(API + QUERY, {
       method: "get",
-      headers: {"Content-Type": "application/json"}
+      headers: { "Content-Type": "application/json" }
     })
-    .then((res) => {
-      return res.json();
-    })
-    .then((data) => {
-      this.setState({
-        leaver: data
+      .then((res) => {
+        return res.json();
       })
-    })
-    .catch((err) => {
-      if(err)
-        throw err;
-    })
+      .then((data) => {
+        this.setState({
+          leaver: data
+        })
+      })
+      .catch((err) => {
+        if (err)
+          throw err;
+      })
 
   }
 
@@ -130,21 +131,21 @@ export class SMCResignationDetailScreen extends React.Component {
       }),
       headers: { "Content-Type": "application/json" }
     })
-    .then((response) => {
-    if (response.status === 200) {
-      toast.success("SMC data submitted");
-    }
-    else if (response.status === 503) {
-      toast.error("Error in db");
-    }
-    else {
-      toast.error("Data cannot be submitted");
-      return undefined;
-    }
-    })
-    .catch(err => {
-      throw err;
-    });
+      .then((response) => {
+        if (response.status === 200) {
+          toast.success("SMC data submitted");
+        }
+        else if (response.status === 503) {
+          toast.error("Error in db");
+        }
+        else {
+          toast.error("Data cannot be submitted");
+          return undefined;
+        }
+      })
+      .catch(err => {
+        throw err;
+      });
   }
 
   /////////////////////////////////////////////////////////////////////////
@@ -152,84 +153,108 @@ export class SMCResignationDetailScreen extends React.Component {
     const { leaver } = this.state;
 
     return (
-      <div className = "container">
+      <div className="container mt-5">
         <ToastContainer />
-        <center style = {{margin: "25px"}}>
-          <div>
-            <LeaverDetails leaverDetail = {{leaverInfo: leaver, lastDay: this.state.lastWorkDay}}/>
-            <hr/>
-            <div className = "d-flex flex-row">
-              <div className = "p-2">Returned Headset</div>
-              <select 
-                id = "returnedHeadset"
-                onChange = {this.handleChange}
-                className = "p-2 form-control col-sm-1"
-                value = {this.state.returnedHeadset}>
-                <option value = {""}> N/A </option>
-                <option value = {true}>Yes</option> 
-                <option value = {false}>No</option>
-              </select>
-            </div>
-            <div className = "d-flex flex-row mt-3">
-              <div className = "p-2">Returned Keys</div>
-              <select
-                id = "returnedKeys"
-                onChange = {this.handleChange}
-                className = "p-2 form-control col-sm-1"
-                value = {this.state.returnedKeys}>
-                <option value = {""}> N/A </option>
-                <option value = {true}>Yes</option>
-                <option value = {false}>No</option>
-              </select>
-            </div>
-            <br/>
-            <div className = "d-flex flex-row mt-3">
-              <div className = "p-2">Returned Ohda</div>
-              <select 
-                id = "returnedOhda"
-                onChange = {this.handleChange}
-                className = "p-2 form-control col-sm-1 text-center"
-                value = {this.state.returnedOhda}>
-                <option value = {""}> N/A </option>
-                <option value = {true}>Yes</option>
-                <option value = {false}>No</option>
-              </select>
-            </div>
-            <br/>
-            <div className = "d-flex flex-row mt-3">
-              <div className = "p-2">Deduct</div>
-              <input 
-                id="deduct" 
-                type="checkbox"
-                defaultChecked={this.state.deduct} 
-                onChange={(e) => {
-                  this.handleChange({
-                    target: {
-                      id: e.target.id,
-                      value: e.target.checked,
-                    },
-                  });
-                }}
-                className = "p-2 form-control col-sm-1 text-center" />
-            </div>
-            <br/>
-            <div className = "d-flex flex-column mt-3">
-              <label htmlFor = "comment" className = "p-2 align-self-start">Comments</label>
-              <textarea
-                id = "comment"
-                rows = "5"
-                onChange = {this.handleChange}
-                className = "p-2 form-control"
-                value={this.state.comment}/>
-            </div>
-            <button
-              style = {{ width: '100px' }}
-              onClick = {this.submitButton}
-              className = "btn btn-danger mt-3" 
-              >Submit
-            </button>
-          </div>
-        </center>
+        <div className='p-2'>
+          <LeaverDetails leaverDetail={{ leaverInfo: leaver, lastDay: this.state.lastWorkDay }} />
+        </div>
+        <Form className='p-2'>
+          <Form.Group className='p-5 border'>
+            <Row>
+              <Col>
+                <Form.Label className='col-form-group font-weight-bold'>Returned Headset</Form.Label>
+              </Col>
+              <Col>
+                <select
+                  id="returnedHeadset"
+                  onChange={this.handleChange}
+                  className="form-control"
+                  value={this.state.returnedHeadset}>
+                  <option value={""}> N/A </option>
+                  <option value={true}>Yes</option>
+                  <option value={false}>No</option>
+                </select>
+              </Col>
+            </Row>
+            <Row className = 'mt-3'>
+              <Col>
+                <Form.Label className='col-form-group font-weight-bold'>Returned Keys</Form.Label>
+              </Col>
+              <Col>
+                <select
+                  id="returnedKeys"
+                  onChange={this.handleChange}
+                  className="form-control"
+                  value={this.state.returnedKeys}>
+                  <option value={""}> N/A </option>
+                  <option value={true}>Yes</option>
+                  <option value={false}>No</option>
+                </select>
+              </Col>
+            </Row>
+            <Row className = 'mt-3'>
+              <Col>
+                <Form.Label className='col-form-group font-weight-bold'>Returned Ohda</Form.Label>
+              </Col>
+              <Col>
+                <select
+                  id="returnedOhda"
+                  onChange={this.handleChange}
+                  className="form-control"
+                  value={this.state.returnedOhda}>
+                  <option value={""}> N/A </option>
+                  <option value={true}>Yes</option>
+                  <option value={false}>No</option>
+                </select>
+              </Col>
+            </Row>
+            <Row className = 'mt-3'>
+              <Col>
+                <Form.Label className='col-form-group font-weight-bold'>Deduct</Form.Label>
+              </Col>
+              <Col>
+                <input
+                  id="deduct"
+                  type="checkbox"
+                  defaultChecked={this.state.deduct}
+                  onChange={(e) => {
+                    this.handleChange({
+                      target: {
+                        id: e.target.id,
+                        value: e.target.checked,
+                      },
+                    });
+                  }}
+                  className="form-control" />
+              </Col>
+            </Row>
+            <Row className = 'mt-3'>
+              <Col>
+                <Form.Label className='col-form-group font-weight-bold'>Comments</Form.Label>
+              </Col>
+              <Col>
+                <textarea
+                  id="comment"
+                  rows="5"
+                  onChange={this.handleChange}
+                  className="p-2 form-control"
+                  value={this.state.comment} />
+              </Col>
+            </Row>
+            <Row className = 'mt-5'>
+              <Col>
+                <Button
+                  size='lg'
+                  type='submit'
+                  block
+                  variant='danger'
+                  onClick={this.submitButton}
+                >Submit
+                </Button>
+              </Col>
+            </Row>
+          </Form.Group>
+        </Form>
       </div>
     );
   }
