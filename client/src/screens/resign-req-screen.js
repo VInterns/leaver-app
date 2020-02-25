@@ -444,7 +444,7 @@ export class ResignReqScreen extends Component {
             </Row>
             <Row>
               <Col>
-                <Form.Label>Recommended<span style={{ color: 'red', fontSize: 25 }}>*</span></Form.Label>
+                <Form.Label>Recommended to Join Vodafone<span style={{ color: 'red', fontSize: 25 }}>*</span></Form.Label>
               </Col>
               <Col>
                 <input

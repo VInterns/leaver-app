@@ -16,33 +16,33 @@ export class ManagerResignationsViewScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      staffId : '',
-      returnedHeadset : false,
-      returnedKeys : false,
-      returnedOhda : false,
-      ohdaType : '',
-      lastWorkDay : '',
-      nationalId : '',
-      nationalIdImg : null,
-      annualsGranted : '',
-      annualsTaken : '',
-      noShow : '',
-      lostHours : '',
-      daysToTake : '',
-      sapStaffId : '',
-      name : '',
-      managerName : '',
-      ntAccount : '',
-      department : '',
-      careCenter : '',
-      jobTitle : '',
-      hiringDate : '',
-      mobile : '',
-      iex : '',
-      personalMobile : '',
-      recommended : false,
+      staffId: '',
+      returnedHeadset: false,
+      returnedKeys: false,
+      returnedOhda: false,
+      ohdaType: '',
+      lastWorkDay: '',
+      nationalId: '',
+      nationalIdImg: null,
+      annualsGranted: '',
+      annualsTaken: '',
+      noShow: '',
+      lostHours: '',
+      daysToTake: '',
+      sapStaffId: '',
+      name: '',
+      managerName: '',
+      ntAccount: '',
+      department: '',
+      careCenter: '',
+      jobTitle: '',
+      hiringDate: '',
+      mobile: '',
+      iex: '',
+      personalMobile: '',
+      recommended: false,
       createdby: '',
-      resReq : {},
+      resReq: {},
     };
   }
 
@@ -54,21 +54,21 @@ export class ManagerResignationsViewScreen extends Component {
     this.searchUser(staffID)
     this.setState({
       resReq: request,
-      returnedHeadset : request.phase1.returnedHeadset,
-      returnedKeys : request.phase1.returnedKeys,
-      returnedOhda : request.phase1.returnedOhda,
-      ohdaType : request.phase1.ohdaType,
-      lastWorkDay : request.phase1.lastWorkDay,
-      nationalId : request.phase1.nationalId,
-      nationalIdImg : request.phase1.nationalIdImg,
-      annualsGranted : request.phase1.annualsGranted,
-      annualsTaken : request.phase1.annualsTaken,
-      noShow : request.phase1.noShow,
-      lostHours : request.phase1.lostHours,
-      daysToTake : request.phase1.daysToTake,
-      iex : request.phase1.iex,
-      personalMobile : "+" + request.phase1.personalMobile,
-      recommended : request.phase1.recommended,
+      returnedHeadset: request.phase1.returnedHeadset,
+      returnedKeys: request.phase1.returnedKeys,
+      returnedOhda: request.phase1.returnedOhda,
+      ohdaType: request.phase1.ohdaType,
+      lastWorkDay: request.phase1.lastWorkDay,
+      nationalId: request.phase1.nationalId,
+      nationalIdImg: request.phase1.nationalIdImg,
+      annualsGranted: request.phase1.annualsGranted,
+      annualsTaken: request.phase1.annualsTaken,
+      noShow: request.phase1.noShow,
+      lostHours: request.phase1.lostHours,
+      daysToTake: request.phase1.daysToTake,
+      iex: request.phase1.iex,
+      personalMobile: "+" + request.phase1.personalMobile,
+      recommended: request.phase1.recommended,
       createdby: request.createdby,
     })
   }
@@ -92,17 +92,18 @@ export class ManagerResignationsViewScreen extends Component {
       })
       .then((data) => {
         if (data) {
-          this.setState({ staffId: data.staffId,
-                          sapStaffId: data.staffId, 
-                          name: data.name,
-                          managerName: data.managerName,
-                          ntAccount: data.ntAccount,
-                          department: data.department,
-                          careCenter: data.careCenter,
-                          jobTitle: data.jobTitle,
-                          hiringDate: data.hiringDate,
-                          mobile: "+" + data.mobile
-         });
+          this.setState({
+            staffId: data.staffId,
+            sapStaffId: data.staffId,
+            name: data.name,
+            managerName: data.managerName,
+            ntAccount: data.ntAccount,
+            department: data.department,
+            careCenter: data.careCenter,
+            jobTitle: data.jobTitle,
+            hiringDate: data.hiringDate,
+            mobile: "+" + data.mobile
+          });
         }
       })
   }
@@ -113,13 +114,13 @@ export class ManagerResignationsViewScreen extends Component {
 
   ///////////////////////////////////////////////
   normalizeVal(value) {
-    if (value === 'true' || value === "on" || value === "Yes"){
+    if (value === 'true' || value === "on" || value === "Yes") {
       return true;
     }
     else if (value === "") {
       return "";
     }
-    else if (value === 'false' || value === "off" || value === "No"){
+    else if (value === 'false' || value === "off" || value === "No") {
       return false;
     }
     else {
@@ -136,13 +137,13 @@ export class ManagerResignationsViewScreen extends Component {
       returnedHeadset: this.state.returnedHeadset,
       returnedKeys: this.state.returnedKeys,
       returnedOhda: this.state.returnedOhda,
-      ohdaType : this.state.ohdaType,
-      iex : this.state.iex,
-      annualsGranted : this.state.annualsGranted,
-      annualsTaken : this.state.annualsTaken,
-      noShow : this.state.noShow,
-      lostHours : this.state.lostHours,
-      daysToTake : this.state.daysToTake,
+      ohdaType: this.state.ohdaType,
+      iex: this.state.iex,
+      annualsGranted: this.state.annualsGranted,
+      annualsTaken: this.state.annualsTaken,
+      noShow: this.state.noShow,
+      lostHours: this.state.lostHours,
+      daysToTake: this.state.daysToTake,
       status: 'Updated'
     };
 
@@ -154,21 +155,21 @@ export class ManagerResignationsViewScreen extends Component {
       }),
       headers: { "Content-Type": "application/json" }
     })
-    .then((response) => {
-      if (response.status === 200) {
-        toast.success("Resignation Request Updated");
-      }
-      else if (response.status === 503) {
-        toast.error("Error in db");
-      }
-      else {
-        toast.error("Resigation Resquest cannot be updated");
-        return undefined;
-      }
-    })
-    .catch(err => {
-      throw err;
-    });
+      .then((response) => {
+        if (response.status === 200) {
+          toast.success("Resignation Request Updated");
+        }
+        else if (response.status === 503) {
+          toast.error("Error in db");
+        }
+        else {
+          toast.error("Resigation Resquest cannot be updated");
+          return undefined;
+        }
+      })
+      .catch(err => {
+        throw err;
+      });
   }
 
   render() {
@@ -231,14 +232,14 @@ export class ManagerResignationsViewScreen extends Component {
               <Col></Col>
             </Row>
             <Row>
-              <Col><Form.Label>Recommended</Form.Label></Col>
+              <Col><Form.Label>Recommended to Join Vodafone</Form.Label></Col>
               <Col><input
-                name = "recommended"
-                type = "checkbox"
-                checked = {this.state.recommended}
+                name="recommended"
+                type="checkbox"
+                checked={this.state.recommended}
                 // onChange = {this.handleChange}
-                className = "p-2 form-control col-sm-1 text-center"
-                /></Col>
+                className="p-2 form-control col-sm-1 text-center"
+              /></Col>
               <Col></Col>
             </Row>
           </Form.Group>
@@ -247,9 +248,9 @@ export class ManagerResignationsViewScreen extends Component {
               <Col><Form.Label>Returned Headset</Form.Label></Col>
               <Col>
                 <Form.Control as="select" name="returnedHeadset" onChange={this.handleChange} value={this.state.returnedHeadset}>
-                  <option value = {""}> N/A </option>
-                  <option value = {true}>Yes</option>
-                  <option value = {false}>No</option>
+                  <option value={""}> N/A </option>
+                  <option value={true}>Yes</option>
+                  <option value={false}>No</option>
                 </Form.Control>
               </Col>
             </Row>
@@ -257,9 +258,9 @@ export class ManagerResignationsViewScreen extends Component {
               <Col><Form.Label>Returned Keys</Form.Label></Col>
               <Col>
                 <Form.Control as="select" name="returnedKeys" onChange={this.handleChange} value={this.state.returnedKeys}>
-                  <option value = {""}> N/A </option>
-                  <option value = {true}>Yes</option>
-                  <option value = {false}>No</option>
+                  <option value={""}> N/A </option>
+                  <option value={true}>Yes</option>
+                  <option value={false}>No</option>
                 </Form.Control>
               </Col>
             </Row>
@@ -267,15 +268,15 @@ export class ManagerResignationsViewScreen extends Component {
               <Col><Form.Label>Returned 3ohda</Form.Label></Col>
               <Col>
                 <Form.Control as="select" name="returnedOhda" onChange={this.handleChange} value={this.state.returnedOhda}>
-                  <option value = {""}> N/A </option>
-                  <option value = {true}>Yes</option>
-                  <option value = {false}>No</option>
+                  <option value={""}> N/A </option>
+                  <option value={true}>Yes</option>
+                  <option value={false}>No</option>
                 </Form.Control>
               </Col>
             </Row>
             <Row>
               <Col><Form.Label>3ohda Type</Form.Label></Col>
-              <Col><Form.Control as="textarea" rows="1" name="ohdaType" onChange={this.handleChange} value={this.state.ohdaType}/></Col>
+              <Col><Form.Control as="textarea" rows="1" name="ohdaType" onChange={this.handleChange} value={this.state.ohdaType} /></Col>
             </Row>
           </Form.Group>
           <Form.Group className="p-2 border border-danger">
@@ -283,7 +284,7 @@ export class ManagerResignationsViewScreen extends Component {
               <Col><Form.Label>Leave Balance</Form.Label></Col>
               <Col></Col>
               <Col><Form.Label>IEX</Form.Label></Col>
-              <Col><Form.Control as="textarea" rows="1" name="iex" onChange={this.handleChange} value={this.state.iex}/></Col>
+              <Col><Form.Control as="textarea" rows="1" name="iex" onChange={this.handleChange} value={this.state.iex} /></Col>
             </Row>
             <table className="table">
               <thead className="thead-dark">
@@ -297,11 +298,11 @@ export class ManagerResignationsViewScreen extends Component {
               </thead>
               <tbody>
                 <tr>
-                  <th scope="row"><Form.Control as="textarea" rows="1" name="annualsGranted" onChange={this.handleChange} value={this.state.annualsGranted}/></th>
-                  <td><Form.Control as="textarea" rows="1" name="annualsTaken" onChange={this.handleChange} value={this.state.annualsTaken}/></td>
-                  <td><Form.Control as="textarea" rows="1" name="noShow" onChange={this.handleChange} value={this.state.noShow}/></td>
-                  <td><Form.Control as="textarea" rows="1" name="lostHours" onChange={this.handleChange} value={this.state.lostHours}/></td>
-                  <td><Form.Control as="textarea" rows="1" name="daysToTake" onChange={this.handleChange} value={this.state.daysToTake}/></td>
+                  <th scope="row"><Form.Control as="textarea" rows="1" name="annualsGranted" onChange={this.handleChange} value={this.state.annualsGranted} /></th>
+                  <td><Form.Control as="textarea" rows="1" name="annualsTaken" onChange={this.handleChange} value={this.state.annualsTaken} /></td>
+                  <td><Form.Control as="textarea" rows="1" name="noShow" onChange={this.handleChange} value={this.state.noShow} /></td>
+                  <td><Form.Control as="textarea" rows="1" name="lostHours" onChange={this.handleChange} value={this.state.lostHours} /></td>
+                  <td><Form.Control as="textarea" rows="1" name="daysToTake" onChange={this.handleChange} value={this.state.daysToTake} /></td>
                 </tr>
               </tbody>
             </table>
@@ -331,9 +332,9 @@ export class ManagerResignationsViewScreen extends Component {
           <br />
           <Button type="submit" variant="danger" size="lg" onClick={this.onUpdate} block>Update</Button>
         </Form>
-        <br/>
-        <br/>
-        </Container>
+        <br />
+        <br />
+      </Container>
     );
   }
 }
