@@ -257,15 +257,18 @@ export class ResignReqScreen extends Component {
   render() {
     this.validator.purgeFields();
     return (
-      <Container className = 'p-5'>
-        <h3 className = 'text-center'>Resignation Request</h3>
+      <Container className='p-5'>
+        <h3 className='text-center'>Resignation Request</h3>
         <ToastContainer />
-        <Form className = 'mt-4'>
-          <Form.Group className = 'p-5 border'>
+        <Form className='mt-4'>
+          <Form.Group className='p-5 border'>
             <Form.Group className='p-2 border border-danger'>
               <Row>
                 <Col>
-                  <Form.Label className='col-form-group font-weight-bold'>Staff ID<span style={{ color: 'red', fontSize: 25 }}>*</span></Form.Label>
+                  <Form.Label className='col-form-group font-weight-bold'>
+                    Staff ID
+                    <span style={{ color: 'red', fontSize: 25 }}>*</span>
+                  </Form.Label>
                 </Col>
                 <Col>
                   <Form.Control
@@ -295,7 +298,9 @@ export class ResignReqScreen extends Component {
             </Form.Group>
             <Row>
               <Col>
-                <Form.Label className='col-form-group font-weight-bold'>SAP Staff ID</Form.Label>
+                <Form.Label className='col-form-group font-weight-bold'>
+                  SAP Staff ID
+                </Form.Label>
               </Col>
               <Col>
                 <Form.Control
@@ -308,7 +313,9 @@ export class ResignReqScreen extends Component {
             </Row>
             <Row>
               <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Employee Name</Form.Label>
+                <Form.Label className='col-form-group font-weight-bold'>
+                  Employee Name
+                </Form.Label>
               </Col>
               <Col>
                 <Form.Control plaintext readOnly value={this.state.name} />
@@ -317,7 +324,9 @@ export class ResignReqScreen extends Component {
             </Row>
             <Row>
               <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Manager Name</Form.Label>
+                <Form.Label className='col-form-group font-weight-bold'>
+                  Manager Name
+                </Form.Label>
               </Col>
               <Col>
                 <Form.Control
@@ -330,7 +339,9 @@ export class ResignReqScreen extends Component {
             </Row>
             <Row>
               <Col>
-                <Form.Label className='col-form-group font-weight-bold'>NT Account</Form.Label>
+                <Form.Label className='col-form-group font-weight-bold'>
+                  NT Account
+                </Form.Label>
               </Col>
               <Col>
                 <Form.Control plaintext readOnly value={this.state.ntAccount} />
@@ -339,7 +350,9 @@ export class ResignReqScreen extends Component {
             </Row>
             <Row>
               <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Department</Form.Label>
+                <Form.Label className='col-form-group font-weight-bold'>
+                  Department
+                </Form.Label>
               </Col>
               <Col>
                 <Form.Control
@@ -352,7 +365,9 @@ export class ResignReqScreen extends Component {
             </Row>
             <Row>
               <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Cost Center</Form.Label>
+                <Form.Label className='col-form-group font-weight-bold'>
+                  Cost Center
+                </Form.Label>
               </Col>
               <Col>
                 <Form.Control
@@ -365,7 +380,9 @@ export class ResignReqScreen extends Component {
             </Row>
             <Row>
               <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Job Title</Form.Label>
+                <Form.Label className='col-form-group font-weight-bold'>
+                  Job Title
+                </Form.Label>
               </Col>
               <Col>
                 <Form.Control plaintext readOnly value={this.state.jobTitle} />
@@ -374,7 +391,9 @@ export class ResignReqScreen extends Component {
             </Row>
             <Row>
               <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Hiring Date</Form.Label>
+                <Form.Label className='col-form-group font-weight-bold'>
+                  Hiring Date
+                </Form.Label>
               </Col>
               <Col>
                 <Form.Control
@@ -387,16 +406,21 @@ export class ResignReqScreen extends Component {
             </Row>
             <Row>
               <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Mobile Number<span style={{ color: 'red', fontSize: 25 }}>*</span></Form.Label>
+                <Form.Label className='col-form-group font-weight-bold'>
+                  Mobile Number
+                </Form.Label>
               </Col>
               <Col>
                 <Form.Control plaintext readOnly value={this.state.mobile} />
               </Col>
               <Col></Col>
             </Row>
-            <Row className = 'mt-3'>
+            <Row className='mt-3'>
               <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Last Working Day<span style={{ color: 'red', fontSize: 25 }}>*</span></Form.Label>
+                <Form.Label className='col-form-group font-weight-bold'>
+                  Last Working Day
+                  <span style={{ color: 'red', fontSize: 25 }}>*</span>
+                </Form.Label>
               </Col>
               <Col>
                 <input
@@ -417,9 +441,12 @@ export class ResignReqScreen extends Component {
                 )}
               </Col>
             </Row>
-            <Row className = 'mt-3'>
+            <Row className='mt-3'>
               <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Personal Mobile Number<span style={{ color: 'red', fontSize: 25 }}>*</span></Form.Label>
+                <Form.Label className='col-form-group font-weight-bold'>
+                  Personal Mobile Number
+                  <span style={{ color: 'red', fontSize: 25 }}>*</span>
+                </Form.Label>
               </Col>
               <Col>
                 <Form.Control
@@ -439,9 +466,12 @@ export class ResignReqScreen extends Component {
               </Col>
               <Col></Col>
             </Row>
-            <Row className = 'mt-3'>
+            <Row className='mt-3'>
               <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Recommended to Join Vodafone<span style={{ color: 'red', fontSize: 25 }}>*</span></Form.Label>
+                <Form.Label className='col-form-group font-weight-bold'>
+                  Recommended to Join Vodafone
+                  <span style={{ color: 'red', fontSize: 25 }}>*</span>
+                </Form.Label>
               </Col>
               <Col>
                 <input
@@ -458,7 +488,9 @@ export class ResignReqScreen extends Component {
           <Form.Group className='p-5 border'>
             <Row required>
               <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Returned Headset</Form.Label>
+                <Form.Label className='col-form-group font-weight-bold'>
+                  Returned Headset
+                </Form.Label>
               </Col>
               <Col>
                 <Form.Control
@@ -473,9 +505,11 @@ export class ResignReqScreen extends Component {
                 </Form.Control>
               </Col>
             </Row>
-            <Row className = 'mt-3'>
+            <Row className='mt-3'>
               <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Returned Keys</Form.Label>
+                <Form.Label className='col-form-group font-weight-bold'>
+                  Returned Keys
+                </Form.Label>
               </Col>
               <Col>
                 <Form.Control
@@ -490,9 +524,13 @@ export class ResignReqScreen extends Component {
                 </Form.Control>
               </Col>
             </Row>
-            <Row className = 'mt-3'>
+            <Row className='mt-3'>
               <Col>
-                <Form.Label className='col-form-group font-weight-bold'> Pending Sick Leave<span style={{ color: 'red', fontSize: 25 }}>*</span></Form.Label>
+                <Form.Label className='col-form-group font-weight-bold'>
+                  {' '}
+                  Pending Sick Leave
+                  <span style={{ color: 'red', fontSize: 25 }}>*</span>
+                </Form.Label>
               </Col>
               <Col>
                 <Form.Control
@@ -515,9 +553,11 @@ export class ResignReqScreen extends Component {
                 )}
               </Col>
             </Row>
-            <Row className = 'mt-3'>
+            <Row className='mt-3'>
               <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Returned Custody</Form.Label>
+                <Form.Label className='col-form-group font-weight-bold'>
+                  Returned Custody
+                </Form.Label>
               </Col>
               <Col>
                 <Form.Control
@@ -540,9 +580,11 @@ export class ResignReqScreen extends Component {
                 )}
               </Col>
             </Row>
-            <Row className = 'mt-3'>
+            <Row className='mt-3'>
               <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Custody Type</Form.Label>
+                <Form.Label className='col-form-group font-weight-bold'>
+                  Custody Type
+                </Form.Label>
               </Col>
               <Col>
                 <Form.Control
@@ -568,11 +610,13 @@ export class ResignReqScreen extends Component {
                 </Form.Label>
               </Col>
             </Row>
-            <Row className = 'mt-3'>
+            <Row className='mt-3'>
               <Col>
-                <Form.Label className='col-form-group font-weight-bold'>IEX</Form.Label>
+                <Form.Label className='col-form-group font-weight-bold'>
+                  IEX
+                </Form.Label>
                 <Form.Control
-                  className = 'col-xs-1 w-25'
+                  className='col-xs-1 w-25'
                   as='textarea'
                   rows='1'
                   name='iex'
@@ -641,7 +685,10 @@ export class ResignReqScreen extends Component {
           <Form.Group className='p-5 border'>
             <Row>
               <Col>
-                <Form.Label className='col-form-group font-weight-bold'>National ID Number<span style={{ color: 'red', fontSize: 25 }}>*</span></Form.Label>
+                <Form.Label className='col-form-group font-weight-bold'>
+                  National ID Number
+                  <span style={{ color: 'red', fontSize: 25 }}>*</span>
+                </Form.Label>
               </Col>
               <Col>
                 <Form.Control
@@ -658,9 +705,11 @@ export class ResignReqScreen extends Component {
                 )}
               </Col>
             </Row>
-            <Row className = 'mt-3'>
+            <Row className='mt-3'>
               <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Copy of National ID Front Page</Form.Label>
+                <Form.Label className='col-form-group font-weight-bold'>
+                  Copy of National ID Front Page
+                </Form.Label>
               </Col>
               <Col>
                 <ImageUploaderComponent
