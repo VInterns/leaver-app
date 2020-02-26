@@ -469,7 +469,7 @@ export class ResignReqScreen extends Component {
             <Row className='mt-3'>
               <Col>
                 <Form.Label className='col-form-group font-weight-bold'>
-                  Recommended to Join Vodafone
+                  Recommended to join Vodafone future projects
                   <span style={{ color: 'red', fontSize: 25 }}>*</span>
                 </Form.Label>
               </Col>
@@ -527,7 +527,6 @@ export class ResignReqScreen extends Component {
             <Row className='mt-3'>
               <Col>
                 <Form.Label className='col-form-group font-weight-bold'>
-                  {' '}
                   Pending Sick Leave
                   <span style={{ color: 'red', fontSize: 25 }}>*</span>
                 </Form.Label>
@@ -538,19 +537,11 @@ export class ResignReqScreen extends Component {
                   name='sickLeave'
                   onChange={this.handleChange}
                   defaultValue={this.state.sickLeave}
-                  onBlur={() =>
-                    this.validator.showMessageFor('Pending Sick Leave')
-                  }
                 >
                   <option value={''}> N/A </option>
                   <option value={true}>Yes</option>
                   <option value={false}>No</option>
                 </Form.Control>
-                {this.validator.message(
-                  'Pending Sick Leave',
-                  this.state.sickLeave,
-                  'required'
-                )}
               </Col>
             </Row>
             <Row className='mt-3'>
@@ -584,6 +575,7 @@ export class ResignReqScreen extends Component {
               <Col>
                 <Form.Label className='col-form-group font-weight-bold'>
                   Custody Type
+                  <span style={{ color: 'red', fontSize: 25 }}>*</span>
                 </Form.Label>
               </Col>
               <Col>
@@ -597,7 +589,7 @@ export class ResignReqScreen extends Component {
                 {this.validator.message(
                   'Custody Type',
                   this.state.ohdaType,
-                  'required|alpha'
+                  'required|alpha_num_space'
                 )}
               </Col>
             </Row>
