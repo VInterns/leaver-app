@@ -12,7 +12,7 @@ cache:
 
 before_deploy:
   - yarn build:client
-  - cp -r './client/build/.' './server/static'
+  - yarn post_build:copy
 
 deploy:
   - echo 'We should deploy here'
