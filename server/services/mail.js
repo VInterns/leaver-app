@@ -129,7 +129,7 @@ const sendEmail = (toMailList, subject, htmlbody, callBack, errCallBack = () => 
     // TODO: make the mail template ready
 
     let mailOptions = {
-        from: "abokahfa@outlook.com",
+        from: process.env.EMAIL,
         to: toMailList,
         subject: subject,
         html: htmlbody
@@ -146,5 +146,40 @@ const sendEmail = (toMailList, subject, htmlbody, callBack, errCallBack = () => 
     });
 }
 
-module.exports = { sendMail, sendPhaseUpdate, sendEmail }
+
+/////////////////////////////////////////////////////////////
+const onLastWorkDayUpdate = (subject, text, callBack, errCallBack = () => { }) => {
+
+    let toMailList = [];
+    let db = getDB();
+    let query = { roles: { $in: ['hr', 'vendor'] } };
+
+    db.collection('users')
+        .find(query)
+        .toArray((err, users) => {
+            if (err) throw err;
+
+            toMailList = users.map(user => {
+                return user.username
+            })
+
+            let mailOptions = {
+                from: process.env.EMAIL,
+                to: toMailList,
+                subject: subject,
+                text: text
+            }
+
+            transporter.sendMail(mailOptions, function (err, info) {
+                if (err) {
+                    errCallBack();
+                    throw err;
+                } else {
+                    callBack();
+                    console.log("Last Work Day Notification Sent: ", info.response)
+                }
+            })
+        })
+}
+module.exports = { sendMail, sendPhaseUpdate, sendEmail, onLastWorkDayUpdate }
 

@@ -61,6 +61,10 @@ module.exports = db => {
             res.status(404).send();
             throw err;
           } else {
+            mailer.onLastWorkDayUpdate(
+              `Last Work Day Update for Staff ID#${leaverId}`,
+              `The Employee ID#${leaverId} last work day changed to ${req.body.phase1.lastWorkDay}.`
+              )
             res.status(200).send({
               msg:
                 "Employee successfully found, and resignation request updated data successfully updated"
