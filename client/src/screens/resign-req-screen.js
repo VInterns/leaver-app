@@ -6,7 +6,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { connect } from 'react-redux';
 import SimpleReactValidator from 'simple-react-validator';
-import Popup from "reactjs-popup";
+import { confirmAlert, onClose } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css'
 
 import { ImageUploaderComponent } from '../components';
 
@@ -100,8 +101,7 @@ export class ResignReqScreen extends Component {
       });
   };
 
-  onSubmit = e => {
-    e.preventDefault();
+  onSubmit = () => {
     if (this.validator.allValid()) {
       fetch(API + SUBMIT, {
         body: JSON.stringify({
@@ -176,33 +176,30 @@ export class ResignReqScreen extends Component {
         } else if (response.status === 503) {
           toast.error('Error in db');
         } else {
-          toast.error('Resigation already exists');
-          // return undefined;
+          toast.error('Resigation already exists')
         }
       });
 
-      // let QUERY = "mail/sendMail";
-
-      // /* Append Employee Email */
-      // this.state.mailList.push(this.state.username);
-
-      // /* Send Email to mailList */
-      // fetch(API + QUERY, {
-      //   method: "post",
-      //   body: JSON.stringify({
-      //     mailList : this.state.mailList
-      //   }),
-      //   "headers": {"Content-type": "application/json"}
-      // })
-      // .then((res) => {
-      //   return console.log(res);
-      // })
-      // .catch((err) => {
-      //   return console.log(err);
-      // });
     } else {
       toast.error('Please enter all required fields');
     }
+  };
+
+  submit = () => {
+    confirmAlert({
+      title: 'Confirm to submit',
+      message: 'Are you sure to submit this resignation request?',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: this.onSubmit
+        },
+        {
+          label: 'No',
+          onClick: onClose,
+        }
+      ]
+    })
   };
 
   ///////////////////////////////////////////////
@@ -223,28 +220,6 @@ export class ResignReqScreen extends Component {
     this.setState({ [e.target.name]: this.normalizeVal(e.target.value) });
   };
   ///////////////////////////////////////////////
-
-  // fetchMailList(){
-  //   let LIST_QUERY = "mail/getMailList";
-
-  //     /* Fetch Mailing List */
-  //     fetch(API + LIST_QUERY, {
-  //       method: "get",
-  //       headers: {"Content-type": "application/json"}
-  //     })
-  //     .then((res) => {
-  //       return res.json();
-  //     })
-  //     .then((list) => {
-  //       this.setState({
-  //         mailList: list
-  //       })
-  //     })
-  //     .catch((err) => {
-  //       throw err;
-  //     })
-  // }
-
   imageUploaderHandler = file => {
     this.setState({
       nationalIdImg: {
@@ -667,58 +642,16 @@ export class ResignReqScreen extends Component {
             </Row>
           </Form.Group>
           <br />
-          {/* <Button
-            type='submit'
-            variant='danger'
-            size='lg'
-            onClick={this.onSubmit}
-            block
-          >
-            Submit
-          </Button> */}
-          <Popup trigger={<Button
+          <Button
             // type='submit'
             variant='danger'
             size='lg'
-            // onClick={this.onSubmit}
+            onClick={this.submit}
             block
           >
             Submit
-          </Button>} 
-          modal 
-          closeOnDocumentClick>
-          {/* {close => (
-              <h2 className='align-center'> Are you sure you want to Submit? </h2>
-              <h5>Please note that once the resignation request is submitted, it cannot be cancelled </h5>
-              <div className="actions">
-              <Button
-                  variant='primary'
-                  size='sm'
-                  className="button"
-                  onClick={() => {
-                    console.log("modal closed ");
-                    // close();
-                  }}
-                >
-                  Cancel
-                </Button>
-              <Button
-                  variant='primary'
-                  size='sm'
-                  className="button"
-                  onClick={() => {
-                    console.log("modal closed ");
-                    // close();
-                  }}
-                >
-                  Submit
-                </Button>
-                
-            </div>
-          )} */}
+          </Button>
 
-          </Popup>
-          
         </Form>
       </Container>
     );
