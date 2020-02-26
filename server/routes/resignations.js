@@ -231,6 +231,34 @@ module.exports = db => {
       })
     });
 
+  router.post(
+    "/update/cs",
+    ensureLoggedIn,
+    ensureHasRole(["admin"]),
+    function (req, res) {
+      var leaverId = req.body.staffId;
+      db.collection(collection).findOneAndUpdate(
+        { staffId: leaverId },
+        {
+          $set: { phase8: req.body.phase8 }
+        },
+        function (err, doc) {
+          if (err) {
+            res.status(404).send();
+            throw err;
+          } else {
+            req.body.phase8.status === 'done' && mailer.sendPhaseUpdate();
+            res.status(200).send({
+              msg:
+                "employee successfully found, and corporate security data successfully updated"
+            });
+          }
+        }
+      );
+    }
+  );
+  
+
 
   router.post(
     "/update/phase6",

@@ -162,6 +162,12 @@ export class ResignReqScreen extends Component {
             status: 'new',
             comment: '',
             returnedHwToken: false
+          },
+          phase8:{
+            status: 'new',
+            disabledAccount: false,
+            physicalId: false,
+            comment: ''
           }
         }),
         headers: {
