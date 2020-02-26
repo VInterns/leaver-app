@@ -4,7 +4,7 @@ const getDatabaseUrl = () => {
   try {
     return cfServices("leaver-db").credentials.uri;
   } catch (err) {
-    return process.env.DATABASE_URL || "mongodb://localhost:27017/leaver-app";
+    return process.env.DATABASE_URL || "mongodb://localhost:27017/leaver-db";
   }
 };
 
