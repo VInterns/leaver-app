@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table } from 'react-bootstrap';
+import { Table, Row, Col } from 'react-bootstrap';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 /////////////////////////////////////////////////////////////////////////
@@ -100,18 +100,22 @@ export class SMCTableScreen extends React.Component {
             <h3>Customer Care (SMC)</h3>
             <hr />
           </header>
-          <div className='elt-data'>
-            <ReactHTMLTableToExcel
-              id='test-table-xls-button'
-              className='download-table-xls-button'
-              table='customer-care-table'
-              filename='Resignations - Customer Care'
-              sheet='resignations'
-              buttonText='Download as XLS'
-            />
+          <Row className = 'mt-3'>
+            <Col>
+              <ReactHTMLTableToExcel
+                id='test-table-xls-button'
+                className='download-table-xls-button btn btn-outline-success btn-lg btn-block'
+                table='customer-care-table'
+                filename='Resignations - Customer Care'
+                sheet='resignations'
+                buttonText='Export Table as XLS'
+              />
+            </Col>
+          </Row>
+          <div className='elt-data mt-3'>
             <Table bordered hover striped responsive id='customer-care-table'>
               <thead>
-                <tr style={{ backgroundColor: '#BE0002' }}>
+                <tr style={{ backgroundColor: "#BE0002" }}>
                   <th className='text-white'>Staff ID</th>
                   <th className='text-white'>Employee Name</th>
                   <th className='text-white'>Manager Name</th>

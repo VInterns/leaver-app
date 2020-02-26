@@ -88,11 +88,11 @@ export class ConsumerTable extends Component {
           <div>
             <ReactHTMLTableToExcel
               id='test-table-xls-button'
-              className='download-table-xls-button'
-              table='conumer-activation-table'
-              filename='Resignations - Conumer Activation'
+              className='download-table-xls-button btn btn-outline-success btn-lg btn-block mt-3 mb-3'
+              table='wf-table'
+              filename='Resignations - Work Force'
               sheet='resignations'
-              buttonText='Download as XLS'
+              buttonText='Export Table as XLS'
             />
             <Table bordered hover id='conumer-activation-table'>
               <thead>

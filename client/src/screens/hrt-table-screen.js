@@ -71,13 +71,13 @@ export class HrViewScreen extends Component {
             <hr />
           </header>
           <ReactHTMLTableToExcel
-            id='test-table-xls-button'
-            className='download-table-xls-button'
-            table='hr-table'
-            filename='Resignations - HR'
-            sheet='resignations'
-            buttonText='Download as XLS'
-          />
+              id='test-table-xls-button'
+              className='download-table-xls-button btn btn-outline-success btn-lg btn-block mt-3 mb-3'
+              table='wf-table'
+              filename='Resignations - Work Force'
+              sheet='resignations'
+              buttonText='Export Table as XLS'
+            />
           <Table bordered striped hover id='hr-table'>
             <thead>
               <tr style={{ backgroundColor: '#BE0002', whiteSpace: 'nowrap' }}>

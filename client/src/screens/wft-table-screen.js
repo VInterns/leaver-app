@@ -97,11 +97,11 @@ export class WorkForceScreen extends React.Component {
           <div>
             <ReactHTMLTableToExcel
               id='test-table-xls-button'
-              className='download-table-xls-button'
+              className='download-table-xls-button btn btn-outline-success btn-lg btn-block mt-3 mb-3'
               table='wf-table'
               filename='Resignations - Work Force'
               sheet='resignations'
-              buttonText='Download as XLS'
+              buttonText='Export Table as XLS'
             />
             <Table bordered hover striped id='wf-table'>
               <thead>
