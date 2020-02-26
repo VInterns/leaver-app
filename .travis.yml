@@ -15,7 +15,13 @@ before_deploy:
   - yarn post_build:copy
 
 deploy:
-  - echo 'We should deploy here'
-
+  - provider: cloudfoundry
+    username: $PWS.USER
+    password: $PWS.PASSWORD
+    api: https://api.run.pivotal.io
+    organization: digital-coe
+    space: leaver-app
+    on:
+      branch: master
 script:
   - echo "skipping tests"
