@@ -157,7 +157,7 @@ export class CSResignationDetailScreen extends React.Component {
           <Form.Group className='p-5 border'>
             <Row>
               <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Disabled Account</Form.Label>
+                <Form.Label className='col-form-group font-weight-bold'>Disable Company ID</Form.Label>
               </Col>
               <Col>
                 <select
@@ -173,7 +173,7 @@ export class CSResignationDetailScreen extends React.Component {
             </Row>
             <Row className='mt-3'>
               <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Physical Id</Form.Label>
+                <Form.Label className='col-form-group font-weight-bold'>Recieved Physical ID</Form.Label>
               </Col>
               <Col>
                 <select
