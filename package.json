@@ -14,7 +14,8 @@
     "start:server": "node ./server/server.js",
     "install:client": "cd client && yarn",
     "install:all": "yarn install:client && yarn",
-    "build:client": "cd client && yarn build"
+    "build:client": "cd client && yarn build",
+    "post_build:copy": "cp -r './client/build/.' './server/static'"
   },
   "dependencies": {
     "axios": "^0.19.2",
