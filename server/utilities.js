@@ -1,8 +1,12 @@
-const getDatabaseUrl = () => {
-    return process.env.DATABASE_URL || "mongodb://localhost:27017/leaver-app";
-};
+const cfServices = require("cf-services");
 
-// "mongodb://leaver-app:leaver-app-1@ds219459.mlab.com:19459/leaver-app?replicaSet=rs-ds219459&&retryWrites=false"
+const getDatabaseUrl = () => {
+  try {
+    return cfServices("leaver-db").credentials.uri;
+  } catch (err) {
+    return process.env.DATABASE_URL || "mongodb://localhost:27017/leaver-app";
+  }
+};
 
 
 const getPort = () => {

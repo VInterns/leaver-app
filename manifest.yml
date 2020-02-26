@@ -1,0 +1,7 @@
+applications:
+  - name: leaver-app
+    command: yarn start:server
+    env:
+      NODE_ENV: production
+    services:
+      - leaver-db
