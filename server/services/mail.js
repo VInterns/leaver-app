@@ -4,7 +4,7 @@ require('dotenv').config();
 const nodemailer = require("nodemailer");
 const { getDB } = require("../db");
 
-let transporter = nodemailer.createTransport({
+let hotmailTransporter = nodemailer.createTransport({
     host: "smtp-mail.outlook.com",
     secure: false,
     port: 587,
@@ -16,7 +16,18 @@ let transporter = nodemailer.createTransport({
         ciphers: 'SSLv3'
     }
 })
+const fromEmail = 'hashad.d2d@gmail.com';
 
+let gmailTransporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    auth: {
+            type: 'oAuth2',
+            user: fromEmail,
+            clientId: '849051165442-gmqv3barpd07r9hui6dn6nt0074lh5sj.apps.googleusercontent.com',
+            clientSecret: 'HNPPrnlhQbnrftJMk5jn6vGy',
+            refreshToken: '1//04ZyR-viFqs2vCgYIARAAGAQSNwF-L9IrRSZXXamO8gVPbdlyl_aBmRKNwg0VwAShfLSuMg-agvYnAd_Kcr_qdumNCV7S8hmYxuo'     
+    }
+})
 /////////////////////////////////////////////////////////////
 const sendMail = async function (req, res) {
 
@@ -29,7 +40,7 @@ const sendMail = async function (req, res) {
     }
 
     /* SendMail */
-    transporter.sendMail(options, function (err, info) {
+    gmailTransporter.sendMail(options, function (err, info) {
 
         if (err) {
 
@@ -104,13 +115,13 @@ const sendPhaseUpdate = function (req, res) {
             })
 
             let options = {
-                from: process.env.USER,
+                from: fromEmail,
                 to: sendTo,
                 subject: "Phase Update",
                 text: "Phase Updated"
             }
 
-            transporter.sendMail(options, (err, info) => {
+            gmailTransporter.sendMail(options, (err, info) => {
                 if (err) {
                     return console.log(err);
                 }
@@ -121,21 +132,22 @@ const sendPhaseUpdate = function (req, res) {
                 }
             })
         })
-
+ 
 }
 /////////////////////////////////////////////////////////////
 const sendEmail = (toMailList, subject, htmlbody, callBack, errCallBack = () => { }) => {
 
+
     // TODO: make the mail template ready
 
     let mailOptions = {
-        from: process.env.EMAIL,
+        from: fromEmail,
         to: toMailList,
         subject: subject,
         html: htmlbody
     };
     console.log(mailOptions);
-    transporter.sendMail(mailOptions, function (error, info) {
+    gmailTransporter.sendMail(mailOptions, function (error, info) {
         if (error) {
             errCallBack();
             throw error;
@@ -164,13 +176,13 @@ const onLastWorkDayUpdate = (subject, text, callBack, errCallBack = () => { }) =
             })
 
             let mailOptions = {
-                from: process.env.EMAIL,
+                from:fromEmail,
                 to: toMailList,
                 subject: subject,
                 text: text
             }
 
-            transporter.sendMail(mailOptions, function (err, info) {
+            gmailTransporter.sendMail(mailOptions, function (err, info) {
                 if (err) {
                     errCallBack();
                     throw err;

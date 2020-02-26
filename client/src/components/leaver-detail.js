@@ -7,7 +7,7 @@ export class LeaverDetails extends React.Component {
     render() {
 
         let leaver = Object(this.props.leaverDetail.leaverInfo);
-
+        let leaverDetail = this.props.leaverDetail;
         return (
             <div>
                 <header className='text-center'>
@@ -127,7 +127,7 @@ export class LeaverDetails extends React.Component {
                                 <Form.Control
                                     readOnly
                                     plaintext
-                                    value={this.props.leaverDetail.lastDay}
+                                    value={leaverDetail.lastDay|| ""} 
                                 />
                             </Col>
                         </Row>
