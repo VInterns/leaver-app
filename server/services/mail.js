@@ -33,7 +33,7 @@ const sendMail = async function (req, res) {
 
     /* Email Options Setup */
     let options = {
-        from: "abokahfa@outlook.com",
+        from: fromEmail,
         to: req.body.mailList,
         subject: req.body.subject,
         text: req.body.text
