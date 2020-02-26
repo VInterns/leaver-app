@@ -13,7 +13,8 @@
     "start": "yarn start:server",
     "start:server": "node ./server/server.js",
     "install:client": "cd client && yarn",
-    "install:all": "yarn install:client && yarn"
+    "install:all": "yarn install:client && yarn",
+    "build:client": "cd client && yarn build"
   },
   "dependencies": {
     "axios": "^0.19.2",

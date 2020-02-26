@@ -4,8 +4,14 @@ node_js:
 install:
   - yarn install:all
 
+cache:
+  yarn: true
+  directories:
+    - ~/.cache
+
 before_deploy:
-  - yarn build
+  - yarn build:client
+  - cp -r './client/build/.' '/server/static'
 
 script:
   - echo "skipping tests"
