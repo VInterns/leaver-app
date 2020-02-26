@@ -13,5 +13,8 @@ before_deploy:
   - yarn build:client
   - cp -r './client/build/.' '/server/static'
 
+deploy:
+  - echo 'We should deploy here & we are champions'
+
 script:
   - echo "skipping tests"
