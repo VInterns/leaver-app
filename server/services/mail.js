@@ -2,7 +2,6 @@
 require('dotenv').config();
 
 const nodemailer = require("nodemailer");
-const { getDB } = require("../db");
 const { getFromEmail } = require("../utilities");
 
 
@@ -31,43 +30,6 @@ let gmailTransporter = nodemailer.createTransport({
         refreshToken: '1//04ZyR-viFqs2vCgYIARAAGAQSNwF-L9IrRSZXXamO8gVPbdlyl_aBmRKNwg0VwAShfLSuMg-agvYnAd_Kcr_qdumNCV7S8hmYxuo'
     }
 })
-/////////////////////////////////////////////////////////////
-
-const sendPhaseUpdate = function (req, res) {
-
-    let sendTo = [];
-    let db = getDB();
-    let query = { roles: { $in: ['hr', 'manager'] } };
-
-    db.collection('users')
-        .find(query)
-        .toArray((err, users) => {
-            if (err) throw err;
-
-            sendTo = users.map(user => {
-                return user.username
-            })
-
-            let options = {
-                from: fromEmail,
-                to: sendTo,
-                subject: "Phase Update",
-                text: "Phase Updated"
-            }
-
-            gmailTransporter.sendMail(options, (err, info) => {
-                if (err) {
-                    return console.log(err);
-                }
-                else {
-                    return res.json({
-                        "response": `email sent to ${info.envelope.to}`
-                    })
-                }
-            })
-        })
-
-}
 
 /////////////////////////////////////////////////////////////
 const sendEmail = (toMailList, subject, htmlbody, callBack, errCallBack = () => { }) => {
@@ -95,5 +57,5 @@ const sendEmail = (toMailList, subject, htmlbody, callBack, errCallBack = () => 
     });
 }
 
-module.exports = {sendPhaseUpdate, sendEmail }
+module.exports = {sendEmail }
 

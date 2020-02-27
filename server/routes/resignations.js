@@ -308,7 +308,6 @@ module.exports = db => {
             res.status(404).send();
             throw err;
           } else {
-            req.body.phase6.status === 'done' && mailer.sendPhaseUpdate();
 
             /******* MAIL NOTIFICATION *******/
             // TODO: add any other required emails
