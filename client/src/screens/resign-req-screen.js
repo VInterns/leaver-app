@@ -6,6 +6,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { connect } from 'react-redux';
 import SimpleReactValidator from 'simple-react-validator';
+import { confirmAlert, onClose } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css'
 
 import { ImageUploaderComponent } from '../components';
 
@@ -77,7 +79,7 @@ export class ResignReqScreen extends Component {
           this.setState({ employeeFound: true });
           return response.json();
         } else {
-          toast.error('User not found');
+          toast.error('Employee not found');
           return undefined;
         }
       })
@@ -94,12 +96,12 @@ export class ResignReqScreen extends Component {
           this.setState({ hiringDate: data.hiringDate });
           this.setState({ mobile: data.mobile });
           this.setState({ username: data.username });
+          this.setState({ nationalId: data.nationalId})
         }
       });
   };
 
-  onSubmit = e => {
-    e.preventDefault();
+  onSubmit = () => {
     if (this.validator.allValid()) {
       fetch(API + SUBMIT, {
         body: JSON.stringify({
@@ -180,13 +182,30 @@ export class ResignReqScreen extends Component {
         } else if (response.status === 503) {
           toast.error('Error in db');
         } else {
-          toast.error('Resigation already exists');
-          return undefined;
+          toast.error('Resigation already exists')
         }
       });
+
     } else {
       toast.error('Please enter all required fields');
     }
+  };
+
+  submit = () => {
+    confirmAlert({
+      title: 'Confirm to submit',
+      message: 'Are you sure to submit this resignation request?',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: this.onSubmit
+        },
+        {
+          label: 'No',
+          onClick: onClose,
+        }
+      ]
+    })
   };
 
   ///////////////////////////////////////////////
@@ -207,28 +226,6 @@ export class ResignReqScreen extends Component {
     this.setState({ [e.target.name]: this.normalizeVal(e.target.value) });
   };
   ///////////////////////////////////////////////
-
-  // fetchMailList(){
-  //   let LIST_QUERY = "mail/getMailList";
-
-  //     /* Fetch Mailing List */
-  //     fetch(API + LIST_QUERY, {
-  //       method: "get",
-  //       headers: {"Content-type": "application/json"}
-  //     })
-  //     .then((res) => {
-  //       return res.json();
-  //     })
-  //     .then((list) => {
-  //       this.setState({
-  //         mailList: list
-  //       })
-  //     })
-  //     .catch((err) => {
-  //       throw err;
-  //     })
-  // }
-
   imageUploaderHandler = file => {
     this.setState({
       nationalIdImg: {
@@ -602,7 +599,6 @@ export class ResignReqScreen extends Component {
                   onBlur={() => this.validator.showMessageFor('iex')}
                 />
                 {this.validator.message('iex', this.state.iex, 'required')}
-              </Col>
             </Row>
             <table className='table mt-3'>
               <thead className='thead-dark'>
@@ -669,18 +665,11 @@ export class ResignReqScreen extends Component {
                 </Form.Label>
               </Col>
               <Col>
-                <Form.Control
-                  as='textarea'
-                  rows='1'
-                  name='nationalId'
-                  onChange={this.handleChange}
-                  onBlur={() => this.validator.showMessageFor('national id')}
+              <Form.Control
+                  plaintext
+                  readOnly
+                  value={this.state.nationalId}
                 />
-                {this.validator.message(
-                  'national id',
-                  this.state.nationalId,
-                  'required|integer|size:14'
-                )}
               </Col>
             </Row>
             <Row className='mt-3'>
@@ -698,14 +687,15 @@ export class ResignReqScreen extends Component {
           </Form.Group>
           <br />
           <Button
-            type='submit'
+            // type='submit'
             variant='danger'
             size='lg'
-            onClick={this.onSubmit}
+            onClick={this.submit}
             block
           >
             Submit
           </Button>
+
         </Form>
       </Container>
     );
