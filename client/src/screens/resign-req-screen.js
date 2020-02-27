@@ -178,26 +178,6 @@ export class ResignReqScreen extends Component {
           return undefined;
         }
       });
-
-      // let QUERY = "mail/sendMail";
-
-      // /* Append Employee Email */
-      // this.state.mailList.push(this.state.username);
-
-      // /* Send Email to mailList */
-      // fetch(API + QUERY, {
-      //   method: "post",
-      //   body: JSON.stringify({
-      //     mailList : this.state.mailList
-      //   }),
-      //   "headers": {"Content-type": "application/json"}
-      // })
-      // .then((res) => {
-      //   return console.log(res);
-      // })
-      // .catch((err) => {
-      //   return console.log(err);
-      // });
     } else {
       toast.error('Please enter all required fields');
     }

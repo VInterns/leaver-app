@@ -2,6 +2,10 @@ const { Router } = require("express");
 
 const mailer = require('../services/mail');
 const {
+  getHtmlBody,
+  getMailingList,
+} = require('../utilities');
+const {
   ensureLoggedIn,
   ensureHasRole
 } = require("../middlewares/authentication");
@@ -23,7 +27,6 @@ module.exports = db => {
       });
   });
 
-
   router.post("/", ensureLoggedIn, ensureHasRole(["admin"]), function (req, res) {
     db.collection(collection)
       .findOne({ staffId: req.body.staffId })
@@ -35,6 +38,19 @@ module.exports = db => {
               throw err;
             } else {
               res.status(200).send({ error: "Heeh :)" });
+
+              // Mail Notifications
+              // TODO: add other teams roles & employee email to the mailList
+              let subject = `New Resignation Request for Staff ID# ${req.body.staffId}`;
+              let query = { roles: { $in: ['hr', 'vendor', 'manager'] } };
+              let toMailListPromise = getMailingList(query).then((mailList) => {
+                let scope = { name: req.body.name, staffId: req.body.staffId };
+                let htmlBodyPromise = getHtmlBody('initial-vendor-notification.html', scope).then((htmlBody) => {
+                  mailer.sendEmail(mailList, subject, htmlBody, () => {
+                    console.log(`Resignation Request Creation Email Sent to ${toMailList}`)
+                  })
+                });
+              });
             }
           });
         } else {
@@ -61,10 +77,20 @@ module.exports = db => {
             res.status(404).send();
             throw err;
           } else {
-            mailer.onLastWorkDayUpdate(
-              `Last Work Day Update for Staff ID#${leaverId}`,
-              `The Employee ID#${leaverId} last work day changed to ${req.body.phase1.lastWorkDay}.`
-              )
+
+            // Mail Notifications
+            // TODO: add any other required emails to mailingList
+            let searchQuery = { roles: { $in: ['hr', 'vendor'] } };
+            let mailListPromise = getMailingList(searchQuery).then((mailingList) => {
+              let scope = { staffId: leaverId, lastDay: req.body.phase1.lastWorkDay };
+              let htmlBodyPromise = getHtmlBody('update-last-work-day.html', scope).then((htmlBody) => {
+                let subject = `Last Work Day Update for Staff ID#${leaverId}`;
+                mailer.sendEmail(mailingList, subject, htmlBody, () => {
+                  console.log(`Last Work Day Update for Staff ID#${leaverId} sent to ${mailingList}.`)
+                })
+              })
+            })
+
             res.status(200).send({
               msg:
                 "Employee successfully found, and resignation request updated data successfully updated"
@@ -124,7 +150,24 @@ module.exports = db => {
     db.collection(collection)
       .updateOne(myquery, newvalues)
       .then(result => {
-        phase4.status === 'done' && mailer.sendPhaseUpdate();
+        
+          /******* MAIL NOTIFICATION *******/
+            // TODO: add any other required emails
+            if (phase4.status === 'done') {
+              let searchQuery = { roles: { $in: ['hr', 'manager'] } };
+              let mailListPromise = getMailingList(searchQuery).then((emails) => {
+                let scope = { staffId: req.body.id, phaseNumber: '4' };
+                let htmlBodyPromise = getHtmlBody('phase-update.html', scope).then((htmlBody) => {
+                  let subject = `Phase Update for Staff ID #${req.body.id}`
+                  mailer.sendEmail(emails, subject, htmlBody, () => {
+                    console.log(`Phase update email sent to ${emails}`)
+                  })
+                })
+              })
+            } else {
+              console.log('Phase 4 is not done yet.')
+            }
+
         res.status(200).send(true);
       })
       .catch(err => {
@@ -225,7 +268,24 @@ module.exports = db => {
           res.status(500).send(doc);
           throw err;
         } else {
-          req.body.phase3.status === 'done' && mailer.sendPhaseUpdate();
+
+          /******* MAIL NOTIFICATION *******/
+          // TODO: add any other required emails
+          if (req.body.phase3.status === 'done') {
+            let searchQuery = { roles: { $in: ['hr', 'manager'] } };
+            let mailListPromise = getMailingList(searchQuery).then((emails) => {
+              let scope = { staffId: leaverId, phaseNumber: '3' };
+              let htmlBodyPromise = getHtmlBody('phase-update.html', scope).then((htmlBody) => {
+                let subject = `Phase Update for Staff ID #${leaverId}`
+                mailer.sendEmail(emails, subject, htmlBody, () => {
+                  console.log(`Phase update email sent to ${emails}`)
+                })
+              })
+            })
+          } else {
+            console.log('Phase 3 is not done yet.')
+          }
+
           res.send('Epmolyee data updated');
         }
       })
@@ -249,6 +309,25 @@ module.exports = db => {
             throw err;
           } else {
             req.body.phase6.status === 'done' && mailer.sendPhaseUpdate();
+
+            /******* MAIL NOTIFICATION *******/
+            // TODO: add any other required emails
+            if (req.body.phase6.status === 'done') {
+              let searchQuery = { roles: { $in: ['hr', 'manager'] } };
+              let mailListPromise = getMailingList(searchQuery).then((emails) => {
+                let scope = { staffId: leaverId, phaseNumber: '6' };
+                let htmlBodyPromise = getHtmlBody('phase-update.html', scope).then((htmlBody) => {
+                  let subject = `Phase Update for Staff ID #${leaverId}`
+                  mailer.sendEmail(emails, subject, htmlBody, () => {
+                    console.log(`Phase update email sent to ${emails}`)
+                  })
+                })
+              })
+            } else {
+              console.log('Phase 6 is not done yet.')
+            }
+
+
             res.status(200).send({
               msg:
                 "employee successfully found, and security data successfully updated"
@@ -275,6 +354,24 @@ module.exports = db => {
             res.status(404).send();
             throw err;
           } else {
+
+            /******* MAIL NOTIFICATION *******/
+            // TODO: add any other required emails
+            if (req.body.phase2.status === 'done') {
+              let searchQuery = { roles: { $in: ['hr', 'manager'] } };
+              let mailListPromise = getMailingList(searchQuery).then((emails) => {
+                let scope = { staffId: leaverId, phaseNumber: '2' };
+                let htmlBodyPromise = getHtmlBody('phase-update.html', scope).then((htmlBody) => {
+                  let subject = `Phase Update for Staff ID #${leaverId}`
+                  mailer.sendEmail(emails, subject, htmlBody, () => {
+                    console.log(`Phase update email sent to ${emails}`)
+                  })
+                })
+              })
+            } else {
+              console.log('Phase 2 is not done yet.')
+            }
+
             res.status(200).send({
               msg:
                 "Employee successfully found, and SMC data successfully updated"
@@ -284,27 +381,6 @@ module.exports = db => {
       );
     }
   );
-
-  router.post("/update/phase2", function (req, res) {
-    var leaverId = req.body.staffId;
-    db.collection(collection).findOneAndUpdate(
-      { staffId: leaverId },
-      {
-        $set: { phase2: req.body.phase2 }
-      },
-      function (err, doc) {
-        if (err) {
-          res.status(404).send();
-          throw err;
-        } else {
-          req.body.phase2.status === 'done' && mailer.sendPhaseUpdate();
-          res.status(200).send({
-            msg:
-              "Employee successfully found, and SMC data successfully updated"
-          });
-        }
-      })
-  });
 
   router.post(
     "/update/phase7",
@@ -322,6 +398,24 @@ module.exports = db => {
             res.status(404).send();
             throw err;
           } else {
+
+            /******* MAIL NOTIFICATION *******/
+            // TODO: add any other required emails
+            if (req.body.phase7.status === 'done') {
+              let searchQuery = { roles: { $in: ['hr', 'manager'] } };
+              let mailListPromise = getMailingList(searchQuery).then((emails) => {
+                let scope = { staffId: leaverId, phaseNumber: '7' };
+                let htmlBodyPromise = getHtmlBody('phase-update.html', scope).then((htmlBody) => {
+                  let subject = `Phase Update for Staff ID #${leaverId}`
+                  mailer.sendEmail(emails, subject, htmlBody, () => {
+                    console.log(`Phase update email sent to ${emails}`)
+                  })
+                })
+              })
+            } else {
+              console.log('Phase 7 is not done yet.')
+            }
+
             res.status(200).send({
               msg:
                 "employee successfully found, and security data successfully updated"
@@ -341,7 +435,7 @@ module.exports = db => {
         if (err) {
           throw err;
         } else {
-          req.body.phase7.status === 'done' && mailer.sendPhaseUpdate();
+
           res.status(200).send({
             msg:
               "employee successfully found, and security data successfully updated"
@@ -366,7 +460,24 @@ module.exports = db => {
           if (err) {
             throw err;
           } else {
-            req.body.phase5.status === 'done' && mailer.sendPhaseUpdate();
+            
+            /******* MAIL NOTIFICATION *******/
+            // TODO: add any other required emails
+            if (req.body.phase5.status === 'done') {
+              let searchQuery = { roles: { $in: ['hr', 'manager'] } };
+              let mailListPromise = getMailingList(searchQuery).then((emails) => {
+                let scope = { staffId: leaverId, phaseNumber: '5' };
+                let htmlBodyPromise = getHtmlBody('phase-update.html', scope).then((htmlBody) => {
+                  let subject = `Phase Update for Staff ID #${leaverId}`
+                  mailer.sendEmail(emails, subject, htmlBody, () => {
+                    console.log(`Phase update email sent to ${emails}`)
+                  })
+                })
+              })
+            } else {
+              console.log('Phase 5 is not done yet.')
+            }
+
             res.status(200).send({
               msg: "phase 5 updated successfully"
             });
