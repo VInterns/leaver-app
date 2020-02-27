@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { connect } from 'react-redux';
 import SimpleReactValidator from 'simple-react-validator';
 import { confirmAlert, onClose } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css'
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 import { ImageUploaderComponent } from '../components';
 
@@ -96,7 +96,7 @@ export class ResignReqScreen extends Component {
           this.setState({ hiringDate: data.hiringDate });
           this.setState({ mobile: data.mobile });
           this.setState({ username: data.username });
-          this.setState({ nationalId: data.nationalId})
+          this.setState({ nationalId: data.nationalId });
         }
       });
   };
@@ -165,7 +165,7 @@ export class ResignReqScreen extends Component {
             comment: '',
             returnedHwToken: false
           },
-          phase8:{
+          phase8: {
             status: 'new',
             disabledAccount: false,
             physicalId: false,
@@ -182,10 +182,9 @@ export class ResignReqScreen extends Component {
         } else if (response.status === 503) {
           toast.error('Error in db');
         } else {
-          toast.error('Resigation already exists')
+          toast.error('Resigation already exists');
         }
       });
-
     } else {
       toast.error('Please enter all required fields');
     }
@@ -202,10 +201,10 @@ export class ResignReqScreen extends Component {
         },
         {
           label: 'No',
-          onClick: onClose,
+          onClick: onClose
         }
       ]
-    })
+    });
   };
 
   ///////////////////////////////////////////////
@@ -599,6 +598,7 @@ export class ResignReqScreen extends Component {
                   onBlur={() => this.validator.showMessageFor('iex')}
                 />
                 {this.validator.message('iex', this.state.iex, 'required')}
+              </Col>
             </Row>
             <table className='table mt-3'>
               <thead className='thead-dark'>
@@ -665,7 +665,7 @@ export class ResignReqScreen extends Component {
                 </Form.Label>
               </Col>
               <Col>
-              <Form.Control
+                <Form.Control
                   plaintext
                   readOnly
                   value={this.state.nationalId}
@@ -695,7 +695,6 @@ export class ResignReqScreen extends Component {
           >
             Submit
           </Button>
-
         </Form>
       </Container>
     );
