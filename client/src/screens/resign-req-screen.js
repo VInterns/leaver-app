@@ -625,7 +625,7 @@ export class ResignReqScreen extends Component {
                   <th scope='col'>Annuals Taken</th>
                   <th scope='col'>No Show</th>
                   <th scope='col'>Lost Hours</th>
-                  <th scope='col'>In Lieu days to take</th>
+                  <th scope='col'>In Lieu Days to Take</th>
                 </tr>
               </thead>
               <tbody>
