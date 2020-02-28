@@ -81,6 +81,31 @@ export class ASTResignationDetailScreen extends React.Component {
     this.setState(state);
   }
 
+  checkRequestStatus(resignation,currentphaseStatus) {
+    if (
+      resignation.phase2.status === 'new' &&
+      resignation.phase3.status === 'new' &&
+      resignation.phase4.status === 'new' &&
+      resignation.phase5.status === 'new' &&
+      resignation.phase7.status === 'new' &&
+      resignation.phase8.status === 'new' &&
+      currentphaseStatus === 'new'
+    ) {
+      return 'new';
+    } else if (
+      resignation.phase2.status === 'done' &&
+      resignation.phase3.status === 'done' &&
+      resignation.phase4.status === 'done' &&
+      resignation.phase5.status === 'done' &&
+      resignation.phase7.status === 'done' &&
+      resignation.phase8.status === 'done' &&
+      currentphaseStatus === 'done' 
+    ) {
+      return 'done';
+    } else {
+      return 'pending';
+    }
+  }
   ///////////////////////////////////////////////
   fetchLeaverInfo(searchId) {
 
@@ -125,7 +150,8 @@ export class ASTResignationDetailScreen extends React.Component {
       method: "post",
       body: JSON.stringify({
         staffId: this.state.resignationDetails.staffId,
-        phase6: phase6
+        phase6: phase6,
+        status:this.checkRequestStatus(this.status.resignationDetails,phase6.status)
       }),
       headers: { "Content-Type": "application/json" }
     })

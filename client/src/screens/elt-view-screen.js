@@ -49,7 +49,31 @@ export class ELTViewScreen extends React.Component {
         }
       })
   }
-
+  checkRequestStatus(resignation,currentphaseStatus) {
+    if (
+      resignation.phase2.status === 'new' &&
+      resignation.phase3.status === 'new' &&
+      resignation.phase4.status === 'new' &&
+      resignation.phase6.status === 'new' &&
+      resignation.phase7.status === 'new' &&
+      resignation.phase8.status === 'new' &&
+      currentphaseStatus === 'new'
+    ) {
+      return 'new';
+    } else if (
+      resignation.phase2.status === 'done' &&
+      resignation.phase3.status === 'done' &&
+      resignation.phase4.status === 'done' &&
+      resignation.phase6.status === 'done' &&
+      resignation.phase7.status === 'done' &&
+      resignation.phase8.status === 'done' &&
+      currentphaseStatus === 'done' 
+    ) {
+      return 'done';
+    } else {
+      return 'pending';
+    }
+  }
   ///////////////////////////////////////////////
   submit(e) {
 
@@ -63,7 +87,8 @@ export class ELTViewScreen extends React.Component {
       method: 'post',
       body: JSON.stringify({
         staffId: this.props.history.location.state.resId,
-        phase5: phase5
+        phase5: phase5,
+        status: this.checkRequestStatus(phase5.status) //edit this
       }),
       headers: {
         'content-type': 'application/json'

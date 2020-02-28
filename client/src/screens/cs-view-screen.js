@@ -25,6 +25,7 @@ export class CSResignationDetailScreen extends React.Component {
     };
 
     this.checkStatus = this.checkStatus.bind(this);
+    this.checkRequestStatus = this.checkRequestStatus.bind(this);
     this.normalizeVal = this.normalizeVal.bind(this);
     this.submitButton = this.submitButton.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -37,8 +38,8 @@ export class CSResignationDetailScreen extends React.Component {
     const phase8 = retResignation.phase8
     this.setState({
       resignationDetails: retResignation,
-      disabledSecureId: phase8.disabledSecureId,
-      disabledRemedyAccount: phase8.disabledRemedyAccount,
+      disabledAccount: phase8.disabledAccount,
+      physicalId: phase8.physicalId,
       comment: phase8.comment
     });
 
@@ -63,7 +64,7 @@ export class CSResignationDetailScreen extends React.Component {
   }
 
   ///////////////////////////////////////////////
-  checkStatus(condX, condY, condZ) {
+  checkStatus(condX, condY) {
     // check confition after adding N/A
     if ((condX === true || condX === "") && (condY === true || condY === "")) {
       return DONE;
@@ -72,6 +73,31 @@ export class CSResignationDetailScreen extends React.Component {
     }
   }
 
+  checkRequestStatus(resignation,currentphaseStatus) {
+    if (
+      resignation.phase2.status === 'new' &&
+      resignation.phase3.status === 'new' &&
+      resignation.phase4.status === 'new' &&
+      resignation.phase5.status === 'new' &&
+      resignation.phase6.status === 'new' &&
+      resignation.phase7.status === 'new' &&
+      currentphaseStatus === 'new'
+    ) {
+      return 'new';
+    } else if (
+      resignation.phase2.status === 'done' &&
+      resignation.phase3.status === 'done' &&
+      resignation.phase4.status === 'done' &&
+      resignation.phase5.status === 'done' &&
+      resignation.phase6.status === 'done' &&
+      resignation.phase7.status === 'done' &&
+      currentphaseStatus === 'done' 
+    ) {
+      return 'done';
+    } else {
+      return 'pending';
+    }
+  }
   ///////////////////////////////////////////////
   handleChange(event) {
     let state = {};
@@ -102,7 +128,6 @@ export class CSResignationDetailScreen extends React.Component {
       })
 
   }
-
   ///////////////////////////////////////////////
   submitButton(event) {
     event.preventDefault();
@@ -116,12 +141,13 @@ export class CSResignationDetailScreen extends React.Component {
         this.state.physicalId,
       )
     };
-
+    
     fetch(API + ROUTE, {
       method: "post",
       body: JSON.stringify({
         staffId: this.state.resignationDetails.staffId,
-        phase8: phase8
+        phase8: phase8,
+        status: this.checkRequestStatus(this.state.resignationDetails,phase8.status)
       }),
       headers: { "Content-Type": "application/json" }
     })

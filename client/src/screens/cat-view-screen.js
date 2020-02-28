@@ -5,7 +5,8 @@ import { Form, Row, Col, Image, Button } from 'react-bootstrap';
 
 /////////////////////////////////////////////////////////////////////////
 var phoneBilledAmount = 'yes';
-
+const DONE = "done";
+const PENDING = "pending";
 /////////////////////////////////////////////////////////////////////////
 export class CCConsumerActivation extends Component {
   constructor(props) {
@@ -14,9 +15,11 @@ export class CCConsumerActivation extends Component {
       Data: [],
       lastWorkDay: '',
       nationalId: null,
+      phaseStatus: '',
       leaver: {}
     };
     this.clickSubmit = this.clickSubmit.bind(this);
+    this.checkRequestStatus = this.checkRequestStatus.bind(this);
   }
 
   ///////////////////////////////////////////////
@@ -86,6 +89,40 @@ export class CCConsumerActivation extends Component {
   };
 
   ///////////////////////////////////////////////
+  checkStatus(condX, condY) {
+    // check confition after adding N/A
+    if ((condX === true || condX === "" ||condX === "yes") && (condY === true || condY === "" || condY === "yes")) {
+      return DONE;
+    } else {
+      return PENDING;
+    }
+  }
+  checkRequestStatus(resignation) {
+    if (
+      resignation.phase2.status === 'new' &&
+      resignation.phase3.status === 'new' &&
+      resignation.phase4.status === 'new' &&
+      resignation.phase5.status === 'new' &&
+      resignation.phase6.status === 'new' &&
+      resignation.phase7.status === 'new' &&
+      resignation.phase8.status === 'new'
+    ) {
+      return 'new';
+    } else if (
+      resignation.phase2.status === 'done' &&
+      resignation.phase3.status === 'done' &&
+      resignation.phase4.status === 'done' &&
+      resignation.phase5.status === 'done' &&
+      resignation.phase6.status === 'done' &&
+      resignation.phase7.status === 'done' &&
+      resignation.phase8.status === 'done' 
+    ) {
+      return 'done';
+    } else {
+      return 'pending';
+    }
+  }
+
   clickSubmit(e) {
     e.preventDefault();
 
@@ -96,7 +133,14 @@ export class CCConsumerActivation extends Component {
       phoneBilledAmount = 'yes';
       return;
     }
-
+    let phaseStatus = this.checkStatus(this.inputRatePlan.value,phoneBilledAmount);
+    this.setState({Data: {...this.Data,
+                          phase4:{
+                            ...this.phase4,
+                            status : phaseStatus
+                          }
+                          }
+                  })
     let params = this.props.match.params;
     let id = params.staffId;
     var url2 = '/api/resignations/data?id=' + id;
@@ -111,7 +155,8 @@ export class CCConsumerActivation extends Component {
         ratePlan: this.inputRatePlan.value,
         comment: this.inputComment.value,
         phoneBilledAmount: phoneBilledAmount,
-        nationalId: this.state.nationalId
+        nationalId: this.state.nationalId,
+        status: this.checkRequestStatus(this.state.Data)
       })
     })
       .then(response => {

@@ -60,7 +60,8 @@ export class HrViewScreen extends Component {
       resignation.phase4.status === 'new' &&
       resignation.phase5.status === 'new' &&
       resignation.phase6.status === 'new' &&
-      resignation.phase7.status === 'new'
+      resignation.phase7.status === 'new' &&
+      resignation.phase8.status === 'new'
     ) {
       return 'new';
     } else if (
@@ -69,7 +70,8 @@ export class HrViewScreen extends Component {
       resignation.phase4.status === 'done' &&
       resignation.phase5.status === 'done' &&
       resignation.phase6.status === 'done' &&
-      resignation.phase7.status === 'done'
+      resignation.phase7.status === 'done' &&
+      resignation.phase8.status === 'done' 
     ) {
       return 'done';
     } else {
@@ -114,8 +116,9 @@ export class HrViewScreen extends Component {
                 <th className='text-white'>Customer Care</th>
                 <th className='text-white'>Work Force</th>
                 <th className='text-white'>CC Consumer Activation</th>
-                <th className='text-white'>Enterprise Logistics</th>
                 <th className='text-white'>Application Security</th>
+                <th className='text-white'>Corporate Security</th>
+                <th className='text-white'>Enterprise Logistics</th>
                 <th className='text-white'>Security Hardware Team</th>
               </tr>
             </thead>
@@ -139,6 +142,7 @@ export class HrViewScreen extends Component {
                     {this.checkStatus(value.phase3.status)}
                     {this.checkStatus(value.phase4.status)}
                     {this.checkStatus(value.phase5.status)}
+                    {this.checkStatus(value.phase8.status)}
                     {this.checkStatus(value.phase6.status)}
                     {this.checkStatus(value.phase7.status)}
                   </tr>

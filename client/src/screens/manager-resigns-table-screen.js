@@ -143,7 +143,7 @@ export class ManagerResignationsTableScreen extends React.Component {
                     <td>{request.name}</td>
                     <td>{request.managerName}</td>
                     <td>{request.phase1.lastWorkDay}</td>
-                    {this.checkStatus(request.phase1.status)}
+                    {this.checkStatus(request.status)}
                   </tr>
                 ))}
               </tbody>

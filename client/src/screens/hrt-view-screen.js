@@ -291,32 +291,6 @@ export class ResignationsScreen extends Component {
 
                     <header>
                         <hr />
-                        <h3 className='container'>Entrprise Logistics </h3>
-                        <hr />
-                    </header>
-                    <Table bordered hover className='container' >
-                        <thead>
-                            {this.state.data && <tr>
-                                <th style={{ backgroundColor: "#BE0002" }} className="text-white">Data</th>
-                                <th style={{ backgroundColor: "#BE0002" }} className="text-white">Value</th>
-                                <th style={{ backgroundColor: "#BE0002" }} className="text-white">Status : {this.state.data.phase5.status}</th>
-                            </tr>
-                            }
-                        </thead>
-                        <tbody>
-
-                            {this.state.data && <tr>
-                                <td>Comment </td>
-                                <td>{this.state.data.phase5.comment}</td>
-
-                            </tr>
-                            }
-
-                        </tbody>
-                    </Table>
-
-                    <header>
-                        <hr />
                         <h3 className='container'>Application Security</h3>
                         <hr />
                     </header>
@@ -368,7 +342,80 @@ export class ResignationsScreen extends Component {
 
                     <header>
                         <hr />
-                        <h3 className='container'>Security Hardware Team</h3>
+                        <h3 className='container'>Corporate Security</h3>
+                        <hr />
+                    </header>
+                    <Table bordered hover className='container' >
+                        <thead>
+                            {this.state.data && <tr>
+                                <th style={{ backgroundColor: "#BE0002" }} className="text-white">Data</th>
+                                <th style={{ backgroundColor: "#BE0002" }} className="text-white">Value</th>
+                                <th style={{ backgroundColor: "#BE0002" }} className="text-white">Status : {this.state.data.phase8.status}</th>
+                            </tr>
+                            }
+                        </thead>
+                        <tbody>
+
+                            {this.state.data && <tr>
+                                <td>Staff ID </td>
+                                <td>{this.state.data.staffId}</td>
+
+                            </tr>
+                            }
+                            {this.state.data && <tr>
+                                <td>Name </td>
+                                <td>{this.state.data.name}</td>
+                            </tr>
+                            }
+                            {this.state.data && <tr>
+                                <td>Disable Company ID </td>
+                                <td>{this.normalizeVal(this.state.data.phase8.disabledAccount)}</td>
+                            </tr>
+                            }
+                            {this.state.data && <tr>
+                                <td>Received Physical ID </td>
+                                <td>{this.normalizeVal(this.state.data.phase8.physicalId)}</td>
+                            </tr>
+                            }
+                            {this.state.data && <tr>
+                                <td>Comment </td>
+                                <td>{this.state.data.phase8.comment}</td>
+                            </tr>
+                            }
+
+                        </tbody>
+                    </Table>
+
+                    <header>
+                        <hr />
+                        <h3 className='container'>Entrprise Logistics </h3>
+                        <hr />
+                    </header>
+                    <Table bordered hover className='container' >
+                        <thead>
+                            {this.state.data && <tr>
+                                <th style={{ backgroundColor: "#BE0002" }} className="text-white">Data</th>
+                                <th style={{ backgroundColor: "#BE0002" }} className="text-white">Value</th>
+                                <th style={{ backgroundColor: "#BE0002" }} className="text-white">Status : {this.state.data.phase5.status}</th>
+                            </tr>
+                            }
+                        </thead>
+                        <tbody>
+
+                            {this.state.data && <tr>
+                                <td>Comment </td>
+                                <td>{this.state.data.phase5.comment}</td>
+
+                            </tr>
+                            }
+
+                        </tbody>
+                    </Table>
+
+
+                    <header>
+                        <hr />
+                        <h3 className='container'>Security Hardware</h3>
                         <hr />
                     </header>
                     <Table bordered hover className='container' >
@@ -383,7 +430,7 @@ export class ResignationsScreen extends Component {
                         <tbody>
 
                             {this.state.data && <tr>
-                                <td>Returned HW Team </td>
+                                <td>Returned HW Token </td>
                                 <td>{this.normalizeVal(this.state.data.phase7.returnedHwToken)}</td>
                             </tr>
                             }

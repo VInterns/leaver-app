@@ -70,7 +70,7 @@ module.exports = db => {
       db.collection(collection).findOneAndUpdate(
         { staffId: leaverId },
         {
-          $set: { phase1: req.body.phase1 }
+          $set: { phase1: req.body.phase1,status:req.body.status  }
         },
         function (err, doc) {
           if (err) {
@@ -146,7 +146,7 @@ module.exports = db => {
       staffId: Number(req.query.id)
     };
 
-    let newvalues = { $set: { phase4 } };
+    let newvalues = { $set: { phase4:phase4,status:req.body.status } };
     db.collection(collection)
       .updateOne(myquery, newvalues)
       .then(result => {
@@ -300,7 +300,9 @@ module.exports = db => {
       db.collection(collection).findOneAndUpdate(
         { staffId: leaverId },
         {
-          $set: { phase8: req.body.phase8 }
+          $set: { phase8: req.body.phase8, 
+                  status:req.body.status 
+                }
         },
         function (err, doc) {
           if (err) {
@@ -329,7 +331,9 @@ module.exports = db => {
       db.collection(collection).findOneAndUpdate(
         { staffId: leaverId },
         {
-          $set: { phase6: req.body.phase6 }
+          $set: { phase6: req.body.phase6,
+                  status:req.body.status
+                }
         },
         function (err, doc) {
           if (err) {
@@ -374,7 +378,9 @@ module.exports = db => {
       db.collection(collection).findOneAndUpdate(
         { staffId: leaverId },
         {
-          $set: { phase2: req.body.phase2 }
+          $set: { phase2: req.body.phase2,
+                  status:req.body.status 
+                }
         },
         function (err, doc) {
           if (err) {
@@ -418,7 +424,9 @@ module.exports = db => {
       db.collection(collection).findOneAndUpdate(
         { staffId: leaverId },
         {
-          $set: { phase7: req.body.phase7 }
+          $set: { phase7: req.body.phase7,
+                  status:req.body.status  
+                }
         },
         function (err, doc) {
           if (err) {
@@ -482,7 +490,10 @@ module.exports = db => {
       var leaverId = req.body.staffId;
       db.collection(collection).findOneAndUpdate(
         { staffId: leaverId },
-        { $set: { phase5: req.body.phase5 } },
+        { $set: { phase5: req.body.phase5,
+                  status:req.body.status 
+                } 
+        },
         (err, result) => {
           if (err) {
             throw err;
