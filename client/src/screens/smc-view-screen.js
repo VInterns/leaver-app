@@ -210,7 +210,7 @@ export class SMCResignationDetailScreen extends React.Component {
             </Row>
             <Row className = 'mt-3'>
               <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Amount Deducted</Form.Label>
+                <Form.Label className='col-form-group font-weight-bold'>Deduct</Form.Label>
               </Col>
               <Col>
                 <input

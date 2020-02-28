@@ -26,10 +26,6 @@ module.exports = {
       new LocalStrategy((username, password, done) => {
         debug("logging in", username);
         db.collection(collection).findOne({ username }, (err, user) => {
-          if (err) {
-            console.log(err);
-            return done(null, false, { message: "Incorrect credentials." });
-          }
           bcrypt.compare(password, user ? user.password : "").then(match => {
             if (user && match) {
               const { username, name, roles } = user;
