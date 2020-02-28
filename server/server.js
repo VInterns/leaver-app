@@ -19,7 +19,7 @@ dbModule.connect(
         }
         let app = appFactory(db, session => {
             const MongoStore = connectMongo(session);
-            return new MongoStore({ client: client, dbName: "leaver-app" });
+            return new MongoStore({ client: client });
         });
 
         app.set("port", port);

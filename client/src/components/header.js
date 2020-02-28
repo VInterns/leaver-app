@@ -18,6 +18,7 @@ export class Header extends React.Component {
       eltUsers: ["admin", "elt"],
       shtUsers: ["admin", "sht"],
       hrViewUsers: ["admin", "hr"],
+      csUsers:["admin","cs"],
       myResignations: ["admin", "manager"]
     };
   }
@@ -72,6 +73,9 @@ export class Header extends React.Component {
           )}
           {this.checkAuth(this.state.astUsers, this.props.account.roles) && (
             <Nav.Link href="/ast">Application Security</Nav.Link>
+          )}
+          {this.checkAuth(this.state.astUsers, this.props.account.roles) && (
+            <Nav.Link href="/cs">Corporate Security</Nav.Link>
           )}
           {this.checkAuth(this.state.eltUsers, this.props.account.roles) && (
             <Nav.Link href="/elt">Entrprise Logistics</Nav.Link>

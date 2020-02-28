@@ -2,24 +2,26 @@ import React from 'react';
 import { Table } from 'react-bootstrap';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
-const API = '/api/resignations';
-const SEARCH = '/wf/fetchRequests';
+/////////////////////////////////////////////////////////////////////////
+const API = '/api/';
+const SEARCH = 'resignations/';
 
 /////////////////////////////////////////////////////////////////////////
-export class WorkForceScreen extends React.Component {
+export class CSTableScreen extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       requests: []
     };
 
-    this.clickButton = this.clickButton.bind(this);
+    this.onRowClick = this.onRowClick.bind(this);
     this.checkStatus = this.checkStatus.bind(this);
-    this.fetchRequestsData = this.fetchRequestsData.bind(this);
+    this.fetchResignations = this.fetchResignations.bind(this);
   }
 
   componentDidMount() {
-    this.fetchRequestsData();
+    this.fetchResignations();
   }
 
   checkStatus(status) {
@@ -63,21 +65,22 @@ export class WorkForceScreen extends React.Component {
     }
   }
 
-  clickButton(req) {
+  onRowClick(resignation) {
     this.props.history.push({
-      pathname: '/wf-view-detail',
-      state: { detail: req }
+      pathname: '/cs-view',
+      state: { resDetails: resignation }
     });
   }
 
-  fetchRequestsData() {
-    this.setState({ ...this.state });
+  fetchResignations() {
     fetch(API + SEARCH)
       .then(res => {
         return res.json();
       })
       .then(data => {
-        this.setState({ requests: data });
+        this.setState({
+          requests: data
+        });
       })
       .catch(err => {
         throw err;
@@ -91,7 +94,7 @@ export class WorkForceScreen extends React.Component {
         <center style={{ margin: '25px' }}>
           <header>
             <hr />
-            <h3>Work Force Team</h3>
+            <h3>Corporate Security</h3>
             <hr />
           </header>
           <div>
@@ -103,7 +106,7 @@ export class WorkForceScreen extends React.Component {
               sheet='resignations'
               buttonText='Export Table as XLS'
             />
-            <Table bordered hover striped id='wf-table'>
+            <Table bordered hover striped id='as-table'>
               <thead>
                 <tr style={{ backgroundColor: '#BE0002' }}>
                   <th className='text-white'>Staff ID</th>
@@ -115,13 +118,13 @@ export class WorkForceScreen extends React.Component {
               <tbody>
                 {requests.map(request => (
                   <tr
-                    onClick={() => this.clickButton(request)}
+                    onClick={() => this.onRowClick(request)}
                     key={request.staffId}
                   >
                     <td>{request.staffId}</td>
                     <td>{request.name}</td>
                     <td>{request.managerName}</td>
-                    {this.checkStatus(request.phase3.status)}
+                    {this.checkStatus(request.phase8.status)}
                   </tr>
                 ))}
               </tbody>

@@ -7,21 +7,20 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 /////////////////////////////////////////////////////////////////////////
 const API = "/api";
-const ROUTE = "/resignations/update/phase6";
+const ROUTE = "/resignations/update/cs";
 const DONE = "done";
 const PENDING = "pending";
 
 /////////////////////////////////////////////////////////////////////////
-export class ASTResignationDetailScreen extends React.Component {
+export class CSResignationDetailScreen extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       resignationDetails: {},
       leaver: {},
-      disabledSecureId: false,
-      disabledRemedyAccount: false,
-      disabledAccountsInProductionSystems: false,
+      disabledAccount: false,
+      physicalId: false,
       comment: ""
     };
 
@@ -35,13 +34,12 @@ export class ASTResignationDetailScreen extends React.Component {
   ///////////////////////////////////////////////
   componentDidMount() {
     const retResignation = this.props.location.state.resDetails;
-    const phase6 = retResignation.phase6
+    const phase8 = retResignation.phase8
     this.setState({
       resignationDetails: retResignation,
-      disabledSecureId: phase6.disabledSecureId,
-      disabledRemedyAccount: phase6.disabledRemedyAccount,
-      disabledAccountsInProductionSystems: phase6.disabledAccountsInProductionSystems,
-      comment: phase6.comment
+      disabledSecureId: phase8.disabledSecureId,
+      disabledRemedyAccount: phase8.disabledRemedyAccount,
+      comment: phase8.comment
     });
 
     this.fetchLeaverInfo(retResignation.staffId);
@@ -67,7 +65,7 @@ export class ASTResignationDetailScreen extends React.Component {
   ///////////////////////////////////////////////
   checkStatus(condX, condY, condZ) {
     // check confition after adding N/A
-    if ((condX === true || condX === "") && (condY === true || condY === "") && (condZ === true || condZ === "")) {
+    if ((condX === true || condX === "") && (condY === true || condY === "")) {
       return DONE;
     } else {
       return PENDING;
@@ -109,15 +107,13 @@ export class ASTResignationDetailScreen extends React.Component {
   submitButton(event) {
     event.preventDefault();
 
-    let phase6 = {
-      disabledSecureId: this.state.disabledSecureId,
-      disabledRemedyAccount: this.state.disabledRemedyAccount,
-      disabledAccountsInProductionSystems: this.state.disabledAccountsInProductionSystems,
+    let phase8 = {
+      disabledAccount: this.state.disabledAccount,
+      physicalId:this.state.physicalId,
       comment: this.state.comment,
       status: this.checkStatus(
-        this.state.disabledSecureId,
-        this.state.disabledRemedyAccount,
-        this.state.disabledAccountsInProductionSystems
+        this.state.disabledAccount,
+        this.state.physicalId,
       )
     };
 
@@ -125,7 +121,7 @@ export class ASTResignationDetailScreen extends React.Component {
       method: "post",
       body: JSON.stringify({
         staffId: this.state.resignationDetails.staffId,
-        phase6: phase6
+        phase8: phase8
       }),
       headers: { "Content-Type": "application/json" }
     })
@@ -161,14 +157,14 @@ export class ASTResignationDetailScreen extends React.Component {
           <Form.Group className='p-5 border'>
             <Row>
               <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Disabled Secure ID</Form.Label>
+                <Form.Label className='col-form-group font-weight-bold'>Disable Company ID</Form.Label>
               </Col>
               <Col>
                 <select
-                  id="disabledSecureId"
+                  id="disabledAccount"
                   onChange={this.handleChange}
                   className="form-control"
-                  value={this.state.disabledSecureId}>
+                  value={this.state.disabledAccount}>
                   <option value={""}>N/A</option>
                   <option value={true}>Yes</option>
                   <option value={false}>No</option>
@@ -177,36 +173,21 @@ export class ASTResignationDetailScreen extends React.Component {
             </Row>
             <Row className='mt-3'>
               <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Disabled Remedy Account</Form.Label>
+                <Form.Label className='col-form-group font-weight-bold'>Recieved Physical ID</Form.Label>
               </Col>
               <Col>
                 <select
-                  id="disabledRemedyAccount"
+                  id="physicalId"
                   onChange={this.handleChange}
                   className="form-control"
-                  value={this.state.disabledRemedyAccount}>
+                  value={this.state.physicalId}>
                   <option value={""}>N/A</option>
                   <option value={true}>Yes</option>
                   <option value={false}>No</option>
                 </select>
               </Col>
             </Row>
-            <Row className='mt-3'>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Disabled Accounts in Production Systems</Form.Label>
-              </Col>
-              <Col>
-                <select
-                  id="disabledAccountsInProductionSystems"
-                  onChange={this.handleChange}
-                  className="form-control"
-                  value={this.state.disabledAccountsInProductionSystems}>
-                  <option value={""}>N/A</option>
-                  <option value={true}>Yes</option>
-                  <option value={false}>No</option>
-                </select>
-              </Col>
-            </Row>
+            
             <Row className='mt-3'>
               <Col>
                 <Form.Label className='col-form-group font-weight-bold'>Comments</Form.Label>

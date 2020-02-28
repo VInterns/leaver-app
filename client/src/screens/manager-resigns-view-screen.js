@@ -139,6 +139,7 @@ export class ManagerResignationsViewScreen extends Component {
       returnedOhda: this.state.returnedOhda,
       ohdaType: this.state.ohdaType,
       iex: this.state.iex,
+      lastWorkDay: this.state.lastWorkDay,
       annualsGranted: this.state.annualsGranted,
       annualsTaken: this.state.annualsTaken,
       noShow: this.state.noShow,

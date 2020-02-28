@@ -1,0 +1,29 @@
+language: node_js
+node_js:
+  - '12.16.1'
+install:
+  - yarn install:all
+
+cache:
+  yarn: true
+  directories:
+    - node_modules
+    - ~/.cache
+
+before_deploy:
+  - yarn build:client
+  - yarn post_build:copy
+  - echo $PWS.USER
+  - echo $PWS.PASSWORD
+
+deploy:
+  - provider: cloudfoundry
+    username: $PWS_USER
+    password: $PWS_PASSWORD
+    api: https://api.run.pivotal.io
+    organization: digital-coe
+    space: leaver-app
+    on:
+      branch: master
+script:
+  - echo "skipping tests"
