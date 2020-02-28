@@ -13,16 +13,13 @@
     "start": "yarn start:server",
     "start:server": "node ./server/server.js",
     "install:client": "cd client && yarn",
-    "install:all": "yarn install:client && yarn",
-    "build:client": "cd client && yarn build",
-    "post_build:copy": "cp -r './client/build/.' './server/static'"
+    "install:all": "yarn install:client && yarn"
   },
   "dependencies": {
     "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "bootstrap": "^4.4.1",
-    "cf-services": "^2.0.1",
     "connect-mongo": "^3.2.0",
     "cors": "^2.8.5",
     "debug": "^4.1.1",
@@ -43,7 +40,6 @@
     "react-bootstrap": "^1.0.0-beta.16",
     "react-confirm-alert": "^2.5.1",
     "react-data-table-component": "^6.2.2",
-    "react-html-table-to-excel": "^2.0.0",
     "react-router-dom": "^5.1.2",
     "react-toastify": "^5.5.0",
     "reactjs-popup": "^1.5.0",

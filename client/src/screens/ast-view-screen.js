@@ -1,8 +1,7 @@
 import React from "react";
-import {
+import { 
   LeaverDetails
 } from "../components";
-import { Form, Row, Col, Button } from 'react-bootstrap';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 /////////////////////////////////////////////////////////////////////////
@@ -38,10 +37,10 @@ export class ASTResignationDetailScreen extends React.Component {
     const phase6 = retResignation.phase6
     this.setState({
       resignationDetails: retResignation,
-      disabledSecureId: phase6.disabledSecureId,
-      disabledRemedyAccount: phase6.disabledRemedyAccount,
-      disabledAccountsInProductionSystems: phase6.disabledAccountsInProductionSystems,
-      comment: phase6.comment
+      disabledSecureId:phase6.disabledSecureId,
+      disabledRemedyAccount:phase6.disabledRemedyAccount,
+      disabledAccountsInProductionSystems:phase6.disabledAccountsInProductionSystems,
+      comment:phase6.comment
     });
 
     this.fetchLeaverInfo(retResignation.staffId);
@@ -50,13 +49,13 @@ export class ASTResignationDetailScreen extends React.Component {
 
   ///////////////////////////////////////////////
   normalizeVal(value) {
-    if (value === 'true' || value === "on" || value === "Yes") {
+    if (value === 'true' || value === "on" || value === "Yes"){
       return true;
     }
     else if (value === "") {
       return "";
     }
-    else if (value === 'false' || value === "off" || value === "No") {
+    else if (value === 'false' || value === "off" || value === "No"){
       return false;
     }
     else {
@@ -82,26 +81,26 @@ export class ASTResignationDetailScreen extends React.Component {
   }
 
   ///////////////////////////////////////////////
-  fetchLeaverInfo(searchId) {
+  fetchLeaverInfo(searchId){
 
     let QUERY = "/users/?id=" + searchId;
 
     fetch(API + QUERY, {
       method: "get",
-      headers: { "Content-Type": "application/json" }
+      headers: {"Content-Type": "application/json"}
     })
-      .then((res) => {
-        return res.json();
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      this.setState({
+        leaver: data
       })
-      .then((data) => {
-        this.setState({
-          leaver: data
-        })
-      })
-      .catch((err) => {
-        if (err)
-          throw err;
-      })
+    })
+    .catch((err) => {
+      if(err)
+        throw err;
+    })
 
   }
 
@@ -129,21 +128,21 @@ export class ASTResignationDetailScreen extends React.Component {
       }),
       headers: { "Content-Type": "application/json" }
     })
-      .then((response) => {
-        if (response.status === 200) {
-          toast.success("Security data submitted");
-        }
-        else if (response.status === 503) {
-          toast.error("Error in db");
-        }
-        else {
-          toast.error("Security data cannot be updated");
-          return undefined;
-        }
-      })
-      .catch(err => {
-        throw err;
-      });
+    .then((response) => {
+      if (response.status === 200) {
+        toast.success("Security data submitted");
+      }
+      else if (response.status === 503) {
+        toast.error("Error in db");
+      }
+      else {
+        toast.error("Security data cannot be updated");
+        return undefined;
+      }
+    })
+    .catch(err => {
+      throw err;
+    });
   }
 
   /////////////////////////////////////////////////////////////////////////
@@ -152,89 +151,65 @@ export class ASTResignationDetailScreen extends React.Component {
     const phase1 = Object(resignationDetails.phase1);
 
     return (
-      <div className="container mt-5">
+      <div className = "container">
         <ToastContainer />
-        <div className='p-2'>
-          <LeaverDetails leaverDetail={{ leaverInfo: leaver, lastDay: phase1.lastWorkDay }} />
-        </div>
-        <Form className='p-2'>
-          <Form.Group className='p-5 border'>
-            <Row>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Disabled Secure ID</Form.Label>
-              </Col>
-              <Col>
-                <select
-                  id="disabledSecureId"
-                  onChange={this.handleChange}
-                  className="form-control"
-                  value={this.state.disabledSecureId}>
-                  <option value={""}>N/A</option>
-                  <option value={true}>Yes</option>
-                  <option value={false}>No</option>
-                </select>
-              </Col>
-            </Row>
-            <Row className='mt-3'>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Disabled Remedy Account</Form.Label>
-              </Col>
-              <Col>
-                <select
-                  id="disabledRemedyAccount"
-                  onChange={this.handleChange}
-                  className="form-control"
-                  value={this.state.disabledRemedyAccount}>
-                  <option value={""}>N/A</option>
-                  <option value={true}>Yes</option>
-                  <option value={false}>No</option>
-                </select>
-              </Col>
-            </Row>
-            <Row className='mt-3'>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Disabled Accounts in Production Systems</Form.Label>
-              </Col>
-              <Col>
-                <select
-                  id="disabledAccountsInProductionSystems"
-                  onChange={this.handleChange}
-                  className="form-control"
-                  value={this.state.disabledAccountsInProductionSystems}>
-                  <option value={""}>N/A</option>
-                  <option value={true}>Yes</option>
-                  <option value={false}>No</option>
-                </select>
-              </Col>
-            </Row>
-            <Row className='mt-3'>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Comments</Form.Label>
-              </Col>
-              <Col>
-                <textarea
-                  id="comment"
-                  rows="5"
-                  onChange={this.handleChange}
-                  className="p-2 form-control"
-                  value={this.state.comment} />
-              </Col>
-            </Row>
-            <Row className = 'mt-5'>
-              <Col>
-                <Button
-                  size='lg'
-                  type='submit'
-                  block
-                  variant='danger'
-                  onClick={this.submitButton}
-                >
-                  Submit
-            </Button>
-              </Col>
-            </Row>
-          </Form.Group>
-        </Form>
+        <center style = {{margin: "25px"}}>
+            <LeaverDetails leaverDetail = { {leaverInfo: leaver, lastDay: phase1.lastWorkDay}}/>
+            <hr/>
+            <div className = "d-flex flex-row">
+              <div className = "p-2">disabled Secure ID</div>
+              <select 
+                id = "disabledSecureId"
+                onChange = {this.handleChange}
+                className = "p-2 form-control col-sm-1"
+                value = {this.state.disabledSecureId}>
+                <option value = {""}>N/A</option>
+                <option value = {true}>Yes</option>
+                <option value = {false}>No</option>
+              </select>
+            </div>
+            <div className = "d-flex flex-row mt-3">
+              <div className = "p-2">disabled Remedy Account</div>
+              <select 
+                id = "disabledRemedyAccount"
+                onChange = {this.handleChange}
+                className = "p-2 form-control col-sm-1"
+                value = {this.state.disabledRemedyAccount}>
+                <option value = {""}>N/A</option>
+                <option value = {true}>Yes</option>
+                <option value = {false}>No</option>
+              </select>
+            </div>
+            <br/>
+            <div className = "d-flex flex-row mt-3">
+              <div className = "p-2">disabled Accounts in Production Systems</div>
+              <select 
+                id = "disabledAccountsInProductionSystems"
+                onChange = {this.handleChange}
+                className = "p-2 form-control col-sm-1 text-center"
+                value = {this.state.disabledAccountsInProductionSystems}>
+                <option value = {""}>N/A</option>
+                <option value = {true}>Yes</option>
+                <option value = {false}>No</option>
+              </select>
+            </div>
+            <br/>
+            <div className = "d-flex flex-column mt-3">
+              <label htmlFor = "comment" className = "p-2 align-self-start">Comments</label>
+              <textarea
+                id = "comment"
+                rows = "5"
+                onChange = {this.handleChange}
+                className = "p-2 form-control"
+                value = {this.state.comment}/>
+            </div>
+            <button 
+              style = {{ width: '100px' }}
+              onClick = {this.submitButton}
+              className = "btn btn-danger mt-3" 
+              >Submit
+            </button>
+        </center>
       </div>
     );
   }

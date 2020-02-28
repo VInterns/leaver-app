@@ -2,7 +2,6 @@ import React from 'react';
 import {
   LeaverDetails
 } from "../components";
-import { Form, Row, Col, Button } from 'react-bootstrap';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -55,7 +54,7 @@ export class ELTViewScreen extends React.Component {
 
     e.preventDefault();
     let phase5 = {
-      comment: this.state.comment,
+      comment: e.target.elements.comment.value,
       status: "done"
     }
 
@@ -69,39 +68,38 @@ export class ELTViewScreen extends React.Component {
         'content-type': 'application/json'
       },
     })
-      .then((response) => {
-        if (response.status === 200) {
-          toast.success("Data Sent");
-        }
-        else if (response.status === 503) {
-          toast.error("Error in db");
-        }
-        else {
-          toast.error("Data cannot be updated");
-          return undefined;
-        }
-      })
-      .catch(err => {
-        throw err;
-      });
+    .then((response) => {
+      if (response.status === 200) {
+        toast.success("Data Sent");
+      }
+      else if (response.status === 503) {
+        toast.error("Error in db");
+      }
+      else {
+        toast.error("Data cannot be updated");
+        return undefined;
+      }
+    })
+    .catch(err => {
+      throw err;
+    });
   }
 
   ///////////////////////////////////////////////
-  handleChange(e) {
-    this.setState({ comment: e.target.value });
+  handleChange(e){
+    this.setState({ [e.target.id]: e.target.value });
   }
 
   ///////////////////////////////////////////////
   componentDidMount() {
 
-    // console.log(this.props.history.location.state.lastWorkDay)
-    // let lastDay = this.props.history.location.state.lastWorkDay;
+    let lastDay = this.props.history.location.state.lastWorkDay;
     let staffID = this.props.history.location.state.resId;
     let phase5Comment = this.props.history.location.state.comment;
-
+    
     this.getEntry(staffID)
     this.setState({
-      // lastWorkDay: lastDay,
+      lastWorkDay: lastDay,
       comment: phase5Comment
 
     })
@@ -113,43 +111,40 @@ export class ELTViewScreen extends React.Component {
     const { entry } = this.state;
 
     return (
-      <div className="container mt-5">
+      <div className="container">
         <ToastContainer />
-        <div className='p-2'>
-          <LeaverDetails leaverDetail={{ leaverInfo: entry, lastDay: this.props.history.location.state.lastWorkDay }} />
-        </div>
-        <Form className='p-2'>
-          <Form.Group className='p-5 border'>
-            <Row>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Comments</Form.Label>
-              </Col>
-              <Col>
+        <center style={{ margin: "25px" }}>
+          <div>
+            <LeaverDetails leaverDetail={{ leaverInfo: entry, lastDay: this.state.lastWorkDay }} />
+            <hr />
+            <form onSubmit={this.submit.bind(this)}>
+              <div className="d-flex flex-column form-group">
+                <label className="p-2 align-self-start" htmlFor="comment">Comments</label>
                 <textarea
                   id="comment"
                   rows="5"
                   onChange={this.handleChange}
-                  className="form-control"
-                  placeholder="Enter your Comments"
-                  value={this.state.comment || ""}
+                  className="p-2 form-control"
+                  placeholder="Enter your Comment"
+                  value={this.state.comment}
                 />
-              </Col>
-            </Row>
-            <Row className='mt-5'>
-              <Col>
-                <Button
-                  size = 'lg'
-                  type= 'submit'
-                  block
-                  variant = 'danger'
-                  onClick={this.submit}
-                >
-                  Submit
-                  </Button>
-              </Col>
-            </Row>
-          </Form.Group>
-        </Form>
+              </div>
+              <br />
+              <div className="input-feedback">
+                <span className="error">
+                  {this.state.err !== "" ? this.state.err : ""}
+                </span>
+              </div>
+              <br />
+              <input
+                style={{ width: "100px" }}
+                type="submit"
+                value="Submit"
+                onClick={() => this.submit}
+                className="btn btn-danger" />
+            </form>
+          </div>
+        </center>
       </div>
     );
   }
