@@ -78,7 +78,6 @@ export class CSResignationDetailScreen extends React.Component {
       resignation.phase2.status === 'new' &&
       resignation.phase3.status === 'new' &&
       resignation.phase4.status === 'new' &&
-      resignation.phase5.status === 'new' &&
       resignation.phase6.status === 'new' &&
       resignation.phase7.status === 'new' &&
       currentphaseStatus === 'new'
@@ -88,7 +87,6 @@ export class CSResignationDetailScreen extends React.Component {
       resignation.phase2.status === 'done' &&
       resignation.phase3.status === 'done' &&
       resignation.phase4.status === 'done' &&
-      resignation.phase5.status === 'done' &&
       resignation.phase6.status === 'done' &&
       resignation.phase7.status === 'done' &&
       currentphaseStatus === 'done' 

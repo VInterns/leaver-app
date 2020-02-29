@@ -69,9 +69,11 @@ export class ELTTableScreen extends React.Component {
   onRowClick(resignation) {
     let phase1 = Object(resignation.phase1);
     let phase5 = Object(resignation.phase5);
+    console.log(resignation);
     this.props.history.push({
       pathname: '/form-res',
       state: {
+        resignation: Object(resignation),
         resId: resignation.staffId,
         lastWorkDay: phase1.lastWorkDay,
         comment: phase5.comment

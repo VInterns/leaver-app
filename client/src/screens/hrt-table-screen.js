@@ -58,7 +58,6 @@ export class HrViewScreen extends Component {
       resignation.phase2.status === 'new' &&
       resignation.phase3.status === 'new' &&
       resignation.phase4.status === 'new' &&
-      resignation.phase5.status === 'new' &&
       resignation.phase6.status === 'new' &&
       resignation.phase7.status === 'new' &&
       resignation.phase8.status === 'new'
@@ -68,7 +67,6 @@ export class HrViewScreen extends Component {
       resignation.phase2.status === 'done' &&
       resignation.phase3.status === 'done' &&
       resignation.phase4.status === 'done' &&
-      resignation.phase5.status === 'done' &&
       resignation.phase6.status === 'done' &&
       resignation.phase7.status === 'done' &&
       resignation.phase8.status === 'done' 
@@ -141,9 +139,9 @@ export class HrViewScreen extends Component {
                     {this.checkStatus(value.phase2.status)}
                     {this.checkStatus(value.phase3.status)}
                     {this.checkStatus(value.phase4.status)}
-                    {this.checkStatus(value.phase5.status)}
-                    {this.checkStatus(value.phase8.status)}
                     {this.checkStatus(value.phase6.status)}
+                    {this.checkStatus(value.phase8.status)}
+                    {this.checkStatus(value.phase5.status)}
                     {this.checkStatus(value.phase7.status)}
                   </tr>
                 );

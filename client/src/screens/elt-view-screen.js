@@ -18,7 +18,8 @@ export class ELTViewScreen extends React.Component {
     this.state = {
       entry: [],
       lastWorkDay: '',
-      comment: ""
+      comment: "",
+      resignation: {}
     };
 
     this.getEntry = this.getEntry.bind(this);
@@ -49,31 +50,6 @@ export class ELTViewScreen extends React.Component {
         }
       })
   }
-  checkRequestStatus(resignation,currentphaseStatus) {
-    if (
-      resignation.phase2.status === 'new' &&
-      resignation.phase3.status === 'new' &&
-      resignation.phase4.status === 'new' &&
-      resignation.phase6.status === 'new' &&
-      resignation.phase7.status === 'new' &&
-      resignation.phase8.status === 'new' &&
-      currentphaseStatus === 'new'
-    ) {
-      return 'new';
-    } else if (
-      resignation.phase2.status === 'done' &&
-      resignation.phase3.status === 'done' &&
-      resignation.phase4.status === 'done' &&
-      resignation.phase6.status === 'done' &&
-      resignation.phase7.status === 'done' &&
-      resignation.phase8.status === 'done' &&
-      currentphaseStatus === 'done' 
-    ) {
-      return 'done';
-    } else {
-      return 'pending';
-    }
-  }
   ///////////////////////////////////////////////
   submit(e) {
 
@@ -87,8 +63,7 @@ export class ELTViewScreen extends React.Component {
       method: 'post',
       body: JSON.stringify({
         staffId: this.props.history.location.state.resId,
-        phase5: phase5,
-        status: this.checkRequestStatus(phase5.status) //edit this
+        phase5: phase5
       }),
       headers: {
         'content-type': 'application/json'
@@ -123,11 +98,11 @@ export class ELTViewScreen extends React.Component {
     // let lastDay = this.props.history.location.state.lastWorkDay;
     let staffID = this.props.history.location.state.resId;
     let phase5Comment = this.props.history.location.state.comment;
-
     this.getEntry(staffID)
     this.setState({
       // lastWorkDay: lastDay,
-      comment: phase5Comment
+      comment: phase5Comment,
+      resignation : this.props.history.location.state.resignation
 
     })
   }

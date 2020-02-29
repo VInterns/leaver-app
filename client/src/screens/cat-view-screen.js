@@ -102,7 +102,6 @@ export class CCConsumerActivation extends Component {
       resignation.phase2.status === 'new' &&
       resignation.phase3.status === 'new' &&
       resignation.phase4.status === 'new' &&
-      resignation.phase5.status === 'new' &&
       resignation.phase6.status === 'new' &&
       resignation.phase7.status === 'new' &&
       resignation.phase8.status === 'new'
@@ -112,7 +111,6 @@ export class CCConsumerActivation extends Component {
       resignation.phase2.status === 'done' &&
       resignation.phase3.status === 'done' &&
       resignation.phase4.status === 'done' &&
-      resignation.phase5.status === 'done' &&
       resignation.phase6.status === 'done' &&
       resignation.phase7.status === 'done' &&
       resignation.phase8.status === 'done' 
@@ -214,7 +212,7 @@ export class CCConsumerActivation extends Component {
                 <Form.Control plaintext readOnly value={Phase1.nationalId} />
               </Col>
             </Row>
-            <Row className='mt-3'>
+            {NationalIDImg.dataURL && <Row className='mt-3'>
               <Col>
                 <Form.Label className='col-form-group font-weight-bold'>
                   Copy of National ID
@@ -227,6 +225,7 @@ export class CCConsumerActivation extends Component {
                 />
               </Col>
             </Row>
+            }
             <Row className='mt-3'>
               <Col>
                 <Form.Label className='col-form-group font-weight-bold'>

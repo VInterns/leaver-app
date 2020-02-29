@@ -105,7 +105,7 @@ module.exports = db => {
     ensureHasRole(["admin"]),
     (req, res) => {
       db.collection(collection)
-        .find({ "phase4.status": "new" })
+        .find()
         .toArray((error, results) => {
           if (error) {
             console.error(`Failed to fetch data: ${err}`);
@@ -243,7 +243,7 @@ module.exports = db => {
     ensureHasRole(["admin"]),
     (req, res) => {
       db.collection(collection)
-        .find({ status: "new" })
+        .find()
         .toArray((err, requests) => {
           if (err) {
             res.status(500).send();
@@ -262,7 +262,7 @@ module.exports = db => {
     (req, res) => {
       var leaverId = req.body.staffId;
       db.collection(collection).updateOne({ "staffId": leaverId }, {
-        $set: { "phase3": req.body.phase3 }
+        $set: { "phase3": req.body.phase3, "status": req.body.status }
       }, (err, doc) => {
         if (err) {
           res.status(500).send(doc);
@@ -490,9 +490,7 @@ module.exports = db => {
       var leaverId = req.body.staffId;
       db.collection(collection).findOneAndUpdate(
         { staffId: leaverId },
-        { $set: { phase5: req.body.phase5,
-                  status:req.body.status 
-                } 
+        { $set: { phase5: req.body.phase5 }
         },
         (err, result) => {
           if (err) {

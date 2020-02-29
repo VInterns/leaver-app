@@ -23,7 +23,8 @@ export class SMCResignationDetailScreen extends React.Component {
       returnedKeys: false,
       returnedOhda: false,
       deduct: this.props.location.state.detail.phase2.deduct,
-      comment: ""
+      comment: "",
+      resignation: {}
     };
 
     this.checkStatus = this.checkStatus.bind(this);
@@ -43,7 +44,8 @@ export class SMCResignationDetailScreen extends React.Component {
       returnedOhda: smcData.returnedOhda,
       deduct: smcData.deduct,
       comment: smcData.comment,
-      lastWorkDay: retDetail.phase1.lastWorkDay
+      lastWorkDay: retDetail.phase1.lastWorkDay,
+      resignation: retDetail
     })
 
     this.fetchLeaverInfo(retDetail.staffId);
@@ -66,6 +68,31 @@ export class SMCResignationDetailScreen extends React.Component {
   }
 
   ///////////////////////////////////////////////
+  
+  checkRequestStatus(resignation,currentphaseStatus) {
+    if (
+      resignation.phase3.status === 'new' &&
+      resignation.phase4.status === 'new' &&
+      resignation.phase6.status === 'new' &&
+      resignation.phase7.status === 'new' &&
+      resignation.phase8.status === 'new' &&
+      currentphaseStatus === 'new'
+    ) {
+      return 'new';
+    } else if (
+      resignation.phase3.status === 'done' &&
+      resignation.phase4.status === 'done' &&
+      resignation.phase6.status === 'done' &&
+      resignation.phase7.status === 'done' &&
+      resignation.phase8.status === 'done' &&
+      currentphaseStatus === 'done' 
+    ) {
+      return 'done';
+    } else {
+      return 'pending';
+    }
+  }
+  
   checkStatus(condX, condY, condZ, condA) {
     // check confition after adding N/A
     if ((condX === true || condX === "") && (condY === true || condY === "") && (condZ === true || condZ === "") && (condA === true || condA === "")) {
@@ -127,7 +154,8 @@ export class SMCResignationDetailScreen extends React.Component {
       method: "post",
       body: JSON.stringify({
         staffId: this.state.leaver.staffId,
-        phase2: phase2
+        phase2: phase2,
+        status: this.checkRequestStatus(this.state.resignation,phase2.status)
       }),
       headers: { "Content-Type": "application/json" }
     })

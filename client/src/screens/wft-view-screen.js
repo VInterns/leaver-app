@@ -6,7 +6,8 @@ import "react-toastify/dist/ReactToastify.css";
 
 const API = '/api';
 const INSERT = '/resignations/wf/insertBalance';
-
+const DONE = "done";
+const PENDING = "pending";
 export class WorkForceScreenDetail extends React.Component {
 
     constructor(props) {
@@ -20,13 +21,8 @@ export class WorkForceScreenDetail extends React.Component {
             noShow: "",
             lostHours: "",
             inLieuDaysToTake: "",
-            iex: ""
+            iex: "",
         }
-
-
-        // this.submitBalance = this.submitBalance.bind(this);
-        // this.handleChange = this.handleChange.bind(this);
-        // this.fetchLeaverInfo = this.fetchLeaverInfo.bind(this);
 
     }
 
@@ -75,6 +71,40 @@ export class WorkForceScreenDetail extends React.Component {
             })
 
     }
+
+    checkStatus(condX, condY, condZ,condA,condB,condC) {
+        // check confition after adding N/A
+        if ((condX !== "") && (condY !== "") && (condZ !== "") && (condA !== "") && (condB !== "") && (condC !== "")) {
+          return DONE;
+        } else {
+          return PENDING;
+        }
+      }
+
+    checkRequestStatus(resignation,currentphaseStatus) {
+        if (
+          resignation.phase2.status === 'new' &&
+          resignation.phase4.status === 'new' &&
+          resignation.phase6.status === 'new' &&
+          resignation.phase7.status === 'new' &&
+          resignation.phase8.status === 'new' &&
+          currentphaseStatus === 'new'
+        ) {
+          return 'new';
+        } else if (
+          resignation.phase2.status === 'done' &&
+          resignation.phase4.status === 'done' &&
+          resignation.phase6.status === 'done' &&
+          resignation.phase7.status === 'done' &&
+          resignation.phase8.status === 'done' &&
+          currentphaseStatus === 'done' 
+        ) {
+          return 'done';
+        } else {
+          return 'pending';
+        }
+      }
+
     ///////////////////////////////////////////////
     submitBalance = (event) => {
 
@@ -87,7 +117,7 @@ export class WorkForceScreenDetail extends React.Component {
             "lostHours": this.state.lostHours,
             "inLieuDaysToTake": this.state.inLieuDaysToTake,
             "iex": this.state.iex,
-            "status": "done"
+            "status": this.checkStatus(this.state.annualsGranted,this.annualsTaken,this.noShow,this.state.lostHours,this.state.inLieuDaysToTake,this.iex)
         }
 
 
