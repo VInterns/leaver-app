@@ -75,7 +75,6 @@ export class CSResignationDetailScreen extends React.Component {
 
   checkRequestStatus(resignation,currentphaseStatus) {
     if (
-      resignation.phase2.status === 'new' &&
       resignation.phase3.status === 'new' &&
       resignation.phase4.status === 'new' &&
       resignation.phase6.status === 'new' &&
@@ -84,7 +83,6 @@ export class CSResignationDetailScreen extends React.Component {
     ) {
       return 'new';
     } else if (
-      resignation.phase2.status === 'done' &&
       resignation.phase3.status === 'done' &&
       resignation.phase4.status === 'done' &&
       resignation.phase6.status === 'done' &&

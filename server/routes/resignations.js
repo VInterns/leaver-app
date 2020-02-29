@@ -134,19 +134,14 @@ module.exports = db => {
   });
 
   router.post("/data", ensureLoggedIn, ensureHasRole(["admin"]), (req, res) => {
-    let phase4 = {
-      ratePlan: req.body.ratePlan,
-      phoneBilledAmount: req.body.phoneBilledAmount,
-      comment: req.body.comment,
-      nationalId: req.body.nationalId,
-      status: "done"
-    };
-
     let myquery = {
       staffId: Number(req.query.id)
     };
-
-    let newvalues = { $set: { phase4:phase4,status:req.body.status } };
+    let phase4 = req.body.phase4;
+    let newvalues = { $set: { phase4:phase4,
+                              status:req.query.status 
+                            } 
+                    };
     db.collection(collection)
       .updateOne(myquery, newvalues)
       .then(result => {
@@ -378,9 +373,7 @@ module.exports = db => {
       db.collection(collection).findOneAndUpdate(
         { staffId: leaverId },
         {
-          $set: { phase2: req.body.phase2,
-                  status:req.body.status 
-                }
+          $set: { phase2: req.body.phase2}
         },
         function (err, doc) {
           if (err) {

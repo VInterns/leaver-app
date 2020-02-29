@@ -147,7 +147,9 @@ export class ResignReqScreen extends Component {
           },
           phase4: {
             status: 'new',
-            nationalIdImg: this.state.nationalIdImg
+            ratePlan:'',
+            comment:'',
+            phoneBilledAmount:false
           },
           phase5: {
             status: 'new',
