@@ -48,9 +48,9 @@ export class SMCResignationDetailScreen extends React.Component {
       lastWorkDay: retDetail.phase1.lastWorkDay,
       resignation: retDetail,
       managerData: {
-        returnedHeadset: smcData.returnedHeadset,
-        returnedKeys: smcData.returnedKeys,
-        returnedOhda: smcData.returnedOhda,
+        returnedHeadset: retDetail.phase1.returnedHeadset,
+        returnedKeys: retDetail.phase1.returnedKeys,
+        returnedOhda: retDetail.phase1.returnedOhda,
       }
     })
 
