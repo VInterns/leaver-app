@@ -18,7 +18,8 @@ export class ELTViewScreen extends React.Component {
     this.state = {
       entry: [],
       lastWorkDay: '',
-      comment: ""
+      comment: "",
+      resignation: {}
     };
 
     this.getEntry = this.getEntry.bind(this);
@@ -49,7 +50,6 @@ export class ELTViewScreen extends React.Component {
         }
       })
   }
-
   ///////////////////////////////////////////////
   submit(e) {
 
@@ -98,11 +98,11 @@ export class ELTViewScreen extends React.Component {
     // let lastDay = this.props.history.location.state.lastWorkDay;
     let staffID = this.props.history.location.state.resId;
     let phase5Comment = this.props.history.location.state.comment;
-
     this.getEntry(staffID)
     this.setState({
       // lastWorkDay: lastDay,
-      comment: phase5Comment
+      comment: phase5Comment,
+      resignation : this.props.history.location.state.resignation
 
     })
   }

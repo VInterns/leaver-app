@@ -147,7 +147,9 @@ export class ResignReqScreen extends Component {
           },
           phase4: {
             status: 'new',
-            nationalIdImg: this.state.nationalIdImg
+            ratePlan:'',
+            comment:'',
+            phoneBilledAmount:false
           },
           phase5: {
             status: 'new',
@@ -410,7 +412,7 @@ export class ResignReqScreen extends Component {
                   id='last'
                   name='lastWorkDay'
                   min='2018-01-01'
-                  max='2026-12-31'
+                  max='2060-12-31'
                   onChange={this.handleChange}
                   onBlur={() =>
                     this.validator.showMessageFor('last working day')
@@ -472,6 +474,7 @@ export class ResignReqScreen extends Component {
               <Col>
                 <Form.Label className='col-form-group font-weight-bold'>
                   Returned Headset
+                  <span style={{ color: 'red', fontSize: 25 }}>*</span>
                 </Form.Label>
               </Col>
               <Col>
@@ -491,6 +494,7 @@ export class ResignReqScreen extends Component {
               <Col>
                 <Form.Label className='col-form-group font-weight-bold'>
                   Returned Keys
+                  <span style={{ color: 'red', fontSize: 25 }}>*</span>
                 </Form.Label>
               </Col>
               <Col>
@@ -509,27 +513,8 @@ export class ResignReqScreen extends Component {
             <Row className='mt-3'>
               <Col>
                 <Form.Label className='col-form-group font-weight-bold'>
-                  Pending Sick Leave
-                  <span style={{ color: 'red', fontSize: 25 }}>*</span>
-                </Form.Label>
-              </Col>
-              <Col>
-                <Form.Control
-                  as='select'
-                  name='sickLeave'
-                  onChange={this.handleChange}
-                  defaultValue={this.state.sickLeave}
-                >
-                  <option value={''}> N/A </option>
-                  <option value={true}>Yes</option>
-                  <option value={false}>No</option>
-                </Form.Control>
-              </Col>
-            </Row>
-            <Row className='mt-3'>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>
                   Returned Custody
+                  <span style={{ color: 'red', fontSize: 25 }}>*</span>
                 </Form.Label>
               </Col>
               <Col>
@@ -538,19 +523,11 @@ export class ResignReqScreen extends Component {
                   name='returnedOhda'
                   onChange={this.handleChange}
                   defaultValue={this.state.returnedOhda}
-                  onBlur={() =>
-                    this.validator.showMessageFor('Returned Custody')
-                  }
                 >
                   <option value={''}> N/A </option>
                   <option value={true}>Yes</option>
                   <option value={false}>No</option>
                 </Form.Control>
-                {this.validator.message(
-                  'Returned Custody',
-                  this.state.returnedOhda,
-                  'required'
-                )}
               </Col>
             </Row>
             <Row className='mt-3'>
@@ -579,7 +556,7 @@ export class ResignReqScreen extends Component {
           <Form.Group className='p-5 border form-group'>
             <Row>
               <Col>
-                <Form.Label className='d-flex justify-content-center h4'>
+                <Form.Label className='d-flex justify-content-center h4 font-weight-bold'>
                   Leave Balance
                 </Form.Label>
               </Col>
@@ -655,13 +632,32 @@ export class ResignReqScreen extends Component {
                 </tr>
               </tbody>
             </table>
+            <Row className='mt-3'>
+              <Col>
+                <Form.Label className='col-form-group font-weight-bold'>
+                  Pending Sick Leave
+                  <span style={{ color: 'red', fontSize: 25 }}>*</span>
+                </Form.Label>
+              </Col>
+              <Col>
+                <Form.Control
+                  as='select'
+                  name='sickLeave'
+                  onChange={this.handleChange}
+                  defaultValue={this.state.sickLeave}
+                >
+                  <option value={''}> N/A </option>
+                  <option value={true}>Yes</option>
+                  <option value={false}>No</option>
+                </Form.Control>
+              </Col>
+            </Row>
           </Form.Group>
           <Form.Group className='p-5 border'>
             <Row>
               <Col>
                 <Form.Label className='col-form-group font-weight-bold'>
                   National ID Number
-                  <span style={{ color: 'red', fontSize: 25 }}>*</span>
                 </Form.Label>
               </Col>
               <Col>

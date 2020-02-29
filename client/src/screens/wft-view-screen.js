@@ -6,7 +6,8 @@ import "react-toastify/dist/ReactToastify.css";
 
 const API = '/api';
 const INSERT = '/resignations/wf/insertBalance';
-
+const DONE = "done";
+const PENDING = "pending";
 export class WorkForceScreenDetail extends React.Component {
 
     constructor(props) {
@@ -19,14 +20,9 @@ export class WorkForceScreenDetail extends React.Component {
             annualsTaken: "",
             noShow: "",
             lostHours: "",
-            inLieuDaysToTake: "",
-            iex: ""
+            daysToTake: "",
+            iex: "",
         }
-
-
-        // this.submitBalance = this.submitBalance.bind(this);
-        // this.handleChange = this.handleChange.bind(this);
-        // this.fetchLeaverInfo = this.fetchLeaverInfo.bind(this);
 
     }
 
@@ -47,7 +43,7 @@ export class WorkForceScreenDetail extends React.Component {
             annualsGranted: wfData.annualsGranted,
             annualsTaken: wfData.annualsTaken,
             noShow: wfData.noShow,
-            inLieuDaysToTake: wfData.daysToTake,
+            daysToTake: wfData.daysToTake,
             lostHours: wfData.lostHours
 
         })
@@ -75,27 +71,60 @@ export class WorkForceScreenDetail extends React.Component {
             })
 
     }
+
+    checkStatus(condX, condY, condZ,condA,condB,condC) {
+
+        if ((condX === "" || condX === undefined) || (condY === ""|| condY === undefined) || (condZ === "" || condZ === undefined) || (condA === ""|| condA === undefined) || (condB === "" || condB === undefined) || (condC === "" || condC === undefined)) {
+          return PENDING;
+        } else {
+          return DONE;
+        }
+      }
+
+    checkRequestStatus(resignation,currentphaseStatus) {
+        if (
+          resignation.phase4.status === 'new' &&
+          resignation.phase6.status === 'new' &&
+          resignation.phase7.status === 'new' &&
+          resignation.phase8.status === 'new' &&
+          currentphaseStatus === 'new'
+        ) {
+          return 'new';
+        } else if (
+          resignation.phase4.status === 'done' &&
+          resignation.phase6.status === 'done' &&
+          resignation.phase7.status === 'done' &&
+          resignation.phase8.status === 'done' &&
+          currentphaseStatus === 'done' 
+        ) {
+          return 'done';
+        } else {
+          return 'pending';
+        }
+      }
+
     ///////////////////////////////////////////////
     submitBalance = (event) => {
 
         event.preventDefault();
-
+        
         var phase3 = {
             "annualsGranted": this.state.annualsGranted,
             "annualsTaken": this.state.annualsTaken,
             "noShow": this.state.noShow,
             "lostHours": this.state.lostHours,
-            "inLieuDaysToTake": this.state.inLieuDaysToTake,
+            "daysToTake": this.state.daysToTake,
             "iex": this.state.iex,
-            "status": "done"
+            "status": this.checkStatus(this.state.iex,this.state.annualsGranted,this.state.annualsTaken,this.state.noShow,this.state.lostHours,this.state.daysToTake)
         }
-
+        console.log(phase3)
 
         fetch(API + INSERT, {
             method: 'post',
             body: JSON.stringify({
                 "staffId": this.state.detail.staffId,
-                "phase3": phase3
+                "phase3": phase3,
+                "status" : this.checkRequestStatus(this.state.detail,phase3.status)
             }),
             headers: { "Content-Type": "application/json" }
         })
@@ -159,7 +188,7 @@ export class WorkForceScreenDetail extends React.Component {
                                         <td><input type="number" className="form-control" id="annualsTaken" value={this.state.annualsTaken} onChange={this.handleChange} /></td>
                                         <td><input type="number" className="form-control" id="noShow" value={this.state.noShow} onChange={this.handleChange} /></td>
                                         <td><input type="number" className="form-control" id="lostHours" value={this.state.lostHours} onChange={this.handleChange} /></td>
-                                        <td><input type="number" className="form-control" id="inLieuDaysToTake" value={this.state.inLieuDaysToTake} onChange={this.handleChange} /></td>
+                                        <td><input type="number" className="form-control" id="daysToTake" value={this.state.daysToTake} onChange={this.handleChange} /></td>
                                     </tr>
                                 </tbody>
                             </Table>

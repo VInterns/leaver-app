@@ -70,7 +70,7 @@ module.exports = db => {
       db.collection(collection).findOneAndUpdate(
         { staffId: leaverId },
         {
-          $set: { phase1: req.body.phase1 }
+          $set: { phase1: req.body.phase1,status:req.body.status  }
         },
         function (err, doc) {
           if (err) {
@@ -105,7 +105,7 @@ module.exports = db => {
     ensureHasRole(["admin"]),
     (req, res) => {
       db.collection(collection)
-        .find({ "phase4.status": "new" })
+        .find()
         .toArray((error, results) => {
           if (error) {
             console.error(`Failed to fetch data: ${err}`);
@@ -134,19 +134,14 @@ module.exports = db => {
   });
 
   router.post("/data", ensureLoggedIn, ensureHasRole(["admin"]), (req, res) => {
-    let phase4 = {
-      ratePlan: req.body.ratePlan,
-      phoneBilledAmount: req.body.phoneBilledAmount,
-      comment: req.body.comment,
-      nationalId: req.body.nationalId,
-      status: "done"
-    };
-
     let myquery = {
       staffId: Number(req.query.id)
     };
-
-    let newvalues = { $set: { phase4 } };
+    let phase4 = req.body.phase4;
+    let newvalues = { $set: { phase4:phase4,
+                              status:req.query.status 
+                            } 
+                    };
     db.collection(collection)
       .updateOne(myquery, newvalues)
       .then(result => {
@@ -243,7 +238,7 @@ module.exports = db => {
     ensureHasRole(["admin"]),
     (req, res) => {
       db.collection(collection)
-        .find({ status: "new" })
+        .find()
         .toArray((err, requests) => {
           if (err) {
             res.status(500).send();
@@ -262,7 +257,7 @@ module.exports = db => {
     (req, res) => {
       var leaverId = req.body.staffId;
       db.collection(collection).updateOne({ "staffId": leaverId }, {
-        $set: { "phase3": req.body.phase3 }
+        $set: { "phase3": req.body.phase3, "status": req.body.status }
       }, (err, doc) => {
         if (err) {
           res.status(500).send(doc);
@@ -300,7 +295,9 @@ module.exports = db => {
       db.collection(collection).findOneAndUpdate(
         { staffId: leaverId },
         {
-          $set: { phase8: req.body.phase8 }
+          $set: { phase8: req.body.phase8, 
+                  status:req.body.status 
+                }
         },
         function (err, doc) {
           if (err) {
@@ -329,7 +326,9 @@ module.exports = db => {
       db.collection(collection).findOneAndUpdate(
         { staffId: leaverId },
         {
-          $set: { phase6: req.body.phase6 }
+          $set: { phase6: req.body.phase6,
+                  status:req.body.status
+                }
         },
         function (err, doc) {
           if (err) {
@@ -374,7 +373,7 @@ module.exports = db => {
       db.collection(collection).findOneAndUpdate(
         { staffId: leaverId },
         {
-          $set: { phase2: req.body.phase2 }
+          $set: { phase2: req.body.phase2}
         },
         function (err, doc) {
           if (err) {
@@ -418,7 +417,9 @@ module.exports = db => {
       db.collection(collection).findOneAndUpdate(
         { staffId: leaverId },
         {
-          $set: { phase7: req.body.phase7 }
+          $set: { phase7: req.body.phase7,
+                  status:req.body.status  
+                }
         },
         function (err, doc) {
           if (err) {
@@ -482,7 +483,8 @@ module.exports = db => {
       var leaverId = req.body.staffId;
       db.collection(collection).findOneAndUpdate(
         { staffId: leaverId },
-        { $set: { phase5: req.body.phase5 } },
+        { $set: { phase5: req.body.phase5 }
+        },
         (err, result) => {
           if (err) {
             throw err;

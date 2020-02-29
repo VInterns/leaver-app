@@ -4,19 +4,24 @@ import { LeaverDetails } from '../components';
 import { Form, Row, Col, Image, Button } from 'react-bootstrap';
 
 /////////////////////////////////////////////////////////////////////////
-var phoneBilledAmount = 'yes';
-
+const DONE = "done";
+const PENDING = "pending";
 /////////////////////////////////////////////////////////////////////////
 export class CCConsumerActivation extends Component {
   constructor(props) {
     super(props);
     this.state = {
       Data: [],
+      ratePlan:'',
+      comment:'',
+      phoneBilledAmount:false,
       lastWorkDay: '',
       nationalId: null,
+      phaseStatus: '',
       leaver: {}
     };
     this.clickSubmit = this.clickSubmit.bind(this);
+    this.checkRequestStatus = this.checkRequestStatus.bind(this);
   }
 
   ///////////////////////////////////////////////
@@ -63,7 +68,10 @@ export class CCConsumerActivation extends Component {
       })
       .then(data => {
         this.setState({
-          Data: data
+          Data: data,
+          ratePlan:data.phase4.ratePlan,
+          comment:data.phase4.comment,
+          phoneBilledAmount:data.phase4.phoneBilledAmount
         });
       })
       .catch(err => {
@@ -79,39 +87,79 @@ export class CCConsumerActivation extends Component {
   ///////////////////////////////////////////////
   //on click on choose file
   onChangeHandler = event => {
-    var files = event.target.files;
-    this.setState({
-      selectedFile: files
-    });
+    let state = {};
+    state[event.target.id] = this.normalizeVal(event.target.value);
+    this.setState(state);
   };
 
   ///////////////////////////////////////////////
+  normalizeVal(value) {
+    if (value === 'true' || value === "on" || value === "Yes") {
+      return true;
+    }
+    else if (value === "") {
+      return "";
+    }
+    else if (value === 'false' || value === "off" || value === "No") {
+      return false;
+    }
+    else {
+      return value
+    }
+  }
+  
+  checkStatus(condX, condY) {
+    // check confition after adding N/A
+    if ((condX !== "") && (condY === true || condY === "" || condY === "yes")) {
+      return DONE;
+    } else {
+      return PENDING;
+    }
+  }
+  checkRequestStatus(resignation,currentphaseStatus) {
+    if (
+      resignation.phase3.status === 'new' &&
+      resignation.phase6.status === 'new' &&
+      resignation.phase7.status === 'new' &&
+      resignation.phase8.status === 'new' && 
+      currentphaseStatus === 'new'
+    ) {
+      return 'new';
+    } else if (
+      resignation.phase3.status === 'done' &&
+      resignation.phase6.status === 'done' &&
+      resignation.phase7.status === 'done' &&
+      resignation.phase8.status === 'done' &&
+      currentphaseStatus === 'done'
+    ) {
+      return 'done';
+    } else {
+      return 'pending';
+    }
+  }
+
   clickSubmit(e) {
     e.preventDefault();
-
-    if (this.inputRatePlan.value === '' || this.inputComment.value === '') {
-      toast.error('Please fill all empty slots and try again');
-      this.inputRatePlan.value = '';
-      this.inputComment.value = '';
-      phoneBilledAmount = 'yes';
-      return;
-    }
 
     let params = this.props.match.params;
     let id = params.staffId;
     var url2 = '/api/resignations/data?id=' + id;
-
+    
+    let phaseStatus = this.checkStatus(this.state.ratePlan,this.state.phoneBilledAmount);
+    let phase4 = {
+      ratePlan: this.state.ratePlan,
+      comment: this.state.comment,
+      phoneBilledAmount: this.normalizeVal(this.state.phoneBilledAmount),
+      status: phaseStatus
+    }
     fetch(url2, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-
       body: JSON.stringify({
-        ratePlan: this.inputRatePlan.value,
-        comment: this.inputComment.value,
-        phoneBilledAmount: phoneBilledAmount,
-        nationalId: this.state.nationalId
+        phase4: phase4,
+        status: this.checkRequestStatus(this.state.Data,phaseStatus)
       })
     })
       .then(response => {
@@ -122,24 +170,6 @@ export class CCConsumerActivation extends Component {
         toast.error('Upload Fail');
       });
   }
-
-  ///////////////////////////////////////////////
-  //DROP DOWN(phone Billed Amount) change value
-  getVal(sel) {
-    phoneBilledAmount = sel.target.value;
-  }
-
-  ///////////////////////////////////////////////
-  imageUploaderHandler = file => {
-    this.setState({
-      nationalId: {
-        fileName: file.name,
-        dataURL: file.dataURL,
-        type: file.type,
-        size: file.size
-      }
-    });
-  };
 
   ///////////////////////////////////////////////
   render() {
@@ -169,7 +199,7 @@ export class CCConsumerActivation extends Component {
                 <Form.Control plaintext readOnly value={Phase1.nationalId} />
               </Col>
             </Row>
-            <Row className='mt-3'>
+            {NationalIDImg.dataURL && <Row className='mt-3'>
               <Col>
                 <Form.Label className='col-form-group font-weight-bold'>
                   Copy of National ID
@@ -182,6 +212,7 @@ export class CCConsumerActivation extends Component {
                 />
               </Col>
             </Row>
+            }
             <Row className='mt-3'>
               <Col>
                 <Form.Label className='col-form-group font-weight-bold'>
@@ -192,9 +223,9 @@ export class CCConsumerActivation extends Component {
                 <input
                   className='form-control'
                   type='text'
-                  id='rateplan'
-                  ref={inRatePlan => (this.inputRatePlan = inRatePlan)}
-                  placeholder='Enter Rate Plan'
+                  id='ratePlan'
+                  value={this.state.ratePlan}
+                  onChange={this.onChangeHandler}
                 />
               </Col>
             </Row>
@@ -205,10 +236,15 @@ export class CCConsumerActivation extends Component {
                 </Form.Label>
               </Col>
               <Col style={{ marginTop: '10px' }}>
-                <select className='form-control' onChange={this.getVal}>
-                  <option value='yes'>Yes</option>
-                  <option value='no'>No</option>
-                  <option value='N/A'>N/A</option>
+                <select 
+                  id='phoneBilledAmount'
+                  className='form-control' 
+                  value={this.state.phoneBilledAmount} 
+                  onChange={this.onChangeHandler}
+                >
+                    <option value={""}> N/A </option>
+                    <option value={true}>Yes</option>
+                    <option value={false}>No</option>
                 </select>
               </Col>
             </Row>
@@ -223,7 +259,8 @@ export class CCConsumerActivation extends Component {
                   className='form-control'
                   type='textarea'
                   id='comment'
-                  ref={inComment => (this.inputComment = inComment)}
+                  value={this.state.comment}
+                  onChange = {this.onChangeHandler}
                   placeholder='Input Comment here'
                 />
               </Col>

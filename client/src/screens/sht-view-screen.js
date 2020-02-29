@@ -62,6 +62,28 @@ export class SHTViewScreen extends React.Component {
   }
   ///////////////////////////////////////////////
 
+  checkRequestStatus(resignation,currentphaseStatus) {
+    if (
+      resignation.phase3.status === 'new' &&
+      resignation.phase4.status === 'new' &&
+      resignation.phase6.status === 'new' &&
+      resignation.phase8.status === 'new' &&
+      currentphaseStatus === 'new'
+    ) {
+      return 'new';
+    } else if (
+      resignation.phase3.status === 'done' &&
+      resignation.phase4.status === 'done' &&
+      resignation.phase6.status === 'done' &&
+      resignation.phase8.status === 'done' &&
+      currentphaseStatus === 'done' 
+    ) {
+      return 'done';
+    } else {
+      return 'pending';
+    }
+  }
+
   checkStatus(condX) {
     // check confition after adding N/A
     if ((condX === true || condX === "")) {
@@ -116,7 +138,8 @@ export class SHTViewScreen extends React.Component {
       method: "post",
       body: JSON.stringify({
         staffId: this.state.resignationDetails.staffId,
-        phase7: phase7
+        phase7: phase7,
+        status: this.checkRequestStatus(this.state.resignationDetails,phase7.status)
       }),
       headers: { "Content-Type": "application/json" }
     })

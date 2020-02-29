@@ -71,7 +71,7 @@ export class WorkForceScreen extends React.Component {
   }
 
   fetchRequestsData() {
-    this.setState({ ...this.state });
+    // this.setState({ ...this.state });
     fetch(API + SEARCH)
       .then(res => {
         return res.json();

@@ -22,8 +22,10 @@ export class SMCResignationDetailScreen extends React.Component {
       returnedHeadset: false,
       returnedKeys: false,
       returnedOhda: false,
-      deduct: this.props.location.state.detail.phase2.deduct,
-      comment: ""
+      deduct: '',
+      comment: "",
+      resignation: {},
+      managerData: {}
     };
 
     this.checkStatus = this.checkStatus.bind(this);
@@ -43,7 +45,13 @@ export class SMCResignationDetailScreen extends React.Component {
       returnedOhda: smcData.returnedOhda,
       deduct: smcData.deduct,
       comment: smcData.comment,
-      lastWorkDay: retDetail.phase1.lastWorkDay
+      lastWorkDay: retDetail.phase1.lastWorkDay,
+      resignation: retDetail,
+      managerData: {
+        returnedHeadset: smcData.returnedHeadset,
+        returnedKeys: smcData.returnedKeys,
+        returnedOhda: smcData.returnedOhda,
+      }
     })
 
     this.fetchLeaverInfo(retDetail.staffId);
@@ -65,10 +73,26 @@ export class SMCResignationDetailScreen extends React.Component {
     }
   }
 
+  mapValues(value){
+    if (value === 'true' || value === "on" || value === true) {
+      return "Yes";
+    }
+    else if (value === "") {
+      return "N/A";
+    }
+    else if (value === 'false' || value === "off" || value === false) {
+      return "No";
+    }
+    else {
+      return value
+    }
+  }
+
   ///////////////////////////////////////////////
-  checkStatus(condX, condY, condZ, condA) {
+  
+  checkStatus(condX, condY, condZ) {
     // check confition after adding N/A
-    if ((condX === true || condX === "") && (condY === true || condY === "") && (condZ === true || condZ === "") && (condA === true || condA === "")) {
+    if ((condX === true || condX === "") && (condY === true || condY === "") && (condZ === true || condZ === "")) {
       return DONE;
     } else {
       return PENDING;
@@ -118,8 +142,7 @@ export class SMCResignationDetailScreen extends React.Component {
       status: this.checkStatus(
         this.state.returnedHeadset,
         this.state.returnedKeys,
-        this.state.returnedOhda,
-        this.state.deduct
+        this.state.returnedOhda
       )
     };
 
@@ -158,103 +181,156 @@ export class SMCResignationDetailScreen extends React.Component {
         <div className='p-2'>
           <LeaverDetails leaverDetail={{ leaverInfo: leaver, lastDay: this.state.lastWorkDay }} />
         </div>
-        <Form className='p-2'>
-          <Form.Group className='p-5 border'>
-            <Row>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Returned Headset</Form.Label>
-              </Col>
-              <Col>
-                <select
-                  id="returnedHeadset"
-                  onChange={this.handleChange}
-                  className="form-control"
-                  value={this.state.returnedHeadset}>
-                  <option value={""}> N/A </option>
-                  <option value={true}>Yes</option>
-                  <option value={false}>No</option>
-                </select>
-              </Col>
-            </Row>
-            <Row className = 'mt-3'>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Returned Keys</Form.Label>
-              </Col>
-              <Col>
-                <select
-                  id="returnedKeys"
-                  onChange={this.handleChange}
-                  className="form-control"
-                  value={this.state.returnedKeys}>
-                  <option value={""}> N/A </option>
-                  <option value={true}>Yes</option>
-                  <option value={false}>No</option>
-                </select>
-              </Col>
-            </Row>
-            <Row className = 'mt-3'>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Returned Ohda</Form.Label>
-              </Col>
-              <Col>
-                <select
-                  id="returnedOhda"
-                  onChange={this.handleChange}
-                  className="form-control"
-                  value={this.state.returnedOhda}>
-                  <option value={""}> N/A </option>
-                  <option value={true}>Yes</option>
-                  <option value={false}>No</option>
-                </select>
-              </Col>
-            </Row>
-            <Row className = 'mt-3'>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Amount Deducted</Form.Label>
-              </Col>
-              <Col>
-                <input
-                  id="deduct"
-                  type="checkbox"
-                  defaultChecked={this.state.deduct}
-                  onChange={(e) => {
-                    this.handleChange({
-                      target: {
-                        id: e.target.id,
-                        value: e.target.checked,
-                      },
-                    });
-                  }}
-                  className="form-control" />
-              </Col>
-            </Row>
-            <Row className = 'mt-3'>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Comments</Form.Label>
-              </Col>
-              <Col>
-                <textarea
-                  id="comment"
-                  rows="5"
-                  onChange={this.handleChange}
-                  className="p-2 form-control"
-                  value={this.state.comment} />
-              </Col>
-            </Row>
-            <Row className = 'mt-5'>
-              <Col>
-                <Button
-                  size='lg'
-                  type='submit'
-                  block
-                  variant='danger'
-                  onClick={this.submitButton}
-                >Submit
-                </Button>
-              </Col>
-            </Row>
-          </Form.Group>
-        </Form>
+        <div>
+          <header className='text-center'>
+              <hr />
+              <h3>Team Leader Checklist</h3>
+              <hr />
+          </header>
+          <Form className='mt-4 border p-5'>
+              <Form.Group>
+                  <Row>
+                      <Col>
+                          <Form.Label className="font-weight-bold">Returned Headset</Form.Label>
+                      </Col>
+                      <Col>
+                          <Form.Control
+                              readOnly
+                              plaintext
+                              value={this.mapValues(this.state.managerData.returnedHeadset)}
+                          />
+                      </Col>
+                  </Row>
+                  <hr />
+                  <Row>
+                      <Col>
+                          <Form.Label className="font-weight-bold">Returned Keys</Form.Label>
+                      </Col>
+                      <Col>
+                          <Form.Control
+                              readOnly
+                              plaintext
+                              value={this.mapValues(this.state.managerData.returnedKeys)}
+                          />
+                      </Col>
+                    </Row>
+                    <hr />
+                    <Row>
+                      <Col>
+                          <Form.Label className="font-weight-bold">Returned Custody</Form.Label>
+                      </Col>
+                      <Col>
+                          <Form.Control
+                              readOnly
+                              plaintext
+                              value={this.mapValues(this.state.managerData.returnedOhda)}
+                          />
+                      </Col>
+                  </Row>
+              </Form.Group>
+          </Form>
+        </div>
+        <div>
+          <header className='text-center'>
+                <hr />
+                <h3>SMC Team Checklist</h3>
+                <hr />
+            </header>
+          <Form className='mt-4 border p-5'>
+            <Form.Group className=''>
+              <Row>
+                <Col>
+                  <Form.Label className='col-form-group font-weight-bold'>Returned Headset</Form.Label>
+                </Col>
+                <Col>
+                  <select
+                    id="returnedHeadset"
+                    onChange={this.handleChange}
+                    className="form-control"
+                    value={this.state.returnedHeadset}>
+                    <option value={""}> N/A </option>
+                    <option value={true}>Yes</option>
+                    <option value={false}>No</option>
+                  </select>
+                </Col>
+              </Row>
+              <Row className = 'mt-3'>
+                <Col>
+                  <Form.Label className='col-form-group font-weight-bold'>Returned Keys</Form.Label>
+                </Col>
+                <Col>
+                  <select
+                    id="returnedKeys"
+                    onChange={this.handleChange}
+                    className="form-control"
+                    value={this.state.returnedKeys}>
+                    <option value={""}> N/A </option>
+                    <option value={true}>Yes</option>
+                    <option value={false}>No</option>
+                  </select>
+                </Col>
+              </Row>
+              <Row className = 'mt-3'>
+                <Col>
+                  <Form.Label className='col-form-group font-weight-bold'>Returned Ohda</Form.Label>
+                </Col>
+                <Col>
+                  <select
+                    id="returnedOhda"
+                    onChange={this.handleChange}
+                    className="form-control"
+                    value={this.state.returnedOhda}>
+                    <option value={""}> N/A </option>
+                    <option value={true}>Yes</option>
+                    <option value={false}>No</option>
+                  </select>
+                </Col>
+              </Row>
+              <Row className = 'mt-3'>
+                <Col>
+                  <Form.Label className='col-form-group font-weight-bold'>Amount Deducted</Form.Label>
+                </Col>
+                <Col>
+                  <Form.Control
+                      id='deduct'
+                      className='col-xs-1'
+                      as='textarea'
+                      rows='1'
+                      onChange={this.handleChange}
+                    />
+                </Col>
+              </Row>
+              <Row className = 'mt-3'>
+                <Col>
+                  <Form.Label className='col-form-group font-weight-bold'>Comments</Form.Label>
+                </Col>
+                <Col>
+                  <textarea
+                    id="comment"
+                    rows="5"
+                    onChange={this.handleChange}
+                    className="p-2 form-control"
+                    value={this.state.comment} />
+                </Col>
+              </Row>
+              <Row className = 'mt-5'>
+                <Col>
+                  <Button
+                    size='lg'
+                    type='submit'
+                    block
+                    variant='danger'
+                    onClick={this.submitButton}
+                  >Submit
+                  </Button>
+                </Col>
+              </Row>
+            </Form.Group>
+          </Form>
+          <br/>
+          <br/>
+          <br/>
+        </div>
       </div>
     );
   }
