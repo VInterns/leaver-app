@@ -70,7 +70,7 @@ module.exports = db => {
       db.collection(collection).findOneAndUpdate(
         { staffId: leaverId },
         {
-          $set: { phase1: req.body.phase1,status:req.body.status  }
+          $set: { phase1: req.body.phase1 }
         },
         function (err, doc) {
           if (err) {
@@ -139,7 +139,7 @@ module.exports = db => {
     };
     let phase4 = req.body.phase4;
     let newvalues = { $set: { phase4:phase4,
-                              status:req.query.status 
+                              status:req.body.status 
                             } 
                     };
     db.collection(collection)
