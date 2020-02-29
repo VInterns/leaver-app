@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - '12.16.1'
+  - "12.16.1"
 install:
   - yarn install:all
 
@@ -13,8 +13,6 @@ cache:
 before_deploy:
   - yarn build:client
   - yarn post_build:copy
-  - echo $PWS.USER
-  - echo $PWS.PASSWORD
 
 deploy:
   - provider: cloudfoundry
