@@ -44,7 +44,7 @@ module.exports = db => {
               let subject = `New Resignation Request for Staff ID# ${req.body.staffId}`;
               let query = { roles: { $in: ['hr', 'vendor', 'manager'] } };
               let toMailListPromise = getMailingList(query).then((mailList) => {
-                let scope = { name: req.body.name, staffId: req.body.staffId };
+                let scope = { name: req.body.name, staffId: req.body.staffId, managerName: req.body.managerName, lastDay: req.body.phase1.lastWorkDay };
                 let htmlBodyPromise = getHtmlBody('initial-vendor-notification.html', scope).then((htmlBody) => {
                   mailer.sendEmail(mailList, subject, htmlBody, () => {
                     console.log(`Resignation Request Creation Email Sent to ${toMailList}`)
@@ -153,7 +153,7 @@ module.exports = db => {
         if (phase4.status === 'done') {
           let searchQuery = { roles: { $in: ['hr', 'manager'] } };
           let mailListPromise = getMailingList(searchQuery).then((emails) => {
-            let scope = { staffId: req.query.id, phaseNumber: '4' };
+            let scope = { staffId: req.query.id, teamName: 'CC  Consumer Activation' };
             let htmlBodyPromise = getHtmlBody('phase-update.html', scope).then((htmlBody) => {
               let subject = `Phase Update for Staff ID #${req.body.id}`
               mailer.sendEmail(emails, subject, htmlBody, () => {
@@ -271,7 +271,7 @@ module.exports = db => {
           if (req.body.phase3.status === 'done') {
             let searchQuery = { roles: { $in: ['hr', 'manager'] } };
             let mailListPromise = getMailingList(searchQuery).then((emails) => {
-              let scope = { staffId: leaverId, phaseNumber: '3' };
+              let scope = { staffId: leaverId, teamName: 'Work Force' };
               let htmlBodyPromise = getHtmlBody('phase-update.html', scope).then((htmlBody) => {
                 let subject = `Phase Update for Staff ID #${leaverId}`
                 mailer.sendEmail(emails, subject, htmlBody, () => {
@@ -314,7 +314,7 @@ module.exports = db => {
             if (req.body.phase8.status === 'done') {
               let searchQuery = { roles: { $in: ['hr', 'manager'] } };
               let mailListPromise = getMailingList(searchQuery).then((emails) => {
-                let scope = { staffId: leaverId, phaseNumber: '8' };
+                let scope = { staffId: leaverId, teamName: 'Corporate Security' };
                 let htmlBodyPromise = getHtmlBody('phase-update.html', scope).then((htmlBody) => {
                   let subject = `Phase Update for Staff ID #${leaverId}`
                   mailer.sendEmail(emails, subject, htmlBody, () => {
@@ -379,7 +379,7 @@ module.exports = db => {
             if (req.body.phase6.status === 'done') {
               let searchQuery = { roles: { $in: ['hr', 'manager'] } };
               let mailListPromise = getMailingList(searchQuery).then((emails) => {
-                let scope = { staffId: leaverId, phaseNumber: '6' };
+                let scope = { staffId: leaverId, teamName: 'Application Security' };
                 let htmlBodyPromise = getHtmlBody('phase-update.html', scope).then((htmlBody) => {
                   let subject = `Phase Update for Staff ID #${leaverId}`
                   mailer.sendEmail(emails, subject, htmlBody, () => {
@@ -424,7 +424,7 @@ module.exports = db => {
             if (req.body.phase2.status === 'done') {
               let searchQuery = { roles: { $in: ['hr', 'manager'] } };
               let mailListPromise = getMailingList(searchQuery).then((emails) => {
-                let scope = { staffId: leaverId, phaseNumber: '2' };
+                let scope = { staffId: leaverId, teamName: 'SMC' };
                 let htmlBodyPromise = getHtmlBody('phase-update.html', scope).then((htmlBody) => {
                   let subject = `Phase Update for Staff ID #${leaverId}`
                   mailer.sendEmail(emails, subject, htmlBody, () => {
@@ -471,7 +471,7 @@ module.exports = db => {
             if (req.body.phase7.status === 'done') {
               let searchQuery = { roles: { $in: ['hr', 'manager'] } };
               let mailListPromise = getMailingList(searchQuery).then((emails) => {
-                let scope = { staffId: leaverId, phaseNumber: '7' };
+                let scope = { staffId: leaverId, teamName: 'Software Hardware Token' };
                 let htmlBodyPromise = getHtmlBody('phase-update.html', scope).then((htmlBody) => {
                   let subject = `Phase Update for Staff ID #${leaverId}`
                   mailer.sendEmail(emails, subject, htmlBody, () => {
@@ -535,7 +535,7 @@ module.exports = db => {
             if (req.body.phase5.status === 'done') {
               let searchQuery = { roles: { $in: ['hr', 'manager'] } };
               let mailListPromise = getMailingList(searchQuery).then((emails) => {
-                let scope = { staffId: leaverId, phaseNumber: '5' };
+                let scope = { staffId: leaverId, teamName: 'Enterprise Logistics' };
                 let htmlBodyPromise = getHtmlBody('phase-update.html', scope).then((htmlBody) => {
                   let subject = `Phase Update for Staff ID #${leaverId}`
                   mailer.sendEmail(emails, subject, htmlBody, () => {

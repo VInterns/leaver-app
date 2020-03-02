@@ -14,7 +14,7 @@ const getDatabaseUrl = () => {
 
 /////////////////////////////////////////////////////////////
 const getFromEmail = () => {
-  return process.env.EMAIL || 'hashad.d2d@gmail.com';
+  return process.env.EMAIL || 'leaver-app@vodafone.com';
 }
 
 /////////////////////////////////////////////////////////////

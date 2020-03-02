@@ -129,6 +129,7 @@ export class ResignReqScreen extends Component {
             iex: this.state.iex
           },
           phase2: {
+
             status: 'new',
             returnedHeadset: this.state.returnedHeadset,
             returnedKeys: this.state.returnedKeys,
