@@ -1,5 +1,6 @@
 import React from 'react';
-import { Table, Row, Col } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
+import { Table, Container, Header } from 'semantic-ui-react';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 /////////////////////////////////////////////////////////////////////////
@@ -93,38 +94,35 @@ export class SMCTableScreen extends React.Component {
   render() {
     const { resRrequests } = this.state;
     return (
-      <div className='container'>
-        <center style={{ margin: '25px' }}>
-          <header className='elt-header'>
-            <hr />
-            <h3>Customer Care (SMC)</h3>
-            <hr />
-          </header>
-          <Row className = 'mt-3'>
-            <Col>
-              <ReactHTMLTableToExcel
-                id='test-table-xls-button'
-                className='download-table-xls-button btn btn-outline-success btn-lg btn-block'
-                table='customer-care-table'
-                filename='Resignations - Customer Care'
-                sheet='resignations'
-                buttonText='Export Table as XLS'
-              />
-            </Col>
-          </Row>
-          <div className='elt-data mt-3'>
-            <Table bordered hover striped responsive id='customer-care-table'>
-              <thead>
-                <tr style={{ backgroundColor: "#BE0002" }}>
-                  <th className='text-white'>Staff ID</th>
-                  <th className='text-white'>Employee Name</th>
-                  <th className='text-white'>Manager Name</th>
-                  <th className='text-white'>Status</th>
-                </tr>
-              </thead>
-              <tbody>
+      <Container fluid className='bg-light p-5'>
+        <h3 className='text-center'>Customer Care (SMC)</h3>
+        <div className='row'>
+          <div className='offset-md-3 col-md-6 border bg-white rounded'>
+            <Row className='mt-4'>
+              <Col className = 'd-flex flex-row'>
+                <ReactHTMLTableToExcel
+                  id='test-table-xls-button'
+                  className='download-table-xls-button ui basic button'
+                  table='customer-care-table'
+                  filename='Resignations - Customer Care'
+                  sheet='resignations'
+                  buttonText='Export Table'
+                />
+              </Col>
+            </Row>
+            <hr/>
+            <Table celled className='table-hover mb-3' id = 'customer-care-table'>
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell>Staff ID</Table.HeaderCell>
+                  <Table.HeaderCell>Employee Name</Table.HeaderCell>
+                  <Table.HeaderCell>Manager Name</Table.HeaderCell>
+                  <Table.HeaderCell>Status</Table.HeaderCell>
+                </Table.Row>
+              </Table.Header>
+              <Table.Body>
                 {resRrequests.map(resignation => (
-                  <tr
+                  <Table.Row
                     onClick={() => this.onRowClick(resignation)}
                     key={resignation.staffId}
                   >
@@ -132,13 +130,13 @@ export class SMCTableScreen extends React.Component {
                     <td>{resignation.name}</td>
                     <td>{resignation.managerName}</td>
                     {this.checkStatus(resignation.phase2.status)}
-                  </tr>
+                  </Table.Row>
                 ))}
-              </tbody>
+              </Table.Body>
             </Table>
           </div>
-        </center>
-      </div>
+        </div>
+      </Container>
     );
   }
 }
