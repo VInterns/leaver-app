@@ -1,6 +1,7 @@
 // to do -> redirect after Submit
 import React, { Component } from 'react';
 import { Container, Form, Row, Col, Button } from 'react-bootstrap';
+import { Table } from 'semantic-ui-react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -48,7 +49,7 @@ export class ResignReqScreen extends Component {
       mobile: '',
       iex: '',
       personalMobile: '',
-      recommended: false,
+      recommended: 'recommended',
       createdby: this.props.createdby,
       employeeFound: false
     };
@@ -148,9 +149,9 @@ export class ResignReqScreen extends Component {
           },
           phase4: {
             status: 'new',
-            ratePlan:'',
-            comment:'',
-            phoneBilledAmount:false
+            ratePlan: '',
+            comment: '',
+            phoneBilledAmount: false
           },
           phase5: {
             status: 'new',
@@ -242,457 +243,456 @@ export class ResignReqScreen extends Component {
   render() {
     this.validator.purgeFields();
     return (
-      <Container className='p-5'>
+      <Container fluid className='p-5 bg-light'>
         <h3 className='text-center'>Resignation Request</h3>
         <ToastContainer />
-        <Form className='mt-4'>
-          <Form.Group className='p-5 border'>
-            <Form.Group className='p-2 border border-danger'>
-              <Row>
-                <Col>
-                  <Form.Label className='col-form-group font-weight-bold'>
-                    Staff ID
+        <div className="row">
+          <div className="offset-md-3 col-md-6 border rounded bg-white">
+            <Form className='mt-4'>
+              <Form.Group className='p-5'>
+                <Form.Group className='p-2 border rounded'>
+                  <Row>
+                    <Col>
+                      <Form.Label className='col-form-group font-weight-bold'>
+                        Staff ID
                     <span style={{ color: 'red', fontSize: 25 }}>*</span>
-                  </Form.Label>
-                </Col>
-                <Col>
-                  <Form.Control
-                    name='staffId'
-                    id='id'
-                    placeholder='12345'
-                    className='form-control'
-                    onChange={this.handleChange}
-                    onBlur={() => this.validator.showMessageFor('staff id')}
-                  />
-                  {this.validator.message(
-                    'staff id',
-                    this.state.staffId,
-                    'required'
-                  )}
-                </Col>
-                <Col>
-                  <Button
-                    type='button'
-                    variant='danger'
-                    onClick={this.onSearch}
-                  >
-                    Search
+                      </Form.Label>
+                    </Col>
+                    <Col>
+                      <Form.Control
+                        name='staffId'
+                        id='id'
+                        placeholder='12345'
+                        className='form-control'
+                        onChange={this.handleChange}
+                        onBlur={() => this.validator.showMessageFor('staff id')}
+                      />
+                      {this.validator.message(
+                        'staff id',
+                        this.state.staffId,
+                        'required'
+                      )}
+                    </Col>
+                    <Col>
+                      <Button
+                        type='button'
+                        variant='danger'
+                        onClick={this.onSearch}
+                      >
+                        Search
                   </Button>
-                </Col>
-              </Row>
-            </Form.Group>
-            <Row>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>
-                  SAP Staff ID
+                    </Col>
+                  </Row>
+                </Form.Group>
+                <Row hidden>
+                  <Col>
+                    <Form.Label className='col-form-group font-weight-bold'>
+                      SAP Staff ID
                 </Form.Label>
-              </Col>
-              <Col>
-                <Form.Control
-                  plaintext
-                  readOnly
-                  value={this.state.sapStaffId}
-                />
-              </Col>
-              <Col></Col>
-            </Row>
-            <Row>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>
-                  Employee Name
+                  </Col>
+                  <Col>
+                    <Form.Control
+                      plaintext
+                      readOnly
+                      value={this.state.sapStaffId}
+                    />
+                  </Col>
+                  <Col></Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <Form.Label className='col-form-group font-weight-bold'>
+                      Employee Name
                 </Form.Label>
-              </Col>
-              <Col>
-                <Form.Control plaintext readOnly value={this.state.name} />
-              </Col>
-              <Col></Col>
-            </Row>
-            <Row>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>
-                  Manager Name
+                  </Col>
+                  <Col>
+                    <Form.Control plaintext readOnly value={this.state.name} />
+                  </Col>
+                  <Col></Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <Form.Label className='col-form-group font-weight-bold'>
+                      Manager Name
                 </Form.Label>
-              </Col>
-              <Col>
-                <Form.Control
-                  plaintext
-                  readOnly
-                  value={this.state.managerName}
-                />
-              </Col>
-              <Col></Col>
-            </Row>
-            <Row>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>
-                  NT Account
+                  </Col>
+                  <Col>
+                    <Form.Control
+                      plaintext
+                      readOnly
+                      value={this.state.managerName}
+                    />
+                  </Col>
+                  <Col></Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <Form.Label className='col-form-group font-weight-bold'>
+                      NT Account
                 </Form.Label>
-              </Col>
-              <Col>
-                <Form.Control plaintext readOnly value={this.state.ntAccount} />
-              </Col>
-              <Col></Col>
-            </Row>
-            <Row>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>
-                  Department
+                  </Col>
+                  <Col>
+                    <Form.Control plaintext readOnly value={this.state.ntAccount} />
+                  </Col>
+                  <Col></Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <Form.Label className='col-form-group font-weight-bold'>
+                      Department
                 </Form.Label>
-              </Col>
-              <Col>
-                <Form.Control
-                  plaintext
-                  readOnly
-                  value={this.state.department}
-                />
-              </Col>
-              <Col></Col>
-            </Row>
-            <Row>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>
-                  Cost Center
+                  </Col>
+                  <Col>
+                    <Form.Control
+                      plaintext
+                      readOnly
+                      value={this.state.department}
+                    />
+                  </Col>
+                  <Col></Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <Form.Label className='col-form-group font-weight-bold'>
+                      Cost Center
                 </Form.Label>
-              </Col>
-              <Col>
-                <Form.Control
-                  plaintext
-                  readOnly
-                  value={this.state.careCenter}
-                />
-              </Col>
-              <Col></Col>
-            </Row>
-            <Row>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>
-                  Job Title
+                  </Col>
+                  <Col>
+                    <Form.Control
+                      plaintext
+                      readOnly
+                      value={this.state.careCenter}
+                    />
+                  </Col>
+                  <Col></Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <Form.Label className='col-form-group font-weight-bold'>
+                      Job Title
                 </Form.Label>
-              </Col>
-              <Col>
-                <Form.Control plaintext readOnly value={this.state.jobTitle} />
-              </Col>
-              <Col></Col>
-            </Row>
-            <Row>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>
-                  Hiring Date
+                  </Col>
+                  <Col>
+                    <Form.Control plaintext readOnly value={this.state.jobTitle} />
+                  </Col>
+                  <Col></Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <Form.Label className='col-form-group font-weight-bold'>
+                      Hiring Date
                 </Form.Label>
-              </Col>
-              <Col>
-                <Form.Control
-                  plaintext
-                  readOnly
-                  value={this.state.hiringDate}
-                />
-              </Col>
-              <Col></Col>
-            </Row>
-            <Row>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>
-                  Mobile Number
-                </Form.Label>
-              </Col>
-              <Col>
-                <Form.Control plaintext readOnly value={this.state.mobile} />
-              </Col>
-              <Col></Col>
-            </Row>
-            <Row className='mt-3'>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>
-                  Last Working Day
+                  </Col>
+                  <Col>
+                    <Form.Control
+                      plaintext
+                      readOnly
+                      value={this.state.hiringDate}
+                    />
+                  </Col>
+                  <Col></Col>
+                </Row>
+                <Row className='mt-3'>
+                  <Col>
+                    <Form.Label className='col-form-group font-weight-bold'>
+                      Last Working Day
                   <span style={{ color: 'red', fontSize: 25 }}>*</span>
-                </Form.Label>
-              </Col>
-              <Col>
-                <input
-                  type='date'
-                  id='last'
-                  name='lastWorkDay'
-                  min='2018-01-01'
-                  max='2060-12-31'
-                  onChange={this.handleChange}
-                  onBlur={() =>
-                    this.validator.showMessageFor('last working day')
-                  }
-                ></input>
-                {this.validator.message(
-                  'last working day',
-                  this.state.lastWorkDay,
-                  'required'
-                )}
-              </Col>
-            </Row>
-            <Row className='mt-3'>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>
-                  Personal Mobile Number
+                    </Form.Label>
+                  </Col>
+                  <Col>
+                    <input
+                      type='date'
+                      id='last'
+                      name='lastWorkDay'
+                      min='2018-01-01'
+                      max='2060-12-31'
+                      onChange={this.handleChange}
+                      onBlur={() =>
+                        this.validator.showMessageFor('last working day')
+                      }
+                    ></input>
+                    {this.validator.message(
+                      'last working day',
+                      this.state.lastWorkDay,
+                      'required'
+                    )}
+                  </Col>
+                </Row>
+                <Row className='mt-3'>
+                  <Col>
+                    <Form.Label className='col-form-group font-weight-bold'>
+                      Personal Mobile Number
                   <span style={{ color: 'red', fontSize: 25 }}>*</span>
-                </Form.Label>
-              </Col>
-              <Col>
-                <Form.Control
-                  as='textarea'
-                  rows='1'
-                  name='personalMobile'
-                  onChange={this.handleChange}
-                  onBlur={() =>
-                    this.validator.showMessageFor('Personal Mobile')
-                  }
-                />
-                {this.validator.message(
-                  'Personal Mobile',
-                  this.state.personalMobile,
-                  'required|phone|size:11'
-                )}
-              </Col>
-              <Col></Col>
-            </Row>
-            <Row className='mt-3'>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>
-                  Recommended to join Vodafone future projects
-                  <span style={{ color: 'red', fontSize: 25 }}>*</span>
-                </Form.Label>
-              </Col>
-              <Col>
-                <input
-                  name='recommended'
-                  type='checkbox'
-                  defaultChecked={this.state.recommended}
-                  onChange={this.handleChange}
-                  className='p-2 form-control col-sm-1 text-center'
-                />
-              </Col>
-              <Col></Col>
-            </Row>
-          </Form.Group>
-          <Form.Group className='p-5 border'>
-            <Row required>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>
-                  Returned Headset
-                  <span style={{ color: 'red', fontSize: 25 }}>*</span>
-                </Form.Label>
-              </Col>
-              <Col>
-                <Form.Control
-                  as='select'
-                  name='returnedHeadset'
-                  onChange={this.handleChange}
-                  defaultValue={this.state.returnedHeadset}
-                >
-                  <option value={''}> N/A </option>
-                  <option value={true}>Yes</option>
-                  <option value={false}>No</option>
-                </Form.Control>
-              </Col>
-            </Row>
-            <Row className='mt-3'>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>
-                  Returned Keys
-                  <span style={{ color: 'red', fontSize: 25 }}>*</span>
-                </Form.Label>
-              </Col>
-              <Col>
-                <Form.Control
-                  as='select'
-                  name='returnedKeys'
-                  onChange={this.handleChange}
-                  defaultValue={this.state.returnedKeys}
-                >
-                  <option value={''}> N/A </option>
-                  <option value={true}>Yes</option>
-                  <option value={false}>No</option>
-                </Form.Control>
-              </Col>
-            </Row>
-            <Row className='mt-3'>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>
-                  Returned Custody
-                  <span style={{ color: 'red', fontSize: 25 }}>*</span>
-                </Form.Label>
-              </Col>
-              <Col>
-                <Form.Control
-                  as='select'
-                  name='returnedOhda'
-                  onChange={this.handleChange}
-                  defaultValue={this.state.returnedOhda}
-                >
-                  <option value={''}> N/A </option>
-                  <option value={true}>Yes</option>
-                  <option value={false}>No</option>
-                </Form.Control>
-              </Col>
-            </Row>
-            <Row className='mt-3'>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>
-                  Custody Type
-                  <span style={{ color: 'red', fontSize: 25 }}>*</span>
-                </Form.Label>
-              </Col>
-              <Col>
-                <Form.Control
-                  as='textarea'
-                  rows='1'
-                  name='ohdaType'
-                  onChange={this.handleChange}
-                  onBlur={() => this.validator.showMessageFor('Custody Type')}
-                />
-                {this.validator.message(
-                  'Custody Type',
-                  this.state.ohdaType,
-                  'required|alpha_num_space'
-                )}
-              </Col>
-            </Row>
-          </Form.Group>
-          <Form.Group className='p-5 border form-group'>
-            <Row>
-              <Col>
-                <Form.Label className='d-flex justify-content-center h4 font-weight-bold'>
-                  Leave Balance
-                </Form.Label>
-              </Col>
-            </Row>
-            <Row className='mt-3'>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>
-                  IEX
-                </Form.Label>
-                <Form.Control
-                  className='col-xs-1 w-25'
-                  as='textarea'
-                  rows='1'
-                  name='iex'
-                  onChange={this.handleChange}
-                  onBlur={() => this.validator.showMessageFor('iex')}
-                />
-                {this.validator.message('iex', this.state.iex, 'required')}
-              </Col>
-            </Row>
-            <table className='table mt-3'>
-              <thead className='thead-dark'>
-                <tr>
-                  <th scope='col'>Annuals Granted</th>
-                  <th scope='col'>Annuals Taken</th>
-                  <th scope='col'>No Show</th>
-                  <th scope='col'>Lost Hours</th>
-                  <th scope='col'>In Lieu Days to Take</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope='row'>
+                    </Form.Label>
+                  </Col>
+                  <Col>
                     <Form.Control
                       as='textarea'
                       rows='1'
-                      name='annualsGranted'
+                      name='personalMobile'
                       onChange={this.handleChange}
+                      onBlur={() =>
+                        this.validator.showMessageFor('Personal Mobile')
+                      }
                     />
-                  </th>
-                  <td>
-                    <Form.Control
-                      as='textarea'
-                      rows='1'
-                      name='annualsTaken'
-                      onChange={this.handleChange}
-                    />
-                  </td>
-                  <td>
-                    <Form.Control
-                      as='textarea'
-                      rows='1'
-                      name='noShow'
-                      onChange={this.handleChange}
-                    />
-                  </td>
-                  <td>
-                    <Form.Control
-                      as='textarea'
-                      rows='1'
-                      name='lostHours'
-                      onChange={this.handleChange}
-                    />
-                  </td>
-                  <td>
-                    <Form.Control
-                      as='textarea'
-                      rows='1'
-                      name='daysToTake'
-                      onChange={this.handleChange}
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <Row className='mt-3'>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>
-                  Pending Sick Leave
+                    {this.validator.message(
+                      'Personal Mobile',
+                      this.state.personalMobile,
+                      'required|phone|size:11'
+                    )}
+                  </Col>
+                  <Col></Col>
+                </Row>
+                <Row className='mt-3'>
+                  <Col>
+                    <Form.Label className='col-form-group font-weight-bold'>
+                      Recommended to join Vodafone
                   <span style={{ color: 'red', fontSize: 25 }}>*</span>
+                    </Form.Label>
+                  </Col>
+                  <Col>
+                    <Form.Control
+                      as = 'select'
+                      name='recommended'
+                      defaultValue={this.state.recommended}
+                      onChange={this.handleChange}
+                    >
+                      <option value = 'recommended'>Recommended</option>
+                      <option value = 'not recommended'>Not Recommended</option>
+                    </Form.Control>
+                  </Col>
+                  <Col></Col>
+                </Row>
+              </Form.Group>
+              <hr/>
+              <Form.Group className='p-5'>
+                <Row required>
+                  <Col>
+                    <Form.Label className='col-form-group font-weight-bold'>
+                      Returned Headset
+                  <span style={{ color: 'red', fontSize: 25 }}>*</span>
+                    </Form.Label>
+                  </Col>
+                  <Col>
+                    <Form.Control
+                      as='select'
+                      name='returnedHeadset'
+                      onChange={this.handleChange}
+                      defaultValue={this.state.returnedHeadset}
+                    >
+                      <option value={''}> N/A </option>
+                      <option value={true}>Yes</option>
+                      <option value={false}>No</option>
+                    </Form.Control>
+                  </Col>
+                </Row>
+                <Row className='mt-3'>
+                  <Col>
+                    <Form.Label className='col-form-group font-weight-bold'>
+                      Returned Keys
+                  <span style={{ color: 'red', fontSize: 25 }}>*</span>
+                    </Form.Label>
+                  </Col>
+                  <Col>
+                    <Form.Control
+                      as='select'
+                      name='returnedKeys'
+                      onChange={this.handleChange}
+                      defaultValue={this.state.returnedKeys}
+                    >
+                      <option value={''}> N/A </option>
+                      <option value={true}>Yes</option>
+                      <option value={false}>No</option>
+                    </Form.Control>
+                  </Col>
+                </Row>
+                <Row className='mt-3'>
+                  <Col>
+                    <Form.Label className='col-form-group font-weight-bold'>
+                      Returned Custody
+                  <span style={{ color: 'red', fontSize: 25 }}>*</span>
+                    </Form.Label>
+                  </Col>
+                  <Col>
+                    <Form.Control
+                      as='select'
+                      name='returnedOhda'
+                      onChange={this.handleChange}
+                      defaultValue={this.state.returnedOhda}
+                    >
+                      <option value={''}> N/A </option>
+                      <option value={true}>Yes</option>
+                      <option value={false}>No</option>
+                    </Form.Control>
+                  </Col>
+                </Row>
+                <Row className='mt-3'>
+                  <Col>
+                    <Form.Label className='col-form-group font-weight-bold'>
+                      Custody Type
+                  <span style={{ color: 'red', fontSize: 25 }}>*</span>
+                    </Form.Label>
+                  </Col>
+                  <Col>
+                    <Form.Control
+                      as='textarea'
+                      rows='1'
+                      name='ohdaType'
+                      onChange={this.handleChange}
+                      onBlur={() => this.validator.showMessageFor('Custody Type')}
+                    />
+                    {this.validator.message(
+                      'Custody Type',
+                      this.state.ohdaType,
+                      'required|alpha_num_space'
+                    )}
+                  </Col>
+                </Row>
+              </Form.Group>
+              <hr/>
+              <Form.Group className='p-5 form-group'>
+                <Row>
+                  <Col>
+                    <Form.Label className='d-flex justify-content-center h4 font-weight-bold'>
+                      Leave Balance
                 </Form.Label>
-              </Col>
-              <Col>
-                <Form.Control
-                  as='select'
-                  name='sickLeave'
-                  onChange={this.handleChange}
-                  defaultValue={this.state.sickLeave}
-                >
-                  <option value={''}> N/A </option>
-                  <option value={true}>Yes</option>
-                  <option value={false}>No</option>
-                </Form.Control>
-              </Col>
-            </Row>
-          </Form.Group>
-          <Form.Group className='p-5 border'>
-            <Row>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>
-                  National ID Number
+                  </Col>
+                </Row>
+                <Row className='mt-3'>
+                  <Col>
+                    <Form.Label className='col-form-group font-weight-bold'>
+                      IEX
                 </Form.Label>
-              </Col>
-              <Col>
-                <Form.Control
-                  plaintext
-                  readOnly
-                  value={this.state.nationalId}
-                />
-              </Col>
-            </Row>
-            <Row className='mt-3'>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>
-                  Copy of National ID Front Page
+                    <Form.Control
+                      className='col-xs-1 w-25'
+                      as='textarea'
+                      rows='1'
+                      name='iex'
+                      onChange={this.handleChange}
+                      onBlur={() => this.validator.showMessageFor('iex')}
+                    />
+                    {this.validator.message('iex', this.state.iex, 'required')}
+                  </Col>
+                </Row>
+                <Table celled className='mt-3'>
+                  <Table.Header>
+                    <Table.Row>
+                      <Table.HeaderCell scope='col'>Annuals Granted</Table.HeaderCell>
+                      <Table.HeaderCell scope='col'>Annuals Taken</Table.HeaderCell>
+                      <Table.HeaderCell scope='col'>No Show</Table.HeaderCell>
+                      <Table.HeaderCell scope='col'>Lost Hours</Table.HeaderCell>
+                      <Table.HeaderCell scope='col'>In Lieu Days to Take</Table.HeaderCell>
+                    </Table.Row>
+                  </Table.Header>
+                  <Table.Body>
+                    <Table.Row>
+                      <Table.Cell scope='row'>
+                        <Form.Control
+                          as='textarea'
+                          rows='1'
+                          name='annualsGranted'
+                          onChange={this.handleChange}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Form.Control
+                          as='textarea'
+                          rows='1'
+                          name='annualsTaken'
+                          onChange={this.handleChange}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Form.Control
+                          as='textarea'
+                          rows='1'
+                          name='noShow'
+                          onChange={this.handleChange}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Form.Control
+                          as='textarea'
+                          rows='1'
+                          name='lostHours'
+                          onChange={this.handleChange}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Form.Control
+                          as='textarea'
+                          rows='1'
+                          name='daysToTake'
+                          onChange={this.handleChange}
+                        />
+                      </Table.Cell>
+                    </Table.Row>
+                  </Table.Body>
+                </Table>
+                <Row className='mt-3'>
+                  <Col>
+                    <Form.Label className='col-form-group font-weight-bold'>
+                      Pending Sick Leave
+                  <span style={{ color: 'red', fontSize: 25 }}>*</span>
+                    </Form.Label>
+                  </Col>
+                  <Col>
+                    <Form.Control
+                      as='select'
+                      name='sickLeave'
+                      onChange={this.handleChange}
+                      defaultValue={this.state.sickLeave}
+                    >
+                      <option value={''}> N/A </option>
+                      <option value={true}>Yes</option>
+                      <option value={false}>No</option>
+                    </Form.Control>
+                  </Col>
+                </Row>
+              </Form.Group>
+              <hr/>
+              <Form.Group className='p-5'>
+                <Row>
+                  <Col>
+                    <Form.Label className='col-form-group font-weight-bold'>
+                      National ID Number
                 </Form.Label>
-              </Col>
-              <Col>
-                <ImageUploaderComponent
-                  fileAddHandler={this.imageUploaderHandler}
-                />
-              </Col>
-            </Row>
-          </Form.Group>
-          <br />
-          <Button
-            // type='submit'
-            variant='danger'
-            size='lg'
-            onClick={this.submit}
-            block
-          >
-            Submit
+                  </Col>
+                  <Col>
+                    <Form.Control
+                      plaintext
+                      readOnly
+                      value={this.state.nationalId}
+                    />
+                  </Col>
+                </Row>
+                <Row className='mt-3'>
+                  <Col>
+                    <Form.Label className='col-form-group font-weight-bold'>
+                      Copy of National ID Front Page
+                </Form.Label>
+                  </Col>
+                  <Col>
+                    <ImageUploaderComponent
+                      fileAddHandler={this.imageUploaderHandler}
+                    />
+                  </Col>
+                </Row>
+              </Form.Group>
+              <br />
+              <Button
+                // type='submit'
+                variant='danger'
+                className = 'mb-3'
+                size='lg'
+                onClick={this.submit}
+                block
+              >
+                Submit
           </Button>
-        </Form>
+            </Form>
+          </div>
+        </div>
       </Container>
     );
   }
