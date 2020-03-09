@@ -31,8 +31,6 @@ import {
   ResignationsScreen,
   RegistrationScreen,
   AuthenticationScreen,
-  ELTTableScreen,
-  ELTViewScreen,
   SHTTableScreen,
   SHTViewScreen,
   SMCTableScreen,
@@ -126,8 +124,6 @@ class App extends Component {
                 <ConnectedPrivateRoute allowed={["admin", "manager"]} path="/resign" component={ConnectedResignScreen} />
                 <ConnectedPrivateRoute allowed={["admin", "ast"]} path="/ast" component={ASTTableScreen} />
                 <ConnectedPrivateRoute allowed={["admin", "ast"]} path="/ast-resignation" component={ASTResignationDetailScreen} />
-                <ConnectedPrivateRoute allowed={["admin", "elt"]} path="/elt" component={ELTTableScreen} />
-                <ConnectedPrivateRoute allowed={["admin", "elt"]} path="/form-res" component={ELTViewScreen} />
                 <ConnectedPrivateRoute allowed={["admin", "wf"]} path="/wf-view" component={WorkForceScreen} />
                 <ConnectedPrivateRoute allowed={["admin", "wf"]} path="/wf-view-detail" component={WorkForceScreenDetail} />
                 <ConnectedPrivateRoute allowed={["admin", "sht"]} path="/sht" component={SHTTableScreen} />

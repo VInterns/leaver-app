@@ -77,9 +77,6 @@ export class Header extends React.Component {
           {this.checkAuth(this.state.astUsers, this.props.account.roles) && (
             <Nav.Link href="/cs">Corporate Security</Nav.Link>
           )}
-          {this.checkAuth(this.state.eltUsers, this.props.account.roles) && (
-            <Nav.Link href="/elt">Entrprise Logistics</Nav.Link>
-          )}
           {this.checkAuth(this.state.shtUsers, this.props.account.roles) && (
             <Nav.Link href="/sht">Security Hardware Team</Nav.Link>
           )}

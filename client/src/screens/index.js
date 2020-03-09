@@ -13,8 +13,6 @@ export * from './authentication-screen';
 export * from './registration-screen';
 export * from './ast-table-screen';
 export * from './ast-view-screen';
-export * from './elt-view-screen';
-export * from './elt-table-screen';
 export * from './sht-table-screen';
 export * from './sht-view-screen';
 export * from './manager-resigns-table-screen';
