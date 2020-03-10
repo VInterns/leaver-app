@@ -1,5 +1,6 @@
 import React from "react";
 import { Form, Row, Col } from "react-bootstrap";
+import {Header} from 'semantic-ui-react';
 
 /////////////////////////////////////////////////////////////////////////
 export class LeaverDetails extends React.Component {
@@ -9,13 +10,9 @@ export class LeaverDetails extends React.Component {
         let leaver = Object(this.props.leaverDetail.leaverInfo);
         let leaverDetail = this.props.leaverDetail;
         return (
-            <div>
-                <header className='text-center'>
-                    <hr />
-                    <h3>{"Leaver Details"}</h3>
-                    <hr />
-                </header>
-                <Form className='mt-4 border p-5'>
+            <div className = 'bg-light p-5 rounded'>
+                <Header as = 'h3' className = 'text-center'>Leaver Details</Header>
+                <Form className='mt-5'>
                     <Form.Group>
                         <Row>
                             <Col>
