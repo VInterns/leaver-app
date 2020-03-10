@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import { LeaverDetails } from '../components';
 import { Form, Row, Col, Image, Button } from 'react-bootstrap';
+import { Container } from 'semantic-ui-react';
 
 /////////////////////////////////////////////////////////////////////////
 const DONE = "done";
@@ -12,9 +13,9 @@ export class CCConsumerActivation extends Component {
     super(props);
     this.state = {
       Data: [],
-      ratePlan:'',
-      comment:'',
-      phoneBilledAmount:false,
+      ratePlan: '',
+      comment: '',
+      phoneBilledAmount: false,
       lastWorkDay: '',
       nationalId: null,
       phaseStatus: '',
@@ -69,9 +70,9 @@ export class CCConsumerActivation extends Component {
       .then(data => {
         this.setState({
           Data: data,
-          ratePlan:data.phase4.ratePlan,
-          comment:data.phase4.comment,
-          phoneBilledAmount:data.phase4.phoneBilledAmount
+          ratePlan: data.phase4.ratePlan,
+          comment: data.phase4.comment,
+          phoneBilledAmount: data.phase4.phoneBilledAmount
         });
       })
       .catch(err => {
@@ -107,7 +108,7 @@ export class CCConsumerActivation extends Component {
       return value
     }
   }
-  
+
   checkStatus(condX, condY) {
     // check confition after adding N/A
     if ((condX !== "") && (condY === true || condY === "" || condY === "yes")) {
@@ -116,12 +117,12 @@ export class CCConsumerActivation extends Component {
       return PENDING;
     }
   }
-  checkRequestStatus(resignation,currentphaseStatus) {
+  checkRequestStatus(resignation, currentphaseStatus) {
     if (
       resignation.phase3.status === 'new' &&
       resignation.phase6.status === 'new' &&
       resignation.phase7.status === 'new' &&
-      resignation.phase8.status === 'new' && 
+      resignation.phase8.status === 'new' &&
       currentphaseStatus === 'new'
     ) {
       return 'new';
@@ -144,8 +145,8 @@ export class CCConsumerActivation extends Component {
     let params = this.props.match.params;
     let id = params.staffId;
     var url2 = '/api/resignations/data?id=' + id;
-    
-    let phaseStatus = this.checkStatus(this.state.ratePlan,this.state.phoneBilledAmount);
+
+    let phaseStatus = this.checkStatus(this.state.ratePlan, this.state.phoneBilledAmount);
     let phase4 = {
       ratePlan: this.state.ratePlan,
       comment: this.state.comment,
@@ -159,14 +160,14 @@ export class CCConsumerActivation extends Component {
       },
       body: JSON.stringify({
         phase4: phase4,
-        status: this.checkRequestStatus(this.state.Data,phaseStatus)
+        status: this.checkRequestStatus(this.state.Data, phaseStatus)
       })
     })
       .then(response => {
         toast.success('Data successfully updated');
         //this.props.history.push('/cc-consumer-activation-table')
       })
-      .catch(function(error) {
+      .catch(function (error) {
         toast.error('Upload Fail');
       });
   }
@@ -177,110 +178,108 @@ export class CCConsumerActivation extends Component {
     const Phase1 = Object(Data.phase1);
     const NationalIDImg = Object(Phase1.nationalIdImg);
     return (
-      <div className='container mt-5'>
-        <div className='p-2'>
-          <LeaverDetails
-            leaverDetail={{
-              leaverInfo: this.state.leaver,
-              lastDay: this.state.lastWorkDay
-            }}
-          />
-        </div>
+      <Container fluid className='bg-light p-5' style={{ height: '130vh' }}>
         <ToastContainer />
-        <Form className='p-2'>
-          <Form.Group className='p-5 border'>
-            <Row>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>
-                  National ID
+        <div className='row'>
+          <div className='offset-md-3 col-md-6 border bg-white rounded p-5'>
+            <LeaverDetails leaverDetail={{ leaverInfo: this.state.leaver, lastDay: this.state.lastWorkDay }} />
+            <hr/>
+            <Form>
+              <Form.Group className='p-5'>
+                <Row>
+                  <Col>
+                    <Form.Label className='col-form-group font-weight-bold'>
+                      National ID
                 </Form.Label>
-              </Col>
-              <Col>
-                <Form.Control plaintext readOnly value={Phase1.nationalId} />
-              </Col>
-            </Row>
-            {NationalIDImg.dataURL && <Row className='mt-3'>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>
-                  Copy of National ID
+                  </Col>
+                  <Col>
+                    <Form.Control plaintext readOnly value={Phase1.nationalId} />
+                  </Col>
+                </Row>
+                {NationalIDImg.dataURL && <Row className='mt-3'>
+                  <Col>
+                    <Form.Label className='col-form-group font-weight-bold'>
+                      Copy of National ID
                 </Form.Label>
-              </Col>
-              <Col>
-                <Image
-                  alt={NationalIDImg.fileName}
-                  src={NationalIDImg.dataURL}
-                />
-              </Col>
-            </Row>
-            }
-            <Row className='mt-3'>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>
-                  Rate Plan
+                  </Col>
+                  <Col>
+                    <Image
+                      alt={NationalIDImg.fileName}
+                      src={NationalIDImg.dataURL}
+                    />
+                  </Col>
+                </Row>
+                }
+                <Row className='mt-3'>
+                  <Col>
+                    <Form.Label className='col-form-group font-weight-bold'>
+                      Rate Plan
                 </Form.Label>
-              </Col>
-              <Col style={{ marginTop: '10px' }}>
-                <input
-                  className='form-control'
-                  type='text'
-                  id='ratePlan'
-                  value={this.state.ratePlan}
-                  onChange={this.onChangeHandler}
-                />
-              </Col>
-            </Row>
-            <Row className='mt-3'>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>
-                  Has Phone Billed Amount
+                  </Col>
+                  <Col style={{ marginTop: '10px' }}>
+                    <input
+                      className='form-control'
+                      type='text'
+                      id='ratePlan'
+                      value={this.state.ratePlan}
+                      onChange={this.onChangeHandler}
+                    />
+                  </Col>
+                </Row>
+                <Row className='mt-3'>
+                  <Col>
+                    <Form.Label className='col-form-group font-weight-bold'>
+                      Has Phone Billed Amount
+                    </Form.Label>
+                  </Col>
+                  <Col>
+                    <select
+                      id='phoneBilledAmount'
+                      className='form-control'
+                      value={this.state.phoneBilledAmount}
+                      onChange={this.onChangeHandler}
+                    >
+                      <option value={""}> N/A </option>
+                      <option value={true}>Yes</option>
+                      <option value={false}>No</option>
+                    </select>
+                  </Col>
+                </Row>
+                <Row className='mt-3'>
+                  <Col>
+                    <Form.Label className='col-form-group font-weight-bold'>
+                      Comments
                 </Form.Label>
-              </Col>
-              <Col style={{ marginTop: '10px' }}>
-                <select 
-                  id='phoneBilledAmount'
-                  className='form-control' 
-                  value={this.state.phoneBilledAmount} 
-                  onChange={this.onChangeHandler}
-                >
-                    <option value={""}> N/A </option>
-                    <option value={true}>Yes</option>
-                    <option value={false}>No</option>
-                </select>
-              </Col>
-            </Row>
-            <Row className='mt-3'>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>
-                  Comments
-                </Form.Label>
-              </Col>
-              <Col style={{ marginTop: '10px' }}>
-                <textarea
-                  className='form-control'
-                  type='textarea'
-                  id='comment'
-                  value={this.state.comment}
-                  onChange = {this.onChangeHandler}
-                  placeholder='Input Comment here'
-                />
-              </Col>
-            </Row>
-            <Row className='mt-5'>
-              <Col>
-                <Button
-                  size='lg'
-                  type='submit'
-                  block
-                  variant='danger'
-                  onClick={this.clickSubmit}
-                >
-                  Submit
+                  </Col>
+                  <Col>
+                    <textarea
+                      className='form-control'
+                      type='textarea'
+                      id='comment'
+                      value={this.state.comment}
+                      onChange={this.onChangeHandler}
+                      placeholder='Input Comment here'
+                    />
+                  </Col>
+                </Row>
+                <Row className='mt-5'>
+                  <Col>
+                    <Button
+                      size='lg'
+                      type='submit'
+                      block
+                      variant='danger'
+                      onClick={this.clickSubmit}
+                    >
+                      Submit
                 </Button>
-              </Col>
-            </Row>
-          </Form.Group>
-        </Form>
-      </div>
+                  </Col>
+                </Row>
+              </Form.Group>
+            </Form>
+          </div>
+        </div>
+      </Container>
     );
   }
 }
