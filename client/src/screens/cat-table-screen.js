@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Table } from 'reactstrap';
+import { Table, Container, Header } from "semantic-ui-react";
+import { Row, Col } from 'react-bootstrap';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 export class ConsumerTable extends Component {
@@ -39,7 +40,7 @@ export class ConsumerTable extends Component {
     switch (status) {
       case 'pending':
         return (
-          <td
+          <Table.Cell
             style={{
               color: '#BE0002',
               fontWeight: 'bold',
@@ -47,11 +48,11 @@ export class ConsumerTable extends Component {
             }}
           >
             {status}
-          </td>
+          </Table.Cell>
         );
       case 'done':
         return (
-          <td
+          <Table.Cell
             style={{
               color: '#5cb85c',
               fontWeight: 'bold',
@@ -59,11 +60,11 @@ export class ConsumerTable extends Component {
             }}
           >
             {status}
-          </td>
+          </Table.Cell>
         );
       default:
         return (
-          <td
+          <Table.Cell
             style={{
               color: '#34a1fd',
               fontWeight: 'bold',
@@ -71,54 +72,55 @@ export class ConsumerTable extends Component {
             }}
           >
             {status}
-          </td>
+          </Table.Cell>
         );
     }
   }
 
   render() {
     return (
-      <div className='container'>
-        <center style={{ margin: '25px' }}>
-          <header>
-            <hr />
-            <h3>CC Consumer Activation</h3>
-            <hr />
-          </header>
-          <div>
-            <ReactHTMLTableToExcel
-              id='test-table-xls-button'
-              className='download-table-xls-button btn btn-outline-success btn-lg btn-block mt-3 mb-3'
-              table='wf-table'
-              filename='Resignations - Work Force'
-              sheet='resignations'
-              buttonText='Export Table as XLS'
-            />
-            <Table bordered hover id='conumer-activation-table'>
-              <thead>
-                <tr style={{ backgroundColor: '#BE0002' }}>
-                  <th style={{ color: 'white' }}>Staff ID</th>
-                  <th style={{ color: 'white' }}>Employee Name</th>
-                  <th style={{ color: 'white' }}>Manager Name</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
+      <Container fluid className='bg-light p-5' style={{ height: '100vh' }}>
+        <Header as='h3' className='text-center'>CC Consumer Activation</Header>
+        <div className='row'>
+          <div className='offset-md-3 col-md-6 border bg-white rounded'>
+            <Row className='mt-4'>
+              <Col className='d-flex flex-row'>
+                <ReactHTMLTableToExcel
+                  id='test-table-xls-button'
+                  className='download-table-xls-button ui basic button'
+                  table='conumer-activation-table'
+                  filename='cc-consumer-activation-table'
+                  sheet='resignations'
+                  buttonText='Export Table'
+                />
+              </Col>
+            </Row>
+            <hr/>
+            <Table celled className = 'table-hover mb-3' id='conumer-activation-table'>
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell>Staff ID</Table.HeaderCell>
+                  <Table.HeaderCell>Employee Name</Table.HeaderCell>
+                  <Table.HeaderCell>Manager Name</Table.HeaderCell>
+                  <Table.HeaderCell>Status</Table.HeaderCell>
+                </Table.Row>
+              </Table.Header>
+              <Table.Body>
                 {this.state.Data.map((item, index) => {
                   return (
-                    <tr key={index} onClick={() => this.onRowClick(item)}>
-                      <td>{item.staffId}</td>
-                      <td>{item.name}</td>
-                      <td>{item.managerName}</td>
+                    <Table.Row key={index} onClick={() => this.onRowClick(item)}>
+                      <Table.Cell>{item.staffId}</Table.Cell>
+                      <Table.Cell>{item.name}</Table.Cell>
+                      <Table.Cell>{item.managerName}</Table.Cell>
                       {this.checkStatus(item.phase4.status)}
-                    </tr>
+                    </Table.Row>
                   );
                 })}
-              </tbody>
+              </Table.Body>
             </Table>
           </div>
-        </center>
-      </div>
+        </div>
+      </Container>
     );
   }
 }
