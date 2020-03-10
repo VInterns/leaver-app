@@ -3,6 +3,7 @@ import {
   LeaverDetails
 } from "../components";
 import { Form, Row, Col, Button } from 'react-bootstrap';
+import { Container, Header } from 'semantic-ui-react';
 import { ToastContainer, toast } from "react-toastify";
 
 /////////////////////////////////////////////////////////////////////////
@@ -22,6 +23,9 @@ export class SMCResignationDetailScreen extends React.Component {
       returnedHeadset: false,
       returnedKeys: false,
       returnedOhda: false,
+      returnedLaptop: false,
+      returnedMouse: false,
+      returnedLaptopBag: false,
       deduct: '',
       comment: "",
       resignation: {},
@@ -73,7 +77,7 @@ export class SMCResignationDetailScreen extends React.Component {
     }
   }
 
-  mapValues(value){
+  mapValues(value) {
     if (value === 'true' || value === "on" || value === true) {
       return "Yes";
     }
@@ -89,7 +93,7 @@ export class SMCResignationDetailScreen extends React.Component {
   }
 
   ///////////////////////////////////////////////
-  
+
   checkStatus(condX, condY, condZ) {
     // check confition after adding N/A
     if ((condX === true || condX === "") && (condY === true || condY === "") && (condZ === true || condZ === "")) {
@@ -176,162 +180,156 @@ export class SMCResignationDetailScreen extends React.Component {
     const { leaver } = this.state;
 
     return (
-      <div className="container mt-5">
+      <Container fluid className="bg-light p-5">
         <ToastContainer />
-        <div className='p-2'>
-          <LeaverDetails leaverDetail={{ leaverInfo: leaver, lastDay: this.state.lastWorkDay }} />
-        </div>
-        <div>
-          <header className='text-center'>
-              <hr />
-              <h3>Team Leader Checklist</h3>
-              <hr />
-          </header>
-          <Form className='mt-4 border p-5'>
+        <div className='row'>
+          <div className='offset-md-3 col-md-6 border bg-white rounded p-5'>
+            <LeaverDetails leaverDetail={{ leaverInfo: leaver, lastDay: this.state.lastWorkDay }} />
+            <hr />
+            <Row className='p-5'>
+              <Col></Col>
+              <Col>
+                <Header as='h3'>Team Leader Checklist</Header>
+              </Col>
+              <Col>
+                <Header as='h3'>SMC Team Checklist</Header>
+              </Col>
+            </Row>
+            <Form className='pl-5 pr-5'>
               <Form.Group>
-                  <Row>
-                      <Col>
-                          <Form.Label className="font-weight-bold">Returned Headset</Form.Label>
-                      </Col>
-                      <Col>
-                          <Form.Control
-                              readOnly
-                              plaintext
-                              value={this.mapValues(this.state.managerData.returnedHeadset)}
-                          />
-                      </Col>
-                  </Row>
-                  <hr />
-                  <Row>
-                      <Col>
-                          <Form.Label className="font-weight-bold">Returned Keys</Form.Label>
-                      </Col>
-                      <Col>
-                          <Form.Control
-                              readOnly
-                              plaintext
-                              value={this.mapValues(this.state.managerData.returnedKeys)}
-                          />
-                      </Col>
-                    </Row>
-                    <hr />
-                    <Row>
-                      <Col>
-                          <Form.Label className="font-weight-bold">Returned Custody</Form.Label>
-                      </Col>
-                      <Col>
-                          <Form.Control
-                              readOnly
-                              plaintext
-                              value={this.mapValues(this.state.managerData.returnedOhda)}
-                          />
-                      </Col>
-                  </Row>
-              </Form.Group>
-          </Form>
-        </div>
-        <div>
-          <header className='text-center'>
-                <hr />
-                <h3>SMC Team Checklist</h3>
-                <hr />
-            </header>
-          <Form className='mt-4 border p-5'>
-            <Form.Group className=''>
-              <Row>
-                <Col>
-                  <Form.Label className='col-form-group font-weight-bold'>Returned Headset</Form.Label>
-                </Col>
-                <Col>
-                  <select
-                    id="returnedHeadset"
-                    onChange={this.handleChange}
-                    className="form-control"
-                    value={this.state.returnedHeadset}>
-                    <option value={""}> N/A </option>
-                    <option value={true}>Yes</option>
-                    <option value={false}>No</option>
-                  </select>
-                </Col>
-              </Row>
-              <Row className = 'mt-3'>
-                <Col>
-                  <Form.Label className='col-form-group font-weight-bold'>Returned Keys</Form.Label>
-                </Col>
-                <Col>
-                  <select
-                    id="returnedKeys"
-                    onChange={this.handleChange}
-                    className="form-control"
-                    value={this.state.returnedKeys}>
-                    <option value={""}> N/A </option>
-                    <option value={true}>Yes</option>
-                    <option value={false}>No</option>
-                  </select>
-                </Col>
-              </Row>
-              <Row className = 'mt-3'>
-                <Col>
-                  <Form.Label className='col-form-group font-weight-bold'>Returned Ohda</Form.Label>
-                </Col>
-                <Col>
-                  <select
-                    id="returnedOhda"
-                    onChange={this.handleChange}
-                    className="form-control"
-                    value={this.state.returnedOhda}>
-                    <option value={""}> N/A </option>
-                    <option value={true}>Yes</option>
-                    <option value={false}>No</option>
-                  </select>
-                </Col>
-              </Row>
-              <Row className = 'mt-3'>
-                <Col>
-                  <Form.Label className='col-form-group font-weight-bold'>Amount Deducted</Form.Label>
-                </Col>
-                <Col>
-                  <Form.Control
-                      id='deduct'
-                      className='col-xs-1'
-                      as='textarea'
-                      rows='1'
-                      onChange={this.handleChange}
+                <Row>
+                  <Col>
+                    <Form.Label className='font-weight-bold'>Returned Headset</Form.Label>
+                  </Col>
+                  <Col>
+                    <Form.Control
+                      className='border rounded pl-2'
+                      readOnly
+                      plaintext
+                      value={this.mapValues(this.state.managerData.returnedHeadset)}
                     />
-                </Col>
-              </Row>
-              <Row className = 'mt-3'>
-                <Col>
-                  <Form.Label className='col-form-group font-weight-bold'>Comments</Form.Label>
-                </Col>
-                <Col>
-                  <textarea
-                    id="comment"
-                    rows="5"
-                    onChange={this.handleChange}
-                    className="p-2 form-control"
-                    value={this.state.comment} />
-                </Col>
-              </Row>
-              <Row className = 'mt-5'>
-                <Col>
-                  <Button
-                    size='lg'
-                    type='submit'
-                    block
-                    variant='danger'
-                    onClick={this.submitButton}
-                  >Submit
-                  </Button>
-                </Col>
-              </Row>
-            </Form.Group>
-          </Form>
-          <br/>
-          <br/>
-          <br/>
+                  </Col>
+                  <Col>
+                    <select
+                      id='returnedHeadset'
+                      onChange={this.handleChange}
+                      className='form-control'
+                      value={this.state.returnedHeadset}>
+                      <option value='confirmed'>Confirmed</option>
+                      <option value='pending'>Pending</option>
+                      <option value='not-delivered'>Not-Delivered</option>
+                    </select>
+                  </Col>
+                </Row>
+                <Row className = 'mt-2'>
+                  <Col>
+                    <Form.Label className='font-weight-bold'>Returned Keys</Form.Label>
+                  </Col>
+                  <Col>
+                    <Form.Control
+                      className='border rounded pl-2'
+                      readOnly
+                      plaintext
+                      value={this.mapValues(this.state.managerData.returnedKeys)}
+                    />
+                  </Col>
+                  <Col>
+                    <select
+                    id="returnedKeys"
+                      onChange={this.handleChange}
+                      className='form-control'
+                      value={this.state.returnedKeys}>
+                      <option value='confirmed'>Confirmed</option>
+                      <option value='pending'>Pending</option>
+                      <option value='not-delivered'>Not-Delivered</option>
+                    </select>
+                  </Col>
+                </Row>
+                <Row className = 'mt-2'>
+                  <Col>
+                    <Form.Label className='font-weight-bold'>Returned Laptop</Form.Label>
+                  </Col>
+                  <Col>
+                    <Form.Control
+                      className='border rounded pl-2'
+                      readOnly
+                      plaintext
+                      value={this.mapValues(this.state.managerData.returnedKeys)}
+                    />
+                  </Col>
+                  <Col>
+                    <select
+                    id="returnedKeys"
+                      onChange={this.handleChange}
+                      className='form-control'
+                      value={this.state.returnedLaptop}>
+                      <option value='confirmed'>Confirmed</option>
+                      <option value='pending'>Pending</option>
+                      <option value='not-delivered'>Not-Delivered</option>
+                    </select>
+                  </Col>
+                </Row>
+                <Row className = 'mt-2'>
+                  <Col>
+                    <Form.Label className='font-weight-bold'>Returned Mouse</Form.Label>
+                  </Col>
+                  <Col>
+                    <Form.Control
+                      className='border rounded pl-2'
+                      readOnly
+                      plaintext
+                      value={this.mapValues(this.state.managerData.returnedKeys)}
+                    />
+                  </Col>
+                  <Col>
+                    <select
+                    id="returnedKeys"
+                      onChange={this.handleChange}
+                      className='form-control'
+                      value={this.state.returnedMouse}>
+                      <option value='confirmed'>Confirmed</option>
+                      <option value='pending'>Pending</option>
+                      <option value='not-delivered'>Not-Delivered</option>
+                    </select>
+                  </Col>
+                </Row>
+                <Row className = 'mt-2'>
+                  <Col>
+                    <Form.Label className='font-weight-bold'>Returned Laptop Bag</Form.Label>
+                  </Col>
+                  <Col>
+                    <Form.Control
+                      className='border rounded pl-2'
+                      readOnly
+                      plaintext
+                      value={this.mapValues(this.state.managerData.returnedKeys)}
+                    />
+                  </Col>
+                  <Col>
+                    <select
+                    id="returnedKeys"
+                      onChange={this.handleChange}
+                      className='form-control'
+                      value={this.state.returnedLaptopBag}>
+                      <option value='confirmed'>Confirmed</option>
+                      <option value='pending'>Pending</option>
+                      <option value='not-delivered'>Not-Delivered</option>
+                    </select>
+                  </Col>
+                </Row>
+              </Form.Group>
+            </Form>
+            <Button
+              size = 'lg'
+              type = 'submit'
+              block
+              className = 'mt-5'
+              variant = 'danger'
+              onClick = {this.submitButton}
+              >Submit</Button>
+          </div>
         </div>
-      </div>
+      </Container>
     );
   }
 }
