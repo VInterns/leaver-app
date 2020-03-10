@@ -110,27 +110,29 @@ export class ManagerResignationsTableScreen extends React.Component {
     fetch(API + DELETE + req.staffId, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
-      // body: JSON.stringify({req})
+      body: JSON.stringify({request:req})
     })
       .then(res => {
-        console.log('dsdadsadadasa')
         return res.json();
       })
       .then(response => {
-        console.log(response.status === 200)
-      //   if (response.status === 200) {
-      //     toast.success('Resignation Request successfully deleted');
-      //   }
-      //   else if (response.status === 409) {
-      //     toast.error("Error in db");
-      //   }
-      //   else {
-      //     toast.error('Resignation Request could not be deleted');
-      //     return undefined;
-      //   }
-      // })
-      // .catch(function (error) {
-      //   toast.error('Delete Fail');
+        if (response.status === 200) {
+          toast.success('Resignation Request successfully deleted');
+          setTimeout(function() { //Start the timer
+            window.location.reload(); //After 1 second, set render to true
+        },1000)
+         
+        }
+        else if (response.status === 409) {
+          toast.error("Error in db");
+        }
+        else {
+          toast.error('Resignation Request could not be deleted');
+          return undefined;
+        }
+      })
+      .catch(function (error) {
+        toast.error('Delete Fail');
       });
   }
 
@@ -163,7 +165,7 @@ export class ManagerResignationsTableScreen extends React.Component {
                   <Table.HeaderCell>Manager Name</Table.HeaderCell>
                   <Table.HeaderCell>Last Working Day</Table.HeaderCell>
                   <Table.HeaderCell>Status</Table.HeaderCell>
-                  <Table.HeaderCell>Delete?</Table.HeaderCell>
+                  <Table.HeaderCell>Cancel Request?</Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
               <Table.Body>
@@ -185,7 +187,7 @@ export class ManagerResignationsTableScreen extends React.Component {
                         onClick={this.deleteRequest.bind(this,request)}
                         block
                       >
-                        Delete
+                        Cancel
                       </Button>
                     </Table.Cell>
                   </Table.Row>
