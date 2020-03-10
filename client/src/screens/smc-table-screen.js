@@ -30,7 +30,7 @@ export class SMCTableScreen extends React.Component {
     switch (status) {
       case 'pending':
         return (
-          <td
+          <Table.Cell
             style={{
               color: '#BE0002',
               fontWeight: 'bold',
@@ -38,11 +38,11 @@ export class SMCTableScreen extends React.Component {
             }}
           >
             {status}
-          </td>
+          </Table.Cell>
         );
       case 'done':
         return (
-          <td
+          <Table.Cell
             style={{
               color: '#5cb85c',
               fontWeight: 'bold',
@@ -50,11 +50,11 @@ export class SMCTableScreen extends React.Component {
             }}
           >
             {status}
-          </td>
+          </Table.Cell>
         );
       default:
         return (
-          <td
+          <Table.Cell
             style={{
               color: '#34a1fd',
               fontWeight: 'bold',
@@ -62,7 +62,7 @@ export class SMCTableScreen extends React.Component {
             }}
           >
             {status}
-          </td>
+          </Table.Cell>
         );
     }
   }
@@ -94,8 +94,8 @@ export class SMCTableScreen extends React.Component {
   render() {
     const { resRrequests } = this.state;
     return (
-      <Container fluid className='bg-light p-5'>
-        <h3 className='text-center'>Customer Care (SMC)</h3>
+      <Container fluid className='bg-light p-5 h-100'>
+        <Header as = 'h3' className='text-center'>Customer Care (SMC)</Header>
         <div className='row'>
           <div className='offset-md-3 col-md-6 border bg-white rounded'>
             <Row className='mt-4'>
