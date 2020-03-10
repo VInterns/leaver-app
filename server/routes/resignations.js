@@ -27,6 +27,35 @@ module.exports = db => {
       });
   });
 
+  router.delete("/delete-request/:id", ensureLoggedIn, ensureHasRole(["admin"]), function (req, res) {
+    let urlSections = req.url.split("/");
+    let staffId_ = urlSections[urlSections.length - 1]
+    db.collection(collection)
+      .deleteOne({ staffId: staffId_ }, (err, result) => {
+        if (err){
+          res.status(409).send({ message: "Resignation Request could not be deleted" });
+          throw err;
+        }
+        console.log("1 document deleted");
+        res.status(200).send({ message: "Resignation Request deleted" });
+
+        // Mail Notifications
+        // TODO: add other teams roles & employee email to the mailList
+        // let subject = `Resignation Request Cancelled for Staff ID# ${req.body.staffId}`;
+        // let query = { roles: { $in: ['hr', 'vendor', 'manager'] } };
+        // let toMailListPromise = getMailingList(query).then((mailList) => {
+        //   let scope = { name: req.body.name, staffId: req.body.staffId, managerName: req.body.managerName };
+        //   let htmlBodyPromise = getHtmlBody('initial-vendor-notification.html', scope).then((htmlBody) => {
+        //     mailer.sendEmail(mailList, subject, htmlBody, () => {
+        //       console.log(`Resignation Request Deletion Email Sent to ${toMailList}`)
+        //     })
+        //   });
+        // });
+      }
+    )
+});
+
+
   router.post("/", ensureLoggedIn, ensureHasRole(["admin"]), function (req, res) {
     db.collection(collection)
       .findOne({ staffId: req.body.staffId })

@@ -2,10 +2,12 @@ import React from 'react';
 import { Table, Container, Header } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import { Button } from 'react-bootstrap';
+import { ToastContainer, toast } from 'react-toastify';
 
 const API = '/api/resignations/';
 const SEARCH = '/myresigns/';
-
+const DELETE = 'delete-request/'; 
 /////////////////////////////////////////////////////////////////////////
 export class ManagerResignationsTableScreen extends React.Component {
   constructor(props) {
@@ -104,10 +106,39 @@ export class ManagerResignationsTableScreen extends React.Component {
       });
   }
 
+  deleteRequest(req){
+    fetch(API + DELETE + req.staffId, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      // body: JSON.stringify({req})
+    })
+      .then(res => {
+        console.log('dsdadsadadasa')
+        return res.json();
+      })
+      .then(response => {
+        console.log(response.status === 200)
+      //   if (response.status === 200) {
+      //     toast.success('Resignation Request successfully deleted');
+      //   }
+      //   else if (response.status === 409) {
+      //     toast.error("Error in db");
+      //   }
+      //   else {
+      //     toast.error('Resignation Request could not be deleted');
+      //     return undefined;
+      //   }
+      // })
+      // .catch(function (error) {
+      //   toast.error('Delete Fail');
+      });
+  }
+
   render() {
     const { requests } = this.state;
     return (
       <Container fluid className='bg-light p-5' style={{ height: '100vh' }}>
+        <ToastContainer/>
         <Header as='h3' className='text-center'>My Resignations</Header>
         <div className='row'>
           <div className='offset-md-3 col-md-6 border bg-white rounded'>
@@ -132,19 +163,31 @@ export class ManagerResignationsTableScreen extends React.Component {
                   <Table.HeaderCell>Manager Name</Table.HeaderCell>
                   <Table.HeaderCell>Last Working Day</Table.HeaderCell>
                   <Table.HeaderCell>Status</Table.HeaderCell>
+                  <Table.HeaderCell>Delete?</Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
               <Table.Body>
                 {requests.map(request => (
                   <Table.Row
-                    onClick={() => this.clickButton(request)}
+                    // onClick={() => this.clickButton(request)}
                     key={request.staffId}
                   >
-                    <Table.Cell>{request.staffId}</Table.Cell>
-                    <Table.Cell>{request.name}</Table.Cell>
-                    <Table.Cell>{request.managerName}</Table.Cell>
-                    <Table.Cell>{request.phase1.lastWorkDay}</Table.Cell>
-                    {this.checkStatus(request.status)}
+                    <Table.Cell onClick={() => this.clickButton(request)}>{request.staffId}</Table.Cell>
+                    <Table.Cell onClick={() => this.clickButton(request)}>{request.name}</Table.Cell>
+                    <Table.Cell onClick={() => this.clickButton(request)}>{request.managerName}</Table.Cell>
+                    <Table.Cell onClick={() => this.clickButton(request)}>{request.phase1.lastWorkDay}</Table.Cell>
+                    <Table.Cell onClick={() => this.clickButton(request)}>{this.checkStatus(request.status)}</Table.Cell>
+                    <Table.Cell>
+                      <Button
+                        variant='danger'
+                        className = 'mb-3'
+                        size='sm'
+                        onClick={this.deleteRequest.bind(this,request)}
+                        block
+                      >
+                        Delete
+                      </Button>
+                    </Table.Cell>
                   </Table.Row>
                 ))}
               </Table.Body>
