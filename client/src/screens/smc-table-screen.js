@@ -94,7 +94,7 @@ export class SMCTableScreen extends React.Component {
   render() {
     const { resRrequests } = this.state;
     return (
-      <Container fluid className='bg-light p-5 h-100'>
+      <Container fluid className='bg-light p-5' style = {{height: '100vh'}}>
         <Header as = 'h3' className='text-center'>Customer Care (SMC)</Header>
         <div className='row'>
           <div className='offset-md-3 col-md-6 border bg-white rounded'>
