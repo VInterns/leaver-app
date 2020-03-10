@@ -1,6 +1,6 @@
 import React from "react";
 import { Form, Col, Row, Button } from "react-bootstrap";
-import { Container, Table, Header } from "semantic-ui-react";
+import { Container, Table } from "semantic-ui-react";
 import { LeaverDetails } from "../components";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
