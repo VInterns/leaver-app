@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table } from 'react-bootstrap';
+import { Table, Container, Header } from 'semantic-ui-react';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 /////////////////////////////////////////////////////////////////////////
@@ -28,7 +28,7 @@ export class ASTTableScreen extends React.Component {
     switch (status) {
       case 'pending':
         return (
-          <td
+          <Table.Cell
             style={{
               color: '#BE0002',
               fontWeight: 'bold',
@@ -36,11 +36,11 @@ export class ASTTableScreen extends React.Component {
             }}
           >
             {status}
-          </td>
+          </Table.Cell>
         );
       case 'done':
         return (
-          <td
+          <Table.Cell
             style={{
               color: '#5cb85c',
               fontWeight: 'bold',
@@ -48,11 +48,11 @@ export class ASTTableScreen extends React.Component {
             }}
           >
             {status}
-          </td>
+          </Table.Cell>
         );
       default:
         return (
-          <td
+          <Table.Cell
             style={{
               color: '#34a1fd',
               fontWeight: 'bold',
@@ -60,7 +60,7 @@ export class ASTTableScreen extends React.Component {
             }}
           >
             {status}
-          </td>
+          </Table.Cell>
         );
     }
   }
@@ -90,48 +90,49 @@ export class ASTTableScreen extends React.Component {
   render() {
     const { requests } = this.state;
     return (
-      <div className='container'>
-        <center style={{ margin: '25px' }}>
-          <header>
-            <hr />
-            <h3>Application Security Team</h3>
-            <hr />
-          </header>
-          <div>
-            <ReactHTMLTableToExcel
-              id='test-table-xls-button'
-              className='download-table-xls-button btn btn-outline-success btn-lg btn-block mt-3 mb-3'
-              table='wf-table'
-              filename='Resignations - Work Force'
-              sheet='resignations'
-              buttonText='Export Table as XLS'
-            />
-            <Table bordered hover striped id='as-table'>
-              <thead>
-                <tr style={{ backgroundColor: '#BE0002' }}>
-                  <th className='text-white'>Staff ID</th>
-                  <th className='text-white'>Employee Name</th>
-                  <th className='text-white'>Manager Name</th>
-                  <th className='text-white'>Status</th>
-                </tr>
-              </thead>
-              <tbody>
+      <Container fluid className='bg-light p-5' style={{ height: '100vh' }}>
+        <Header as='h3' className='text-center'>Application Security Team</Header>
+        <div className='row'>
+          <div className='offset-md-3 col-md-6 border bg-white rounded'>
+            <div className='row mt-4'>
+              <div className='col d-flex flex-row'>
+                <ReactHTMLTableToExcel
+                  id='test-table-xls-button'
+                  className='download-table-xls-button ui basic button'
+                  table='as-table'
+                  filename='Resignations - Application Security'
+                  sheet='resignations'
+                  buttonText='Export Table'
+                />
+              </div>
+            </div>
+            <hr/>
+            <Table celled className = 'table-hover mb-3' id='as-table'>
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell>Staff ID</Table.HeaderCell>
+                  <Table.HeaderCell>Employee Name</Table.HeaderCell>
+                  <Table.HeaderCell>Manager Name</Table.HeaderCell>
+                  <Table.HeaderCell>Status</Table.HeaderCell>
+                </Table.Row>
+              </Table.Header>
+              <Table.Body>
                 {requests.map(request => (
-                  <tr
+                  <Table.Row
                     onClick={() => this.onRowClick(request)}
                     key={request.staffId}
                   >
-                    <td>{request.staffId}</td>
-                    <td>{request.name}</td>
-                    <td>{request.managerName}</td>
+                    <Table.Cell>{request.staffId}</Table.Cell>
+                    <Table.Cell>{request.name}</Table.Cell>
+                    <Table.Cell>{request.managerName}</Table.Cell>
                     {this.checkStatus(request.phase6.status)}
-                  </tr>
+                  </Table.Row>
                 ))}
-              </tbody>
+              </Table.Body>
             </Table>
           </div>
-        </center>
-      </div>
+        </div>
+      </Container>
     );
   }
 }
