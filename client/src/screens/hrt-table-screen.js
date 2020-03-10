@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table } from 'reactstrap';
+import { Table, Container, Header } from 'semantic-ui-react';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 export class HrViewScreen extends Component {
@@ -16,7 +16,7 @@ export class HrViewScreen extends Component {
     switch (status) {
       case 'pending':
         return (
-          <td
+          <Table.Cell
             style={{
               color: '#BE0002',
               fontWeight: 'bold',
@@ -24,11 +24,11 @@ export class HrViewScreen extends Component {
             }}
           >
             {status}
-          </td>
+          </Table.Cell>
         );
       case 'done':
         return (
-          <td
+          <Table.Cell
             style={{
               color: '#5cb85c',
               fontWeight: 'bold',
@@ -36,11 +36,11 @@ export class HrViewScreen extends Component {
             }}
           >
             {status}
-          </td>
+          </Table.Cell>
         );
       default:
         return (
-          <td
+          <Table.Cell
             style={{
               color: '#34a1fd',
               fontWeight: 'bold',
@@ -48,7 +48,7 @@ export class HrViewScreen extends Component {
             }}
           >
             {status}
-          </td>
+          </Table.Cell>
         );
     }
   }
@@ -67,7 +67,7 @@ export class HrViewScreen extends Component {
       resignation.phase4.status === 'done' &&
       resignation.phase6.status === 'done' &&
       resignation.phase7.status === 'done' &&
-      resignation.phase8.status === 'done' 
+      resignation.phase8.status === 'done'
     ) {
       return 'done';
     } else {
@@ -85,43 +85,42 @@ export class HrViewScreen extends Component {
 
   render() {
     return (
-      <div className='container-fluid'>
-        <center style={{ margin: '25px' }}>
-          <header className='ast-header'>
-            <hr />
-            <h3>Human Resources Team</h3>
-            <hr />
-          </header>
-
-          <ReactHTMLTableToExcel
-            id='test-table-xls-button'
-            className='download-table-xls-button btn btn-outline-success btn-lg btn-block mt-3 mb-3'
-            table='wf-table'
-            filename='Resignations - Work Force'
-            sheet='resignations'
-            buttonText='Export Table as XLS'
-          />
-          <Table bordered striped hover id='hr-table'>
-            <thead>
-              <tr style={{ backgroundColor: '#BE0002', whiteSpace: 'nowrap' }}>
-                <th className='text-white'>Staff ID</th>
-                <th className='text-white'>Employee Name</th>
-                <th className='text-white'>Last Working Day</th>
-                <th className='text-white'>Manager Name</th>
-                <th className='text-white'>Resignation Request</th>
-                <th className='text-white'>Customer Care</th>
-                <th className='text-white'>Work Force</th>
-                <th className='text-white'>CC Consumer Activation</th>
-                <th className='text-white'>Application Security</th>
-                <th className='text-white'>Corporate Security</th>
-                <th className='text-white'>Enterprise Logistics</th>
-                <th className='text-white'>Security Hardware Team</th>
-              </tr>
-            </thead>
-            <tbody>
+      <Container fluid className='bg-light p-5' style={{ height: '100vh' }}>
+        <Header as='h3' className='text-center'>Human Resources Team</Header>
+        <div className='row rounded border bg-white p-5'>
+          <div className='row'>
+            <div className='col d-flex flex-row'>
+              <ReactHTMLTableToExcel
+                id='test-table-xls-button'
+                className='download-table-xls-button ui basic button'
+                table='hr-table'
+                filename='Resignations - HR'
+                sheet='resignations'
+                buttonText='Export Table'
+              />
+            </div>
+          </div>
+          <Table celled className='table-hover mb-3' id='hr-table'>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell>Staff ID</Table.HeaderCell>
+                <Table.HeaderCell>Employee Name</Table.HeaderCell>
+                <Table.HeaderCell>Last Working Day</Table.HeaderCell>
+                <Table.HeaderCell>Manager Name</Table.HeaderCell>
+                <Table.HeaderCell>Resignation Request</Table.HeaderCell>
+                <Table.HeaderCell>Customer Care</Table.HeaderCell>
+                <Table.HeaderCell>Work Force</Table.HeaderCell>
+                <Table.HeaderCell>CC Consumer Activation</Table.HeaderCell>
+                <Table.HeaderCell>Application Security</Table.HeaderCell>
+                <Table.HeaderCell>Corporate Security</Table.HeaderCell>
+                <Table.HeaderCell>Enterprise Logistics</Table.HeaderCell>
+                <Table.HeaderCell>Security Hardware Team</Table.HeaderCell>
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>
               {this.state.data.map((value, index) => {
                 return (
-                  <tr
+                  <Table.Row
                     onClick={() => {
                       this.props.history.push(
                         `/resignations-details?id=${value.staffId}`
@@ -129,10 +128,10 @@ export class HrViewScreen extends Component {
                     }}
                     key={index}
                   >
-                    <td>{value.staffId} </td>
-                    <td>{value.name}</td>
-                    <td>{value.phase1.lastWorkDay}</td>
-                    <td>{value.managerName}</td>
+                    <Table.Cell>{value.staffId} </Table.Cell>
+                    <Table.Cell>{value.name}</Table.Cell>
+                    <Table.Cell>{value.phase1.lastWorkDay}</Table.Cell>
+                    <Table.Cell>{value.managerName}</Table.Cell>
                     {this.checkStatus(this.checkRequestStatus(value))}
                     {this.checkStatus(value.phase2.status)}
                     {this.checkStatus(value.phase3.status)}
@@ -141,13 +140,13 @@ export class HrViewScreen extends Component {
                     {this.checkStatus(value.phase8.status)}
                     {this.checkStatus(value.phase5.status)}
                     {this.checkStatus(value.phase7.status)}
-                  </tr>
+                  </Table.Row>
                 );
               })}
-            </tbody>
+            </Table.Body>
           </Table>
-        </center>
-      </div>
+        </div>
+      </Container>
     );
   }
 }
