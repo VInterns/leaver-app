@@ -3,7 +3,7 @@ import {
   LeaverDetails
 } from "../components";
 import { Form, Row, Col, Button } from 'react-bootstrap';
-import { Container, Header } from 'semantic-ui-react';
+import { Container } from 'semantic-ui-react';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 /////////////////////////////////////////////////////////////////////////
