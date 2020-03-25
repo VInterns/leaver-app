@@ -16,6 +16,11 @@ const API = '/api/';
 const SEARCH = 'users/search';
 const SUBMIT = 'resignations/';
 
+const UK_SUBDEPT = ['UK','UK Telesales'];
+const CLUSTER_SUBDEPT = ['IR','IR Telesales','GE','Spain','CIOT','VAS','VDA','Others'];
+const ENTERPRISE_SUBDEPT = ['UK SMB','IR SME','Spain BO','Italy Enterprise','GESC','Enterprise HOC','EBU Back Office','ESS','EG Post','Others'];
+const TSSE_SUBDEPT = ['AD','AO','AT','NEW-TA','OIT','OPC','SEA-COE','TES','Others'];
+
 export class ResignReqScreen extends Component {
   constructor(props) {
     super(props);
@@ -53,7 +58,8 @@ export class ResignReqScreen extends Component {
       createdby: this.props.createdby,
       employeeFound: false,
       reason: 'Other',
-      otherReason: ''
+      otherReason: '',
+      subDepartment:''
     };
   }
 
@@ -115,6 +121,7 @@ export class ResignReqScreen extends Component {
             status: 'done',
             ntAccount:this.state.ntAccount,
             personalMobile: this.state.personalMobile,
+            mobile:this.state.mobile,
             recommended: this.state.recommended,
             returnedHeadset: this.state.returnedHeadset,
             returnedKeys: this.state.returnedKeys,
@@ -131,7 +138,7 @@ export class ResignReqScreen extends Component {
             iex: this.state.iex,
             reason: this.state.reason,
             otherReason: this.state.otherReason,
-            mobile:this.state.mobile
+            subDepartment:this.subDepartment
           },
           phase2: {
 
@@ -244,6 +251,25 @@ export class ResignReqScreen extends Component {
     });
   };
 
+  createMapList(listt){
+    let options = []
+    listt.map((op) => {
+      options = [ ...options, <option value={op}>{op}</option>]
+    })
+    return options
+  }
+  createSelectItems() {
+    if (this.state.department === 'UK') {
+      return this.createMapList(UK_SUBDEPT);
+    } else if (this.state.department === 'Cluster') {
+      return this.createMapList(CLUSTER_SUBDEPT);
+    } else if (this.state.department === 'Enterprise') {
+      return this.createMapList(ENTERPRISE_SUBDEPT);
+    } else if (this.state.department === 'TSSE') {
+      return this.createMapList(TSSE_SUBDEPT);
+    }
+  }
+
   render() {
     this.validator.purgeFields();
     return (
@@ -343,6 +369,27 @@ export class ResignReqScreen extends Component {
                     />
                   </Col>
                   <Col></Col>
+                </Row>
+                <Row>
+                  <Col>
+                      <Form.Label className='col-form-group font-weight-bold'>
+                        Sub Department
+                    <span style={{ color: 'red', fontSize: 25 }}>*</span>
+                      </Form.Label>
+                    </Col>
+                    <Col>
+                      <Form.Control
+                        as='select'
+                        name='subDepartment'
+                        onChange={this.handleChange}
+                        // defaultValue={this.state.subDepartment}
+                      >
+                      {
+                        this.createSelectItems()
+                      }
+                      </Form.Control>
+                    </Col>
+                    <Col></Col>
                 </Row>
                 <Row>
                   <Col>
