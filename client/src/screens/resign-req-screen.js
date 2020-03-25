@@ -372,7 +372,6 @@ export class ResignReqScreen extends Component {
   }
 
   render() {
-    console.log(this.state.managerNameProps);
     this.validator.purgeFields();
     return (
       <Container fluid className='p-5 bg-light'>
