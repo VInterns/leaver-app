@@ -16,10 +16,12 @@ const API = '/api/';
 const SEARCH = 'users/search';
 const SUBMIT = 'resignations/';
 
-const UK_SUBDEPT = ['UK','UK Telesales'];
-const CLUSTER_SUBDEPT = ['IR','IR Telesales','GE','Spain','CIOT','VAS','VDA','Others'];
-const ENTERPRISE_SUBDEPT = ['UK SMB','IR SME','Spain BO','Italy Enterprise','GESC','Enterprise HOC','EBU Back Office','ESS','EG Post','Others'];
-const TSSE_SUBDEPT = ['AD','AO','AT','NEW-TA','OIT','OPC','SEA-COE','TES','Others'];
+const UK_SUBDEPT = ['--','UK','UK Telesales'];
+const CLUSTER_SUBDEPT = ['--','IR','IR Telesales','GE','Spain','CIOT','VAS','VDA','Others'];
+const ENTERPRISE_SUBDEPT = ['--','UK SMB','IR SME','Spain BO','Italy Enterprise','GESC','Enterprise HOC','EBU Back Office','ESS','EG Post','Others'];
+const TSSE_SUBDEPT = ['--','AD','AO','AT','NEW-TA','OIT','OPC','SEA-COE','TES','Others'];
+
+const hasSMC = ['UK','UK Telesales','IR','IR Telesales','GE','Spain','UK SMB','IR SME']
 
 export class ResignReqScreen extends Component {
   constructor(props) {
@@ -32,7 +34,10 @@ export class ResignReqScreen extends Component {
       staffId: '',
       returnedHeadset: false,
       returnedKeys: false,
-      returnedOhda: false,
+      returnedLaptop: false,
+      returnedLaptopBag: false,
+      returnedMouse: false,
+      comments: '',
       sickLeave: '',
       ohdaType: '',
       lastWorkDay: '',
@@ -45,27 +50,29 @@ export class ResignReqScreen extends Component {
       daysToTake: '',
       sapStaffId: '',
       name: '',
-      managerName: '',
+      managerName: this.props.managerName,
       ntAccount: '',
       department: '',
       careCenter: '',
       jobTitle: '',
       hiringDate: '',
-      mobile: '',
+      // mobile: '',
       iex: '',
-      personalMobile: '',
+      mobile: '',
       recommended: 'recommended',
       createdby: this.props.createdby,
       employeeFound: false,
-      reason: 'Other',
+      reason: '',
       otherReason: '',
-      subDepartment:''
+      subDepartment:'--',
+      
     };
   }
 
   static mapStateToProps(state) {
     return {
-      createdby: state.auth.username
+      createdby: state.auth.username,
+      managerName : state.auth.account.name
     };
   }
 
@@ -97,7 +104,6 @@ export class ResignReqScreen extends Component {
           this.setState({ staffId: data.staffId });
           this.setState({ sapStaffId: data.staffId });
           this.setState({ name: data.name });
-          this.setState({ managerName: data.managerName });
           this.setState({ department: data.department });
           this.setState({ careCenter: data.careCenter });
           this.setState({ jobTitle: data.jobTitle });
@@ -109,100 +115,109 @@ export class ResignReqScreen extends Component {
   };
 
   onSubmit = () => {
-    if (this.validator.allValid()) {
-      fetch(API + SUBMIT, {
-        body: JSON.stringify({
-          staffId: this.state.staffId,
-          managerName: this.state.managerName,
-          name: this.state.name,
-          createdby: this.state.createdby,
-          status: 'new',
-          phase1: {
-            status: 'done',
-            ntAccount:this.state.ntAccount,
-            personalMobile: this.state.personalMobile,
-            mobile:this.state.mobile,
-            recommended: this.state.recommended,
-            returnedHeadset: this.state.returnedHeadset,
-            returnedKeys: this.state.returnedKeys,
-            returnedOhda: this.state.returnedOhda,
-            ohdaType: this.state.ohdaType,
-            lastWorkDay: this.state.lastWorkDay,
-            nationalId: this.state.nationalId,
-            nationalIdImg: this.state.nationalIdImg,
-            annualsGranted: this.state.annualsGranted,
-            annualsTaken: this.state.annualsTaken,
-            noShow: this.state.noShow,
-            lostHours: this.state.lostHours,
-            daysToTake: this.state.daysToTake,
-            iex: this.state.iex,
-            reason: this.state.reason,
-            otherReason: this.state.otherReason,
-            subDepartment:this.subDepartment
-          },
-          phase2: {
-
-            status: 'new',
-            returnedHeadset: this.state.returnedHeadset,
-            returnedKeys: this.state.returnedKeys,
-            returnedOhda: this.state.returnedOhda,
-            deduct: false,
-            comment: ''
-          },
-          phase3: {
-            status: 'new',
-            annualsGranted: this.state.annualsGranted,
-            annualsTaken: this.state.annualsTaken,
-            noShow: this.state.noShow,
-            lostHours: this.state.lostHours,
-            daysToTake: this.state.daysToTake,
-            iex: this.state.iex
-          },
-          phase4: {
-            status: 'new',
-            ratePlan: '',
-            comment: '',
-            phoneBilledAmount: false
-          },
-          phase5: {
-            status: 'new',
-            comment: ''
-          },
-          phase6: {
-            status: 'new',
-            disabledSecureId: false,
-            disabledRemedyAccount: false,
-            disabledAccountsInProductionSystems: false,
-            comment: ''
-          },
-          phase7: {
-            status: 'new',
-            comment: '',
-            returnedHwToken: false
-          },
-          phase8: {
-            status: 'new',
-            disabledAccount: false,
-            physicalId: false,
-            comment: ''
-          }
-        }),
-        headers: {
-          'content-type': 'application/json'
-        },
-        method: 'POST'
-      }).then(response => {
-        if (response.status === 200) {
-          toast.success('Resignation Request Recieved');
-        } else if (response.status === 503) {
-          toast.error('Error in db');
-        } else {
-          toast.error('Resigation already exists');
-        }
-      });
-    } else {
-      toast.error('Please enter all required fields');
+    if(this.state.subDepartment === '--'){
+      toast.error('Please Choose a sub department');
     }
+    else {
+      if (this.validator.allValid()) {
+        fetch(API + SUBMIT, {
+          body: JSON.stringify({
+            staffId: this.state.staffId,
+            managerName: this.state.managerName,
+            name: this.state.name,
+            createdby: this.state.createdby,
+            status: 'new',
+            phase1: {
+              status: 'done',
+              subDepartment:this.state.subDepartment,
+              ntAccount:this.state.ntAccount,
+              mobile: this.state.mobile,
+              lastWorkDay: this.state.lastWorkDay,
+              recommended: this.state.recommended,
+              reason: this.state.reason,
+              otherReason: this.state.otherReason,
+              returnedHeadset: this.state.returnedHeadset,
+              returnedKeys: this.state.returnedKeys,
+              returnedLaptop: this.state.returnedLaptop,
+              returnedLaptopBag: this.state.returnedLaptopBag,
+              returnedMouse: this.state.returnedMouse,
+              comments: this.state.comments,
+              iex: this.state.iex,
+              annualsGranted: this.state.annualsGranted,
+              annualsTaken: this.state.annualsTaken,
+              noShow: this.state.noShow,
+              lostHours: this.state.lostHours,
+              daysToTake: this.state.daysToTake,
+              nationalId: this.state.nationalId,
+              nationalIdImg: this.state.nationalIdImg,
+            },
+            phase2: {
+              status: 'new',
+              returnedHeadset: this.state.returnedHeadset,
+              returnedKeys: this.state.returnedKeys,
+              returnedLaptop: this.state.returnedLaptop,
+              returnedLaptopBag: this.state.returnedLaptopBag,
+              returnedMouse:this.state.returnedMouse,
+              deduct: false,
+              comment: this.state.comments
+            },
+            phase3: {
+              status: 'new',
+              iex: this.state.iex,
+              annualsGranted: this.state.annualsGranted,
+              annualsTaken: this.state.annualsTaken,
+              noShow: this.state.noShow,
+              lostHours: this.state.lostHours,
+              daysToTake: this.state.daysToTake,
+            },
+            phase4: {
+              status: 'new',
+              ratePlan: '',
+              phoneBilledAmount: false,
+              comment: '',
+            },
+            // phase5: {
+            //   status: 'new',
+            //   comment: ''
+            // },
+            phase6: {
+              status: 'new',
+              disabledSecureId: false,
+              disabledRemedyAccount: false,
+              disabledAccountsInProductionSystems: false,
+              returnedHwToken: false,
+              comment: ''
+            },
+            // phase7: {
+            //   status: 'new',
+            //   comment: '',
+            //   returnedHwToken: false
+            // },
+            phase8: {
+              status: 'new',
+              disabledAccount: false,
+              physicalId: false,
+              comment: ''
+            }
+          }),
+          headers: {
+            'content-type': 'application/json'
+          },
+          method: 'POST'
+        }).then(response => {
+          if (response.status === 200) {
+            toast.success('Resignation Request Recieved');
+          } else if (response.status === 503) {
+            toast.error('Error in db');
+          } else {
+            toast.error('Resigation already exists');
+          }
+        });
+      } else {
+        toast.error('Please enter all required fields');
+      }
+    }
+    
   };
 
   submit = () => {
@@ -237,6 +252,9 @@ export class ResignReqScreen extends Component {
   ///////////////////////////////////////////////
 
   handleChange = e => {
+    if (e.target.name === 'subDepartment'){
+      this.checkSMCCustody()
+    }
     this.setState({ [e.target.name]: this.normalizeVal(e.target.value) });
   };
   ///////////////////////////////////////////////
@@ -270,7 +288,91 @@ export class ResignReqScreen extends Component {
     }
   }
 
+  checkSMCCustody(){
+    if (hasSMC.indexOf(this.state.subDepartment) < 0) {
+      return (
+      <div>
+        <Row className='mt-2'>
+          <Col>
+            <Form.Label className='col-form-group font-weight-bold'>
+              Returned Laptop
+          <span style={{ color: 'red', fontSize: 25 }}>*</span>
+            </Form.Label>
+          </Col>
+          <Col>
+            <Form.Control
+              as='select'
+              name='returnedLaptop'
+              onChange={this.handleChange}
+              defaultValue={this.state.returnedLaptop}
+            >
+              <option value={''}> N/A </option>
+              <option value={true}>Yes</option>
+              <option value={false}>No</option>
+            </Form.Control>
+          </Col>
+        </Row> 
+        <Row className='mt-2'>
+          <Col>
+            <Form.Label className='col-form-group font-weight-bold'>
+              Returned Laptop Bag
+          <span style={{ color: 'red', fontSize: 25 }}>*</span>
+            </Form.Label>
+          </Col>
+          <Col>
+            <Form.Control
+              as='select'
+              name='returnedLaptopBag'
+              onChange={this.handleChange}
+              defaultValue={this.state.returnedLaptopBag}
+            >
+              <option value={''}> N/A </option>
+              <option value={true}>Yes</option>
+              <option value={false}>No</option>
+            </Form.Control>
+          </Col>
+        </Row> 
+        <Row className='mt-2'>
+          <Col>
+            <Form.Label className='col-form-group font-weight-bold'>
+              Returned Mouse
+          <span style={{ color: 'red', fontSize: 25 }}>*</span>
+            </Form.Label>
+          </Col>
+          <Col>
+            <Form.Control
+              as='select'
+              name='returnedMouse'
+              onChange={this.handleChange}
+              defaultValue={this.state.returnedMouse}
+            >
+              <option value={''}> N/A </option>
+              <option value={true}>Yes</option>
+              <option value={false}>No</option>
+            </Form.Control>
+          </Col>
+        </Row> 
+        <Row className='mt-2'>
+          <Col>
+            <Form.Label className='col-form-group font-weight-bold'>
+              Comments
+            </Form.Label>
+          </Col>
+          <Col>
+            <Form.Control
+              as='textarea'
+              rows='1'
+              name='comments'
+              onChange={this.handleChange}
+            />
+          </Col>
+        </Row>
+      </div>
+    )}
+  }
+
   render() {
+    console.log(this.state.managerNameProps);
     this.validator.purgeFields();
     return (
       <Container fluid className='p-5 bg-light'>
@@ -281,7 +383,7 @@ export class ResignReqScreen extends Component {
             <Form className='mt-4'>
               <Form.Group className='p-5'>
                 <Form.Group className='p-2 border rounded'>
-                  <Row>
+                  <Row className='mt-2'>
                     <Col>
                       <Form.Label className='col-form-group font-weight-bold'>
                         Staff ID
@@ -329,7 +431,7 @@ export class ResignReqScreen extends Component {
                   </Col>
                   <Col></Col>
                 </Row>
-                <Row>
+                <Row className='mt-2'>
                   <Col>
                     <Form.Label className='col-form-group font-weight-bold'>
                       Employee Name
@@ -340,7 +442,7 @@ export class ResignReqScreen extends Component {
                   </Col>
                   <Col></Col>
                 </Row>
-                <Row>
+                <Row className='mt-2'>
                   <Col>
                     <Form.Label className='col-form-group font-weight-bold'>
                       Manager Name
@@ -355,43 +457,7 @@ export class ResignReqScreen extends Component {
                   </Col>
                   <Col></Col>
                 </Row>
-                <Row>
-                  <Col>
-                    <Form.Label className='col-form-group font-weight-bold'>
-                      Department
-                </Form.Label>
-                  </Col>
-                  <Col>
-                    <Form.Control
-                      plaintext
-                      readOnly
-                      value={this.state.department}
-                    />
-                  </Col>
-                  <Col></Col>
-                </Row>
-                <Row>
-                  <Col>
-                      <Form.Label className='col-form-group font-weight-bold'>
-                        Sub Department
-                    <span style={{ color: 'red', fontSize: 25 }}>*</span>
-                      </Form.Label>
-                    </Col>
-                    <Col>
-                      <Form.Control
-                        as='select'
-                        name='subDepartment'
-                        onChange={this.handleChange}
-                        // defaultValue={this.state.subDepartment}
-                      >
-                      {
-                        this.createSelectItems()
-                      }
-                      </Form.Control>
-                    </Col>
-                    <Col></Col>
-                </Row>
-                <Row>
+                <Row className='mt-2'>
                   <Col>
                     <Form.Label className='col-form-group font-weight-bold'>
                       Cost Center
@@ -406,7 +472,7 @@ export class ResignReqScreen extends Component {
                   </Col>
                   <Col></Col>
                 </Row>
-                <Row>
+                <Row className='mt-2'>
                   <Col>
                     <Form.Label className='col-form-group font-weight-bold'>
                       Job Title
@@ -417,7 +483,7 @@ export class ResignReqScreen extends Component {
                   </Col>
                   <Col></Col>
                 </Row>
-                <Row>
+                <Row className='mt-2'>
                   <Col>
                     <Form.Label className='col-form-group font-weight-bold'>
                       Hiring Date
@@ -432,10 +498,45 @@ export class ResignReqScreen extends Component {
                   </Col>
                   <Col></Col>
                 </Row>
-                <Row>
+                <Row className='mt-2'>
+                  <Col>
+                    <Form.Label className='col-form-group font-weight-bold'>
+                      Department
+                </Form.Label>
+                  </Col>
+                  <Col>
+                    <Form.Control
+                      plaintext
+                      readOnly
+                      value={this.state.department}
+                    />
+                  </Col>
+                  <Col></Col>
+                </Row>
+                <Row className='mt-2'>
+                  <Col>
+                      <Form.Label className='col-form-group font-weight-bold'>
+                        Sub Department
+                    <span style={{ color: 'red', fontSize: 25 }}>*</span>
+                      </Form.Label>
+                    </Col>
+                    <Col>
+                      <Form.Control
+                        as='select'
+                        name='subDepartment'
+                        onChange={this.handleChange}
+                        defaultValue={this.state.subDepartment}
+                      >
+                      {this.createSelectItems()}
+                      </Form.Control>
+                    </Col>
+                    <Col></Col>
+                </Row>
+                <Row className='mt-2'>
                   <Col>
                     <Form.Label className='col-form-group font-weight-bold'>
                       NT Account
+                      <span style={{ color: 'red', fontSize: 25 }}></span>
                     </Form.Label>
                   </Col>
                   <Col>
@@ -456,34 +557,7 @@ export class ResignReqScreen extends Component {
                   </Col>
                   <Col></Col>
                 </Row>
-                <Row className='mt-3'>
-                  <Col>
-                    <Form.Label className='col-form-group font-weight-bold'>
-                      Last Working Day
-                  <span style={{ color: 'red', fontSize: 25 }}>*</span>
-                    </Form.Label>
-                  </Col>
-                  <Col>
-                    <input
-                      type='date'
-                      id='last'
-                      name='lastWorkDay'
-                      min='2018-01-01'
-                      max='2060-12-31'
-                      onChange={this.handleChange}
-                      onBlur={() =>
-                        this.validator.showMessageFor('last working day')
-                      }
-                    ></input>
-                    {this.validator.message(
-                      'last working day',
-                      this.state.lastWorkDay,
-                      'required'
-                    )}
-                  </Col>
-                  <Col></Col>
-                </Row>
-                <Row className='mt-3'>
+                <Row className='mt-2'>
                   <Col>
                     <Form.Label className='col-form-group font-weight-bold'>
                       Mobile Number
@@ -494,21 +568,49 @@ export class ResignReqScreen extends Component {
                     <Form.Control
                       as='textarea'
                       rows='1'
-                      name='personalMobile'
+                      name='mobile'
                       onChange={this.handleChange}
                       onBlur={() =>
-                        this.validator.showMessageFor('Personal Mobile')
+                        this.validator.showMessageFor('Mobile')
                       }
                     />
                     {this.validator.message(
-                      'Personal Mobile',
-                      this.state.personalMobile,
+                      'Mobile',
+                      this.state.mobile,
                       'required|phone|size:11'
                     )}
                   </Col>
                   <Col></Col>
                 </Row>
-                <Row className='mt-3'>
+
+                <Row className='mt-2'>
+                  <Col>
+                    <Form.Label className='col-form-group font-weight-bold'>
+                      Last Working Day
+                  <span style={{ color: 'red', fontSize: 25 }}>*</span>
+                    </Form.Label>
+                  </Col>
+                  <Col>
+                    <Form.Control
+                      type='date'
+                      id='last'
+                      name='lastWorkDay'
+                      min='2018-01-01'
+                      max='2060-12-31'
+                      onChange={this.handleChange}
+                      onBlur={() =>
+                        this.validator.showMessageFor('last working day')
+                      }
+                    ></Form.Control>
+                    {this.validator.message(
+                      'last working day',
+                      this.state.lastWorkDay,
+                      'required'
+                    )}
+                  </Col>
+                  <Col></Col>
+                </Row>
+                <Row className='mt-2'>
                   <Col>
                     <Form.Label className='col-form-group font-weight-bold'>
                       Recommended to join Vodafone
@@ -528,7 +630,7 @@ export class ResignReqScreen extends Component {
                   </Col>
                   <Col></Col>
                 </Row>
-                <Row className='mt-3'>
+                <Row className='mt-2'>
                   <Col>
                     <Form.Label className='col-form-group font-weight-bold'>
                       Reason for resignation
@@ -558,7 +660,7 @@ export class ResignReqScreen extends Component {
                   <Col></Col>
                 </Row>
                 { this.state.reason === "Other" && 
-                  <Row>
+                  <Row className='mt-2'>
                     <Col></Col>
                     <Col>
                     <Form.Control
@@ -596,7 +698,7 @@ export class ResignReqScreen extends Component {
                     </Form.Control>
                   </Col>
                 </Row>
-                <Row className='mt-3'>
+                <Row className='mt-2'>
                   <Col>
                     <Form.Label className='col-form-group font-weight-bold'>
                       Returned Keys
@@ -616,59 +718,19 @@ export class ResignReqScreen extends Component {
                     </Form.Control>
                   </Col>
                 </Row>
-                <Row className='mt-3'>
-                  <Col>
-                    <Form.Label className='col-form-group font-weight-bold'>
-                      Returned Custody
-                  <span style={{ color: 'red', fontSize: 25 }}>*</span>
-                    </Form.Label>
-                  </Col>
-                  <Col>
-                    <Form.Control
-                      as='select'
-                      name='returnedOhda'
-                      onChange={this.handleChange}
-                      defaultValue={this.state.returnedOhda}
-                    >
-                      <option value={''}> N/A </option>
-                      <option value={true}>Yes</option>
-                      <option value={false}>No</option>
-                    </Form.Control>
-                  </Col>
-                </Row>
-                <Row className='mt-3'>
-                  <Col>
-                    <Form.Label className='col-form-group font-weight-bold'>
-                      Custody Type
-                  <span style={{ color: 'red', fontSize: 25 }}>*</span>
-                    </Form.Label>
-                  </Col>
-                  <Col>
-                    <Form.Control
-                      as='textarea'
-                      rows='1'
-                      name='ohdaType'
-                      onChange={this.handleChange}
-                      onBlur={() => this.validator.showMessageFor('Custody Type')}
-                    />
-                    {this.validator.message(
-                      'Custody Type',
-                      this.state.ohdaType,
-                      'required|alpha_num_space'
-                    )}
-                  </Col>
-                </Row>
+                {this.checkSMCCustody()}
+
               </Form.Group>
               <hr/>
               <Form.Group className='p-5 form-group'>
-                <Row>
+                <Row className='mt-2'>
                   <Col>
                     <Form.Label className='d-flex justify-content-center h4 font-weight-bold'>
                       Leave Balance
                 </Form.Label>
                   </Col>
                 </Row>
-                <Row className='mt-3'>
+                <Row className='mt-2'>
                   <Col>
                     <Form.Label className='col-form-group font-weight-bold'>
                       IEX
@@ -684,7 +746,7 @@ export class ResignReqScreen extends Component {
                     {this.validator.message('iex', this.state.iex, 'required')}
                   </Col>
                 </Row>
-                <Table celled className='mt-3'>
+                <Table celled className='mt-2'>
                   <Table.Header>
                     <Table.Row>
                       <Table.HeaderCell scope='col'>Annuals Granted</Table.HeaderCell>
@@ -739,7 +801,7 @@ export class ResignReqScreen extends Component {
                     </Table.Row>
                   </Table.Body>
                 </Table>
-                <Row className='mt-3'>
+                <Row className='mt-2'>
                   <Col>
                     <Form.Label className='col-form-group font-weight-bold'>
                       Pending Sick Leave
@@ -761,7 +823,7 @@ export class ResignReqScreen extends Component {
               </Form.Group>
               <hr/>
               <Form.Group className='p-5'>
-                <Row>
+                <Row className='mt-2'>
                   <Col>
                     <Form.Label className='col-form-group font-weight-bold'>
                       National ID Number
@@ -775,7 +837,7 @@ export class ResignReqScreen extends Component {
                     />
                   </Col>
                 </Row>
-                <Row className='mt-3'>
+                <Row className='mt-2'>
                   <Col>
                     <Form.Label className='col-form-group font-weight-bold'>
                       Copy of National ID Front Page
