@@ -113,6 +113,7 @@ export class ResignReqScreen extends Component {
           status: 'new',
           phase1: {
             status: 'done',
+            ntAccount:this.state.ntAccount,
             personalMobile: this.state.personalMobile,
             recommended: this.state.recommended,
             returnedHeadset: this.state.returnedHeadset,
@@ -328,17 +329,6 @@ export class ResignReqScreen extends Component {
                 <Row>
                   <Col>
                     <Form.Label className='col-form-group font-weight-bold'>
-                      NT Account
-                </Form.Label>
-                  </Col>
-                  <Col>
-                    <Form.Control plaintext readOnly value={this.state.ntAccount} />
-                  </Col>
-                  <Col></Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <Form.Label className='col-form-group font-weight-bold'>
                       Department
                 </Form.Label>
                   </Col>
@@ -392,6 +382,30 @@ export class ResignReqScreen extends Component {
                   </Col>
                   <Col></Col>
                 </Row>
+                <Row>
+                  <Col>
+                    <Form.Label className='col-form-group font-weight-bold'>
+                      NT Account
+                    </Form.Label>
+                  </Col>
+                  <Col>
+                    <Form.Control
+                      as='textarea'
+                      rows='1'
+                      name='ntAccount'
+                      onChange={this.handleChange}
+                      onBlur={() =>
+                        this.validator.showMessageFor('nt Account')
+                      }
+                    />
+                    {this.validator.message(
+                      'nt Account',
+                      this.state.ntAccount,
+                      'required|email'
+                    )}
+                  </Col>
+                  <Col></Col>
+                </Row>
                 <Row className='mt-3'>
                   <Col>
                     <Form.Label className='col-form-group font-weight-bold'>
@@ -417,6 +431,7 @@ export class ResignReqScreen extends Component {
                       'required'
                     )}
                   </Col>
+                  <Col></Col>
                 </Row>
                 <Row className='mt-3'>
                   <Col>
