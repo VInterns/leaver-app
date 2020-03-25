@@ -28,7 +28,7 @@ export class ResignReqScreen extends Component {
       returnedHeadset: false,
       returnedKeys: false,
       returnedOhda: false,
-      sickLeave: false,
+      sickLeave: '',
       ohdaType: '',
       lastWorkDay: '',
       nationalId: '',
@@ -51,7 +51,9 @@ export class ResignReqScreen extends Component {
       personalMobile: '',
       recommended: 'recommended',
       createdby: this.props.createdby,
-      employeeFound: false
+      employeeFound: false,
+      reason: 'Other',
+      otherReason: ''
     };
   }
 
@@ -90,12 +92,10 @@ export class ResignReqScreen extends Component {
           this.setState({ sapStaffId: data.staffId });
           this.setState({ name: data.name });
           this.setState({ managerName: data.managerName });
-          this.setState({ ntAccount: data.ntAccount });
           this.setState({ department: data.department });
           this.setState({ careCenter: data.careCenter });
           this.setState({ jobTitle: data.jobTitle });
           this.setState({ hiringDate: data.hiringDate });
-          this.setState({ mobile: data.mobile });
           this.setState({ username: data.username });
           this.setState({ nationalId: data.nationalId });
         }
@@ -128,7 +128,10 @@ export class ResignReqScreen extends Component {
             noShow: this.state.noShow,
             lostHours: this.state.lostHours,
             daysToTake: this.state.daysToTake,
-            iex: this.state.iex
+            iex: this.state.iex,
+            reason: this.state.reason,
+            otherReason: this.state.otherReason,
+            mobile:this.state.mobile
           },
           phase2: {
 
@@ -436,7 +439,7 @@ export class ResignReqScreen extends Component {
                 <Row className='mt-3'>
                   <Col>
                     <Form.Label className='col-form-group font-weight-bold'>
-                      Personal Mobile Number
+                      Mobile Number
                   <span style={{ color: 'red', fontSize: 25 }}>*</span>
                     </Form.Label>
                   </Col>
@@ -478,6 +481,51 @@ export class ResignReqScreen extends Component {
                   </Col>
                   <Col></Col>
                 </Row>
+                <Row className='mt-3'>
+                  <Col>
+                    <Form.Label className='col-form-group font-weight-bold'>
+                      Reason for resignation
+                  <span style={{ color: 'red', fontSize: 25 }}>*</span>
+                    </Form.Label>
+                  </Col>
+                  <Col>
+                    <Form.Control
+                      as = 'select'
+                      name='reason'
+                      defaultValue={this.state.reason}
+                      onChange={this.handleChange}
+                    >
+                      <option value = 'Better Offer'>Better Offer</option>
+                      <option value = 'Personal Issues'>Personal Issues</option>
+                      <option value = 'Traveling Abroad'>Traveling Abroad</option>
+                      <option value = 'Medical Condition'>Medical Condition</option>
+                      <option value = 'Study Needs'>Study Needs</option>
+                      <option value = 'Does not fit with job requirements'>Does not fit with job requirements</option>
+                      <option value = 'Missing Documents'>Missing Documents</option>
+                      <option value = 'HR Decision'>HR Decision</option>
+                      <option value = 'End of Contract'>End of Contract</option>
+                      <option value = 'Ending Probation'>Ending Probation</option>
+                      <option value = 'Other'>Other</option>
+                    </Form.Control>
+                  </Col>
+                  <Col></Col>
+                </Row>
+                { this.state.reason === "Other" && 
+                  <Row>
+                    <Col></Col>
+                    <Col>
+                    <Form.Control
+                      as='textarea'
+                      rows='1'
+                      name='otherReason'
+                      onChange={this.handleChange}
+                      onBlur={() => this.validator.showMessageFor('Reason For Resignation')}
+                    />
+                    {this.validator.message('Reason For Resignation', this.state.otherReason, 'required')}
+                    </Col>
+                    <Col></Col>
+                  </Row>
+                }
               </Form.Group>
               <hr/>
               <Form.Group className='p-5'>
@@ -648,7 +696,6 @@ export class ResignReqScreen extends Component {
                   <Col>
                     <Form.Label className='col-form-group font-weight-bold'>
                       Pending Sick Leave
-                  <span style={{ color: 'red', fontSize: 25 }}>*</span>
                     </Form.Label>
                   </Col>
                   <Col>
