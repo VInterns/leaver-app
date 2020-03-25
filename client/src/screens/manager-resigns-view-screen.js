@@ -16,29 +16,27 @@ export class ManagerResignationsViewScreen extends Component {
     super(props);
     this.state = {
       staffId: '',
-      returnedHeadset: false,
-      returnedKeys: false,
-      returnedOhda: false,
-      ohdaType: '',
-      lastWorkDay: '',
-      nationalId: '',
-      nationalIdImg: null,
-      annualsGranted: '',
-      annualsTaken: '',
-      noShow: '',
-      lostHours: '',
-      daysToTake: '',
       sapStaffId: '',
       name: '',
       managerName: '',
-      ntAccount: '',
-      department: '',
       careCenter: '',
       jobTitle: '',
       hiringDate: '',
+      department: '',
+      subDepartment:'',
+      ntAccount: '',
       mobile: '',
-      iex: '',
-      recommended: false,
+      lastWorkDay: '',
+      recommended: 'recommended',
+      reason : '',
+      otherReason: '',
+      returnedHeadset: false,
+      returnedKeys: false,
+      returnedLaptop: false,
+      returnedLaptopBag: false,
+      returnedMouse: false,
+      comments: '',
+      nationalId: '',
       createdby: '',
       resReq: {},
     };
@@ -52,25 +50,21 @@ export class ManagerResignationsViewScreen extends Component {
     this.searchUser(staffID)
     this.setState({
       resReq: request,
-      returnedHeadset: request.phase1.returnedHeadset,
-      returnedKeys: request.phase1.returnedKeys,
-      returnedOhda: request.phase1.returnedOhda,
-      ohdaType: request.phase1.ohdaType,
+      managerName: request.managerName,
+      ntAccount:request.phase1.ntAccount,
       lastWorkDay: request.phase1.lastWorkDay,
-      nationalId: request.phase1.nationalId,
-      nationalIdImg: request.phase1.nationalIdImg,
-      annualsGranted: request.phase1.annualsGranted,
-      annualsTaken: request.phase1.annualsTaken,
-      noShow: request.phase1.noShow,
-      lostHours: request.phase1.lostHours,
-      daysToTake: request.phase1.daysToTake,
-      iex: request.phase1.iex,
       mobile: request.phase1.mobile,
       recommended: request.phase1.recommended,
+      returnedHeadset: request.phase1.returnedHeadset,
+      returnedKeys: request.phase1.returnedKeys,
+      returnedLaptop: request.phase1.returnedLaptop,
+      returnedLaptopBag: request.phase1.returnedLaptopBag,
+      returnedMouse: request.phase1.returnedMouse,
+      comments: request.phase1.comments,
+      nationalId: request.phase1.nationalId,
       createdby: request.createdby,
     })
   }
-
 
   searchUser = (id) => {
     fetch(API + SEARCH, {
@@ -94,13 +88,10 @@ export class ManagerResignationsViewScreen extends Component {
             staffId: data.staffId,
             sapStaffId: data.staffId,
             name: data.name,
-            managerName: data.managerName,
-            ntAccount: data.ntAccount,
             department: data.department,
             careCenter: data.careCenter,
             jobTitle: data.jobTitle,
             hiringDate: data.hiringDate,
-            // mobile: "+" + data.mobile
           });
         }
       })
@@ -132,17 +123,21 @@ export class ManagerResignationsViewScreen extends Component {
 
     let phase1 = {
       ...this.state.resReq.phase1,
+      subDepartment: this.state.subDepartment,
+      ntAccount: this.state.ntAccount,
+      recommended:this.state.recommended,
+      reason: this.state.reason,
+      otherReason: this.state.otherReason,
       returnedHeadset: this.state.returnedHeadset,
       returnedKeys: this.state.returnedKeys,
-      returnedOhda: this.state.returnedOhda,
+      returnedHeadset: this.state.returnedHeadset,
+      returnedKeys: this.state.returnedKeys,
+      returnedLaptop: this.state.returnedLaptop,
+      returnedLaptopBag: this.state.returnedLaptopBag,
+      returnedMouse: this.state.returnedMouse,
+      comments: this.state.comments,
       ohdaType: this.state.ohdaType,
-      iex: this.state.iex,
       lastWorkDay: this.state.lastWorkDay,
-      annualsGranted: this.state.annualsGranted,
-      annualsTaken: this.state.annualsTaken,
-      noShow: this.state.noShow,
-      lostHours: this.state.lostHours,
-      daysToTake: this.state.daysToTake,
       status: 'Updated'
     };
 
@@ -173,60 +168,70 @@ export class ManagerResignationsViewScreen extends Component {
 
   render() {
     return (
-      <Container >
-        <br />
-        <h3>Resignation Request</h3>
-        <br />
+      <Container fluid className='p-5 bg-light'>
+        <h3 className='text-center'>Resignation Request</h3>
         <ToastContainer />
-        <Form >
-          <Form.Group >
-            <Row>
-              <Col><Form.Label className="col-form-label">SAP Staff ID</Form.Label></Col>
-              <Col ><Form.Control plaintext readOnly value={this.state.sapStaffId} /></Col>
+        <div className="row">
+          <div className="offset-md-3 col-md-6 border rounded bg-white">
+          <Form className='mt-4'>
+          <Form.Group className='p-5'>
+            <Row className='mt-2'>
+              <Col>
+                <Form.Label className='col-form-group font-weight-bold'>
+                  SAP Staff ID
+                </Form.Label>
+              </Col>
+              <Col>
+                <Form.Control
+                  plaintext
+                  readOnly
+                  value={this.state.sapStaffId}
+                />
+              </Col>
               <Col></Col>
             </Row>
-            <Row>
-              <Col><Form.Label>Employee Name</Form.Label></Col>
+            <Row className='mt-2'>
+              <Col><Form.Label className='col-form-group font-weight-bold'>Employee Name</Form.Label></Col>
               <Col><Form.Control plaintext readOnly value={this.state.name} /></Col>
               <Col></Col>
             </Row>
-            <Row>
-              <Col><Form.Label>Manager Name</Form.Label></Col>
+            <Row className='mt-2'>
+              <Col><Form.Label className='col-form-group font-weight-bold'>Manager Name</Form.Label></Col>
               <Col><Form.Control plaintext readOnly value={this.state.managerName} /></Col>
               <Col></Col>
             </Row>
-            <Row>
-              <Col><Form.Label>NT Account</Form.Label></Col>
+            <Row className='mt-2'>
+              <Col><Form.Label className='col-form-group font-weight-bold'>NT Account</Form.Label></Col>
               <Col><Form.Control plaintext readOnly value={this.state.ntAccount} /></Col>
               <Col></Col>
             </Row>
-            <Row>
-              <Col><Form.Label>Department</Form.Label></Col>
+            <Row className='mt-2'>
+              <Col><Form.Label className='col-form-group font-weight-bold'>Department</Form.Label></Col>
               <Col><Form.Control plaintext readOnly value={this.state.department} /></Col>
               <Col></Col>
             </Row>
-            <Row>
-              <Col><Form.Label>Cost Center</Form.Label></Col>
+            <Row className='mt-2'>
+              <Col><Form.Label className='col-form-group font-weight-bold'>Cost Center</Form.Label></Col>
               <Col><Form.Control plaintext readOnly value={this.state.careCenter} /></Col>
               <Col></Col>
             </Row>
-            <Row>
-              <Col><Form.Label>Job Title</Form.Label></Col>
+            <Row className='mt-2'>
+              <Col><Form.Label className='col-form-group font-weight-bold'>Job Title</Form.Label></Col>
               <Col><Form.Control plaintext readOnly value={this.state.jobTitle} /></Col>
               <Col></Col>
             </Row>
-            <Row>
-              <Col><Form.Label>Hiring Date</Form.Label></Col>
+            <Row className='mt-2'>
+              <Col><Form.Label className='col-form-group font-weight-bold'>Hiring Date</Form.Label></Col>
               <Col><Form.Control plaintext readOnly value={this.state.hiringDate} /></Col>
               <Col></Col>
             </Row>
-            <Row>
-              <Col><Form.Label>Mobile Number</Form.Label></Col>
+            <Row className='mt-2'>
+              <Col><Form.Label className='col-form-group font-weight-bold'>Mobile Number</Form.Label></Col>
               <Col><Form.Control plaintext readOnly value={this.state.mobile} /></Col>
               <Col></Col>
             </Row>
-            <Row>
-              <Col><Form.Label>Recommended to Join Vodafone</Form.Label></Col>
+            <Row className='mt-2'>
+              <Col><Form.Label className='col-form-group font-weight-bold'>Recommended to Join Vodafone</Form.Label></Col>
               <Col><input
                 name="recommended"
                 type="checkbox"
@@ -238,7 +243,7 @@ export class ManagerResignationsViewScreen extends Component {
             </Row>
           </Form.Group>
           <Form.Group className="p-2 border border-danger required" >
-            <Row>
+            <Row className='mt-2'>
               <Col><Form.Label>Returned Headset</Form.Label></Col>
               <Col>
                 <Form.Control as="select" name="returnedHeadset" onChange={this.handleChange} value={this.state.returnedHeadset}>
@@ -248,7 +253,7 @@ export class ManagerResignationsViewScreen extends Component {
                 </Form.Control>
               </Col>
             </Row>
-            <Row>
+            <Row className='mt-2'>
               <Col><Form.Label>Returned Keys</Form.Label></Col>
               <Col>
                 <Form.Control as="select" name="returnedKeys" onChange={this.handleChange} value={this.state.returnedKeys}>
@@ -258,7 +263,7 @@ export class ManagerResignationsViewScreen extends Component {
                 </Form.Control>
               </Col>
             </Row>
-            <Row>
+            <Row className='mt-2'>
               <Col><Form.Label>Returned 3ohda</Form.Label></Col>
               <Col>
                 <Form.Control as="select" name="returnedOhda" onChange={this.handleChange} value={this.state.returnedOhda}>
@@ -268,18 +273,18 @@ export class ManagerResignationsViewScreen extends Component {
                 </Form.Control>
               </Col>
             </Row>
-            <Row>
+            <Row className='mt-2'>
               <Col><Form.Label>3ohda Type</Form.Label></Col>
               <Col><Form.Control as="textarea" rows="1" name="ohdaType" onChange={this.handleChange} value={this.state.ohdaType} /></Col>
             </Row>
           </Form.Group>
           <Form.Group className="p-2 border border-danger">
-            <Row>
+            <Row className='mt-2'>
               <Col><Form.Label>Last Working Day</Form.Label></Col>
               <Col> <input type="date" id="last" name="lastWorkDay"
                 min="2018-01-01" max="2026-12-31" onChange={this.handleChange} value={this.state.lastWorkDay}></input></Col>
             </Row>
-            <Row>
+            <Row className='mt-2'>
               <Col><Form.Label>National ID Number</Form.Label></Col>
               <Col><Form.Control plaintext readOnly value={this.state.nationalId} /></Col>
             </Row>
@@ -287,8 +292,8 @@ export class ManagerResignationsViewScreen extends Component {
           <br />
           <Button type="submit" variant="danger" size="lg" onClick={this.onUpdate} block>Update</Button>
         </Form>
-        <br />
-        <br />
+        </div>
+        </div>
       </Container>
     );
   }
