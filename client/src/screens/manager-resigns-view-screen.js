@@ -38,7 +38,6 @@ export class ManagerResignationsViewScreen extends Component {
       hiringDate: '',
       mobile: '',
       iex: '',
-      personalMobile: '',
       recommended: false,
       createdby: '',
       resReq: {},
@@ -66,7 +65,7 @@ export class ManagerResignationsViewScreen extends Component {
       lostHours: request.phase1.lostHours,
       daysToTake: request.phase1.daysToTake,
       iex: request.phase1.iex,
-      personalMobile: "+" + request.phase1.personalMobile,
+      mobile: request.phase1.mobile,
       recommended: request.phase1.recommended,
       createdby: request.createdby,
     })
@@ -101,7 +100,7 @@ export class ManagerResignationsViewScreen extends Component {
             careCenter: data.careCenter,
             jobTitle: data.jobTitle,
             hiringDate: data.hiringDate,
-            mobile: "+" + data.mobile
+            // mobile: "+" + data.mobile
           });
         }
       })
@@ -224,11 +223,6 @@ export class ManagerResignationsViewScreen extends Component {
             <Row>
               <Col><Form.Label>Mobile Number</Form.Label></Col>
               <Col><Form.Control plaintext readOnly value={this.state.mobile} /></Col>
-              <Col></Col>
-            </Row>
-            <Row>
-              <Col><Form.Label>Personal Mobile Number</Form.Label></Col>
-              <Col><Form.Control plaintext readOnly value={this.state.personalMobile} /></Col>
               <Col></Col>
             </Row>
             <Row>
