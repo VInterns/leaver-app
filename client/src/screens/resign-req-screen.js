@@ -118,7 +118,13 @@ export class ResignReqScreen extends Component {
     if(this.state.subDepartment === '--'){
       toast.error('Please Choose a sub department');
     }
+    else if(this.state.reason === 'Other' && this.state.otherReason === ''){
+      toast.error('Please enter the other reason for resignation');
+    }
     else {
+      if(this.state.reason !== 'Other' && this.state.otherReason !== ''){
+        this.setState({otherReason:''});
+      }
       if (this.validator.allValid()) {
         fetch(API + SUBMIT, {
           body: JSON.stringify({
@@ -176,10 +182,6 @@ export class ResignReqScreen extends Component {
               phoneBilledAmount: false,
               comment: '',
             },
-            // phase5: {
-            //   status: 'new',
-            //   comment: ''
-            // },
             phase6: {
               status: 'new',
               disabledSecureId: false,
@@ -188,11 +190,6 @@ export class ResignReqScreen extends Component {
               returnedHwToken: false,
               comment: ''
             },
-            // phase7: {
-            //   status: 'new',
-            //   comment: '',
-            //   returnedHwToken: false
-            // },
             phase8: {
               status: 'new',
               disabledAccount: false,
@@ -273,6 +270,7 @@ export class ResignReqScreen extends Component {
     let options = []
     listt.map((op) => {
       options = [ ...options, <option value={op}>{op}</option>]
+      return ""
     })
     return options
   }
@@ -369,6 +367,16 @@ export class ResignReqScreen extends Component {
         </Row>
       </div>
     )}
+    else {
+      if (this.state.returnedLaptop !== '' || this.state.returnedLaptopBag !== '' || this.state.returnedMouse !== '' || this.state.comments !== '') {
+        this.setState({
+        returnedLaptop:'',
+        returnedLaptopBag:'',
+        returnedMouse:'',
+        comments:''
+        });
+      }
+    }
   }
 
   render() {
@@ -380,7 +388,7 @@ export class ResignReqScreen extends Component {
         <div className="row">
           <div className="offset-md-3 col-md-6 border rounded bg-white">
             <Form className='mt-4'>
-              <Form.Group className='p-5'>
+              <Form.Group className='p-3'>
                 <Form.Group className='p-2 border rounded'>
                   <Row className='mt-2'>
                     <Col>
@@ -535,7 +543,7 @@ export class ResignReqScreen extends Component {
                   <Col>
                     <Form.Label className='col-form-group font-weight-bold'>
                       NT Account
-                      <span style={{ color: 'red', fontSize: 25 }}></span>
+                      <span style={{ color: 'red', fontSize: 25 }}>*</span>
                     </Form.Label>
                   </Col>
                   <Col>
@@ -577,34 +585,6 @@ export class ResignReqScreen extends Component {
                       'Mobile',
                       this.state.mobile,
                       'required|phone|size:11'
-                    )}
-                  </Col>
-                  <Col></Col>
-                </Row>
-
-                <Row className='mt-2'>
-                  <Col>
-                    <Form.Label className='col-form-group font-weight-bold'>
-                      Last Working Day
-                  <span style={{ color: 'red', fontSize: 25 }}>*</span>
-                    </Form.Label>
-                  </Col>
-                  <Col>
-                    <Form.Control
-                      type='date'
-                      id='last'
-                      name='lastWorkDay'
-                      min='2018-01-01'
-                      max='2060-12-31'
-                      onChange={this.handleChange}
-                      onBlur={() =>
-                        this.validator.showMessageFor('last working day')
-                      }
-                    ></Form.Control>
-                    {this.validator.message(
-                      'last working day',
-                      this.state.lastWorkDay,
-                      'required'
                     )}
                   </Col>
                   <Col></Col>
@@ -667,21 +647,19 @@ export class ResignReqScreen extends Component {
                       rows='1'
                       name='otherReason'
                       onChange={this.handleChange}
-                      onBlur={() => this.validator.showMessageFor('Reason For Resignation')}
                     />
-                    {this.validator.message('Reason For Resignation', this.state.otherReason, 'required')}
                     </Col>
                     <Col></Col>
                   </Row>
                 }
               </Form.Group>
               <hr/>
-              <Form.Group className='p-5'>
+              <Form.Group className='p-3'>
                 <Row required>
                   <Col>
                     <Form.Label className='col-form-group font-weight-bold'>
                       Returned Headset
-                  <span style={{ color: 'red', fontSize: 25 }}>*</span>
+                    <span style={{ color: 'red', fontSize: 25 }}>*</span>
                     </Form.Label>
                   </Col>
                   <Col>
@@ -701,7 +679,7 @@ export class ResignReqScreen extends Component {
                   <Col>
                     <Form.Label className='col-form-group font-weight-bold'>
                       Returned Keys
-                  <span style={{ color: 'red', fontSize: 25 }}>*</span>
+                    <span style={{ color: 'red', fontSize: 25 }}>*</span>
                     </Form.Label>
                   </Col>
                   <Col>
@@ -721,7 +699,7 @@ export class ResignReqScreen extends Component {
 
               </Form.Group>
               <hr/>
-              <Form.Group className='p-5 form-group'>
+              <Form.Group className='p-3 form-group'>
                 <Row className='mt-2'>
                   <Col>
                     <Form.Label className='d-flex justify-content-center h4 font-weight-bold'>
@@ -821,7 +799,33 @@ export class ResignReqScreen extends Component {
                 </Row>
               </Form.Group>
               <hr/>
-              <Form.Group className='p-5'>
+              <Form.Group className='p-3'>
+              <Row className='mt-2'>
+                  <Col>
+                    <Form.Label className='col-form-group font-weight-bold'>
+                      Last Working Day
+                  <span style={{ color: 'red', fontSize: 25 }}>*</span>
+                    </Form.Label>
+                  </Col>
+                  <Col>
+                    <Form.Control
+                      type='date'
+                      id='last'
+                      name='lastWorkDay'
+                      min='2018-01-01'
+                      max='2060-12-31'
+                      onChange={this.handleChange}
+                      onBlur={() =>
+                        this.validator.showMessageFor('last working day')
+                      }
+                    ></Form.Control>
+                    {this.validator.message(
+                      'last working day',
+                      this.state.lastWorkDay,
+                      'required'
+                    )}
+                  </Col>
+                </Row>
                 <Row className='mt-2'>
                   <Col>
                     <Form.Label className='col-form-group font-weight-bold'>
@@ -851,7 +855,6 @@ export class ResignReqScreen extends Component {
               </Form.Group>
               <br />
               <Button
-                // type='submit'
                 variant='danger'
                 className = 'mb-3'
                 size='lg'
