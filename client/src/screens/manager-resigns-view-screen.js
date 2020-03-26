@@ -130,8 +130,6 @@ export class ManagerResignationsViewScreen extends Component {
       otherReason: this.state.otherReason,
       returnedHeadset: this.state.returnedHeadset,
       returnedKeys: this.state.returnedKeys,
-      returnedHeadset: this.state.returnedHeadset,
-      returnedKeys: this.state.returnedKeys,
       returnedLaptop: this.state.returnedLaptop,
       returnedLaptopBag: this.state.returnedLaptopBag,
       returnedMouse: this.state.returnedMouse,
