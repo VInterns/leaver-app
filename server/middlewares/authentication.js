@@ -49,7 +49,7 @@ module.exports = {
     next();
   },
   ensureHasRole: roles => (req, res, next) => {
-    debug("ensuring", req.user ? req.user.role : "<unknown>");
+    debug("ensuring", req.user ? req.user.roles : "<unknown>");
     if (!req.user.roles || !roles.some(r => req.user.roles.includes(r))) {
       res.sendStatus(403);
       res.end();
