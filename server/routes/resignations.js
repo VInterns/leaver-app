@@ -24,11 +24,43 @@ module.exports = db => {
       });
   });
 
-  // TODO: Also manager role should be able to use this endpoint
-  router.post("/", ensureLoggedIn, ensureHasRole(["admin"]), function(
-    req,
-    res
-  ) {
+  router.delete("/delete-request/:id", ensureLoggedIn, ensureHasRole(["admin"]), function (req, res) {
+    let urlSections = req.url.split("/");
+    let staffId_ = urlSections[urlSections.length - 1]
+    db.collection(collection)
+      .deleteOne({ staffId: Number(staffId_) }, (err, result) => {
+        if (err){
+          res.json({
+            status:409,
+            message: "Resignation Request could not be deleted"
+          })
+          throw err;
+        }
+        console.log("1 document deleted");
+        res.json({
+          status:200,
+          message: "Resignation Request deleted" 
+        })
+
+        // Mail Notifications
+        // TODO: add other teams roles & employee email to the mailList
+        let request = req.body.request
+        let subject = `Resignation Request Cancelled for Staff ID# ${request.staffId}`;
+        let query = { roles: { $in: ['hr', 'vendor', 'manager'] } };
+        let toMailListPromise = getMailingList(query).then((mailList) => {
+          let scope = { name: request.name, staffId: request.staffId, managerName: request.managerName, lastDay: request.phase1.lastWorkDay };
+          let htmlBodyPromise = getHtmlBody('initial-vendor-notification.html', scope).then((htmlBody) => {
+            mailer.sendEmail(mailList, subject, htmlBody, () => {
+              console.log(`Resignation Request Deletion Email Sent to ${toMailList}`)
+            })
+          });
+        });
+      }
+    )
+});
+
+
+  router.post("/", ensureLoggedIn, ensureHasRole(["admin"]), function (req, res) {
     db.collection(collection)
       .findOne({ staffId: req.body.staffId })
       .then(resigReg => {
