@@ -43,6 +43,7 @@ export class ASTResignationDetailScreen extends React.Component {
       disabledSecureId: phase6.disabledSecureId,
       disabledRemedyAccount: phase6.disabledRemedyAccount,
       disabledAccountsInProductionSystems: phase6.disabledAccountsInProductionSystems,
+      returnedHwToken: phase6.returnedHwToken,
       comment: phase6.comment
     });
 
