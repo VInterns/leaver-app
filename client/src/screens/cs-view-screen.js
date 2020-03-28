@@ -3,6 +3,7 @@ import {
   LeaverDetails
 } from "../components";
 import { Form, Row, Col, Button } from 'react-bootstrap';
+import { Container } from 'semantic-ui-react';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 /////////////////////////////////////////////////////////////////////////
@@ -73,7 +74,7 @@ export class CSResignationDetailScreen extends React.Component {
     }
   }
 
-  checkRequestStatus(resignation,currentphaseStatus) {
+  checkRequestStatus(resignation, currentphaseStatus) {
     if (
       resignation.phase3.status === 'new' &&
       resignation.phase4.status === 'new' &&
@@ -87,7 +88,7 @@ export class CSResignationDetailScreen extends React.Component {
       resignation.phase4.status === 'done' &&
       resignation.phase6.status === 'done' &&
       resignation.phase7.status === 'done' &&
-      currentphaseStatus === 'done' 
+      currentphaseStatus === 'done'
     ) {
       return 'done';
     } else {
@@ -130,20 +131,20 @@ export class CSResignationDetailScreen extends React.Component {
 
     let phase8 = {
       disabledAccount: this.state.disabledAccount,
-      physicalId:this.state.physicalId,
+      physicalId: this.state.physicalId,
       comment: this.state.comment,
       status: this.checkStatus(
         this.state.disabledAccount,
         this.state.physicalId,
       )
     };
-    
+
     fetch(API + ROUTE, {
       method: "post",
       body: JSON.stringify({
         staffId: this.state.resignationDetails.staffId,
         phase8: phase8,
-        status: this.checkRequestStatus(this.state.resignationDetails,phase8.status)
+        status: this.checkRequestStatus(this.state.resignationDetails, phase8.status)
       }),
       headers: { "Content-Type": "application/json" }
     })
@@ -170,75 +171,78 @@ export class CSResignationDetailScreen extends React.Component {
     const phase1 = Object(resignationDetails.phase1);
 
     return (
-      <div className="container mt-5">
+      <Container fluid className="bg-light p-5">
         <ToastContainer />
-        <div className='p-2'>
-          <LeaverDetails leaverDetail={{ leaverInfo: leaver, lastDay: phase1.lastWorkDay }} />
-        </div>
-        <Form className='p-2'>
-          <Form.Group className='p-5 border'>
-            <Row>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Disable Company ID</Form.Label>
-              </Col>
-              <Col>
-                <select
-                  id="disabledAccount"
-                  onChange={this.handleChange}
-                  className="form-control"
-                  value={this.state.disabledAccount}>
-                  <option value={""}>N/A</option>
-                  <option value={true}>Yes</option>
-                  <option value={false}>No</option>
-                </select>
-              </Col>
-            </Row>
-            <Row className='mt-3'>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Recieved Physical ID</Form.Label>
-              </Col>
-              <Col>
-                <select
-                  id="physicalId"
-                  onChange={this.handleChange}
-                  className="form-control"
-                  value={this.state.physicalId}>
-                  <option value={""}>N/A</option>
-                  <option value={true}>Yes</option>
-                  <option value={false}>No</option>
-                </select>
-              </Col>
-            </Row>
-            
-            <Row className='mt-3'>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Comments</Form.Label>
-              </Col>
-              <Col>
-                <textarea
-                  id="comment"
-                  rows="5"
-                  onChange={this.handleChange}
-                  className="p-2 form-control"
-                  value={this.state.comment} />
-              </Col>
-            </Row>
-            <Row className = 'mt-5'>
-              <Col>
-                <Button
-                  size='lg'
-                  type='submit'
-                  block
-                  variant='danger'
-                  onClick={this.submitButton}
-                >
-                  Submit
+        <div className='row'>
+          <div className='offset-md-3 col-md-6 border bg-white rounded p-5'>
+            <LeaverDetails leaverDetail={{ leaverInfo: leaver, lastDay: phase1.lastWorkDay }} />
+            <hr/>
+            <Form className='p-5'>
+              <Form.Group>
+                <Row>
+                  <Col>
+                    <Form.Label className='col-form-group font-weight-bold'>Disable Company ID</Form.Label>
+                  </Col>
+                  <Col>
+                    <select
+                      id="disabledAccount"
+                      onChange={this.handleChange}
+                      className="form-control"
+                      value={this.state.disabledAccount}>
+                      <option value={""}>N/A</option>
+                      <option value={true}>Yes</option>
+                      <option value={false}>No</option>
+                    </select>
+                  </Col>
+                </Row>
+                <Row className='mt-3'>
+                  <Col>
+                    <Form.Label className='col-form-group font-weight-bold'>Recieved Physical ID</Form.Label>
+                  </Col>
+                  <Col>
+                    <select
+                      id="physicalId"
+                      onChange={this.handleChange}
+                      className="form-control"
+                      value={this.state.physicalId}>
+                      <option value={""}>N/A</option>
+                      <option value={true}>Yes</option>
+                      <option value={false}>No</option>
+                    </select>
+                  </Col>
+                </Row>
+
+                <Row className='mt-3'>
+                  <Col>
+                    <Form.Label className='col-form-group font-weight-bold'>Comments</Form.Label>
+                  </Col>
+                  <Col>
+                    <textarea
+                      id="comment"
+                      rows="5"
+                      onChange={this.handleChange}
+                      className="p-2 form-control"
+                      value={this.state.comment} />
+                  </Col>
+                </Row>
+                <Row className='mt-5'>
+                  <Col>
+                    <Button
+                      size='lg'
+                      type='submit'
+                      block
+                      variant='danger'
+                      onClick={this.submitButton}
+                    >
+                      Submit
             </Button>
-              </Col>
-            </Row>
-          </Form.Group>
-        </Form>
-      </div>
+                  </Col>
+                </Row>
+              </Form.Group>
+            </Form>
+          </div>
+        </div>
+      </Container>
     );
   }
 }

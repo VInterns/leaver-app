@@ -3,6 +3,7 @@ import {
   LeaverDetails
 } from "../components";
 import { Form, Row, Col, Button } from 'react-bootstrap';
+import { Container } from 'semantic-ui-react';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 /////////////////////////////////////////////////////////////////////////
@@ -22,6 +23,7 @@ export class ASTResignationDetailScreen extends React.Component {
       disabledSecureId: false,
       disabledRemedyAccount: false,
       disabledAccountsInProductionSystems: false,
+      returnedHwToken: false,
       comment: ""
     };
 
@@ -41,6 +43,7 @@ export class ASTResignationDetailScreen extends React.Component {
       disabledSecureId: phase6.disabledSecureId,
       disabledRemedyAccount: phase6.disabledRemedyAccount,
       disabledAccountsInProductionSystems: phase6.disabledAccountsInProductionSystems,
+      returnedHwToken: phase6.returnedHwToken,
       comment: phase6.comment
     });
 
@@ -65,9 +68,10 @@ export class ASTResignationDetailScreen extends React.Component {
   }
 
   ///////////////////////////////////////////////
-  checkStatus(condX, condY, condZ) {
+  checkStatus(condX, condY, condZ, condA) {
     // check confition after adding N/A
-    if ((condX === true || condX === "") && (condY === true || condY === "") && (condZ === true || condZ === "")) {
+    if ((condX === true || condX === "") && (condY === true || condY === "") 
+    && (condZ === true || condZ === "") && (condA === true || condA === "")) {
       return DONE;
     } else {
       return PENDING;
@@ -81,7 +85,7 @@ export class ASTResignationDetailScreen extends React.Component {
     this.setState(state);
   }
 
-  checkRequestStatus(resignation,currentphaseStatus) {
+  checkRequestStatus(resignation, currentphaseStatus) {
     if (
       resignation.phase3.status === 'new' &&
       resignation.phase4.status === 'new' &&
@@ -95,7 +99,7 @@ export class ASTResignationDetailScreen extends React.Component {
       resignation.phase4.status === 'done' &&
       resignation.phase7.status === 'done' &&
       resignation.phase8.status === 'done' &&
-      currentphaseStatus === 'done' 
+      currentphaseStatus === 'done'
     ) {
       return 'done';
     } else {
@@ -134,11 +138,13 @@ export class ASTResignationDetailScreen extends React.Component {
       disabledSecureId: this.state.disabledSecureId,
       disabledRemedyAccount: this.state.disabledRemedyAccount,
       disabledAccountsInProductionSystems: this.state.disabledAccountsInProductionSystems,
+      returnedHwToken: this.state.returnedHwToken,
       comment: this.state.comment,
       status: this.checkStatus(
         this.state.disabledSecureId,
         this.state.disabledRemedyAccount,
-        this.state.disabledAccountsInProductionSystems
+        this.state.disabledAccountsInProductionSystems,
+        this.state.returnedHwToken
       )
     };
 
@@ -147,7 +153,7 @@ export class ASTResignationDetailScreen extends React.Component {
       body: JSON.stringify({
         staffId: this.state.resignationDetails.staffId,
         phase6: phase6,
-        status:this.checkRequestStatus(this.state.resignationDetails,phase6.status)
+        status: this.checkRequestStatus(this.state.resignationDetails, phase6.status)
       }),
       headers: { "Content-Type": "application/json" }
     })
@@ -174,90 +180,108 @@ export class ASTResignationDetailScreen extends React.Component {
     const phase1 = Object(resignationDetails.phase1);
 
     return (
-      <div className="container mt-5">
+      <Container fluid className="bg-light p-5">
         <ToastContainer />
-        <div className='p-2'>
-          <LeaverDetails leaverDetail={{ leaverInfo: leaver, lastDay: phase1.lastWorkDay }} />
+        <div className='row'>
+          <div className='offset-md-3 col-md-6 border bg-white rounded p-5'>
+            <LeaverDetails leaverDetail={{ leaverInfo: leaver, lastDay: phase1.lastWorkDay }} />
+            <hr/>
+            <Form className='p-5'>
+              <Form.Group>
+                <Row>
+                  <Col>
+                    <Form.Label className='col-form-group font-weight-bold'>Disabled Secure ID</Form.Label>
+                  </Col>
+                  <Col>
+                    <select
+                      id="disabledSecureId"
+                      onChange={this.handleChange}
+                      className="form-control"
+                      value={this.state.disabledSecureId}>
+                      <option value={""}>N/A</option>
+                      <option value={true}>Yes</option>
+                      <option value={false}>No</option>
+                    </select>
+                  </Col>
+                </Row>
+                <Row className='mt-3'>
+                  <Col>
+                    <Form.Label className='col-form-group font-weight-bold'>Disabled Remedy Account</Form.Label>
+                  </Col>
+                  <Col>
+                    <select
+                      id="disabledRemedyAccount"
+                      onChange={this.handleChange}
+                      className="form-control"
+                      value={this.state.disabledRemedyAccount}>
+                      <option value={""}>N/A</option>
+                      <option value={true}>Yes</option>
+                      <option value={false}>No</option>
+                    </select>
+                  </Col>
+                </Row>
+                <Row className='mt-3'>
+                  <Col>
+                    <Form.Label className='col-form-group font-weight-bold'>Disabled Accounts in Production Systems</Form.Label>
+                  </Col>
+                  <Col>
+                    <select
+                      id="disabledAccountsInProductionSystems"
+                      onChange={this.handleChange}
+                      className="form-control"
+                      value={this.state.disabledAccountsInProductionSystems}>
+                      <option value={""}>N/A</option>
+                      <option value={true}>Yes</option>
+                      <option value={false}>No</option>
+                    </select>
+                  </Col>
+                </Row>
+                <Row className='mt-3'>
+                  <Col>
+                    <Form.Label className='col-form-group font-weight-bold'>Returned HW Token</Form.Label>
+                  </Col>
+                  <Col>
+                    <select
+                      id="returnedHwToken"
+                      onChange={this.handleChange}
+                      className="form-control"
+                      value={this.state.returnedHwToken}>
+                      <option value={""}>N/A</option>
+                      <option value={true}>Yes</option>
+                      <option value={false}>No</option>
+                    </select>
+                  </Col>
+                </Row>
+                <Row className='mt-3'>
+                  <Col>
+                    <Form.Label className='col-form-group font-weight-bold'>Comments</Form.Label>
+                  </Col>
+                  <Col>
+                    <textarea
+                      id="comment"
+                      rows="5"
+                      onChange={this.handleChange}
+                      className="p-2 form-control"
+                      value={this.state.comment} />
+                  </Col>
+                </Row>   
+                <Row className='mt-5'>
+                  <Col>
+                    <Button
+                      size='lg'
+                      type='submit'
+                      block
+                      variant='danger'
+                      onClick={this.submitButton}
+                    > Submit
+                    </Button>
+                  </Col>
+                </Row>
+              </Form.Group>
+            </Form>
+          </div>
         </div>
-        <Form className='p-2'>
-          <Form.Group className='p-5 border'>
-            <Row>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Disabled Secure ID</Form.Label>
-              </Col>
-              <Col>
-                <select
-                  id="disabledSecureId"
-                  onChange={this.handleChange}
-                  className="form-control"
-                  value={this.state.disabledSecureId}>
-                  <option value={""}>N/A</option>
-                  <option value={true}>Yes</option>
-                  <option value={false}>No</option>
-                </select>
-              </Col>
-            </Row>
-            <Row className='mt-3'>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Disabled Remedy Account</Form.Label>
-              </Col>
-              <Col>
-                <select
-                  id="disabledRemedyAccount"
-                  onChange={this.handleChange}
-                  className="form-control"
-                  value={this.state.disabledRemedyAccount}>
-                  <option value={""}>N/A</option>
-                  <option value={true}>Yes</option>
-                  <option value={false}>No</option>
-                </select>
-              </Col>
-            </Row>
-            <Row className='mt-3'>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Disabled Accounts in Production Systems</Form.Label>
-              </Col>
-              <Col>
-                <select
-                  id="disabledAccountsInProductionSystems"
-                  onChange={this.handleChange}
-                  className="form-control"
-                  value={this.state.disabledAccountsInProductionSystems}>
-                  <option value={""}>N/A</option>
-                  <option value={true}>Yes</option>
-                  <option value={false}>No</option>
-                </select>
-              </Col>
-            </Row>
-            <Row className='mt-3'>
-              <Col>
-                <Form.Label className='col-form-group font-weight-bold'>Comments</Form.Label>
-              </Col>
-              <Col>
-                <textarea
-                  id="comment"
-                  rows="5"
-                  onChange={this.handleChange}
-                  className="p-2 form-control"
-                  value={this.state.comment} />
-              </Col>
-            </Row>
-            <Row className = 'mt-5'>
-              <Col>
-                <Button
-                  size='lg'
-                  type='submit'
-                  block
-                  variant='danger'
-                  onClick={this.submitButton}
-                >
-                  Submit
-            </Button>
-              </Col>
-            </Row>
-          </Form.Group>
-        </Form>
-      </div>
+      </Container>
     );
   }
 }
