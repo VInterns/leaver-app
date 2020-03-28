@@ -1,10 +1,9 @@
 "use strict";
-require('dotenv').config();
+require("dotenv").config();
 
 const nodemailer = require("nodemailer");
 const { getFromEmail } = require("../utilities");
-const sgMail = require('@sendgrid/mail');
-
+const sgMail = require("@sendgrid/mail");
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
@@ -36,36 +35,39 @@ const fromEmail = getFromEmail();
 
 /////////////////////////////////////////////////////////////
 
-const sendEmail = (toMailList, subject, htmlbody, callBack, errCallBack = () => { }) => {
+const sendEmail = (
+  toMailList,
+  subject,
+  htmlbody,
+  callBack,
+  errCallBack = () => {}
+) => {
+  // TODO: @Islam make the mail template ready
 
+  let msg = {
+    from: fromEmail,
+    to: toMailList,
+    subject: subject,
+    html: htmlbody
+  };
 
-    // TODO: make the mail template ready
+  console.log("Message:", msg);
 
-    let msg = {
-        from: fromEmail,
-        to: toMailList,
-        subject: subject,
-        html: htmlbody
-    };
+  sgMail.send(msg, function(err) {
+    if (err) throw err;
+    else {
+      console.log("Email Sent");
+    }
+  });
+  // gmailTransporter.sendMail(mailOptions, function (error, info) {
+  //     if (error) {
+  //         errCallBack();
+  //         throw error;
+  //     } else {
+  //         callBack();
+  //         console.log("Email sent: " + info.response);
+  //     }
+  // });
+};
 
-    console.log('Message:', msg)
-
-    sgMail.send(msg, function(err) {
-        if(err) throw err;
-        else {
-            console.log('Email Sent')
-        }
-    });
-    // gmailTransporter.sendMail(mailOptions, function (error, info) {
-    //     if (error) {
-    //         errCallBack();
-    //         throw error;
-    //     } else {
-    //         callBack();
-    //         console.log("Email sent: " + info.response);
-    //     }
-    // });
-}
-
-module.exports = {sendEmail }
-
+module.exports = { sendEmail };
