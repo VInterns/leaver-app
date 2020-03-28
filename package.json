@@ -8,7 +8,7 @@
   "private": true,
   "scripts": {
     "dev": "concurrently \"yarn dev:client\" \"yarn dev:server\"",
-    "dev:client": "cd client && PORT=4200 yarn start",
+    "dev:client": "cd client && cross-env PORT=4200 yarn start",
     "dev:server": "nodemon ./server/server.js",
     "start": "yarn start:server",
     "start:server": "node ./server/server.js",
@@ -55,6 +55,7 @@
   },
   "devDependencies": {
     "concurrently": "^5.0.2",
+    "cross-env": "^7.0.1",
     "nodemon": "^2.0.2",
     "yarn": "^1.21.1"
   }
