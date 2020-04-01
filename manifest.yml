@@ -1,5 +1,7 @@
 applications:
   - name: leaver-app
+    buildpacks:
+      - nodejs_buildpack
     command: yarn start:server
     env:
       NODE_ENV: production
