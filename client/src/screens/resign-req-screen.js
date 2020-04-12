@@ -99,7 +99,6 @@ export class ResignReqScreen extends Component {
       careCenter: "",
       jobTitle: "",
       hiringDate: "",
-      // mobile: '',
       iex: "",
       mobile: "",
       recommended: "recommended",
@@ -496,14 +495,14 @@ export class ResignReqScreen extends Component {
                 <Row className="mt-2">
                   <Col>
                     <Form.Label className="col-form-group font-weight-bold">
-                      Manager Name
+                      Manager username
                     </Form.Label>
                   </Col>
                   <Col>
                     <Form.Control
                       plaintext
                       readOnly
-                      value={this.state.managerName}
+                      value={this.state.createdBy}
                     />
                   </Col>
                   <Col></Col>
