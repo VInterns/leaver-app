@@ -146,7 +146,7 @@ export class ResignReqScreen extends Component {
           this.setState({ sapStaffId: data.staffId });
           this.setState({ name: data.name });
           this.setState({ department: data.department });
-          this.setState({ careCenter: data.careCenter });
+          this.setState({ careCenter: data.costCenter });
           this.setState({ jobTitle: data.jobTitle });
           this.setState({ hiringDate: data.hiringDate });
           this.setState({ username: data.username });

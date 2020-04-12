@@ -7,7 +7,7 @@ const {
   ensureLoggedIn,
   ensureHasRole
 } = require("../middlewares/authentication");
-const {getHtmlBody} = require('../utilities');
+const { getHtmlBody } = require('../utilities');
 let mailer = require('../services/mail');
 
 module.exports = db => {
@@ -49,13 +49,12 @@ module.exports = db => {
         "staffId",
         "name",
         "managerName",
-        "ntAccount",
         "department",
-        "careCenter",
+        "costCenter",
         "jobTitle",
         "hiringDate",
-        "mobile",
-        "username"
+        "username",
+        "nationalId"
       ];
       const users_columns = ["username", "staffId", "roles"];
       let checker = (arr, target) => target.every(v => arr.includes(v)); //To check if all elements exist
@@ -81,11 +80,11 @@ module.exports = db => {
               res.end();
             } else {
               if (req.body.collection === "users") {
-                
+
                 // Mail Notification
-                for(let index = 0; index < req.body.jsonData.length; index++){
+                for (let index = 0; index < req.body.jsonData.length; index++) {
                   const row = req.body.jsonData[index];
-                  let {username, staffId} = row;
+                  let { username, staffId } = row;
                   let scope = { name: getFirstName(username), staffId, signupUrl: '' };
                   let subject = `Welcome ${scope.name} to Vodafone Outsource Leaver App`;
                   let htmlBodyPromise = getHtmlBody('signup.html', scope).then((htmlBody) => {
