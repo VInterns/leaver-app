@@ -61,17 +61,22 @@ module.exports = db => {
       if (
         //Check if all the required columns exist in the header
         req.body.jsonData.length == 0 ||
-        (req.body.collection == "employees" &&
+        (req.body.collection === "employees" &&
           (Object.keys(req.body.jsonData[0]).length !=
             emplyees_columns.length ||
             !checker(Object.keys(req.body.jsonData[0]), emplyees_columns))) ||
-        (req.body.collection == "users" &&
+        (req.body.collection === "users" &&
           (Object.keys(req.body.jsonData[0]).length != users_columns.length ||
             !checker(Object.keys(req.body.jsonData[0]), users_columns)))
       ) {
         res.status(400).send();
         res.end();
       } else {
+        if (req.body.collection === "users") {
+          for (let index = 0; index < req.body.jsonData.length; index++) {
+            req.body.jsonData[index].roles = req.body.jsonData[index].roles.split(",")
+          }
+        }
         db.collection(req.body.collection).insertMany(
           req.body.jsonData,
           function (err1, result) {
