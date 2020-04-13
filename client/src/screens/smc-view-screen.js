@@ -11,54 +11,6 @@ const API = "/api";
 const ROUTE = "/resignations/update/phase2";
 const DONE = "done";
 const PENDING = "pending";
-const UK_SUBDEPT = ["--", "UK", "UK Telesales"];
-const CLUSTER_SUBDEPT = [
-  "--",
-  "IR",
-  "IR Telesales",
-  "GE",
-  "Spain",
-  "CIOT",
-  "VAS",
-  "VDA",
-  "Others"
-];
-const ENTERPRISE_SUBDEPT = [
-  "--",
-  "UK SMB",
-  "IR SME",
-  "Spain BO",
-  "Italy Enterprise",
-  "GESC",
-  "Enterprise HOC",
-  "EBU Back Office",
-  "ESS",
-  "EG Post",
-  "Others"
-];
-const TSSE_SUBDEPT = [
-  "--",
-  "AD",
-  "AO",
-  "AT",
-  "NEW-TA",
-  "OIT",
-  "OPC",
-  "SEA-COE",
-  "TES",
-  "Others"
-];
-const HAS_SMC = [
-  "UK",
-  "UK Telesales",
-  "IR",
-  "IR Telesales",
-  "GE",
-  "Spain",
-  "UK SMB",
-  "IR SME"
-];
-
 /////////////////////////////////////////////////////////////////////////
 export class SMCResignationDetailScreen extends React.Component {
   constructor(props) {
