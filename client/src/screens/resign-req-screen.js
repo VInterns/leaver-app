@@ -62,7 +62,15 @@ const HAS_SMC = [
   "GE",
   "Spain",
   "UK SMB",
-  "IR SME"
+  "IR SME",
+  "Spain BO",
+  "Italy Enterprise",
+  "GESC",
+  "Enterprise HOC",
+  "EBU Back Office",
+  "ESS",
+  "EG Post",
+  "Others"
 ];
 
 export class ResignReqScreen extends Component {
