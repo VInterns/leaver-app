@@ -20,7 +20,7 @@ deploy:
     password: $PWS_PASSWORD
     api: https://api.run.pivotal.io
     organization: digital-coe
-    space: leaver-app
+    space: hr-apps
     on:
       branch: master
 script:
