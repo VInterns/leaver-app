@@ -65,7 +65,6 @@ const HAS_SMC = [
   "IR SME"
 ];
 
-// TODO: managerUsername instead of managerName
 export class ResignReqScreen extends Component {
   constructor(props) {
     super(props);
@@ -93,7 +92,7 @@ export class ResignReqScreen extends Component {
       daysToTake: "",
       sapStaffId: "",
       name: "",
-      managerName: this.props.managerName,
+      managerUsername: this.props.managerUsername,
       ntAccount: "",
       department: "",
       careCenter: "",
@@ -113,7 +112,7 @@ export class ResignReqScreen extends Component {
   static mapStateToProps(state) {
     return {
       createdby: state.auth.username,
-      managerName: state.auth.account.name
+      managerUsername: state.auth.username
     };
   }
 
@@ -168,7 +167,7 @@ export class ResignReqScreen extends Component {
         fetch(API + SUBMIT, {
           body: JSON.stringify({
             staffId: this.state.staffId,
-            managerName: this.state.managerName,
+            managerUsername: this.props.managerUsername,
             name: this.state.name,
             createdby: this.state.createdby,
             status: "new",
@@ -304,14 +303,15 @@ export class ResignReqScreen extends Component {
     });
   };
 
-  createMapList(listt) {
+  createMapList(list) {
     let options = [];
-    listt.map(op => {
-      options = [...options, <option value={op}>{op}</option>];
+    list.map((op, index) => {
+      options = [...options, <option value={op} key={index}>{op}</option>];
       return "";
     });
     return options;
   }
+
   createSelectItems() {
     if (this.state.department === "UK") {
       return this.createMapList(UK_SUBDEPT);
@@ -502,7 +502,7 @@ export class ResignReqScreen extends Component {
                     <Form.Control
                       plaintext
                       readOnly
-                      value={this.state.createdBy}
+                      value={this.state.createdby}
                     />
                   </Col>
                   <Col></Col>

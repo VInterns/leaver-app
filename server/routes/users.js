@@ -48,7 +48,7 @@ module.exports = db => {
       const emplyees_columns = [
         "staffId",
         "name",
-        "managerName",
+        "managerUsername",
         "department",
         "costCenter",
         "jobTitle",

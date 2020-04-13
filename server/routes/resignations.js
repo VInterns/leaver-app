@@ -28,7 +28,7 @@ module.exports = db => {
     "/delete-request/:id",
     ensureLoggedIn,
     ensureHasRole(["admin"]),
-    function(req, res) {
+    function (req, res) {
       let urlSections = req.url.split("/");
       let staffId_ = urlSections[urlSections.length - 1];
       db.collection(collection).deleteOne(
@@ -75,7 +75,7 @@ module.exports = db => {
     }
   );
 
-  router.post("/", ensureLoggedIn, ensureHasRole(["admin"]), function(
+  router.post("/", ensureLoggedIn, ensureHasRole(["admin"]), function (
     req,
     res
   ) {
@@ -89,7 +89,12 @@ module.exports = db => {
               throw err;
             } else {
               res.status(200).send({ error: "Heeh :)" });
-
+              db.collection("employees")
+                .findOne({ staffId: req.body.staffId })
+                .then(employee => {
+                  employee.mobile = req.body.mobile;
+                  db.collection("employees").updateOne(employee);
+                });
               // Mail Notifications
               // TODO: add other teams roles & employee email to the mailList
               let subject = `New Resignation Request for Staff ID# ${req.body.staffId}`;
@@ -132,14 +137,14 @@ module.exports = db => {
     "/update/request",
     ensureLoggedIn,
     ensureHasRole(["admin"]),
-    function(req, res) {
+    function (req, res) {
       var leaverId = req.body.staffId;
       db.collection(collection).findOneAndUpdate(
         { staffId: leaverId },
         {
           $set: { phase1: req.body.phase1 }
         },
-        function(err, doc) {
+        function (err, doc) {
           if (err) {
             res.status(404).send();
             throw err;
@@ -368,7 +373,7 @@ module.exports = db => {
   // Update phase 8
   // TODO:
   //    - To be deleted and use the global generic one.
-  router.post("/update/cs", ensureLoggedIn, ensureHasRole(["admin"]), function(
+  router.post("/update/cs", ensureLoggedIn, ensureHasRole(["admin"]), function (
     req,
     res
   ) {
@@ -381,7 +386,7 @@ module.exports = db => {
           status: req.body.status
         }
       },
-      function(err, doc) {
+      function (err, doc) {
         if (err) {
           res.status(404).send();
           throw err;
@@ -447,7 +452,7 @@ module.exports = db => {
     "/update/phase6",
     ensureLoggedIn,
     ensureHasRole(["admin"]),
-    function(req, res) {
+    function (req, res) {
       var leaverId = req.body.staffId;
       db.collection(collection).findOneAndUpdate(
         { staffId: leaverId },
@@ -457,7 +462,7 @@ module.exports = db => {
             status: req.body.status
           }
         },
-        function(err, doc) {
+        function (err, doc) {
           if (err) {
             res.status(404).send();
             throw err;
@@ -502,14 +507,14 @@ module.exports = db => {
     "/update/phase2",
     ensureLoggedIn,
     ensureHasRole(["admin"]),
-    function(req, res) {
+    function (req, res) {
       var leaverId = req.body.staffId;
       db.collection(collection).findOneAndUpdate(
         { staffId: leaverId },
         {
           $set: { phase2: req.body.phase2 }
         },
-        function(err, doc) {
+        function (err, doc) {
           if (err) {
             res.status(404).send();
             throw err;
@@ -551,7 +556,7 @@ module.exports = db => {
     "/update/phase7",
     ensureLoggedIn,
     ensureHasRole(["admin"]),
-    function(req, res) {
+    function (req, res) {
       var leaverId = req.body.staffId;
       db.collection(collection).findOneAndUpdate(
         { staffId: leaverId },
@@ -561,7 +566,7 @@ module.exports = db => {
             status: req.body.status
           }
         },
-        function(err, doc) {
+        function (err, doc) {
           if (err) {
             res.status(404).send();
             throw err;

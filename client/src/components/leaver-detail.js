@@ -1,6 +1,6 @@
 import React from "react";
 import { Form, Row, Col } from "react-bootstrap";
-import {Header} from 'semantic-ui-react';
+import { Header } from 'semantic-ui-react';
 
 /////////////////////////////////////////////////////////////////////////
 export class LeaverDetails extends React.Component {
@@ -9,9 +9,10 @@ export class LeaverDetails extends React.Component {
 
         let leaver = Object(this.props.leaverDetail.leaverInfo);
         let leaverDetail = this.props.leaverDetail;
+        console.log(leaverDetail);
         return (
-            <div className = 'bg-light p-5 rounded'>
-                <Header as = 'h3' className = 'text-center'>Leaver Details</Header>
+            <div className='bg-light p-5 rounded'>
+                <Header as='h3' className='text-center'>Leaver Details</Header>
                 <Form className='mt-5'>
                     <Form.Group>
                         <Row>
@@ -55,7 +56,7 @@ export class LeaverDetails extends React.Component {
                                 <Form.Control
                                     readOnly
                                     plaintext
-                                    value={leaver.managerName}
+                                    value={leaver.managerUsername}
                                 />
                             </Col>
                         </Row>
@@ -78,7 +79,7 @@ export class LeaverDetails extends React.Component {
                                 <Form.Control
                                     readOnly
                                     plaintext
-                                    value={leaver.careCenter}
+                                    value={leaver.costCenter}
                                 />
                             </Col>
                         </Row>
@@ -124,7 +125,7 @@ export class LeaverDetails extends React.Component {
                                 <Form.Control
                                     readOnly
                                     plaintext
-                                    value={leaverDetail.lastDay|| ""} 
+                                    value={leaverDetail.lastDay || ""}
                                 />
                             </Col>
                         </Row>

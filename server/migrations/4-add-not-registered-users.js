@@ -14,15 +14,15 @@ module.exports.up = function (done) {
         "elt"
       ]
     })
-    this.db
-      .collection("users")
-      .insertOne({
-        username: "consumer1@vodafone.com",
-        roles: [
-          "admin",
-          "ccca"
-        ]
-      })
+  this.db
+    .collection("users")
+    .insertOne({
+      username: "consumer1@vodafone.com",
+      roles: [
+        "admin",
+        "ccca"
+      ]
+    })
     .then(() => done());
 };
 

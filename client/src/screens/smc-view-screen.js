@@ -11,6 +11,53 @@ const API = "/api";
 const ROUTE = "/resignations/update/phase2";
 const DONE = "done";
 const PENDING = "pending";
+const UK_SUBDEPT = ["--", "UK", "UK Telesales"];
+const CLUSTER_SUBDEPT = [
+  "--",
+  "IR",
+  "IR Telesales",
+  "GE",
+  "Spain",
+  "CIOT",
+  "VAS",
+  "VDA",
+  "Others"
+];
+const ENTERPRISE_SUBDEPT = [
+  "--",
+  "UK SMB",
+  "IR SME",
+  "Spain BO",
+  "Italy Enterprise",
+  "GESC",
+  "Enterprise HOC",
+  "EBU Back Office",
+  "ESS",
+  "EG Post",
+  "Others"
+];
+const TSSE_SUBDEPT = [
+  "--",
+  "AD",
+  "AO",
+  "AT",
+  "NEW-TA",
+  "OIT",
+  "OPC",
+  "SEA-COE",
+  "TES",
+  "Others"
+];
+const HAS_SMC = [
+  "UK",
+  "UK Telesales",
+  "IR",
+  "IR Telesales",
+  "GE",
+  "Spain",
+  "UK SMB",
+  "IR SME"
+];
 
 /////////////////////////////////////////////////////////////////////////
 export class SMCResignationDetailScreen extends React.Component {
@@ -221,7 +268,7 @@ export class SMCResignationDetailScreen extends React.Component {
                     </select>
                   </Col>
                 </Row>
-                <Row className = 'mt-2'>
+                <Row className='mt-2'>
                   <Col>
                     <Form.Label className='font-weight-bold'>Returned Keys</Form.Label>
                   </Col>
@@ -235,7 +282,7 @@ export class SMCResignationDetailScreen extends React.Component {
                   </Col>
                   <Col>
                     <select
-                    id="returnedKeys"
+                      id="returnedKeys"
                       onChange={this.handleChange}
                       className='form-control'
                       value={this.state.returnedKeys}>
@@ -245,7 +292,7 @@ export class SMCResignationDetailScreen extends React.Component {
                     </select>
                   </Col>
                 </Row>
-                <Row className = 'mt-2'>
+                <Row className='mt-2'>
                   <Col>
                     <Form.Label className='font-weight-bold'>Returned Laptop</Form.Label>
                   </Col>
@@ -259,7 +306,7 @@ export class SMCResignationDetailScreen extends React.Component {
                   </Col>
                   <Col>
                     <select
-                    id="returnedKeys"
+                      id="returnedKeys"
                       onChange={this.handleChange}
                       className='form-control'
                       value={this.state.returnedLaptop}>
@@ -269,7 +316,7 @@ export class SMCResignationDetailScreen extends React.Component {
                     </select>
                   </Col>
                 </Row>
-                <Row className = 'mt-2'>
+                <Row className='mt-2'>
                   <Col>
                     <Form.Label className='font-weight-bold'>Returned Mouse</Form.Label>
                   </Col>
@@ -283,7 +330,7 @@ export class SMCResignationDetailScreen extends React.Component {
                   </Col>
                   <Col>
                     <select
-                    id="returnedKeys"
+                      id="returnedKeys"
                       onChange={this.handleChange}
                       className='form-control'
                       value={this.state.returnedMouse}>
@@ -293,7 +340,7 @@ export class SMCResignationDetailScreen extends React.Component {
                     </select>
                   </Col>
                 </Row>
-                <Row className = 'mt-2'>
+                <Row className='mt-2'>
                   <Col>
                     <Form.Label className='font-weight-bold'>Returned Laptop Bag</Form.Label>
                   </Col>
@@ -307,7 +354,7 @@ export class SMCResignationDetailScreen extends React.Component {
                   </Col>
                   <Col>
                     <select
-                    id="returnedKeys"
+                      id="returnedKeys"
                       onChange={this.handleChange}
                       className='form-control'
                       value={this.state.returnedLaptopBag}>
@@ -320,13 +367,13 @@ export class SMCResignationDetailScreen extends React.Component {
               </Form.Group>
             </Form>
             <Button
-              size = 'lg'
-              type = 'submit'
+              size='lg'
+              type='submit'
               block
-              className = 'mt-5'
-              variant = 'danger'
-              onClick = {this.submitButton}
-              >Submit</Button>
+              className='mt-5'
+              variant='danger'
+              onClick={this.submitButton}
+            >Submit</Button>
           </div>
         </div>
       </Container>

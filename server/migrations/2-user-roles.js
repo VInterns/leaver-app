@@ -10,7 +10,7 @@ module.exports.up = function (done) {
         users.map(user => {
           user.roles = [user.role];
           delete user.role;
-          return this.db.collection('users').save(user);
+          return this.db.collection('users').updateOne(user);
         })
       ).then(() => done());
     });
@@ -26,7 +26,7 @@ module.exports.down = function (done) {
         users.map(user => {
           user.role = user.roles[0];
           delete user.roles;
-          return this.db.collection("users").save(user);
+          return this.db.collection("users").updateOne(user);
         })
       ).then(() => done());
     });
