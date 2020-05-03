@@ -18,7 +18,7 @@ export class Header extends React.Component {
       eltUsers: ["admin", "elt"],
       shtUsers: ["admin", "sht"],
       hrViewUsers: ["admin", "hr"],
-      csUsers:["admin","cs"],
+      csUsers: ["admin", "cs"],
       myResignations: ["admin", "manager"]
     };
   }
@@ -67,10 +67,10 @@ export class Header extends React.Component {
             this.state.ccConsumerUsers,
             this.props.account.roles
           ) && (
-            <Nav.Link href="/cc-consumer-activation-table">
-              CC Consumer Activation
-            </Nav.Link>
-          )}
+              <Nav.Link href="/cc-consumer-activation-table">
+                CC Consumer Activation
+              </Nav.Link>
+            )}
           {this.checkAuth(this.state.astUsers, this.props.account.roles) && (
             <Nav.Link href="/ast">Application Security</Nav.Link>
           )}
@@ -79,6 +79,9 @@ export class Header extends React.Component {
           )}
           {this.checkAuth(this.state.hrViewUsers, this.props.account.roles) && (
             <Nav.Link href="/hr-view">Human Resources</Nav.Link>
+          )}
+          {this.checkAuth(this.state.shtUsers, this.props.account.roles) && (
+            <Nav.Link href="/sht">Security Hardware Team</Nav.Link>
           )}
         </Nav>
         <Nav className="justify-content-end" activeKey="/home">
