@@ -21,21 +21,21 @@ export const login = (credentials) => (dispatch) =>
     }
   );
 
-export const signup = (credentials) => (dispatch) => 
+export const signup = (credentials) => (dispatch) =>
   makeRequest(
     dispatch,
     "api/users/addPassword",
     {
       method: "POST",
-      headers: { "Content-Type": "application/json"},
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(credentials)
     },
     res => {
-      if (res.status === 200){
+      if (res.status === 200) {
         return res.json().then(result => {
           dispatch(signupSuccessful());
         })
-      } else{
+      } else {
         dispatch(signupFailed())
       }
     }
@@ -49,7 +49,7 @@ export const sendCode = (email) => (dispatch) => {
     "api/mail/sendMail",
     {
       method: "POST",
-      headers: { "Content-Type": "application/json"},
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         mailList: email,
         code: otp,
@@ -58,12 +58,11 @@ export const sendCode = (email) => (dispatch) => {
       })
     },
     res => {
-      if (res.status === 200){
+      if (res.status === 200) {
         return res.json().then(result => {
           dispatch(sendCodeSuccessful())
         })
       } else {
-        console.log(res);
         dispatch(sendCodeFailed())
       }
     }
@@ -77,16 +76,15 @@ export const verifyCode = (user) => (dispatch) => {
     "api/info/verifyCode",
     {
       method: "POST",
-      headers: { "Content-Type": "application/json"},
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         email: user.username,
         toVerify: user.code
       })
     },
     res => {
-      if (res.status === 200){
+      if (res.status === 200) {
         return res.json().then(result => {
-          console.log("Code Verified", result);
           dispatch(verifyCodeSuccess())
         })
       } else {
@@ -100,18 +98,18 @@ export const sendCodeSuccessful = () => ({
   type: actions.SEND_CODE_SUCCESS
 })
 
-export const initializeApp= ()=>{
-  return { 
-    type:actions.INIT_STATE
+export const initializeApp = () => {
+  return {
+    type: actions.INIT_STATE
   };
 }
 
 export const verifyCodeSuccess = () => ({
-  type:actions.VERIFY_CODE_SUCCESS
+  type: actions.VERIFY_CODE_SUCCESS
 })
 
 export const verifyCodeFailed = () => ({
-  type:actions.VERIFY_CODE_FAILED
+  type: actions.VERIFY_CODE_FAILED
 })
 
 export const sendCodeFailed = () => ({

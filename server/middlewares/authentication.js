@@ -27,7 +27,7 @@ module.exports = {
         debug("logging in", username);
         db.collection(collection).findOne({ username }, (err, user) => {
           if (err) {
-            console.log(err);
+            console.error(err);
             return done(null, false, { message: "Incorrect credentials." });
           }
           bcrypt.compare(password, user ? user.password : "").then(match => {

@@ -186,7 +186,6 @@ export class SignupForm extends Component {
     }
 
     render() {
-        console.log(this.state);
         const value = (
             <div>
                 <Dimmer active>

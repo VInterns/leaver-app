@@ -118,7 +118,6 @@ export class WorkForceScreenDetail extends React.Component {
             "iex": this.state.iex,
             "status": this.checkStatus(this.state.iex, this.state.annualsGranted, this.state.annualsTaken, this.state.noShow, this.state.lostHours, this.state.daysToTake)
         }
-        console.log(phase3)
 
         fetch(API + INSERT, {
             method: 'post',

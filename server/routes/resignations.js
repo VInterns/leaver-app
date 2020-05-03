@@ -94,7 +94,6 @@ module.exports = db => {
             });
             throw err;
           }
-          console.log("1 document deleted");
           res.json({
             status: 200,
             message: "Resignation Request deleted"

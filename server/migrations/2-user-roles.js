@@ -8,10 +8,8 @@ module.exports.up = function (done) {
     .find().toArray().then(users => {
       return Promise.all(
         users.map(user => {
-          console.log(users.length);
           user.roles = [user.role];
           delete user.role;
-          console.log(user);
           return this.db.collection('users').updateOne({ username: user.username }, user);
         })
       ).then(() => done()).catch(err => {

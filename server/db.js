@@ -21,7 +21,6 @@ const connect = function (url, callback = () => { }) {
         }
     );
     return state.client.connect().then(connection => {
-        console.log("connected to db");
         state.connection = connection;
         return connection.db();
     })

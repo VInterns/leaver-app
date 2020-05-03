@@ -10,7 +10,6 @@ module.exports = (db) => {
     });
 
     router.post("/verifyCode", (req, res) => {
-        //console.log("/info/verifyCode", req.body)
         db.collection(collection).findOne({ email: req.body.email }, function (err, record) {
             if (err) throw err;
             if (record.code === req.body.toVerify) {

@@ -9,7 +9,6 @@ export class LeaverDetails extends React.Component {
 
         let leaver = Object(this.props.leaverDetail.leaverInfo);
         let leaverDetail = this.props.leaverDetail;
-        console.log(leaverDetail);
         return (
             <div className='bg-light p-5 rounded'>
                 <Header as='h3' className='text-center'>Leaver Details</Header>

@@ -11,6 +11,7 @@ const API = "/api";
 const ROUTE = "/resignations/update/phase2";
 const DONE = "done";
 const PENDING = "pending";
+
 /////////////////////////////////////////////////////////////////////////
 export class SMCResignationDetailScreen extends React.Component {
   constructor(props) {
@@ -122,7 +123,6 @@ export class SMCResignationDetailScreen extends React.Component {
         return res.json();
       })
       .then((data) => {
-        console.log(data);
         this.setState({
           leaver: data
         })
@@ -245,7 +245,7 @@ export class SMCResignationDetailScreen extends React.Component {
                     </select>
                   </Col>
                 </Row>
-                <Row className='mt-2'>
+                {true && <> <Row className='mt-2'>
                   <Col>
                     <Form.Label className='font-weight-bold'>Returned Laptop</Form.Label>
                   </Col>
@@ -269,54 +269,56 @@ export class SMCResignationDetailScreen extends React.Component {
                     </select>
                   </Col>
                 </Row>
-                <Row className='mt-2'>
-                  <Col>
-                    <Form.Label className='font-weight-bold'>Returned Mouse</Form.Label>
-                  </Col>
-                  <Col>
-                    <Form.Control
-                      className='border rounded pl-2'
-                      readOnly
-                      plaintext
-                      value={this.mapValues(this.state.managerData.returnedKeys)}
-                    />
-                  </Col>
-                  <Col>
-                    <select
-                      id="returnedKeys"
-                      onChange={this.handleChange}
-                      className='form-control'
-                      value={this.state.returnedMouse}>
-                      <option value='confirmed'>Confirmed</option>
-                      <option value='pending'>Pending</option>
-                      <option value='not-delivered'>Not-Delivered</option>
-                    </select>
-                  </Col>
-                </Row>
-                <Row className='mt-2'>
-                  <Col>
-                    <Form.Label className='font-weight-bold'>Returned Laptop Bag</Form.Label>
-                  </Col>
-                  <Col>
-                    <Form.Control
-                      className='border rounded pl-2'
-                      readOnly
-                      plaintext
-                      value={this.mapValues(this.state.managerData.returnedKeys)}
-                    />
-                  </Col>
-                  <Col>
-                    <select
-                      id="returnedKeys"
-                      onChange={this.handleChange}
-                      className='form-control'
-                      value={this.state.returnedLaptopBag}>
-                      <option value='confirmed'>Confirmed</option>
-                      <option value='pending'>Pending</option>
-                      <option value='not-delivered'>Not-Delivered</option>
-                    </select>
-                  </Col>
-                </Row>
+                  <Row className='mt-2'>
+                    <Col>
+                      <Form.Label className='font-weight-bold'>Returned Mouse</Form.Label>
+                    </Col>
+                    <Col>
+                      <Form.Control
+                        className='border rounded pl-2'
+                        readOnly
+                        plaintext
+                        value={this.mapValues(this.state.managerData.returnedKeys)}
+                      />
+                    </Col>
+                    <Col>
+                      <select
+                        id="returnedKeys"
+                        onChange={this.handleChange}
+                        className='form-control'
+                        value={this.state.returnedMouse}>
+                        <option value='confirmed'>Confirmed</option>
+                        <option value='pending'>Pending</option>
+                        <option value='not-delivered'>Not-Delivered</option>
+                      </select>
+                    </Col>
+                  </Row>
+                  <Row className='mt-2'>
+                    <Col>
+                      <Form.Label className='font-weight-bold'>Returned Laptop Bag</Form.Label>
+                    </Col>
+                    <Col>
+                      <Form.Control
+                        className='border rounded pl-2'
+                        readOnly
+                        plaintext
+                        value={this.mapValues(this.state.managerData.returnedKeys)}
+                      />
+                    </Col>
+                    <Col>
+                      <select
+                        id="returnedKeys"
+                        onChange={this.handleChange}
+                        className='form-control'
+                        value={this.state.returnedLaptopBag}>
+                        <option value='confirmed'>Confirmed</option>
+                        <option value='pending'>Pending</option>
+                        <option value='not-delivered'>Not-Delivered</option>
+                      </select>
+                    </Col>
+                  </Row>
+                </>
+                }
               </Form.Group>
             </Form>
             <Button
