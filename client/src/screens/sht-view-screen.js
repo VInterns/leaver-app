@@ -169,7 +169,7 @@ export class SHTViewScreen extends React.Component {
             <div className="container mt-5">
                 <ToastContainer />
                 <div className='p-2'>
-                    <LeaverDetails leaverDetail={{ leaverInfo: leaver, lastDay: phase1.lastWorkDay }} />
+                    <LeaverDetails leaverDetail={{ leaverInfo: { ...leaver, mobile: phase1.mobile }, lastDay: phase1.lastWorkDay }} />
                 </div>
                 <Form className='p-2'>
                     <Form.Group className='p-5 border'>

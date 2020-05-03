@@ -7,7 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 const API = '/api/resignations/';
 const SEARCH = '/myresigns/';
-const DELETE = 'delete-request/'; 
+const DELETE = 'delete-request/';
 /////////////////////////////////////////////////////////////////////////
 export class ManagerResignationsTableScreen extends React.Component {
   constructor(props) {
@@ -106,11 +106,11 @@ export class ManagerResignationsTableScreen extends React.Component {
       });
   }
 
-  deleteRequest(req){
+  deleteRequest(req) {
     fetch(API + DELETE + req.staffId, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({request:req})
+      body: JSON.stringify({ request: req })
     })
       .then(res => {
         return res.json();
@@ -118,10 +118,10 @@ export class ManagerResignationsTableScreen extends React.Component {
       .then(response => {
         if (response.status === 200) {
           toast.success('Resignation Request successfully deleted');
-          setTimeout(function() { //Start the timer
+          setTimeout(function () { //Start the timer
             window.location.reload(); //After 1 second, set render to true
-        },1000)
-         
+          }, 1000)
+
         }
         else if (response.status === 409) {
           toast.error("Error in db");
@@ -140,7 +140,7 @@ export class ManagerResignationsTableScreen extends React.Component {
     const { requests } = this.state;
     return (
       <Container fluid className='bg-light p-5' style={{ height: '100vh' }}>
-        <ToastContainer/>
+        <ToastContainer />
         <Header as='h3' className='text-center'>My Resignations</Header>
         <div className='row'>
           <div className='offset-md-3 col-md-6 border bg-white rounded'>
@@ -156,13 +156,13 @@ export class ManagerResignationsTableScreen extends React.Component {
                 />
               </div>
             </div>
-            <hr/>
-            <Table celled className = 'table-hover mb-3' id='resignation'>
+            <hr />
+            <Table celled className='table-hover mb-3' id='resignation'>
               <Table.Header>
                 <Table.Row>
                   <Table.HeaderCell>Staff ID</Table.HeaderCell>
                   <Table.HeaderCell>Leaver Name</Table.HeaderCell>
-                  <Table.HeaderCell>Manager Name</Table.HeaderCell>
+                  <Table.HeaderCell>Manager</Table.HeaderCell>
                   <Table.HeaderCell>Last Working Day</Table.HeaderCell>
                   <Table.HeaderCell>Status</Table.HeaderCell>
                   <Table.HeaderCell>Cancel Request?</Table.HeaderCell>
@@ -176,15 +176,15 @@ export class ManagerResignationsTableScreen extends React.Component {
                   >
                     <Table.Cell onClick={() => this.clickButton(request)}>{request.staffId}</Table.Cell>
                     <Table.Cell onClick={() => this.clickButton(request)}>{request.name}</Table.Cell>
-                    <Table.Cell onClick={() => this.clickButton(request)}>{request.managerName}</Table.Cell>
+                    <Table.Cell onClick={() => this.clickButton(request)}>{request.managerUsername}</Table.Cell>
                     <Table.Cell onClick={() => this.clickButton(request)}>{request.phase1.lastWorkDay}</Table.Cell>
                     <Table.Cell onClick={() => this.clickButton(request)}>{this.checkStatus(request.status)}</Table.Cell>
                     <Table.Cell>
                       <Button
                         variant='danger'
-                        className = 'mb-3'
+                        className='mb-3'
                         size='sm'
-                        onClick={this.deleteRequest.bind(this,request)}
+                        onClick={this.deleteRequest.bind(this, request)}
                         block
                       >
                         Cancel

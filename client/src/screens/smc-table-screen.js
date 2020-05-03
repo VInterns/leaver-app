@@ -94,12 +94,12 @@ export class SMCTableScreen extends React.Component {
   render() {
     const { resRrequests } = this.state;
     return (
-      <Container fluid className='bg-light p-5' style = {{height: '100vh'}}>
-        <Header as = 'h3' className='text-center'>Customer Care (SMC)</Header>
+      <Container fluid className='bg-light p-5' style={{ height: '100vh' }}>
+        <Header as='h3' className='text-center'>Customer Care (SMC)</Header>
         <div className='row'>
           <div className='offset-md-3 col-md-6 border bg-white rounded'>
             <Row className='mt-4'>
-              <Col className = 'd-flex flex-row'>
+              <Col className='d-flex flex-row'>
                 <ReactHTMLTableToExcel
                   id='test-table-xls-button'
                   className='download-table-xls-button ui basic button'
@@ -110,13 +110,13 @@ export class SMCTableScreen extends React.Component {
                 />
               </Col>
             </Row>
-            <hr/>
-            <Table celled className='table-hover mb-3' id = 'customer-care-table'>
+            <hr />
+            <Table celled className='table-hover mb-3' id='customer-care-table'>
               <Table.Header>
                 <Table.Row>
                   <Table.HeaderCell>Staff ID</Table.HeaderCell>
                   <Table.HeaderCell>Employee Name</Table.HeaderCell>
-                  <Table.HeaderCell>Manager Name</Table.HeaderCell>
+                  <Table.HeaderCell>Manager</Table.HeaderCell>
                   <Table.HeaderCell>Status</Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
@@ -128,7 +128,7 @@ export class SMCTableScreen extends React.Component {
                   >
                     <td>{resignation.staffId}</td>
                     <td>{resignation.name}</td>
-                    <td>{resignation.managerName}</td>
+                    <td>{resignation.managerUsername}</td>
                     {this.checkStatus(resignation.phase2.status)}
                   </Table.Row>
                 ))}

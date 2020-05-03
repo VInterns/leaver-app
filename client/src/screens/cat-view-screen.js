@@ -174,7 +174,7 @@ export class CCConsumerActivation extends Component {
 
   ///////////////////////////////////////////////
   render() {
-    const { Data } = this.state;
+    const { Data, leaver } = this.state;
     const Phase1 = Object(Data.phase1);
     const NationalIDImg = Object(Phase1.nationalIdImg);
     return (
@@ -182,8 +182,8 @@ export class CCConsumerActivation extends Component {
         <ToastContainer />
         <div className='row'>
           <div className='offset-md-3 col-md-6 border bg-white rounded p-5'>
-            <LeaverDetails leaverDetail={{ leaverInfo: this.state.leaver, lastDay: this.state.lastWorkDay }} />
-            <hr/>
+            <LeaverDetails leaverDetail={{ leaverInfo: { ...leaver, mobile: Phase1.mobile }, lastDay: this.state.lastWorkDay }} />
+            <hr />
             <Form>
               <Form.Group className='p-5'>
                 <Row>

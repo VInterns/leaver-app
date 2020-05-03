@@ -70,8 +70,8 @@ export class ASTResignationDetailScreen extends React.Component {
   ///////////////////////////////////////////////
   checkStatus(condX, condY, condZ, condA) {
     // check confition after adding N/A
-    if ((condX === true || condX === "") && (condY === true || condY === "") 
-    && (condZ === true || condZ === "") && (condA === true || condA === "")) {
+    if ((condX === true || condX === "") && (condY === true || condY === "")
+      && (condZ === true || condZ === "") && (condA === true || condA === "")) {
       return DONE;
     } else {
       return PENDING;
@@ -184,8 +184,8 @@ export class ASTResignationDetailScreen extends React.Component {
         <ToastContainer />
         <div className='row'>
           <div className='offset-md-3 col-md-6 border bg-white rounded p-5'>
-            <LeaverDetails leaverDetail={{ leaverInfo: leaver, lastDay: phase1.lastWorkDay }} />
-            <hr/>
+            <LeaverDetails leaverDetail={{ leaverInfo: { ...leaver, mobile: phase1.mobile }, lastDay: phase1.lastWorkDay }} />
+            <hr />
             <Form className='p-5'>
               <Form.Group>
                 <Row>
@@ -264,7 +264,7 @@ export class ASTResignationDetailScreen extends React.Component {
                       className="p-2 form-control"
                       value={this.state.comment} />
                   </Col>
-                </Row>   
+                </Row>
                 <Row className='mt-5'>
                   <Col>
                     <Button

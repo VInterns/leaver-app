@@ -106,15 +106,14 @@ export class HrViewScreen extends Component {
                 <Table.HeaderCell>Staff ID</Table.HeaderCell>
                 <Table.HeaderCell>Employee Name</Table.HeaderCell>
                 <Table.HeaderCell>Last Working Day</Table.HeaderCell>
-                <Table.HeaderCell>Manager Name</Table.HeaderCell>
+                <Table.HeaderCell>Manager</Table.HeaderCell>
                 <Table.HeaderCell>Resignation Request</Table.HeaderCell>
                 <Table.HeaderCell>Customer Care</Table.HeaderCell>
                 <Table.HeaderCell>Work Force</Table.HeaderCell>
                 <Table.HeaderCell>CC Consumer Activation</Table.HeaderCell>
                 <Table.HeaderCell>Application Security</Table.HeaderCell>
-                <Table.HeaderCell>Corporate Security</Table.HeaderCell>
-                <Table.HeaderCell>Enterprise Logistics</Table.HeaderCell>
                 <Table.HeaderCell>Security Hardware Team</Table.HeaderCell>
+                <Table.HeaderCell>Corporate Security</Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
@@ -131,15 +130,14 @@ export class HrViewScreen extends Component {
                     <Table.Cell>{value.staffId} </Table.Cell>
                     <Table.Cell>{value.name}</Table.Cell>
                     <Table.Cell>{value.phase1.lastWorkDay}</Table.Cell>
-                    <Table.Cell>{value.managerName}</Table.Cell>
+                    <Table.Cell>{value.managerUsername}</Table.Cell>
                     {this.checkStatus(this.checkRequestStatus(value))}
                     {this.checkStatus(value.phase2.status)}
                     {this.checkStatus(value.phase3.status)}
                     {this.checkStatus(value.phase4.status)}
                     {this.checkStatus(value.phase6.status)}
-                    {this.checkStatus(value.phase8.status)}
-                    {this.checkStatus(value.phase5.status)}
                     {this.checkStatus(value.phase7.status)}
+                    {this.checkStatus(value.phase8.status)}
                   </Table.Row>
                 );
               })}

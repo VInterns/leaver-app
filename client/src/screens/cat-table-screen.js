@@ -95,13 +95,13 @@ export class ConsumerTable extends Component {
                 />
               </Col>
             </Row>
-            <hr/>
-            <Table celled className = 'table-hover mb-3' id='conumer-activation-table'>
+            <hr />
+            <Table celled className='table-hover mb-3' id='conumer-activation-table'>
               <Table.Header>
                 <Table.Row>
                   <Table.HeaderCell>Staff ID</Table.HeaderCell>
                   <Table.HeaderCell>Employee Name</Table.HeaderCell>
-                  <Table.HeaderCell>Manager Name</Table.HeaderCell>
+                  <Table.HeaderCell>Manager</Table.HeaderCell>
                   <Table.HeaderCell>Status</Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
@@ -111,7 +111,7 @@ export class ConsumerTable extends Component {
                     <Table.Row key={index} onClick={() => this.onRowClick(item)}>
                       <Table.Cell>{item.staffId}</Table.Cell>
                       <Table.Cell>{item.name}</Table.Cell>
-                      <Table.Cell>{item.managerName}</Table.Cell>
+                      <Table.Cell>{item.managerUsername}</Table.Cell>
                       {this.checkStatus(item.phase4.status)}
                     </Table.Row>
                   );

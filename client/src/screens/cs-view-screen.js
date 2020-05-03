@@ -175,8 +175,8 @@ export class CSResignationDetailScreen extends React.Component {
         <ToastContainer />
         <div className='row'>
           <div className='offset-md-3 col-md-6 border bg-white rounded p-5'>
-            <LeaverDetails leaverDetail={{ leaverInfo: leaver, lastDay: phase1.lastWorkDay }} />
-            <hr/>
+            <LeaverDetails leaverDetail={{ leaverInfo: { ...leaver, mobile: phase1.mobile }, lastDay: phase1.lastWorkDay }} />
+            <hr />
             <Form className='p-5'>
               <Form.Group>
                 <Row>

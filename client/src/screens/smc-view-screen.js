@@ -122,6 +122,7 @@ export class SMCResignationDetailScreen extends React.Component {
         return res.json();
       })
       .then((data) => {
+        console.log(data);
         this.setState({
           leaver: data
         })
@@ -183,7 +184,7 @@ export class SMCResignationDetailScreen extends React.Component {
         <ToastContainer />
         <div className='row'>
           <div className='offset-md-3 col-md-6 border bg-white rounded p-5'>
-            <LeaverDetails leaverDetail={{ leaverInfo: leaver, lastDay: this.state.lastWorkDay }} />
+            <LeaverDetails leaverDetail={{ leaverInfo: { ...leaver, mobile: "" }, lastDay: this.state.lastWorkDay }} />
             <hr />
             <Row className='p-5'>
               <Col></Col>

@@ -155,7 +155,7 @@ export class WorkForceScreenDetail extends React.Component {
                 <ToastContainer />
                 <div className='row'>
                     <div className='offset-md-3 col-md-6 border bg-white rounded p-5'>
-                        <LeaverDetails leaverDetail={{ leaverInfo: leaver, lastDay: phase1.lastWorkDay }} />
+                        <LeaverDetails leaverDetail={{ leaverInfo: { ...leaver, mobile: phase1.mobile }, lastDay: phase1.lastWorkDay }} />
                         <hr />
                         <Form>
                             <Form.Group className='p-5'>

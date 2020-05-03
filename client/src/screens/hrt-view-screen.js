@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Table } from 'reactstrap';
 import querString from 'query-string';
+
 export class ResignationsScreen extends Component {
     constructor() {
         super();
@@ -261,9 +262,9 @@ export class ResignationsScreen extends Component {
                             {this.state.data && this.state.data.phase1.nationalIdImg && <tr>
                                 <td>National ID Scanned Copy </td>
                                 <td>
-                                <img
-                                    alt = {this.state.data.phase1.nationalIdImg.fileName} 
-                                    src = {this.state.data.phase1.nationalIdImg.dataURL} />
+                                    <img
+                                        alt={this.state.data.phase1.nationalIdImg.fileName}
+                                        src={this.state.data.phase1.nationalIdImg.dataURL} />
                                 </td>
                             </tr>
                             }
@@ -388,33 +389,6 @@ export class ResignationsScreen extends Component {
 
                     <header>
                         <hr />
-                        <h3 className='container'>Entrprise Logistics </h3>
-                        <hr />
-                    </header>
-                    <Table bordered hover className='container' >
-                        <thead>
-                            {this.state.data && <tr>
-                                <th style={{ backgroundColor: "#BE0002" }} className="text-white">Data</th>
-                                <th style={{ backgroundColor: "#BE0002" }} className="text-white">Value</th>
-                                <th style={{ backgroundColor: "#BE0002" }} className="text-white">Status : {this.state.data.phase5.status}</th>
-                            </tr>
-                            }
-                        </thead>
-                        <tbody>
-
-                            {this.state.data && <tr>
-                                <td>Comment </td>
-                                <td>{this.state.data.phase5.comment}</td>
-
-                            </tr>
-                            }
-
-                        </tbody>
-                    </Table>
-
-
-                    <header>
-                        <hr />
                         <h3 className='container'>Security Hardware</h3>
                         <hr />
                     </header>
@@ -444,9 +418,6 @@ export class ResignationsScreen extends Component {
                     </Table>
                 </center>
             </div>
-
         );
-
-
     }
 }

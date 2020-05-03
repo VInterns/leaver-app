@@ -123,7 +123,7 @@ export class SHTTableScreen extends React.Component {
                                     >
                                         <td>{request.staffId}</td>
                                         <td>{request.name}</td>
-                                        <td>{request.managerName}</td>
+                                        <td>{request.managerUsername}</td>
                                         {this.checkStatus(request.phase7.status)}
                                     </tr>
                                 ))}

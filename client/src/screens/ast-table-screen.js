@@ -106,13 +106,13 @@ export class ASTTableScreen extends React.Component {
                 />
               </div>
             </div>
-            <hr/>
-            <Table celled className = 'table-hover mb-3' id='as-table'>
+            <hr />
+            <Table celled className='table-hover mb-3' id='as-table'>
               <Table.Header>
                 <Table.Row>
                   <Table.HeaderCell>Staff ID</Table.HeaderCell>
                   <Table.HeaderCell>Employee Name</Table.HeaderCell>
-                  <Table.HeaderCell>Manager Name</Table.HeaderCell>
+                  <Table.HeaderCell>Manager</Table.HeaderCell>
                   <Table.HeaderCell>Status</Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
@@ -124,7 +124,7 @@ export class ASTTableScreen extends React.Component {
                   >
                     <Table.Cell>{request.staffId}</Table.Cell>
                     <Table.Cell>{request.name}</Table.Cell>
-                    <Table.Cell>{request.managerName}</Table.Cell>
+                    <Table.Cell>{request.managerUsername}</Table.Cell>
                     {this.checkStatus(request.phase6.status)}
                   </Table.Row>
                 ))}

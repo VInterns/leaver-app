@@ -69,8 +69,8 @@ export class ManagerResignationsViewScreen extends Component {
       staffId: "",
       sapStaffId: "",
       name: "",
-      managerName: "",
-      careCenter: "",
+      managerUsername: "",
+      costCenter: "",
       jobTitle: "",
       hiringDate: "",
       department: "",
@@ -100,7 +100,7 @@ export class ManagerResignationsViewScreen extends Component {
     this.searchUser(staffID);
     this.setState({
       resReq: request,
-      managerName: request.managerName,
+      managerUsername: request.managerUsername,
       ntAccount: request.phase1.ntAccount,
       lastWorkDay: request.phase1.lastWorkDay,
       mobile: request.phase1.mobile,
@@ -142,7 +142,7 @@ export class ManagerResignationsViewScreen extends Component {
             sapStaffId: data.staffId,
             name: data.name,
             department: data.department,
-            careCenter: data.careCenter,
+            costCenter: data.costCenter,
             jobTitle: data.jobTitle,
             hiringDate: data.hiringDate
           });
@@ -391,7 +391,7 @@ export class ManagerResignationsViewScreen extends Component {
                     <Form.Control
                       plaintext
                       readOnly
-                      value={this.state.managerName}
+                      value={this.state.managerUsername}
                     />
                   </Col>
                   <Col></Col>
@@ -406,7 +406,7 @@ export class ManagerResignationsViewScreen extends Component {
                     <Form.Control
                       plaintext
                       readOnly
-                      value={this.state.careCenter}
+                      value={this.state.costCenter}
                     />
                   </Col>
                   <Col></Col>

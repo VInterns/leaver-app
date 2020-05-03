@@ -8,7 +8,6 @@ export class Resignations extends Component {
       };
    }
    view(id) {
-      console.log(id);
       this.props.history.push("./form-res/" + id);
    }
    getdata() {
