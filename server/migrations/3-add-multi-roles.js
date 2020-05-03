@@ -8,12 +8,16 @@ module.exports.up = function (done) {
     .findOne({ username: "manager1@vodafone.com" })
     .then(user => {
       user.roles = [...user.roles, "admin"];
-      return this.db.collection("users").updateOne(user);
+      return this.db.collection("users").updateOne({ username: user.username }, user);
     })
-    .then(() => done());
+    .then(() => done()).catch(err => { console.error(err) });
 };
 
 module.exports.down = function (done) {
-  // use this.db for MongoDB communication, and this.log() for logging
-  done();
+  this.db.collection("users")
+    .findOne({ username: "manager1@vodafone.com" })
+    .then(user => {
+      user.roles.splice(user.roles.length - 1, 1);
+      return this.db.collection("users").updateOne({ username: user.username }, user);
+    }).then(() => done());
 };

@@ -29,6 +29,6 @@ module.exports.up = function (done) {
 module.exports.down = function (done) {
   this.db
     .collection("users")
-    .drop()
+    .deleteMany({ username: { $in: ["logistics1@vodafone.com", "consumer1@vodafone.com"] } })
     .then(() => done());
 };

@@ -8,11 +8,15 @@ module.exports.up = function (done) {
     .find().toArray().then(users => {
       return Promise.all(
         users.map(user => {
+          console.log(users.length);
           user.roles = [user.role];
           delete user.role;
-          return this.db.collection('users').updateOne(user);
+          console.log(user);
+          return this.db.collection('users').updateOne({ username: user.username }, user);
         })
-      ).then(() => done());
+      ).then(() => done()).catch(err => {
+        console.error(err);
+      })
     });
 };
 
@@ -26,7 +30,7 @@ module.exports.down = function (done) {
         users.map(user => {
           user.role = user.roles[0];
           delete user.roles;
-          return this.db.collection("users").updateOne(user);
+          return this.db.collection("users").updateOne({ username: user.username }, user);
         })
       ).then(() => done());
     });
