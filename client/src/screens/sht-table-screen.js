@@ -94,7 +94,7 @@ export class SHTTableScreen extends React.Component {
                 <center style={{ margin: '25px' }}>
                     <header>
                         <hr />
-                        <h3>Security Hardware Token Team</h3>
+                        <h3>Hardware Token Team</h3>
                         <hr />
                     </header>
                     <div>
