@@ -81,7 +81,7 @@ export class Header extends React.Component {
             <Nav.Link href="/hr-view">Human Resources</Nav.Link>
           )}
           {this.checkAuth(this.state.shtUsers, this.props.account.roles) && (
-            <Nav.Link href="/sht">Security Hardware Team</Nav.Link>
+            <Nav.Link href="/sht">Hardware Team</Nav.Link>
           )}
         </Nav>
         <Nav className="justify-content-end" activeKey="/home">
