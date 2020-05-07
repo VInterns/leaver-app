@@ -217,7 +217,7 @@ export class SMCResignationDetailScreen extends React.Component {
                       value={this.state.returnedHeadset}>
                       <option value='confirmed'>Confirmed</option>
                       <option value='pending'>Pending</option>
-                      <option value='not-delivered'>Not-Delivered</option>
+                      <option value='not-delivered'>Not-Returned</option>
                     </select>
                   </Col>
                 </Row>
@@ -241,7 +241,7 @@ export class SMCResignationDetailScreen extends React.Component {
                       value={this.state.returnedKeys}>
                       <option value='confirmed'>Confirmed</option>
                       <option value='pending'>Pending</option>
-                      <option value='not-delivered'>Not-Delivered</option>
+                      <option value='not-delivered'>Not-Returned</option>
                     </select>
                   </Col>
                 </Row>
@@ -265,7 +265,7 @@ export class SMCResignationDetailScreen extends React.Component {
                       value={this.state.returnedLaptop}>
                       <option value='confirmed'>Confirmed</option>
                       <option value='pending'>Pending</option>
-                      <option value='not-delivered'>Not-Delivered</option>
+                      <option value='not-delivered'>Not-Returned</option>
                     </select>
                   </Col>
                 </Row>
@@ -289,7 +289,7 @@ export class SMCResignationDetailScreen extends React.Component {
                         value={this.state.returnedMouse}>
                         <option value='confirmed'>Confirmed</option>
                         <option value='pending'>Pending</option>
-                        <option value='not-delivered'>Not-Delivered</option>
+                        <option value='not-delivered'>Not-Returned</option>
                       </select>
                     </Col>
                   </Row>
@@ -313,7 +313,7 @@ export class SMCResignationDetailScreen extends React.Component {
                         value={this.state.returnedLaptopBag}>
                         <option value='confirmed'>Confirmed</option>
                         <option value='pending'>Pending</option>
-                        <option value='not-delivered'>Not-Delivered</option>
+                        <option value='not-delivered'>Not-Returned</option>
                       </select>
                     </Col>
                   </Row>
