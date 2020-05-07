@@ -16,9 +16,9 @@ const API = "/api/";
 const SEARCH = "users/search";
 const SUBMIT = "resignations/";
 
-const UK_SUBDEPT = ["--", "UK", "UK Telesales"];
+const UK_SUBDEPT = ["Please select a sub-Department", "UK", "UK Telesales"];
 const CLUSTER_SUBDEPT = [
-  "--",
+  "Please select a sub-Department",
   "IR",
   "IR Telesales",
   "GE",
@@ -29,7 +29,7 @@ const CLUSTER_SUBDEPT = [
   "Others"
 ];
 const ENTERPRISE_SUBDEPT = [
-  "--",
+  "Please select a sub-Department",
   "UK SMB",
   "IR SME",
   "Spain BO",
@@ -38,11 +38,10 @@ const ENTERPRISE_SUBDEPT = [
   "Enterprise HOC",
   "EBU Back Office",
   "ESS",
-  "EG Post",
   "Others"
 ];
 const TSSE_SUBDEPT = [
-  "--",
+  "Please select a sub-Department",
   "AD",
   "AO",
   "AT",
@@ -53,6 +52,12 @@ const TSSE_SUBDEPT = [
   "TES",
   "Others"
 ];
+const VDBS = ["VDBS"]
+const IT = ["IT"]
+const CORPORATE_SECURITY = ["CORPORATE SECURITY"];
+const LEGAL = ["LEGAL"];
+const FINANCE = ["FINANCE"];
+const HR = ["HR"];
 
 const HAS_SMC = [
   "UK",
@@ -69,9 +74,26 @@ const HAS_SMC = [
   "Enterprise HOC",
   "EBU Back Office",
   "ESS",
-  "EG Post",
   "Others"
 ];
+
+const HAS_NO_SMC_WF = [
+  "AD",
+  "AO",
+  "AT",
+  "NEW-TA",
+  "OIT",
+  "OPC",
+  "SEA-COE",
+  "TES",
+  "VDBS",
+  "IT",
+  "CORPORATE SECURITY",
+  "LEGAL",
+  "FINANCE",
+  "HR",
+  "Others"
+]
 
 export class ResignReqScreen extends Component {
   constructor(props) {
@@ -334,17 +356,29 @@ export class ResignReqScreen extends Component {
       return this.createMapList(ENTERPRISE_SUBDEPT);
     } else if (this.state.department === "TSSE") {
       return this.createMapList(TSSE_SUBDEPT);
+    } else if (this.state.department === "HR") {
+      return this.createMapList(HR);
+    } else if (this.state.department === "Finance") {
+      return this.createMapList(FINANCE);
+    } else if (this.state.department === "Legal") {
+      return this.createMapList(LEGAL);
+    } else if (this.state.department === "Corporate Security") {
+      return this.createMapList(CORPORATE_SECURITY);
+    } else if (this.state.department === "VDBS") {
+      return this.createMapList(VDBS);
+    } else if (this.state.department === "IT") {
+      return this.createMapList(IT);
     }
   }
 
   checkSMCCustody() {
-    if (HAS_SMC.indexOf(this.state.subDepartment) < 0) {
+    if (this.state.department === "UK" || this.state.department === "Cluster" || this.state.department === "Enterprise") {
       return (
-        <div>
+        <div style={{ borderStyle: 'solid', padding: 3, margin: 2 }}>
           <Row className="mt-2">
             <Col>
               <Form.Label className="col-form-group font-weight-bold">
-                Returned Laptop
+                Returned  <span className="col-form-group" >CPU + Keyboard + Mouse + VoiceSolution (Convertor/Headset)</span>
                 <span style={{ color: "red", fontSize: 25 }}>*</span>
               </Form.Label>
             </Col>
@@ -364,7 +398,7 @@ export class ResignReqScreen extends Component {
           <Row className="mt-2">
             <Col>
               <Form.Label className="col-form-group font-weight-bold">
-                Returned Laptop Bag
+                Returned <span className="col-form-group" >Laptop + VoiceSolution (Convertor/Headset)</span>
                 <span style={{ color: "red", fontSize: 25 }}>*</span>
               </Form.Label>
             </Col>
@@ -381,7 +415,7 @@ export class ResignReqScreen extends Component {
               </Form.Control>
             </Col>
           </Row>
-          <Row className="mt-2">
+          {/* <Row className="mt-2">
             <Col>
               <Form.Label className="col-form-group font-weight-bold">
                 Returned Mouse
@@ -400,7 +434,7 @@ export class ResignReqScreen extends Component {
                 <option value={false}>No</option>
               </Form.Control>
             </Col>
-          </Row>
+          </Row> */}
           <Row className="mt-2">
             <Col>
               <Form.Label className="col-form-group font-weight-bold">
@@ -410,13 +444,13 @@ export class ResignReqScreen extends Component {
             <Col>
               <Form.Control
                 as="textarea"
-                rows="1"
+                rows="2"
                 name="comments"
                 onChange={this.handleChange}
               />
             </Col>
           </Row>
-        </div>
+        </div >
       );
     } else {
       if (
@@ -617,7 +651,7 @@ export class ResignReqScreen extends Component {
                     {this.validator.message(
                       "nt Account",
                       this.state.ntAccount,
-                      "required|email"
+                      "required"
                     )}
                   </Col>
                   <Col></Col>
@@ -648,7 +682,7 @@ export class ResignReqScreen extends Component {
                 <Row className="mt-2">
                   <Col>
                     <Form.Label className="col-form-group font-weight-bold">
-                      Recommended to join Vodafone
+                      Recommended to Re-join Vodafone
                       <span style={{ color: "red", fontSize: 25 }}>*</span>
                     </Form.Label>
                   </Col>
@@ -717,46 +751,48 @@ export class ResignReqScreen extends Component {
               </Form.Group>
               <hr />
               <Form.Group className="p-3">
-                <Row required>
-                  <Col>
-                    <Form.Label className="col-form-group font-weight-bold">
-                      Returned Headset
+                <div style={{ borderStyle: 'solid', padding: 3, margin: 2 }}>
+                  <Row required>
+                    <Col>
+                      <Form.Label className="col-form-group font-weight-bold">
+                        Returned Headset
                       <span style={{ color: "red", fontSize: 25 }}>*</span>
-                    </Form.Label>
-                  </Col>
-                  <Col>
-                    <Form.Control
-                      as="select"
-                      name="returnedHeadset"
-                      onChange={this.handleChange}
-                      defaultValue={this.state.returnedHeadset}
-                    >
-                      <option value={""}> N/A </option>
-                      <option value={true}>Yes</option>
-                      <option value={false}>No</option>
-                    </Form.Control>
-                  </Col>
-                </Row>
-                <Row className="mt-2">
-                  <Col>
-                    <Form.Label className="col-form-group font-weight-bold">
-                      Returned Keys
+                      </Form.Label>
+                    </Col>
+                    <Col>
+                      <Form.Control
+                        as="select"
+                        name="returnedHeadset"
+                        onChange={this.handleChange}
+                        defaultValue={this.state.returnedHeadset}
+                      >
+                        <option value={""}> N/A </option>
+                        <option value={true}>Yes</option>
+                        <option value={false}>No</option>
+                      </Form.Control>
+                    </Col>
+                  </Row>
+                  <Row className="mt-2">
+                    <Col>
+                      <Form.Label className="col-form-group font-weight-bold">
+                        Returned Keys
                       <span style={{ color: "red", fontSize: 25 }}>*</span>
-                    </Form.Label>
-                  </Col>
-                  <Col>
-                    <Form.Control
-                      as="select"
-                      name="returnedKeys"
-                      onChange={this.handleChange}
-                      defaultValue={this.state.returnedKeys}
-                    >
-                      <option value={""}> N/A </option>
-                      <option value={true}>Yes</option>
-                      <option value={false}>No</option>
-                    </Form.Control>
-                  </Col>
-                </Row>
+                      </Form.Label>
+                    </Col>
+                    <Col>
+                      <Form.Control
+                        as="select"
+                        name="returnedKeys"
+                        onChange={this.handleChange}
+                        defaultValue={this.state.returnedKeys}
+                      >
+                        <option value={""}> N/A </option>
+                        <option value={true}>Yes</option>
+                        <option value={false}>No</option>
+                      </Form.Control>
+                    </Col>
+                  </Row>
+                </div>
                 {this.checkSMCCustody()}
               </Form.Group>
               <hr />
