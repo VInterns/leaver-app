@@ -24,8 +24,8 @@ module.exports = db => {
       }
     );
   });
-  let roles = {};
-  router.post("/search", ensureLoggedIn, ensureHasRole(["admin"]), function (
+
+  router.post("/search", ensureLoggedIn, function (
     req,
     res
   ) {
