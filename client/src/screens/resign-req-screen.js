@@ -59,41 +59,41 @@ const LEGAL = ["LEGAL"];
 const FINANCE = ["FINANCE"];
 const HR = ["HR"];
 
-const HAS_SMC = [
-  "UK",
-  "UK Telesales",
-  "IR",
-  "IR Telesales",
-  "GE",
-  "Spain",
-  "UK SMB",
-  "IR SME",
-  "Spain BO",
-  "Italy Enterprise",
-  "GESC",
-  "Enterprise HOC",
-  "EBU Back Office",
-  "ESS",
-  "Others"
-];
+// const HAS_SMC = [
+//   "UK",
+//   "UK Telesales",
+//   "IR",
+//   "IR Telesales",
+//   "GE",
+//   "Spain",
+//   "UK SMB",
+//   "IR SME",
+//   "Spain BO",
+//   "Italy Enterprise",
+//   "GESC",
+//   "Enterprise HOC",
+//   "EBU Back Office",
+//   "ESS",
+//   "Others"
+// ];
 
-const HAS_NO_SMC_WF = [
-  "AD",
-  "AO",
-  "AT",
-  "NEW-TA",
-  "OIT",
-  "OPC",
-  "SEA-COE",
-  "TES",
-  "VDBS",
-  "IT",
-  "CORPORATE SECURITY",
-  "LEGAL",
-  "FINANCE",
-  "HR",
-  "Others"
-]
+// const HAS_NO_SMC_WF = [
+//   "AD",
+//   "AO",
+//   "AT",
+//   "NEW-TA",
+//   "OIT",
+//   "OPC",
+//   "SEA-COE",
+//   "TES",
+//   "VDBS",
+//   "IT",
+//   "CORPORATE SECURITY",
+//   "LEGAL",
+//   "FINANCE",
+//   "HR",
+//   "Others"
+// ]
 
 export class ResignReqScreen extends Component {
   constructor(props) {
@@ -326,6 +326,7 @@ export class ResignReqScreen extends Component {
     }
     this.setState({ [e.target.name]: this.normalizeVal(e.target.value) });
   };
+
   ///////////////////////////////////////////////
   imageUploaderHandler = file => {
     this.setState({
@@ -373,6 +374,7 @@ export class ResignReqScreen extends Component {
 
   checkSMCCustody() {
     if (this.state.department === "UK" || this.state.department === "Cluster" || this.state.department === "Enterprise") {
+
       return (
         <div style={{ borderStyle: 'solid', padding: 3, margin: 2 }}>
           <Row className="mt-2">
@@ -415,26 +417,6 @@ export class ResignReqScreen extends Component {
               </Form.Control>
             </Col>
           </Row>
-          {/* <Row className="mt-2">
-            <Col>
-              <Form.Label className="col-form-group font-weight-bold">
-                Returned Mouse
-                <span style={{ color: "red", fontSize: 25 }}>*</span>
-              </Form.Label>
-            </Col>
-            <Col>
-              <Form.Control
-                as="select"
-                name="returnedMouse"
-                onChange={this.handleChange}
-                defaultValue={this.state.returnedMouse}
-              >
-                <option value={""}> N/A </option>
-                <option value={true}>Yes</option>
-                <option value={false}>No</option>
-              </Form.Control>
-            </Col>
-          </Row> */}
           <Row className="mt-2">
             <Col>
               <Form.Label className="col-form-group font-weight-bold">

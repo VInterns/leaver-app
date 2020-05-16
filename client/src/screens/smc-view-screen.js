@@ -247,7 +247,7 @@ export class SMCResignationDetailScreen extends React.Component {
                 </Row>
                 {true && <> <Row className='mt-2'>
                   <Col>
-                    <Form.Label className='font-weight-bold'>Returned Laptop</Form.Label>
+                    <Form.Label className='font-weight-bold'> Returned  <span className="col-form-group" >CPU + Keyboard + Mouse + VoiceSolution (Convertor/Headset)</span></Form.Label>
                   </Col>
                   <Col>
                     <Form.Control
@@ -271,7 +271,7 @@ export class SMCResignationDetailScreen extends React.Component {
                 </Row>
                   <Row className='mt-2'>
                     <Col>
-                      <Form.Label className='font-weight-bold'>Returned Mouse</Form.Label>
+                      <Form.Label className='font-weight-bold'>Returned <span className="col-form-group" >Laptop + VoiceSolution (Convertor/Headset)</span></Form.Label>
                     </Col>
                     <Col>
                       <Form.Control
@@ -287,30 +287,6 @@ export class SMCResignationDetailScreen extends React.Component {
                         onChange={this.handleChange}
                         className='form-control'
                         value={this.state.returnedMouse}>
-                        <option value='confirmed'>Confirmed</option>
-                        <option value='pending'>Pending</option>
-                        <option value='not-delivered'>Not-Returned</option>
-                      </select>
-                    </Col>
-                  </Row>
-                  <Row className='mt-2'>
-                    <Col>
-                      <Form.Label className='font-weight-bold'>Returned Laptop Bag</Form.Label>
-                    </Col>
-                    <Col>
-                      <Form.Control
-                        className='border rounded pl-2'
-                        readOnly
-                        plaintext
-                        value={this.mapValues(this.state.managerData.returnedKeys)}
-                      />
-                    </Col>
-                    <Col>
-                      <select
-                        id="returnedKeys"
-                        onChange={this.handleChange}
-                        className='form-control'
-                        value={this.state.returnedLaptopBag}>
                         <option value='confirmed'>Confirmed</option>
                         <option value='pending'>Pending</option>
                         <option value='not-delivered'>Not-Returned</option>

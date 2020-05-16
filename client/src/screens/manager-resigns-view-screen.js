@@ -11,7 +11,7 @@ const UPDATE = "resignations/update/request";
 
 const UK_SUBDEPT = ["--", "UK", "UK Telesales"];
 const CLUSTER_SUBDEPT = [
-  "--",
+  "Please select a sub-Department",
   "IR",
   "IR Telesales",
   "GE",
@@ -22,7 +22,7 @@ const CLUSTER_SUBDEPT = [
   "Others"
 ];
 const ENTERPRISE_SUBDEPT = [
-  "--",
+  "Please select a sub-Department",
   "UK SMB",
   "IR SME",
   "Spain BO",
@@ -31,11 +31,10 @@ const ENTERPRISE_SUBDEPT = [
   "Enterprise HOC",
   "EBU Back Office",
   "ESS",
-  "EG Post",
   "Others"
 ];
 const TSSE_SUBDEPT = [
-  "--",
+  "Please select a sub-Department",
   "AD",
   "AO",
   "AT",
@@ -46,17 +45,48 @@ const TSSE_SUBDEPT = [
   "TES",
   "Others"
 ];
+const VDBS = ["VDBS"]
+const IT = ["IT"]
+const CORPORATE_SECURITY = ["CORPORATE SECURITY"];
+const LEGAL = ["LEGAL"];
+const FINANCE = ["FINANCE"];
+const HR = ["HR"];
 
-const HAS_SMC = [
-  "UK",
-  "UK Telesales",
-  "IR",
-  "IR Telesales",
-  "GE",
-  "Spain",
-  "UK SMB",
-  "IR SME"
-];
+// const HAS_SMC = [
+//   "UK",
+//   "UK Telesales",
+//   "IR",
+//   "IR Telesales",
+//   "GE",
+//   "Spain",
+//   "UK SMB",
+//   "IR SME",
+//   "Spain BO",
+//   "Italy Enterprise",
+//   "GESC",
+//   "Enterprise HOC",
+//   "EBU Back Office",
+//   "ESS",
+//   "Others"
+// ];
+
+// const HAS_NO_SMC_WF = [
+//   "AD",
+//   "AO",
+//   "AT",
+//   "NEW-TA",
+//   "OIT",
+//   "OPC",
+//   "SEA-COE",
+//   "TES",
+//   "VDBS",
+//   "IT",
+//   "CORPORATE SECURITY",
+//   "LEGAL",
+//   "FINANCE",
+//   "HR",
+//   "Others"
+// ]
 
 export class ManagerResignationsViewScreen extends Component {
   constructor(props) {
@@ -244,17 +274,29 @@ export class ManagerResignationsViewScreen extends Component {
       return this.createMapList(ENTERPRISE_SUBDEPT);
     } else if (this.state.department === "TSSE") {
       return this.createMapList(TSSE_SUBDEPT);
+    } else if (this.state.department === "HR") {
+      return this.createMapList(HR);
+    } else if (this.state.department === "Finance") {
+      return this.createMapList(FINANCE);
+    } else if (this.state.department === "Legal") {
+      return this.createMapList(LEGAL);
+    } else if (this.state.department === "Corporate Security") {
+      return this.createMapList(CORPORATE_SECURITY);
+    } else if (this.state.department === "VDBS") {
+      return this.createMapList(VDBS);
+    } else if (this.state.department === "IT") {
+      return this.createMapList(IT);
     }
   }
 
   checkSMCCustody() {
-    if (HAS_SMC.indexOf(this.state.subDepartment) < 0) {
+    if (this.state.department === "UK" || this.state.department === "Cluster" || this.state.department === "Enterprise") {
       return (
-        <div>
+        <div style={{ borderStyle: 'solid', padding: 3, margin: 2 }}>
           <Row className="mt-2">
             <Col>
               <Form.Label className="col-form-group font-weight-bold">
-                Returned Laptop
+                Returned  <span className="col-form-group" >CPU + Keyboard + Mouse + VoiceSolution (Convertor/Headset)</span>
                 <span style={{ color: "red", fontSize: 25 }}>*</span>
               </Form.Label>
             </Col>
@@ -263,7 +305,7 @@ export class ManagerResignationsViewScreen extends Component {
                 as="select"
                 name="returnedLaptop"
                 onChange={this.handleChange}
-                value={this.state.returnedLaptop}
+                defaultValue={this.state.returnedLaptop}
               >
                 <option value={""}> N/A </option>
                 <option value={true}>Yes</option>
@@ -274,7 +316,7 @@ export class ManagerResignationsViewScreen extends Component {
           <Row className="mt-2">
             <Col>
               <Form.Label className="col-form-group font-weight-bold">
-                Returned Laptop Bag
+                Returned <span className="col-form-group" >Laptop + VoiceSolution (Convertor/Headset)</span>
                 <span style={{ color: "red", fontSize: 25 }}>*</span>
               </Form.Label>
             </Col>
@@ -283,27 +325,7 @@ export class ManagerResignationsViewScreen extends Component {
                 as="select"
                 name="returnedLaptopBag"
                 onChange={this.handleChange}
-                value={this.state.returnedLaptopBag}
-              >
-                <option value={""}> N/A </option>
-                <option value={true}>Yes</option>
-                <option value={false}>No</option>
-              </Form.Control>
-            </Col>
-          </Row>
-          <Row className="mt-2">
-            <Col>
-              <Form.Label className="col-form-group font-weight-bold">
-                Returned Mouse
-                <span style={{ color: "red", fontSize: 25 }}>*</span>
-              </Form.Label>
-            </Col>
-            <Col>
-              <Form.Control
-                as="select"
-                name="returnedMouse"
-                onChange={this.handleChange}
-                value={this.state.returnedMouse}
+                defaultValue={this.state.returnedLaptopBag}
               >
                 <option value={""}> N/A </option>
                 <option value={true}>Yes</option>
@@ -320,14 +342,13 @@ export class ManagerResignationsViewScreen extends Component {
             <Col>
               <Form.Control
                 as="textarea"
-                rows="1"
+                rows="2"
                 name="comments"
-                value={this.state.comments}
                 onChange={this.handleChange}
               />
             </Col>
           </Row>
-        </div>
+        </div >
       );
     } else {
       if (
