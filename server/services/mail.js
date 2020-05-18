@@ -40,7 +40,7 @@ const sendEmail = (
   subject,
   htmlbody,
   callBack,
-  errCallBack = () => {}
+  errCallBack = () => { }
 ) => {
   // TODO: @Islam make the mail template ready
 
@@ -51,23 +51,16 @@ const sendEmail = (
     html: htmlbody
   };
 
-  console.log("Message:", msg);
+  console.info("Message:", msg);
 
-  sgMail.send(msg, function(err) {
-    if (err) throw err;
+  sgMail.send(msg, function (err) {
+    if (err) {
+      console.error(err);
+    }
     else {
-      console.log("Email Sent");
+      console.info("Email Sent");
     }
   });
-  // gmailTransporter.sendMail(mailOptions, function (error, info) {
-  //     if (error) {
-  //         errCallBack();
-  //         throw error;
-  //     } else {
-  //         callBack();
-  //         console.log("Email sent: " + info.response);
-  //     }
-  // });
 };
 
 module.exports = { sendEmail };
