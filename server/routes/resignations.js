@@ -19,7 +19,8 @@ module.exports = db => {
         .find()
         .toArray((err, data) => {
           if (err) {
-            res.status(500).send();
+            console.error(err);
+            res.status(404).send();
           } else {
             res.json(data);
           }
@@ -34,42 +35,46 @@ module.exports = db => {
         .findOne({ staffId: req.body.staffId })
         .then(resigReg => {
           if (!resigReg) {
-            db.collection(collection).insertOne(req.body, (err, result) => {
-              if (err) {
-                res.status(503).send({ error: "Insert to db error:(" });
-                throw err;
-              } else {
-                res.status(200).send({ error: "Heeh :)" });
-                db.collection("employees")
-                  .findOne({ staffId: req.body.staffId })
-                  .then(employee => {
-                    employee.mobile = req.body.mobile;
-                    db.collection("employees").updateOne(employee);
-                  });
-                // Mail Notifications
-                // TODO: add other teams roles & employee email to the mailList
-                let subject = `New Resignation Request for Staff ID# ${req.body.staffId}`;
-                let query = { roles: { $in: ["hr", "vendor", "manager"] } };
-                let toMailListPromise = getMailingList(query).then(mailList => {
-                  let scope = {
-                    name: req.body.name,
-                    staffId: req.body.staffId,
-                    managerName: req.body.managerName,
-                    lastDay: req.body.phase1.lastWorkDay
-                  };
-                  let htmlBodyPromise = getHtmlBody(
-                    "initial-vendor-notification.html",
-                    scope
-                  ).then(htmlBody => {
-                    mailer.sendEmail(mailList, subject, htmlBody, () => {
-                      console.log(
-                        `Resignation Request Creation Email Sent to ${toMailList}`
-                      );
+            db.collection(collection)
+              .insertOne({
+                ...req.body,
+                lastUpdatedOn: new Date()
+              }, (err, result) => {
+                if (err) {
+                  console.error(err)
+                  res.status(503).send({ error: "Unable to perform action" });
+                } else {
+                  res.status(200).send({ msg: "Heeh :)" });
+                  db.collection("employees")
+                    .findOne({ staffId: req.body.staffId })
+                    .then(employee => {
+                      employee.mobile = req.body.mobile;
+                      db.collection("employees").updateOne({ ...employee, lastUpdatedOn: new Date() });
+                    });
+                  // Mail Notifications
+                  // TODO: add other teams roles & employee email to the mailList
+                  let subject = `New Resignation Request for Staff ID# ${req.body.staffId}`;
+                  let query = { roles: { $in: ["hr", "vendor", "manager"] } };
+                  let toMailListPromise = getMailingList(query).then(mailList => {
+                    let scope = {
+                      name: req.body.name,
+                      staffId: req.body.staffId,
+                      managerName: req.body.managerName,
+                      lastDay: req.body.phase1.lastWorkDay
+                    };
+                    let htmlBodyPromise = getHtmlBody(
+                      "initial-vendor-notification.html",
+                      scope
+                    ).then(htmlBody => {
+                      mailer.sendEmail(mailList, subject, htmlBody, () => {
+                        console.log(
+                          `Resignation Request Creation Email Sent to ${toMailList}`
+                        );
+                      });
                     });
                   });
-                });
-              }
-            });
+                }
+              });
           } else {
             res
               .status(404)
@@ -143,12 +148,15 @@ module.exports = db => {
       db.collection(collection).findOneAndUpdate(
         { staffId: leaverId },
         {
-          $set: { phase1: req.body.phase1 }
+          $set: {
+            phase1: req.body.phase1,
+            lastUpdatedOn: new Date()
+          }
         },
         function (err, doc) {
           if (err) {
+            console.error(err);
             res.status(404).send();
-            throw err;
           } else {
             // Mail Notifications
             // TODO: add any other required emails to mailingList
@@ -194,8 +202,8 @@ module.exports = db => {
         .find()
         .toArray((error, results) => {
           if (error) {
-            console.error(`Failed to fetch data: ${err}`);
-            res.status(500).send();
+            console.error(err);
+            res.status(404).send();
           } else {
             res.status(200).send(results);
           }
@@ -215,8 +223,8 @@ module.exports = db => {
       query;
       db.collection(collection).findOne(query, (err, data) => {
         if (err) {
-          err;
-          res.status(500).send();
+          console.error(err);
+          res.status(500).send({ err: 'Unable to perform action' });
         } else {
           data;
           res.json(data);
@@ -241,7 +249,10 @@ module.exports = db => {
         }
       };
       db.collection(collection)
-        .updateOne(myquery, newvalues)
+        .updateOne(myquery, {
+          ...newvalues,
+          lastUpdatedOn: new Date()
+        })
         .then(result => {
           /******* MAIL NOTIFICATION *******/
           // TODO: add any other required emails
@@ -256,20 +267,20 @@ module.exports = db => {
                 htmlBody => {
                   let subject = `Phase Update for Staff ID #${req.body.id}`;
                   mailer.sendEmail(emails, subject, htmlBody, () => {
-                    console.log(`Phase update email sent to ${emails}`);
+                    console.info(`Phase update email sent to ${emails}`);
                   });
                 }
               );
             });
           } else {
-            console.log("Phase 4 is not done yet.");
+            console.info("Phase 4 is not done yet.");
           }
 
           res.status(200).send(true);
         })
         .catch(err => {
           console.error(`Failed to update: ${err}`);
-          res.status(500).send();
+          res.status(500).send({ err: 'Unable to perform action' });
         });
     });
 
@@ -299,8 +310,8 @@ module.exports = db => {
         .find({ createdby: urlSections[urlSections.length - 1] })
         .toArray((err, requests) => {
           if (err) {
-            res.status(500).send();
-            throw err;
+            Console.error(err);
+            res.status(404).send();
           } else {
             res.send(requests);
           }
@@ -319,8 +330,8 @@ module.exports = db => {
         .find()
         .toArray((err, requests) => {
           if (err) {
-            res.status(500).send();
-            throw err;
+            console.error(err);
+            res.status(404).send();
           } else {
             res.send(requests);
           }
@@ -340,12 +351,16 @@ module.exports = db => {
       db.collection(collection).updateOne(
         { staffId: leaverId },
         {
-          $set: { phase3: req.body.phase3, status: req.body.status }
+          $set: {
+            phase3: req.body.phase3,
+            status: req.body.status,
+            lastUpdatedOn: new Date()
+          }
         },
         (err, doc) => {
           if (err) {
-            res.status(500).send(doc);
-            throw err;
+            console.error(err);
+            res.status(500).send({ err: 'Unable to perform action' });
           } else {
             /******* MAIL NOTIFICATION *******/
             // TODO: add any other required emails
@@ -387,13 +402,14 @@ module.exports = db => {
         {
           $set: {
             phase8: req.body.phase8,
-            status: req.body.status
+            status: req.body.status,
+            lastUpdatedOn: new Date()
           }
         },
         function (err, doc) {
           if (err) {
+            console.error(err);
             res.status(404).send();
-            throw err;
           } else {
             //req.body.phase8.status === 'done' && mailer.sendPhaseUpdate();
 
@@ -463,13 +479,14 @@ module.exports = db => {
         {
           $set: {
             phase6: req.body.phase6,
-            status: req.body.status
+            status: req.body.status,
+            lastUpdatedOn: new Date()
           }
         },
         function (err, doc) {
           if (err) {
+            console.error(err);
             res.status(404).send();
-            throw err;
           } else {
             /******* MAIL NOTIFICATION *******/
             // TODO: add any other required emails
@@ -516,12 +533,15 @@ module.exports = db => {
       db.collection(collection).findOneAndUpdate(
         { staffId: leaverId },
         {
-          $set: { phase2: req.body.phase2 }
+          $set: {
+            phase2: req.body.phase2,
+            lastUpdatedOn: new Date()
+          }
         },
         function (err, doc) {
           if (err) {
+            console.error(err);
             res.status(404).send();
-            throw err;
           } else {
             /******* MAIL NOTIFICATION *******/
             // TODO: add any other required emails
@@ -567,13 +587,14 @@ module.exports = db => {
         {
           $set: {
             phase7: req.body.phase7,
-            status: req.body.status
+            status: req.body.status,
+            lastUpdatedOn: new Date()
           }
         },
         function (err, doc) {
           if (err) {
+            console.error(err);
             res.status(404).send();
-            throw err;
           } else {
             /******* MAIL NOTIFICATION *******/
             // TODO: add any other required emails
@@ -616,15 +637,18 @@ module.exports = db => {
     ensureLoggedIn,
     ensureHasRole(["admin"]),
     (req, res) => {
-      db.collection(collection).update(req.body, (err, res) => {
+      db.collection(collection).update({
+        ...req.body,
+        lastUpdatedOn: new Date()
+      }, (err, res) => {
         if (err) {
-          throw err;
+          console.error(err);
+          res.status(500).send({ err: 'Unable to perform action' });
         } else {
           res.status(200).send({
-            msg:
-              "employee successfully found, and security data successfully updated"
+            msg: "employee successfully found, and security data successfully updated"
           });
-          return res.send("done");
+          return res.send({ msg: "done" });
         }
       });
     }
@@ -642,11 +666,15 @@ module.exports = db => {
       db.collection(collection).findOneAndUpdate(
         { staffId: leaverId },
         {
-          $set: { phase5: req.body.phase5 }
+          $set: {
+            phase5: req.body.phase5,
+            lastUpdatedOn: new Date()
+          }
         },
         (err, result) => {
           if (err) {
-            throw err;
+            console.error(err);
+            res.status(500).send({ err: 'Unable to perform action' });
           } else {
             /******* MAIL NOTIFICATION *******/
             // TODO: add any other required emails
@@ -663,12 +691,12 @@ module.exports = db => {
                 ).then(htmlBody => {
                   let subject = `Phase Update for Staff ID #${leaverId}`;
                   mailer.sendEmail(emails, subject, htmlBody, () => {
-                    console.log(`Phase update email sent to ${emails}`);
+                    console.info(`Phase update email sent to ${emails}`);
                   });
                 });
               });
             } else {
-              console.log("Phase 5 is not done yet.");
+              console.info("Phase 5 is not done yet.");
             }
 
             res.status(200).send({

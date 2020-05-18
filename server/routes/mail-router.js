@@ -15,7 +15,8 @@ router.route("/sendMail")
 
         let record = {
             email: email,
-            code: code
+            code: code,
+            lastUpdatedOn: new Date()
         }
 
         let _db = getDB();
@@ -25,7 +26,7 @@ router.route("/sendMail")
                     throw err;
                 } else {
                     res.status(200).send({ success: `Code successfully sent to ${email}` });
-                    let scope = {code};
+                    let scope = { code };
                     let htmlBodyPromise = getHtmlBody('signup-code.html', scope).then((htmlBody) => {
                         mailer.sendEmail(email, subject, htmlBody, () => {
                             console.log(`Verification Code Sent to ${toMailList}`)

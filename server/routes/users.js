@@ -17,9 +17,10 @@ module.exports = db => {
   router.get("/", ensureLoggedIn, (req, res) => {
     db.collection(collection).findOne(
       { staffId: Number(req.query.id) },
-      (error, results) => {
-        if (error) {
-          res.status(500).send();
+      (err, results) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send({ err: 'Unable to perform action' });
         } else res.status(200).send(results);
       }
     );
@@ -33,7 +34,8 @@ module.exports = db => {
       .findOne({ staffId: Number(req.body.staffId) })
       .then(user => {
         if (!user) {
-          res.status(404).end();
+          console.info(`User with staffID: ${req.body.staffId} not Found`)
+          res.status(404).send();
         } else {
           res.json(user);
         }
@@ -74,15 +76,16 @@ module.exports = db => {
       } else {
         if (req.body.collection === "users") {
           for (let index = 0; index < req.body.jsonData.length; index++) {
-            req.body.jsonData[index].roles = req.body.jsonData[index].roles.split(",")
+            req.body.jsonData[index].roles = req.body.jsonData[index].roles.split(",");
+            req.body.jsonData[index].lastUpdatedOn = new Date();
           }
         }
         db.collection(req.body.collection).insertMany(
           req.body.jsonData,
           function (err1, result) {
             if (err1) {
-              res.status(500).send();
-              res.end();
+              console.error(err);
+              res.status(500).send({ err: 'Unable to perform action' });
             } else {
               if (req.body.collection === "users") {
 
@@ -94,12 +97,12 @@ module.exports = db => {
                   let subject = `Welcome ${scope.name} to Vodafone Outsource Leaver App`;
                   let htmlBodyPromise = getHtmlBody('signup.html', scope).then((htmlBody) => {
                     mailer.sendEmail([username], subject, htmlBody, () => {
-                      console.log(`Signup email sent to ${email}`);
+                      console.info(`Signup email sent to ${email}`);
                     })
                   })
                 }
               }
-              res.status(200).end();
+              res.status(200).send({ msg: 'Ok' });
             }
           }
         );
@@ -120,6 +123,7 @@ module.exports = db => {
         { $set: { password: req.body.password } },
         function (err) {
           if (err) {
+            console.error(err);
             return res.status(500).json({
               msg: "Failed to update document."
             });
